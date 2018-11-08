@@ -1,7 +1,7 @@
 {
-  "name": "boilerplate-node-rest-API",
+  "name": "Gov-Nomination-API",
   "version": "1.0.0",
-  "description": "Exposing Restfull end points for cloud job assignments",
+  "description": "Exposing Restfull end points for Gov Nomination API",
   "main": "index.js",
   "private": false,
   "engines": {
