@@ -1,0 +1,33 @@
+{
+	"presets": [
+		"es2015",
+		"stage-0",
+		"stage-1",
+        "react"
+	],
+	"plugins": [
+		["module-alias",
+          [
+            {"src": "./src/manager/index", "expose": "Managers"},
+            {"src": "./src/model/index", "expose": "Models"},
+            {"src": "./src/service/index", "expose": "Service"},
+            {"src": "./src/errors/errors", "expose": "Errors"},
+            {"src": "./src/errors/ErrorCodes", "expose": "ErrorCodes"},
+            {"src": "./src/errors/HttpCodes", "expose": "HttpCodes"}
+          ]
+		],
+//        ["typecheck", {
+//        "disable": {
+//          "production": true,
+//          "test:cover": true
+//        }
+//      }],
+//      ["typecheck", "syntax-flow", "transform-flow-strip-types"]
+//      ,
+      ["flow-runtime", {
+        "assert": true,
+        "annotate": true
+      }]
+
+	]
+}

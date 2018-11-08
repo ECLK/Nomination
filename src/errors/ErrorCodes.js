@@ -1,0 +1,11 @@
+// Common Error Codes
+export const QUERY_PARAMETER_TYPE_MISMATCH_ERROR = 40001;
+export const QUERY_PARAMETER_RANGE_ERROR = 40002;
+export const QUERY_PARAMETER_REQUIRED_ERROR = 40003;
+export const MERCHANT_NOT_FOUND_ERROR = 40004;
+export const INTERNAL_ERROR = 40005;
+export const URL_ERROR = 40006;
+export const QUERY_PARAMETER_DUPLICATE_ERROR = 40007;
+
+// EmployeeShift End-Point Specific Error Codes
+export const EMPLOYEE_SHIFT_NOT_FOUND_ERROR = 40050;
