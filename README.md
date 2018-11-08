@@ -1,4 +1,4 @@
-# Micro service node api for Gov Nomination API
+# Gov Nomination API
 
 ### How to use ?
 
