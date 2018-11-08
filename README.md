@@ -7,9 +7,11 @@
 ##### install dependencies
 
 ```
-
 npm install
 ```
+
+##### Setup DB
+
 
 ##### Development mode
 
