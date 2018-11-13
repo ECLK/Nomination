@@ -6,6 +6,12 @@ import User from '../repository/user';
 import {UserManager}  from 'Managers'
 
 
+const updateUserByUserId = async (req) => {
+  const id = req.body.id;
+  const name = req.body.name;
+  return User.createUser( id, name);
+};
+
 const getUserByUserId = async (req) => {
   const uid = req.params.uid;
   return User.fetchUserById( uid );
@@ -13,4 +19,5 @@ const getUserByUserId = async (req) => {
 
 export default {
   getUserByUserId,
+  updateUserByUserId,
 }
