@@ -1,14 +1,14 @@
 import { DBError } from 'Errors';
 import { DbConnection } from './dataSource';
-import { exists } from 'fs';
 
 
-const USER_SELECT_QUERY = `SELECT * FROM USER WHERE ID = :id`;
+const TEAM_DATA_SELECT_QUERY = `SELECT * FROM Teams WHERE team_id = :id`;
 
-const fetchUserById = (userId) => {
+const fetchTeamById = (userId) => {
   const params = { id: userId };
+  console.log("params",params);
   return DbConnection()
-    .query(USER_SELECT_QUERY,
+    .query(TEAM_DATA_SELECT_QUERY,
       {
         replacements: params,
         type: DbConnection().QueryTypes.SELECT,
@@ -19,5 +19,5 @@ const fetchUserById = (userId) => {
 
 
 export default {
-  fetchUserById
+  fetchTeamById
 }
