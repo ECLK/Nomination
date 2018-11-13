@@ -15,13 +15,9 @@ router.get('/:uid', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  return UserService.updateUserByUserId(req).then((results) => {
-    console.log("Request body", req.body.id);
-    if(results instanceof Error)
-      next(results);
-    else
-      res.json(results);
-  });
+  return UserService.updateUserByUserId(req)
+    .then(() => res.status(200).send())
+    .catch(error => next(error));
 });
 
 
