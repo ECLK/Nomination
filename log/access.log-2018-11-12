@@ -1,0 +1,1 @@
+[2018-11-12 23:16:51.328]  [INFO] http {loggerFunction()} - ::1 - - "GET /user/12345 HTTP/1.1" 200 32 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
