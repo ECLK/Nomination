@@ -10,11 +10,11 @@ const updatePaymentByPaymentId = async (req) => {
   const deposite_date = req.body.deposite_date;
   const uploaded_file_name = req.body.deposite_date;
   const nomination_id = req.body.nomination_id;
-  return Payment.createPayment( payment_id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id);
+  const payment_status = req.body.payment_status;
+  return Payment.createPayment( payment_id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, payment_status);
 };
 
 const getPaymentByPaymentId = async (req) => {
-  console.log(req.params);
   const uid = req.params.uid;
   return Payment.fetchPaymentById( uid );
 };

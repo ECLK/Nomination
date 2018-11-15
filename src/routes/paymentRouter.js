@@ -10,22 +10,22 @@ router.get('/:uid', (req, res, next) => {
     if(results instanceof Error)
       next(results);
     else
-      res.json(!_.isEmpty(results) ? PaymentManager.mapToUserModel(results) : []);
+      // res.json(!_.isEmpty(results) ? PaymentManager.mapToPaymentModel(results) : []);
+      res.json(!_.isEmpty(results) ? results : []);
   });
 });
 
-// router.post('/', (req, res, next) => {
-//   return PaymentService.updatePaymentByPaymentId(req).then((results) => {
-//     console.log("Request body", req.body.id);
-//     if(results instanceof Error)
-//       next(results);
-//     else
-//       res.json(results);
-//   });
-// });
+router.post('/', (req, res, next) => {
+  return PaymentService.updatePaymentByPaymentId(req).then((results) => {
+    console.log("Request body", req.body.id);
+    if(results instanceof Error)
+      next(results);
+    else
+      res.json(results);
+  });
+});
 
 router.get('/', function(req, res){
-  console.log('jack browsed');
   res.send('get payment home');
 });
 

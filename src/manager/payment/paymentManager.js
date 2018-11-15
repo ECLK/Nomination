@@ -6,13 +6,13 @@ const resultMaps = [
   {
     mapId: 'paymentMap',
     idProperty: 'payment_id',
-    properties: ['payment_id', 'depositor', 'deposit_amount', 'deposite_date', 'uploaded_file_name', 'nomination_id']
+    properties: ['payment_id', 'depositor', 'deposit_amount', 'deposite_date', 'uploaded_file_name', 'nomination_id', 'payment_status']
   }
 ];
 
 
 const mapToPaymentModel = (payment) => {
-  const mappedPayments = joinjs.map(payment, resultMaps, 'paymentMap', 'user_');
+  const mappedPayments = joinjs.map(payment, resultMaps, 'paymentMap', 'payment_');
 
   //just an example how to convert row data object to Model
   if (mappedPayments.length>0){
@@ -22,7 +22,8 @@ const mapToPaymentModel = (payment) => {
         deposit_amount: mappedPayments[0].deposit_amount,
         deposite_date: mappedPayments[0].deposite_date,
         uploaded_file_name: mappedPayments[0].uploaded_file_name,
-        nomination_id: mappedPayments[0].nomination_id
+        nomination_id: mappedPayments[0].nomination_id,
+        payment_status: mappedPayments[0].payment_status,
     });
     console.log("paymentModel.payment_id >>>>>>>", paymentModel.get("payment_id"));
   }
@@ -31,5 +32,5 @@ const mapToPaymentModel = (payment) => {
 };
 
 export default {
-    mapToPaymentModel
+    mapToPaymentModel,
 };
