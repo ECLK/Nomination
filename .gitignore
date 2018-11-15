@@ -1,7 +1,9 @@
-*.log
+*.log*
+!**/.gitkeep
 npm-debug.log*
 node_modules
 
 .idea
 coverage
 *.iml
+package-lock.json
