@@ -3,5 +3,5 @@ import NominationEntryManager from './nomination/nominationEntryManager'
 
 export {
   UserManager,
-  NominationEntryManager
+  NominationEntryManager 
 }
