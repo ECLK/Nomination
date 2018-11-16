@@ -1,0 +1,38 @@
+[2018-11-15 08:29:26.608]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  4607
+[2018-11-15 08:30:44.342]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  5158
+[2018-11-15 08:32:07.045]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /team/1 HTTP/1.1" 200 110 "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-15 08:35:12.378]  [INFO] http {loggerFunction()} - ::1 - - "GET /team/1 HTTP/1.1" 200 110 "http://localhost:3000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-15 08:36:40.621]  [ERROR] http {loggerFunction()} - ::1 - - "GET /candidates?_end=10&_order=ASC&_sort=name&_start=0&role=user HTTP/1.1" 404 60 "http://localhost:3000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-15 08:36:43.318]  [INFO] http {loggerFunction()} - ::1 - - "GET /team/1 HTTP/1.1" 200 110 "http://localhost:3000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-15 08:37:01.115]  [ERROR] http {loggerFunction()} - ::1 - - "GET /candidates?_end=10&_order=ASC&_sort=name&_start=0&role=user HTTP/1.1" 404 60 "http://localhost:3000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-15 08:37:06.491]  [ERROR] http {loggerFunction()} - ::1 - - "GET /candidates?_end=10&_order=ASC&_sort=name&_start=0&role=user HTTP/1.1" 404 60 "http://localhost:3000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-15 08:37:20.652]  [ERROR] http {loggerFunction()} - ::1 - - "GET /candidates?_end=10&_order=ASC&_sort=name&_start=0&role=user HTTP/1.1" 404 60 "http://localhost:3000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-15 08:40:04.096]  [INFO] http {loggerFunction()} - ::1 - - "GET /team/1 HTTP/1.1" 200 110 "http://localhost:3000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-15 08:46:34.840]  [ERROR] http {loggerFunction()} - ::1 - - "GET /candidates?_end=10&_order=ASC&_sort=name&_start=0&role=user HTTP/1.1" 404 60 "http://localhost:3000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-15 09:44:03.568]  [ERROR] http {loggerFunction()} - ::1 - - "PUT /team/data HTTP/1.1" 404 148 "" "PostmanRuntime/7.4.0"
+[2018-11-15 09:52:45.724]  [ERROR] http {loggerFunction()} - ::1 - - "PUT /team/data2 HTTP/1.1" 404 149 "" "PostmanRuntime/7.4.0"
+[2018-11-15 09:55:32.206]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /test HTTP/1.1" 200 12 "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-15 09:55:32.237]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 204 - "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-15 09:55:41.599]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /team/data HTTP/1.1" 200 - "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-15 09:55:41.611]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 204 - "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-15 09:55:49.073]  [ERROR] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /team/1/data HTTP/1.1" 404 60 "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-15 09:55:49.086]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 204 - "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-15 09:55:59.131]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /team/1 HTTP/1.1" 200 110 "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-15 09:57:09.479]  [ERROR] http {loggerFunction()} - ::1 - - "PUT /team/1/data2 HTTP/1.1" 404 151 "" "PostmanRuntime/7.4.0"
+[2018-11-15 10:03:01.239]  [ERROR] http {loggerFunction()} - ::1 - - "PUT /team/1 HTTP/1.1" 404 145 "" "PostmanRuntime/7.4.0"
+[2018-11-15 12:40:48.471]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  10772
+[2018-11-15 12:44:57.473]  [INFO] http {loggerFunction()} - ::1 - - "PUT /team/1/update HTTP/1.1" 200 - "" "PostmanRuntime/7.4.0"
+[2018-11-15 12:46:04.056]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  10872
+[2018-11-15 12:59:45.941]  [INFO] http {loggerFunction()} - ::1 - - "PUT /team/1/update HTTP/1.1" 200 - "" "PostmanRuntime/7.4.0"
+[2018-11-15 13:13:40.130]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  11422
+[2018-11-15 13:44:28.904]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  11842
+[2018-11-15 13:44:53.543]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  11867
+[2018-11-15 13:45:19.416]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  11897
+[2018-11-15 13:59:04.616]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  12043
+[2018-11-15 14:02:22.330]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  12093
+[2018-11-15 14:02:45.237]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  12124
+[2018-11-15 14:20:16.303]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  12414
+[2018-11-15 14:20:25.721]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  12438
+[2018-11-15 14:22:46.552]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  12491
+[2018-11-15 14:23:49.053]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  12517
+[2018-11-15 17:14:50.662]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  18488

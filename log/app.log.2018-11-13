@@ -1,0 +1,75 @@
+[2018-11-13 13:38:15.993]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  3228
+[2018-11-13 13:40:06.287]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  3854
+[2018-11-13 13:42:01.143]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/?url=%2Fapi-doc HTTP/1.1" 304 - "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.182]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/css/typography.css?url=%2Fapi-doc HTTP/1.1" 200 - "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.187]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/css/reset.css?url=%2Fapi-doc HTTP/1.1" 200 773 "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.188]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/css/screen.css?url=%2Fapi-doc HTTP/1.1" 200 43644 "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.189]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/lib/jquery-1.8.0.min.js?url=%2Fapi-doc HTTP/1.1" 304 - "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.189]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/lib/object-assign-pollyfill.js?url=%2Fapi-doc HTTP/1.1" 200 349 "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.190]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/lib/jquery.slideto.min.js?url=%2Fapi-doc HTTP/1.1" 200 365 "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.191]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/css/print.css?url=%2Fapi-doc HTTP/1.1" 200 41666 "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.192]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/lib/jquery.wiggle.min.js?url=%2Fapi-doc HTTP/1.1" 304 - "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.193]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/lib/jquery.ba-bbq.min.js?url=%2Fapi-doc HTTP/1.1" 304 - "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.195]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/lib/handlebars-4.0.5.js?url=%2Fapi-doc HTTP/1.1" 304 - "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.195]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/lib/lodash.min.js?url=%2Fapi-doc HTTP/1.1" 304 - "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.196]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/lib/backbone-min.js?url=%2Fapi-doc HTTP/1.1" 304 - "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.197]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/lib/highlight.9.1.0.pack_extended.js?url=%2Fapi-doc HTTP/1.1" 200 310 "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.197]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/swagger-ui.js?url=%2Fapi-doc HTTP/1.1" 304 - "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.198]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/lib/highlight.9.1.0.pack.js?url=%2Fapi-doc HTTP/1.1" 304 - "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.200]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/lib/jsoneditor.min.js?url=%2Fapi-doc HTTP/1.1" 304 - "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.200]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/lib/marked.js?url=%2Fapi-doc HTTP/1.1" 304 - "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.201]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/lib/swagger-oauth.js?url=%2Fapi-doc HTTP/1.1" 304 - "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.209]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/images/logo_small.png HTTP/1.1" 301 49 "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.295]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/images/logo_small.png?url=%2Fapi-doc HTTP/1.1" 200 455 "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.303]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /api-doc HTTP/1.1" 200 1178 "http://localhost:9001/docs/?url=%2Fapi-doc" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.315]  [WARN] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/images/favicon-16x16.png HTTP/1.1" 301 86 "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:01.361]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /docs/images/favicon-16x16.png?url=%2Fapi-doc HTTP/1.1" 200 445 "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:14.693]  [ERROR] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /user/12345 HTTP/1.1" 404 149 "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:42:14.705]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 204 - "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 13:43:00.153]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  3994
+[2018-11-13 13:43:14.153]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /user/12345 HTTP/1.1" 200 32 "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 14:21:53.349]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  4931
+[2018-11-13 14:23:09.750]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  4980
+[2018-11-13 14:23:24.521]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  5012
+[2018-11-13 14:23:59.101]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  5049
+[2018-11-13 14:24:15.898]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  5081
+[2018-11-13 14:25:36.241]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  5132
+[2018-11-13 15:33:39.023]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6126
+[2018-11-13 15:34:27.917]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6163
+[2018-11-13 15:34:38.702]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6195
+[2018-11-13 15:38:58.831]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6245
+[2018-11-13 15:39:19.207]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6347
+[2018-11-13 15:41:05.768]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6396
+[2018-11-13 15:50:25.905]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6496
+[2018-11-13 15:50:44.256]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6527
+[2018-11-13 15:50:55.030]  [INFO] http {loggerFunction()} - undefined - - "GET /favicon.ico HTTP/1.1" 204 - "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 15:50:58.081]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET / HTTP/1.1" 200 21 "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 15:50:58.095]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 204 - "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 15:52:30.094]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6598
+[2018-11-13 15:52:41.748]  [ERROR] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /team/1 HTTP/1.1" 404 145 "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 15:52:41.766]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 204 - "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 15:53:20.225]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6638
+[2018-11-13 15:53:27.066]  [ERROR] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /team/1 HTTP/1.1" 404 145 "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 15:53:27.080]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 204 - "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 15:55:17.806]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6689
+[2018-11-13 15:55:55.846]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6726
+[2018-11-13 15:56:49.594]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6760
+[2018-11-13 15:57:58.625]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  6796
+[2018-11-13 15:58:05.432]  [INFO] http {loggerFunction()} - ::ffff:127.0.0.1 - - "GET /team/1 HTTP/1.1" 200 111 "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0"
+[2018-11-13 16:38:21.076]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  7417
+[2018-11-13 16:47:15.296]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  7750
+[2018-11-13 16:56:09.457]  [ERROR] http {loggerFunction()} - ::1 - - "POST /team/data HTTP/1.1" 404 149 "" "PostmanRuntime/7.4.0"
+[2018-11-13 16:57:33.567]  [ERROR] http {loggerFunction()} - ::1 - - "POST /team/data HTTP/1.1" 404 149 "" "PostmanRuntime/7.4.0"
+[2018-11-13 16:57:46.780]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  8407
+[2018-11-13 16:58:21.259]  [ERROR] http {loggerFunction()} - ::1 - - "POST /team/data HTTP/1.1" 404 149 "" "PostmanRuntime/7.4.0"
+[2018-11-13 16:58:49.716]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  8477
+[2018-11-13 16:59:08.724]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  8569
+[2018-11-13 17:00:30.258]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  8656
+[2018-11-13 17:00:36.461]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  8705
+[2018-11-13 17:00:43.994]  [INFO] http {loggerFunction()} - ::1 - - "POST /team/data HTTP/1.1" 200 9 "" "PostmanRuntime/7.4.0"
+[2018-11-13 17:01:11.689]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  8775
+[2018-11-13 17:01:19.995]  [INFO] http {loggerFunction()} - ::1 - - "POST /team/data HTTP/1.1" 200 20 "" "PostmanRuntime/7.4.0"
+[2018-11-13 17:09:28.687]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  9025
+[2018-11-13 17:27:35.823]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  9281
+[2018-11-13 17:41:05.568]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  9543
+[2018-11-13 18:15:18.593]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  10177

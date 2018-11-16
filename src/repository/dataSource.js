@@ -15,7 +15,7 @@ class DataSourceFactory {
     if (enforcer !== singletonEnforcer) {
       throw new Error('Cannot construct singleton');
     }
-    this.dbConnection = new Sequelize('nomination_db', 'root', 'Admin@#321');
+    this.dbConnection = new Sequelize('NOMINATION_DB', 'root', 'Admin@#321');
   }
 
   /**
