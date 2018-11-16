@@ -5,7 +5,7 @@ import PaymentManager from '../manager/payment/paymentManager';
 const express = require('express');
 const router = express.Router();
 
-router.get('/:uid', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   return PaymentService.getPaymentByPaymentId(req).then((results) => {
     if(results instanceof Error)
       next(results);

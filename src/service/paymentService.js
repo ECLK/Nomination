@@ -15,8 +15,8 @@ const updatePaymentByPaymentId = async (req) => {
 };
 
 const getPaymentByPaymentId = async (req) => {
-  const uid = req.params.uid;
-  return Payment.fetchPaymentById( uid );
+  const payment_id = req.params.id;
+  return Payment.fetchPaymentById( payment_id );
 };
 
 
