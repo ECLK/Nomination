@@ -14,5 +14,15 @@ router.get('/:id/payment', (req, res, next) => {
     });
 });
 
+router.post('/:nomination_id/payment', (req, res, next) => {
+    return PaymentService.createPaymentByNominationId(req).then( (results) => {
+        if (results instanceof Error){
+            next(results);
+        } else {
+            res.json(results);
+        }
+    });
+});
+
 
 module.exports = router;

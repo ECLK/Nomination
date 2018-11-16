@@ -10,7 +10,6 @@ const resultMaps = [
   }
 ];
 
-
 const mapToPaymentModel = (payment) => {
   const mappedPayments = joinjs.map(payment, resultMaps, 'paymentMap', 'payment_');
 

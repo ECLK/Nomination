@@ -56,7 +56,8 @@
     "sequelize": "^3.29.0",
     "swaggerize-ui": "^1.0.1",
     "typed-immutable": "^0.1.0",
-    "util": "^0.10.3"
+    "util": "^0.10.3",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
