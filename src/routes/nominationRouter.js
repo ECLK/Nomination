@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { NominationService} from 'Service';
 
-
 const express = require('express');
 const router = express.Router();
 
@@ -10,7 +9,39 @@ router.get('/', (req, res) => {
     res.send("Nominations");
 });
 
-/** to get candidates details with respect to a nomination */
+/**
+ * 3rd EC admin get payment details of all nominations 
+ */
+router.get('/payments', (req, res) => {
+    res.send("Nominations");
+});
+
+/**
+ * 4th EC admin get payment details of selected nomination 
+ */
+router.get('/:nomination_id/payment', (req, res) => {
+    res.send("Nominations");
+});
+
+/**
+ * 5th EC admin update payment status 
+ * {
+ * payment_status : pending | accept | reject 
+ * }*/
+router.put('/:nomination_id/payment/', (req, res) => {
+    res.send("Nominations");
+});
+
+/** Completed - not tested 
+ *  6th to get allowed nomiantion list for division wise  */
+router.get('/nominationlist/:election_id/:team_id',(req,res) => {
+    return NominationService.getNominationByTeamId(req).then((results) => {   
+        res.json(results);
+       });
+});
+
+/** Completed - not tested 
+ * 7th to get candidates details with respect to a nomination */
 router.get('/:nomination_id/candidate',(req,res)=>{
     return NominationService.getCandidateListByNominationID(req).then((results)=>{
         res.json(results);
@@ -18,14 +49,9 @@ router.get('/:nomination_id/candidate',(req,res)=>{
 
 })
 
-/** to get allowed nomiantion list for division wise  */
-router.get('/nominationlist/:election_id/:team_id',(req,res) => {
-     return NominationService.getNominationByTeamId(req).then((results) => {   
-         res.json(results);
-        });
-});
 
-/**to put  added or updated nominated candidate details */
+/** Completed - not tested 
+ * 8th to put  added or updated nominated candidate details */
 /*body{
     candidate_id:
     nic:
@@ -50,6 +76,7 @@ router.put('/add_candidates', (req, res) => {
         res.json(results);
     });
 });
+
 
 
 module.exports = router;
