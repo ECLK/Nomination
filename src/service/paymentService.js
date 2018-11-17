@@ -3,6 +3,15 @@ import Payment from '../repository/Payment';
 import {PaymentManager}  from 'Managers';
 const uuidv4 = require('uuid/v4');
 
+/** revised code */
+
+const getPaymentByNominationId = async (req) => {
+  const nomination_id = req.params.nomination_id;
+  return Payment.fetchPaymentByNominationId(nomination_id);
+}
+
+/** end of revised code */
+
 
 // const updatePaymentByPaymentId = async (req) => {
 //   const payment_id = req.body.payment_id;
@@ -16,9 +25,10 @@ const uuidv4 = require('uuid/v4');
 // };
 
 const getPaymentByPaymentId = async (req) => {
-  const payment_id = req.params.id;
+  const payment_id = req.params.payment_id;
   return Payment.fetchPaymentById( payment_id );
 };
+
 
 const createPaymentByNominationId = async(req) => {
   const payment_id = uuidv4();
@@ -34,6 +44,8 @@ const createPaymentByNominationId = async(req) => {
 
 
 export default {
+  getPaymentByNominationId,
+  // ---
   getPaymentByPaymentId,
   // updatePaymentByPaymentId,
   createPaymentByNominationId,

@@ -21,7 +21,7 @@ router.get('/payments', (req, res) => {
  * 4th EC admin get payment details of selected nomination 
  */
 router.get('/:nomination_id/payment', (req, res, next) => {
-    return PaymentService.getPaymentByPaymentId(req).then((results) => {
+    return PaymentService.getPaymentByNominationId(req).then((results) => {
         if (results instanceof Error){
             next(results);
         } else {
