@@ -13,10 +13,15 @@ router.get('/', (req, res) => {
 /**
  * 3rd EC admin get payment details of all nominations 
  */
-router.get('/payments', (req, res) => {
-    res.send("Nominations");
+router.get('/payments', (req, res, next) => {
+    return PaymentService.getAllPayments().then((result) => {
+        if (result instanceof Error){
+            next(result);
+        } else{
+            res.send(result);
+        }
+    });
 });
-
 /**
  * 4th EC admin get payment details of selected nomination 
  */

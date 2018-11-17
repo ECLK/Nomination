@@ -5,10 +5,16 @@ const uuidv4 = require('uuid/v4');
 
 /** revised code */
 
+const getAllPayments = async () => {
+  return Payment.getAllPaymentData();
+};
+
 const getPaymentByNominationId = async (req) => {
   const nomination_id = req.params.nomination_id;
   return Payment.fetchPaymentByNominationId(nomination_id);
 }
+
+
 
 /** end of revised code */
 
@@ -44,6 +50,7 @@ const createPaymentByNominationId = async(req) => {
 
 
 export default {
+  getAllPayments,
   getPaymentByNominationId,
   // ---
   getPaymentByPaymentId,
