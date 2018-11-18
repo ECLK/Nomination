@@ -64,8 +64,8 @@ const createPayment = (id, depositor, deposit_amount, deposite_date, uploaded_fi
       });
 };
 
-const updatePaymentCommons = (id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id) => {
-  const params = { id: id, depositor: depositor, deposit_amount: deposit_amount, deposite_date: deposite_date, uploaded_file_name: uploaded_file_name, nomination_id: nomination_id }
+const updatePaymentCommons = (depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id) => {
+  const params = { depositor: depositor, deposit_amount: deposit_amount, deposite_date: deposite_date, uploaded_file_name: uploaded_file_name, nomination_id: nomination_id }
   return DbConnection()
     .query(PAYMENT_UPDATE_QUERY,
       {
@@ -97,6 +97,6 @@ export default {
   getByNominationId,
   updateStatusByNominationId,
   createPayment,
-  updatePaymentByNominationId,
+  updatePaymentCommons,
   // fetchPaymentById,
 }

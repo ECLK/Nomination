@@ -32,9 +32,9 @@ const updatePaymentByNominationId = async (req) => {
   const depositor = req.body.depositor;
   const deposit_amount = req.body.deposit_amount;
   const deposite_date = req.body.deposite_date;
-  const uploaded_file_name = req.body.deposite_date;
+  const uploaded_file_name = req.body.uploaded_file_name;
   const nomination_id = req.body.nomination_id;
-  return Payment.updatePaymentCommons(id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id);
+  return Payment.updatePaymentCommons(depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id);
 }
 
 
