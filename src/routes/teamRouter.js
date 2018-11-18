@@ -23,7 +23,13 @@ router.get('/:team_id', (req, res, next) => {
  * 10th to update team details under selected team_id
  */
 router.put('/:team_id', (req, res, next) => {
-	res.json(results);
+	return TeamService.updateTeamById(req).then( (result) => {
+		if (result instanceof Error){
+			next(result);
+		} else {
+			res.json(!_.isEmpty(result) ? result : []);
+		}
+	});
 });
 
 
