@@ -217,7 +217,7 @@ CREATE TABLE `payment` (
   `deposite_date` datetime DEFAULT NULL,
   `uploaded_file_name` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nomination_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payment_status` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_Payments_Nominations1_idx` (`nomination_id`),
   CONSTRAINT `fk_Payments_Nominations1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`nomination_id`)

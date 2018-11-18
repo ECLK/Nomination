@@ -3,13 +3,15 @@ import { DbConnection } from './dataSource';
 
 
 const ALL_PAYMENTS_SELECT_QUERY = `SELECT * FROM payment`;
-const PAYMENT_SELECT_QUERY = `SELECT * FROM payment WHERE nomination_id = :id`;
+const PAYMENT_SELECT_QUERY_BY_NOMINATION_ID = `SELECT * FROM payment WHERE nomination_id = :id`;
+const PAYMENT_STATUS_UPDATE_QUERY = `UPDATE payment SET status = :status WHERE nomination_id = :nomination_id`;
+
 const PAYMENT_INSERT_QUERY = `INSERT INTO Payments (payment_id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, payment_status) VALUES (:payment_id, :depositor, :deposit_amount, :deposite_date, :uploaded_file_name, :nomination_id, :payment_status)`;
 
 
 /** revised code */
 
-const getAllPaymentData = () => {
+const getAll = () => {
   return DbConnection()
     .query(ALL_PAYMENTS_SELECT_QUERY,
       {
@@ -19,13 +21,26 @@ const getAllPaymentData = () => {
       });
 };
 
-const fetchPaymentByNominationId = (nomination_id) => {
+const getByNominationId = (nomination_id) => {
   const params = { id: nomination_id };
   return DbConnection()
-    .query(PAYMENT_SELECT_QUERY,
+    .query(PAYMENT_SELECT_QUERY_BY_NOMINATION_ID,
       {
         replacements: params,
         type: DbConnection().QueryTypes.SELECT,
+      }).catch((error) => {
+        throw new DBError(error);
+      });
+};
+
+const updateStatusByNominationId = (nomination_id, status) => {
+  const params = { nomination_id: nomination_id, status: status };
+  console.log(params);
+  return DbConnection()
+    .query(PAYMENT_STATUS_UPDATE_QUERY,
+      {
+        replacements: params,
+        type: DbConnection().QueryTypes.UPDATE,
       }).catch((error) => {
         throw new DBError(error);
       });
@@ -60,8 +75,9 @@ const createPayment = (payment_id, depositor, deposit_amount, deposite_date, upl
 };
 
 export default {
-  getAllPaymentData,
-  fetchPaymentByNominationId,
+  getAll,
+  getByNominationId,
+  updateStatusByNominationId,
   // ---
   fetchPaymentById,
   createPayment,

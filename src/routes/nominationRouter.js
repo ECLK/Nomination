@@ -40,8 +40,16 @@ router.get('/:nomination_id/payment', (req, res, next) => {
  * {
  * payment_status : pending | accept | reject 
  * }*/
-router.put('/:nomination_id/payment/', (req, res) => {
-    res.send("Nominations");
+router.put('/:nomination_id/payment/:status', (req, res, next) => {
+    var nomination_id = req.params.nomination_id;
+    var status = req.params.status;
+    return PaymentService.updatePaymentStatusByNominationId(nomination_id, status).then((result) => {
+      if (result instanceof Error) {
+        next(result);
+      } else {
+        res.send(result);
+      }
+    });
 });
 
 /** Completed - not tested 

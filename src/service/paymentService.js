@@ -6,14 +6,17 @@ const uuidv4 = require('uuid/v4');
 /** revised code */
 
 const getAllPayments = async () => {
-  return Payment.getAllPaymentData();
+  return Payment.getAll();
 };
 
 const getPaymentByNominationId = async (req) => {
   const nomination_id = req.params.nomination_id;
-  return Payment.fetchPaymentByNominationId(nomination_id);
+  return Payment.getByNominationId(nomination_id);
 }
 
+const updatePaymentStatusByNominationId = async (nomination_id, status) => {
+  return Payment.updateStatusByNominationId(nomination_id, status);
+};
 
 
 /** end of revised code */
@@ -52,6 +55,7 @@ const createPaymentByNominationId = async(req) => {
 export default {
   getAllPayments,
   getPaymentByNominationId,
+  updatePaymentStatusByNominationId,
   // ---
   getPaymentByPaymentId,
   // updatePaymentByPaymentId,
