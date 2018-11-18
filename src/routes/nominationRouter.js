@@ -69,6 +69,9 @@ router.get('/:nomination_id/candidate',(req,res)=>{
 
 })
 
+/**
+ * 11th - adding a new payment relates to particular nomination id 
+ */
 router.post('/:nomination_id/payment', (req, res, next) => {
     return PaymentService.createPaymentByNominationId(req).then( (results) => {
         if (results instanceof Error){

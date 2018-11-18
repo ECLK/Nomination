@@ -18,6 +18,17 @@ const updatePaymentStatusByNominationId = async (nomination_id, status) => {
   return Payment.updateStatusByNominationId(nomination_id, status);
 };
 
+const createPaymentByNominationId = async(req) => {
+  const id = uuidv4();
+  const depositor = req.body.depositor;
+  const deposit_amount = req.body.deposit_amount;
+  const deposite_date = req.body.deposite_date;
+  const uploaded_file_name = req.body.uploaded_file_name;
+  const nomination_id = req.body.nomination_id;
+  const status = req.body.status;
+  // console.log(req.body);
+  return Payment.createPayment( id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, status);
+}
 
 /** end of revised code */
 
@@ -39,17 +50,7 @@ const getPaymentByPaymentId = async (req) => {
 };
 
 
-const createPaymentByNominationId = async(req) => {
-  const payment_id = uuidv4();
-  const depositor = req.body.depositor;
-  const deposit_amount = req.body.deposit_amount;
-  const deposite_date = req.body.deposite_date;
-  const uploaded_file_name = req.body.uploaded_file_name;
-  const nomination_id = req.body.nomination_id;
-  const payment_status = req.body.payment_status;
-  // console.log(req.body);
-  return Payment.createPayment( payment_id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, payment_status);
-}
+
 
 
 export default {

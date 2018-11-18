@@ -5,8 +5,7 @@ import { DbConnection } from './dataSource';
 const ALL_PAYMENTS_SELECT_QUERY = `SELECT * FROM payment`;
 const PAYMENT_SELECT_QUERY_BY_NOMINATION_ID = `SELECT * FROM payment WHERE nomination_id = :id`;
 const PAYMENT_STATUS_UPDATE_QUERY = `UPDATE payment SET status = :status WHERE nomination_id = :nomination_id`;
-
-const PAYMENT_INSERT_QUERY = `INSERT INTO Payments (payment_id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, payment_status) VALUES (:payment_id, :depositor, :deposit_amount, :deposite_date, :uploaded_file_name, :nomination_id, :payment_status)`;
+const PAYMENT_INSERT_QUERY = `INSERT INTO payment (id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, status) VALUES (:id, :depositor, :deposit_amount, :deposite_date, :uploaded_file_name, :nomination_id, :status)`;
 
 
 /** revised code */
@@ -46,6 +45,20 @@ const updateStatusByNominationId = (nomination_id, status) => {
       });
 };
 
+
+const createPayment = (id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, status) => {
+  const params = { id: id, depositor: depositor, deposit_amount: deposit_amount, deposite_date: deposite_date, uploaded_file_name: uploaded_file_name, nomination_id: nomination_id, status: status};
+  // console.log(params);
+  return DbConnection()
+    .query(PAYMENT_INSERT_QUERY,
+      {
+        replacements: params,
+        type: DbConnection().QueryTypes.INSERT,
+      }).catch((error) => {
+        throw new DBError(error);
+      });
+};
+
 /** end of revised code */
 
 const fetchPaymentById = (payment_id) => {
@@ -61,18 +74,7 @@ const fetchPaymentById = (payment_id) => {
     });
 };
 
-const createPayment = (payment_id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, payment_status) => {
-  const params = { payment_id: payment_id, depositor: depositor, deposit_amount: deposit_amount, deposite_date: deposite_date, uploaded_file_name: uploaded_file_name, nomination_id: nomination_id, payment_status: payment_status};
-  // console.log(params);
-  return DbConnection()
-    .query(PAYMENT_INSERT_QUERY,
-      {
-        replacements: params,
-        type: DbConnection().QueryTypes.INSERT,
-      }).catch((error) => {
-        throw new DBError(error);
-      });
-};
+
 
 export default {
   getAll,
