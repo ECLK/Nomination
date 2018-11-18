@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { NominationService } from 'Service';
-import { PaymentService } from 'Service';
+import { NominationService, PaymentService, CandidateService, } from 'Service';
 
 const express = require('express');
 const router = express.Router();
@@ -26,7 +25,6 @@ router.get('/payments', (req, res, next) => {
  * 4th EC admin get payment details of selected nomination 
  */
 router.get('/:nomination_id/payment', (req, res, next) => {
-    res.send(req.params);
     return PaymentService.getPaymentByNominationId(req).then((results) => {
         if (results instanceof Error) {
             next(results);
@@ -56,7 +54,7 @@ router.put('/:nomination_id/payment/status', (req, res, next) => {
 /**  
  *  6th to get allowed nomiantion list for division wise  */
 router.get('/list/:election_id/:team_id', (req, res, next) => {
-    return NominationService.getNominationByTeamId(req).then( (result) => {
+    return NominationService.getNominationByTeamId(req).then((result) => {
         if (result instanceof Error) {
             next(result);
         } else {
@@ -65,14 +63,18 @@ router.get('/list/:election_id/:team_id', (req, res, next) => {
     });
 });
 
-/** Completed - not tested 
- * 7th to get candidates details with respect to a nomination */
-router.get('/:nomination_id/candidate', (req, res) => {
-    return NominationService.getCandidateListByNominationID(req).then((results) => {
-        res.json(results);
+/** 
+ * 7th to get list of candidates details with respect to a nomination */
+router.get('/:nomination_id/candidate', (req, res, next) => {
+    return CandidateService.getCandidateListByNominationId(req).then((results) => {
+        console.log('jack is working');
+        if (results instanceof Error) {
+            next(results);
+        } else {
+            res.json(!_.isEmpty(results) ? results : []);
+        }
     });
-
-})
+});
 
 /**
  * 11th - adding a new payment relates to particular nomination id 
