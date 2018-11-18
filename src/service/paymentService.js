@@ -3,7 +3,6 @@ import Payment from '../repository/Payment';
 import {PaymentManager}  from 'Managers';
 const uuidv4 = require('uuid/v4');
 
-/** revised code */
 
 const getAllPayments = async () => {
   return Payment.getAll();
@@ -26,11 +25,17 @@ const createPaymentByNominationId = async(req) => {
   const uploaded_file_name = req.body.uploaded_file_name;
   const nomination_id = req.body.nomination_id;
   const status = req.body.status;
-  // console.log(req.body);
   return Payment.createPayment( id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, status);
 }
 
-/** end of revised code */
+const updatePaymentByNominationId = async (req) => {
+  const depositor = req.body.depositor;
+  const deposit_amount = req.body.deposit_amount;
+  const deposite_date = req.body.deposite_date;
+  const uploaded_file_name = req.body.deposite_date;
+  const nomination_id = req.body.nomination_id;
+  return Payment.updatePaymentCommons(id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id);
+}
 
 
 // const updatePaymentByPaymentId = async (req) => {
@@ -44,10 +49,10 @@ const createPaymentByNominationId = async(req) => {
 //   return Payment.createPayment( payment_id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, payment_status);
 // };
 
-const getPaymentByPaymentId = async (req) => {
-  const payment_id = req.params.payment_id;
-  return Payment.fetchPaymentById( payment_id );
-};
+// const getPaymentByPaymentId = async (req) => {
+//   const payment_id = req.params.payment_id;
+//   return Payment.fetchPaymentById( payment_id );
+// };
 
 
 
@@ -57,8 +62,8 @@ export default {
   getAllPayments,
   getPaymentByNominationId,
   updatePaymentStatusByNominationId,
-  // ---
-  getPaymentByPaymentId,
-  // updatePaymentByPaymentId,
   createPaymentByNominationId,
+  updatePaymentByNominationId,
+  // getPaymentByPaymentId,
+  // updatePaymentByPaymentId,
 }

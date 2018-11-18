@@ -72,7 +72,7 @@ router.get('/:nomination_id/candidate',(req,res)=>{
 /**
  * 11th - adding a new payment relates to particular nomination id 
  */
-router.post('/:nomination_id/payment', (req, res, next) => {
+router.post('/:nomination_id/payment/', (req, res, next) => {
     return PaymentService.createPaymentByNominationId(req).then( (results) => {
         if (results instanceof Error){
             next(results);
@@ -81,6 +81,21 @@ router.post('/:nomination_id/payment', (req, res, next) => {
         }
     });
 });
+
+/**
+ * 12th - update certain payment details for particular nomination id
+ * editable feilds: depositor, deposit_amount, deposite_date, uploaded_file_name
+ */
+router.put('/:nomination_id/payment/update', (req, res, next) => {
+    return PaymentService.updatePaymentByNominationId(req).then((result) => {
+      if (result instanceof Error) {
+        next(result);
+      } else {
+        res.send(result);
+      }
+    });
+});
+
 
 /** Completed - not tested 
  * 8th to put  added or updated nominated candidate details */
