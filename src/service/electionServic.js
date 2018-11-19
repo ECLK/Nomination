@@ -17,7 +17,7 @@ const getUserByUserId = async (req) => {
   return Election.fetchUserById( uid );
 };
 
-export default {
+export default {      
   getUserByUserId,
   saveElectionById,
 }
