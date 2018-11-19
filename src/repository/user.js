@@ -18,7 +18,6 @@ const fetchUserById = (userId) => {
 };
 
 
-
 const createUser = (id, name) => {
   const params = { id: id, name : name};
   return DbConnection()
@@ -30,8 +29,6 @@ const createUser = (id, name) => {
       throw new DBError(error);
     });
 };
-
-
 
 
 export default {
