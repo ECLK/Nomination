@@ -15,13 +15,13 @@ const mapToUserModel = (users) => {
   const mappedUsers = joinjs.map(users, resultMaps, 'userMap', 'user_');
 
   //just an example how to convert row data object to Model
-  if (mappedUsers.length>0){
-    const userModel = User({
-      id: mappedUsers[0].id,
-      name: mappedUsers[0].name,
-    });
-    console.log("userModel.id >>>>>>>", userModel.get("id"));
-  }
+  // if (mappedUsers.length>0){
+  //   const userModel = User({
+  //     id: mappedUsers[0].id,
+  //     name: mappedUsers[0].name,
+  //   });
+  //   console.log("userModel.id >>>>>>>", userModel.get("id"));
+  // }
 
   return mappedUsers;
 };
