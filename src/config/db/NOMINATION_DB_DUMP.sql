@@ -1,8 +1,8 @@
--- V2.3_NOMINATION_DB
+-- V2.4_NOMINATION_DB
 
 -- MySQL dump 10.13  Distrib 8.0.12, for osx10.13 (x86_64)
 --
--- Host: localhost    Database: NOMINATION_DB2
+-- Host: localhost    Database: NOMINATION_DB3
 -- ------------------------------------------------------
 -- Server version	8.0.12
 
@@ -16,6 +16,7 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
 
 -- create Database
 CREATE DATABASE  IF NOT EXISTS NOMINATION_DB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -31,15 +32,15 @@ DROP TABLE IF EXISTS `candidate`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `candidate` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nic` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `occupation` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nomination_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nic` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `occupation` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nomination_id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_Candidate_Nominations1_idx` (`nomination_id`),
-  CONSTRAINT `fk_Candidate_Nominations1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`nomination_id`)
+  CONSTRAINT `fk_Candidate_Nominations1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -61,14 +62,14 @@ DROP TABLE IF EXISTS `election`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `election` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `nomination_start_date` datetime DEFAULT NULL,
   `nomination_end_date` datetime DEFAULT NULL,
   `election_start_date` datetime DEFAULT NULL,
   `election_end_date` datetime DEFAULT NULL,
   `objection_start_date` datetime DEFAULT NULL,
   `objection_end_date` datetime DEFAULT NULL,
-  `election_module_flag` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `election_module_flag` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -79,7 +80,7 @@ CREATE TABLE `election` (
 
 LOCK TABLES `election` WRITE;
 /*!40000 ALTER TABLE `election` DISABLE KEYS */;
-INSERT INTO `election` VALUES ('1','1944-07-13 11:15:12','1997-08-19 05:59:35','2028-06-08 11:00:14','1986-12-02 08:04:37','2028-02-05 15:35:44','1990-05-27 10:59:19','parliamentary'),('2','1968-10-10 09:56:19','1981-01-22 00:52:37','1977-08-23 06:48:30','1958-02-19 07:35:52','1994-06-04 16:11:03','2006-11-19 17:26:34','presidential'),('3','1951-01-04 06:24:08','1979-06-09 13:29:19','1997-06-21 04:15:59','2014-11-27 00:39:15','1996-02-07 10:16:42','2007-05-08 13:53:34','parliamentary');
+INSERT INTO `election` VALUES ('1','1944-07-13 11:15:12','1997-08-19 05:59:35','2028-06-08 11:00:14','1986-12-02 08:04:37','2028-02-05 15:35:44','1990-05-27 10:59:19','parliamentary'),('2','1968-10-10 09:56:19','1981-01-22 00:52:37','1977-08-23 06:48:30','1958-02-19 07:35:52','1994-06-04 16:11:03','2006-11-19 17:26:34','presidential'),('3','1951-01-04 06:24:08','1979-06-09 13:29:19','1997-06-21 04:15:59','2014-11-27 00:39:15','1996-02-07 10:16:42','2007-05-08 13:53:34','provincial');
 /*!40000 ALTER TABLE `election` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,13 +92,11 @@ DROP TABLE IF EXISTS `election_module_by_division`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `election_module_by_division` (
-  `election_module_flag` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `division_name` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `division_id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `election_module_flag` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `division_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nominated_candidate_count` int(3) DEFAULT NULL,
-  `division_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`division_id`),
-  KEY `fk_election_model_idx` (`election_module_flag`),
-  CONSTRAINT `fk_election_model` FOREIGN KEY (`election_module_flag`) REFERENCES `election` (`id`)
+  PRIMARY KEY (`division_id`,`election_module_flag`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -107,7 +106,7 @@ CREATE TABLE `election_module_by_division` (
 
 LOCK TABLES `election_module_by_division` WRITE;
 /*!40000 ALTER TABLE `election_module_by_division` DISABLE KEYS */;
-INSERT INTO `election_module_by_division` VALUES ('1','Colombo',22,'1'),('1','Gampaha',23,'2'),('1','Kurunegala',24,'3');
+INSERT INTO `election_module_by_division` VALUES ('parliamentary','Kurunegala','24',3),('presidential','Gampaha','23',2),('provincial','Colombo','22',1);
 /*!40000 ALTER TABLE `election_module_by_division` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,12 +118,12 @@ DROP TABLE IF EXISTS `nomination`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `nomination` (
-  `nomination_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `election_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `team_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `division_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`nomination_id`),
+  `id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `election_id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `team_id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `division_id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
   KEY `fk_election_id_idx` (`election_id`),
   KEY `fk_team_id_idx` (`team_id`),
   KEY `fk_division_id_idx` (`division_id`),
@@ -140,7 +139,7 @@ CREATE TABLE `nomination` (
 
 LOCK TABLES `nomination` WRITE;
 /*!40000 ALTER TABLE `nomination` DISABLE KEYS */;
-INSERT INTO `nomination` VALUES ('1','ngPendi','2','10','2'),('2','endingP','2','4','1'),('3','gPendin','3','6','2');
+INSERT INTO `nomination` VALUES ('1','draft','2','10','2'),('2','submitted','2','4','1'),('3','approved','3','6','2');
 /*!40000 ALTER TABLE `nomination` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,14 +151,14 @@ DROP TABLE IF EXISTS `nomination_review`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `nomination_review` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date` datetime DEFAULT NULL,
-  `authorized_by` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nomination_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `authorized_by` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nomination_id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_EC_approval_Nominations1_idx` (`nomination_id`),
-  CONSTRAINT `fk_EC_approval_Nominations1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`nomination_id`)
+  CONSTRAINT `fk_EC_approval_Nominations1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -181,15 +180,15 @@ DROP TABLE IF EXISTS `objection`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `objection` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
-  `created_by` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nomination_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `objection_review` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_by` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nomination_id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `objection_review` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_Objections_Nominations1_idx` (`nomination_id`),
-  CONSTRAINT `fk_Objections_Nominations1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`nomination_id`)
+  CONSTRAINT `fk_Objections_Nominations1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -211,16 +210,16 @@ DROP TABLE IF EXISTS `payment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `payment` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `depositor` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `depositor` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deposit_amount` decimal(10,2) DEFAULT NULL,
   `deposite_date` datetime DEFAULT NULL,
-  `uploaded_file_name` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nomination_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uploaded_file_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nomination_id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_Payments_Nominations1_idx` (`nomination_id`),
-  CONSTRAINT `fk_Payments_Nominations1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`nomination_id`)
+  CONSTRAINT `fk_Payments_Nominations1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -242,9 +241,9 @@ DROP TABLE IF EXISTS `support_doc`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `support_doc` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `path` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `candidate_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `path` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `candidate_id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_support_doc_Candidate1_idx` (`candidate_id`),
   CONSTRAINT `fk_support_doc_Candidate1` FOREIGN KEY (`candidate_id`) REFERENCES `candidate` (`id`)
@@ -269,11 +268,11 @@ DROP TABLE IF EXISTS `team`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `team` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name_of_secratery` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address_of_secratery` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name_of_secratery` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address_of_secratery` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -297,4 +296,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-18  1:19:01
+-- Dump completed on 2018-11-19 20:34:04

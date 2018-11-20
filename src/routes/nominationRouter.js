@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { NominationService, PaymentService, CandidateService, } from 'Service';
+import { NominationService, PaymentService, CandidateService } from 'Service';
 
 const express = require('express');
 const router = express.Router();
@@ -40,9 +40,7 @@ router.get('/:nomination_id/payment', (req, res, next) => {
  * payment_status : pending | accept | reject 
  * }*/
 router.put('/:nomination_id/payment/status', (req, res, next) => {
-    var nomination_id = req.params.nomination_id;
-    var status = req.params.status;
-    return PaymentService.updatePaymentStatusByNominationId(nomination_id, status).then((result) => {
+    return PaymentService.updatePaymentStatusByNominationId(req).then((result) => {
         if (result instanceof Error) {
             next(result);
         } else {
@@ -67,12 +65,23 @@ router.get('/list/:election_id/:team_id', (req, res, next) => {
  * 7th to get list of candidates details with respect to a nomination */
 router.get('/:nomination_id/candidate', (req, res, next) => {
     return CandidateService.getCandidateListByNominationId(req).then((results) => {
-        console.log('jack is working');
         if (results instanceof Error) {
             next(results);
         } else {
             res.json(!_.isEmpty(results) ? results : []);
         }
+    });
+});
+
+/** 
+ * 8th to put  added or updated nominated candidate details */
+router.put('/:nomination_id/candidate/add', (req, res, next) => {
+    return CandidateService.updateNominationCandidates(req).then((results) => {
+        if (result instanceof Error) {
+            next(result);
+        } else {
+            res.send(result);
+        }p
     });
 });
 
@@ -103,33 +112,6 @@ router.put('/:nomination_id/payment/update', (req, res, next) => {
     });
 });
 
-
-/** Completed - not tested 
- * 8th to put  added or updated nominated candidate details */
-/*body{
-    candidate_id:
-    nic:
-    name:
-    occupation:
-    address:
-    nomination_id:
-}
-sample
-{
-    "candidate_id":"2312",
-    "nic":"3412424",
-    "name":"dkshfdg",
-    "occupation":"kdafsf",
-    "address":"kahfsf",
-    "nomination_id":"2132"
-}
-
-*/
-router.put('/add_candidates', (req, res) => {
-    return NominationService.updateNominationCandidates(req).then((results) => {
-        res.json(results);
-    });
-});
 
 
 module.exports = router;
