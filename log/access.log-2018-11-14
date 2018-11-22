@@ -1,6 +1,0 @@
-[2018-11-14 00:04:03.844]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 204 - "" "curl/7.54.0"
-[2018-11-14 00:14:52.791]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 - "" "curl/7.54.0"
-[2018-11-14 00:17:42.960]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 - "" "curl/7.54.0"
-[2018-11-14 00:18:03.541]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 - "" "curl/7.54.0"
-[2018-11-14 00:21:08.194]  [ERROR] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 500 102 "" "curl/7.54.0"
-[2018-11-14 00:24:11.886]  [ERROR] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 500 110 "" "curl/7.54.0"

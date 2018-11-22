@@ -13,6 +13,5 @@ export const createRoutes = () => (app, routeInfo) => {
     updatedRouter[method](path, ValidatorMiddleware(schema, method), handler);
     return updatedRouter;
   }, router);
-  console.log("===== router", router)
   app.use(`/ec-election/`, router);
 };

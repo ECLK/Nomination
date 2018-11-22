@@ -1,3 +1,0 @@
-[2018-11-20 11:44:42.774]  [ERROR] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 500 102 "" "curl/7.54.0"
-[2018-11-20 11:47:24.390]  [ERROR] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 500 102 "" "curl/7.54.0"
-[2018-11-20 11:52:26.954]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 - "" "curl/7.54.0"
