@@ -1,0 +1,58 @@
+[2018-11-13 00:04:31.703]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  96741
+[2018-11-13 00:12:42.513]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  97559
+[2018-11-13 00:15:26.760]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  97817
+[2018-11-13 00:15:50.404]  [INFO] http {loggerFunction()} - ::1 - - "GET /user/123456 HTTP/1.1" 200 2 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 00:15:51.131]  [INFO] http {loggerFunction()} - ::1 - - "GET /favicon.ico HTTP/1.1" 204 - "http://localhost:9001/user/123456" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 00:15:54.234]  [INFO] http {loggerFunction()} - ::1 - - "GET /user/12345 HTTP/1.1" 200 32 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 00:15:54.425]  [INFO] http {loggerFunction()} - ::1 - - "GET /favicon.ico HTTP/1.1" 204 - "http://localhost:9001/user/12345" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 00:24:23.766]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  98717
+[2018-11-13 00:26:21.780]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  98917
+[2018-11-13 00:30:36.770]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  99320
+[2018-11-13 00:33:02.602]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  99556
+[2018-11-13 00:35:38.646]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  99815
+[2018-11-13 00:35:58.611]  [INFO] http {loggerFunction()} - ::1 - - "GET /user/12345 HTTP/1.1" 200 32 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 00:35:59.384]  [INFO] http {loggerFunction()} - ::1 - - "GET /favicon.ico HTTP/1.1" 204 - "http://localhost:9001/user/12345" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 00:37:31.040]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  235
+[2018-11-13 00:42:07.881]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  900
+[2018-11-13 00:42:20.155]  [INFO] http {loggerFunction()} - ::1 - - "GET /user/12345 HTTP/1.1" 200 32 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 00:42:20.773]  [INFO] http {loggerFunction()} - ::1 - - "GET /favicon.ico HTTP/1.1" 204 - "http://localhost:9001/user/12345" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 00:44:54.604]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  1132
+[2018-11-13 00:46:19.085]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  1287
+[2018-11-13 07:10:36.294]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  35387
+[2018-11-13 07:10:48.366]  [INFO] http {loggerFunction()} - ::1 - - "GET /user/12345 HTTP/1.1" 200 32 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 07:10:48.604]  [INFO] http {loggerFunction()} - ::1 - - "GET /favicon.ico HTTP/1.1" 204 - "http://localhost:9001/user/12345" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 07:38:49.493]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  39198
+[2018-11-13 07:39:05.730]  [ERROR] http {loggerFunction()} - ::1 - - "GET /user/12345 HTTP/1.1" 404 149 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 07:39:06.601]  [INFO] http {loggerFunction()} - ::1 - - "GET /favicon.ico HTTP/1.1" 204 - "http://localhost:9001/user/12345" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 07:40:51.153]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  39400
+[2018-11-13 07:44:16.531]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  39735
+[2018-11-13 07:44:44.922]  [INFO] http {loggerFunction()} - ::1 - - "GET /user/12345 HTTP/1.1" 200 32 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 07:44:45.395]  [INFO] http {loggerFunction()} - ::1 - - "GET /favicon.ico HTTP/1.1" 204 - "http://localhost:9001/user/12345" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 07:45:30.613]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 2 "" "curl/7.54.0"
+[2018-11-13 07:45:38.350]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 2 "" "curl/7.54.0"
+[2018-11-13 07:49:55.056]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  40329
+[2018-11-13 07:51:22.819]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  40532
+[2018-11-13 07:51:32.389]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 2 "" "curl/7.54.0"
+[2018-11-13 07:54:56.155]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 2 "" "curl/7.54.0"
+[2018-11-13 07:55:13.304]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 2 "" "curl/7.54.0"
+[2018-11-13 07:55:19.601]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 2 "" "curl/7.54.0"
+[2018-11-13 07:56:46.222]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  41034
+[2018-11-13 07:58:37.489]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 2 "" "curl/7.54.0"
+[2018-11-13 08:04:13.241]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  41762
+[2018-11-13 08:06:48.915]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  42026
+[2018-11-13 08:07:49.745]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 2 "" "curl/7.54.0"
+[2018-11-13 08:13:23.241]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  42675
+[2018-11-13 08:16:34.837]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  42977
+[2018-11-13 10:07:21.987]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  53558
+[2018-11-13 10:12:08.551]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  54025
+[2018-11-13 10:12:22.793]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 1 "" "curl/7.54.0"
+[2018-11-13 13:32:29.830]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  73289
+[2018-11-13 14:31:25.176]  [INFO] http {loggerFunction()} - ::1 - - "GET /user/12345 HTTP/1.1" 200 32 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 14:31:25.831]  [INFO] http {loggerFunction()} - ::1 - - "GET /favicon.ico HTTP/1.1" 204 - "http://localhost:9001/user/12345" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+[2018-11-13 14:32:38.569]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  79217
+[2018-11-13 14:33:50.285]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  79349
+[2018-11-13 16:42:06.865]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  10517
+[2018-11-13 23:54:31.728]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  35950
+[2018-11-13 23:55:53.629]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  36146
+[2018-11-13 23:57:32.276]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 1 "" "curl/7.54.0"
+[2018-11-13 23:59:35.133]  [INFO] http {loggerFunction()} - ::1 - - "POST /user HTTP/1.1" 200 1 "" "curl/7.54.0"
