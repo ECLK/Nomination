@@ -10,6 +10,7 @@ const userRouter = createRoutes();
 export const initUserRouter = (app) => {
   userRouter(app, [
     {
+      // curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/user/12222?max=123234567
       method: GET,
       path: '/user/:userId',
       schema: GET_USER_BY_ID_SCHEMA,
@@ -23,6 +24,7 @@ export const initUserRouter = (app) => {
       },
     },
     {
+      // curl -H "Content-Type: application/json" -X POST -d '{"id":176484, "name":"Surath"}' http://localhost:9001/ec-election/user
       method: POST,
       path: '/user',
       schema: USER_EDIT_SCHEMA,
