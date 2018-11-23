@@ -15,7 +15,7 @@ const updateUserByUserId = async (req) => {
 };
 
 const getUserByUserId = async (req) => {
-  const uid = req.params.uid;
+  const uid = req.params.userId;
   return UserRepo.fetchUserById( uid );
 };
 
