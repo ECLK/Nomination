@@ -1,12 +1,20 @@
-const express = require('express');
-const router = express.Router();
+import { GET } from 'HttpMethods';
+import {UserService} from 'Service';
+import {createRoutes} from '../middleware/Router';
 
-router.get('/', (req, res) => {
-    res.send('Api is working fine !');
-});
 
-router.get('/favicon.ico', function(req, res) {
-    res.sendStatus(204);
-});
+const defaultRouter = createRoutes();
 
-module.exports = router;
+export const initDefaultRouter = (app) => {
+  defaultRouter(app, [
+    {
+      // curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election
+      method: GET,
+      path: '/',
+      schema: {},
+      handler: (req, res, next) => {
+        res.send('Api is working fine !');
+      },
+    }
+  ]);
+};

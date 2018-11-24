@@ -1,8 +1,0 @@
-[2018-11-12 23:16:23.899]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  91826
-[2018-11-12 23:16:51.328]  [INFO] http {loggerFunction()} - ::1 - - "GET /user/12345 HTTP/1.1" 200 32 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
-[2018-11-12 23:39:05.218]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  94202
-[2018-11-12 23:42:14.331]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  94476
-[2018-11-12 23:44:37.596]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  94808
-[2018-11-12 23:47:51.057]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  95124
-[2018-11-12 23:50:34.237]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  95356
-[2018-11-12 23:57:20.861]  [INFO] app {loggerFunction()} - Express server listening on port  9001  with pid  96034
