@@ -7,9 +7,13 @@ import {UserManager}  from 'Managers'
 
 
 const updateUserByUserId = async (req) => {
-  const id = req.body.id;
-  const name = req.body.name;
-  return User.createUser( id, name);
+  try {
+    const id = req.body.id;
+    const name = req.body.name;
+    return User.createUser( id, name);
+  }catch (e){
+    throw new ServerError("server error");
+  }
 };
 
 const getUserByUserId = async (req) => {
