@@ -11,19 +11,14 @@
             {"src": "./src/manager/index", "expose": "Managers"},
             {"src": "./src/model/index", "expose": "Models"},
             {"src": "./src/service/index", "expose": "Service"},
-            {"src": "./src/errors/errors", "expose": "Errors"},
+            {"src": "./src/errors/Errors", "expose": "Errors"},
             {"src": "./src/errors/ErrorCodes", "expose": "ErrorCodes"},
-            {"src": "./src/errors/HttpCodes", "expose": "HttpCodes"}
+            {"src": "./src/errors/ErrorMessages", "expose": "ErrorMessages"},
+            {"src": "./src/routes/constants/HttpMethods", "expose": "HttpMethods"},
+            {"src": "./src/routes/constants/HttpPaths", "expose": "HttpPaths"},
+            {"src": "./src/routes/constants/HttpCodes", "expose": "HttpCodes"},
           ]
 		],
-//        ["typecheck", {
-//        "disable": {
-//          "production": true,
-//          "test:cover": true
-//        }
-//      }],
-//      ["typecheck", "syntax-flow", "transform-flow-strip-types"]
-//      ,
       ["flow-runtime", {
         "assert": true,
         "annotate": true

@@ -1,27 +1,17 @@
-import _ from 'lodash';
-import ErrorMiddleware from './Error';
+import { ValidatorMiddleware } from './ValidatorMiddleware';
 const express = require('express');
+const log4js = require('log4js');
+const logger = log4js.getLogger('app');
 
 const path = require('path');
 const globule = require('globule');
-const fileNames = globule.find('./src/routes/*.js');
-const DEFAULT_ROUTE_BASE = 'default';
 
-export default (app) => {
-
-    if (fileNames.length > 0) {
-        _.each(fileNames, (fileNameWithPath) => {
-            let fileName = path.basename(fileNameWithPath);
-            let routeName = fileName.substr(0, fileName.lastIndexOf('.'));
-            let routeBase = routeName.replace('Router','');
-            app.use(`/${routeBase === DEFAULT_ROUTE_BASE ? '' : routeBase}`, require(`../routes/${routeName}`));
-        });
-    } else {
-        console.log('No routes found!!');
-    }
-    app.use(ErrorMiddleware);
-    //Handle Resource Not Found
-    app.get('*', (req, res) => {
-        res.send('Resource your looking for is not found. Please check the URI', 404);
-    });
+export const createRoutes = () => (app, routeInfo) => {
+  const router = express.Router();
+  routeInfo.reduce((updatedRouter, { method, path, schema, handler }) => {
+    logger.info(`registering route : ${method}  ${path}`);
+    updatedRouter[method](path, ValidatorMiddleware(schema, method), handler);
+    return updatedRouter;
+  }, router);
+  app.use(`/ec-election/`, router);
 };

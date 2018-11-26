@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-
 const formatQueryToBulkInsert = (baseQuery, records) => {
   const numOfParams = _.reduce(records, (result) => {
     return result.concat(['(?)']);

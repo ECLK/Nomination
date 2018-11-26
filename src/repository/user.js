@@ -8,7 +8,6 @@ const USER_INSERT_QUERY = `INSERT INTO USER (ID, NAME) VALUES (:id, :name)`;
 const USER_INSERT_BASE_QUERY = `INSERT INTO USER VALUES `;
 const USER_COLUMN_ORDER = ['ID', 'NAME'];
 
-
 const fetchUserById = (userId) => {
   const params = { id: userId };
    return DbConnection()
@@ -37,6 +36,23 @@ const createUser = (id, name) => {
        }).catch((error) => {
        throw new DBError(error);
      });
+};
+
+/**
+ * Same can be used to insert single and multiple user too,
+ * we should pass list of users(user) to insert multiple users
+ * @param users :Array of users
+ * @returns {Promise.<T>}
+ */
+const insertUsers = (users) => {
+  return DbConnection()
+  .query(formatQueryToBulkInsert(USER_INSERT_BASE_QUERY, users),
+    {
+      replacements: formatDataToBulkInsert(users, USER_COLUMN_ORDER),
+      type: DbConnection().QueryTypes.INSERT,
+    }).catch((error) => {
+    throw new DBError(error);
+  });
 };
 
 /**

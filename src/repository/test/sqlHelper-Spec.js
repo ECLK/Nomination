@@ -2,7 +2,6 @@
 import 'dotenv/config';
 import {formatQueryToBulkInsert, formatDataToBulkInsert} from '../sqlHelper';
 
-
 //Require the dev-dependencies
 let chai = require('chai');
 let chaiHttp = require('chai-http');
