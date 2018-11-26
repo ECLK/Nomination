@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Payment from '../repository/Payment';
+import Payment from '../repository/payment';
 import {PaymentManager}  from 'Managers';
 const uuidv4 = require('uuid/v4');
 
@@ -7,6 +7,17 @@ const uuidv4 = require('uuid/v4');
 const getAllPayments = async () => {
   return Payment.getAll();
 };
+
+
+const getAllPendingPayments = async (req) => {
+  const election_id = req.params.election_id;
+  return Payment.getPendingAll(election_id);
+}
+
+const getAllPaidPayments = async (req) => {
+  const election_id = req.params.election_id;
+  return Payment.getPaidAll(election_id);
+}
 
 const getPaymentByNominationId = async (req) => {
   const nomination_id = req.params.nomination_id;
@@ -64,6 +75,8 @@ export default {
   updatePaymentStatusByNominationId,
   createPaymentByNominationId,
   updatePaymentByNominationId,
+  getAllPendingPayments,
+  getAllPaidPayments,
   // getPaymentByPaymentId,
   // updatePaymentByPaymentId,
 }
