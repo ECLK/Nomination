@@ -15,12 +15,10 @@ export const initUserRouter = (app) => {
       path: '/user/:userId',
       schema: GET_USER_BY_ID_SCHEMA,
       handler: (req, res, next) => {
-        return UserService.getUserByUserId(req).then((results) => {
-          if(results instanceof Error)
-            next(results);
-          else
-            res.json(!_.isEmpty(results) ? UserManager.mapToUserModel(results) : []);
-        });
+        return UserService.getUserByUserId(req)
+        .then((result) => res.status(200).send(result))
+        .catch(error => next(error));
+
       },
     },
     {
