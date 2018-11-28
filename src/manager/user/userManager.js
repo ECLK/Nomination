@@ -22,5 +22,5 @@ const mapToUserModel = (users) => {
 };
 
 export default {
-  mapToUserModel
+  mapToUserModel,
 };
