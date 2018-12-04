@@ -3,6 +3,37 @@ import { DbConnection } from './dataSource';
 
 
 const ALL_PAYMENTS_SELECT_QUERY = `SELECT * FROM payment`;
+const ALL_PENDING_PAYMENTS_SELECT_QUERY = `SELECT 
+                                            e.election_module_flag AS election_election_module_flag,
+                                            e.id AS election_id,
+                                            p.depositor AS  payment_depositor,
+                                            p.deposit_amount AS  payment_deposit_amount,
+                                            p.deposite_date AS  payment_deposite_date,
+                                            p.uploaded_file_name AS payment_uploaded_file_name,
+                                            p.nomination_id AS payment_nomination_id,
+                                            em.division_name,
+                                            em.nominated_candidate_count AS division_nominated_candidate_count
+                                            FROM payment  p LEFT JOIN nomination n ON p.nomination_id=n.nomination_id 
+                                            LEFT JOIN team t ON n.team_id=t.id 
+                                            LEFT JOIN election_module_by_division em ON n.division_id=em.division_id 
+                                            LEFT JOIN election e ON e.id=n.election_id
+                                            WHERE  p.status='pending' AND n.election_id= :id`;
+
+const ALL_PAID_PAYMENTS_SELECT_QUERY = `SELECT 
+                                        e.election_module_flag AS election_election_module_flag,
+                                        e.id AS election_id,
+                                        p.depositor AS  payment_depositor,
+                                        p.deposit_amount AS  payment_deposit_amount,
+                                        p.deposite_date AS  payment_deposite_date,
+                                        p.uploaded_file_name AS payment_uploaded_file_name,
+                                        p.nomination_id AS payment_nomination_id,
+                                        em.division_name,
+                                        em.nominated_candidate_count AS division_nominated_candidate_count
+                                        FROM payment  p LEFT JOIN nomination n ON p.nomination_id=n.nomination_id 
+                                        LEFT JOIN team t ON n.team_id=t.id 
+                                        LEFT JOIN election_module_by_division em ON n.division_id=em.division_id 
+                                        LEFT JOIN election e ON e.id=n.election_id
+                                        WHERE  p.status='paid' AND n.election_id= :id`;                                           
 const PAYMENT_SELECT_QUERY_BY_NOMINATION_ID = `SELECT * FROM payment WHERE nomination_id = :id`;
 
 const PAYMENT_STATUS_UPDATE_QUERY = `UPDATE payment SET status = :status WHERE nomination_id = :nomination_id`;
@@ -22,6 +53,31 @@ const getAll = () => {
       {
         type: DbConnection().QueryTypes.SELECT,
       }).catch( (error) => {
+        throw new DBError(error);
+      });
+};
+
+
+const getPendingAll = (election_id) => {
+  const params = { id: election_id };
+  return DbConnection()
+    .query(ALL_PENDING_PAYMENTS_SELECT_QUERY,
+      {
+        replacements: params,
+        type: DbConnection().QueryTypes.SELECT,
+      }).catch((error) => {
+        throw new DBError(error);
+      });
+};
+
+const getPaidAll = (election_id) => {
+  const params = { id: election_id };
+  return DbConnection()
+    .query(ALL_PAID_PAYMENTS_SELECT_QUERY,
+      {
+        replacements: params,
+        type: DbConnection().QueryTypes.SELECT,
+      }).catch((error) => {
         throw new DBError(error);
       });
 };
@@ -98,5 +154,7 @@ export default {
   updateStatusByNominationId,
   createPayment,
   updatePaymentCommons,
+  getPendingAll,
+  getPaidAll,
   // fetchPaymentById,
 }

@@ -15,6 +15,7 @@ const updateUserByUserId = async (req) => {
   }
 };
 
+
 const getUserByUserId = async (req) => {
   const uid = req.params.userId;
   const users = await UserRepo.fetchUserById( uid );
@@ -25,7 +26,8 @@ const getUserByUserId = async (req) => {
   }
 };
 
+
 export default {
-  getUserByUserId,
-  updateUserByUserId,
+   getUserByUserId,
+   updateUserByUserId,
 }

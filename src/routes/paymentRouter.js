@@ -12,6 +12,7 @@ router.get('/:payment_id', (req, res, next) => {
     else
       // res.json(!_.isEmpty(results) ? PaymentManager.mapToPaymentModel(results) : []);
       res.json(!_.isEmpty(results) ? results : []);
+
   });
 });
 
