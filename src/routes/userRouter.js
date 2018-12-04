@@ -15,6 +15,7 @@ export const initUserRouter = (app) => {
       path: '/user/:userId',
       schema: GET_USER_BY_ID_SCHEMA,
       handler: (req, res, next) => {
+        console.log("kkkkkkkkk");
         return UserService.getUserByUserId(req)
         .then((result) => res.status(200).send(result))
         .catch(error => next(error));
@@ -22,11 +23,12 @@ export const initUserRouter = (app) => {
       },
     },
     {
-      // curl -H "Content-Type: application/json" -X POST -d '{"id":176484, "name":"Surath"}' http://localhost:9001/ec-election/user
+      // curl -H "Content-Type: application/json" -X POST -d '{"id":1234, "name":"Surath"}' http://localhost:9001/ec-election/user
       method: POST,
       path: '/user',
       schema: USER_EDIT_SCHEMA,
       handler: (req, res, next) => {
+        console.log("dkjfhdfh");
         return UserService.updateUserByUserId(req)
         .then(() => res.status(200).send())
         .catch(error => next(error));

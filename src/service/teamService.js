@@ -1,10 +1,11 @@
 import { ServerError , ApiError } from 'Errors';
-import TeamRepo from '../repository/Team';
+import TeamRepo from '../repository/team';
 import {TeamManager}  from 'Managers'
 import _ from 'lodash';
 
 const getTeamById = async (req) => {
   const teamId = req.params.teamId;
+  console.log("------->",teamId);
   const teams = await TeamRepo.fetchTeamById( teamId );
   if(!_.isEmpty(teams)){
     return TeamManager.mapToTeamModel(teams)

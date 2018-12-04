@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Payment from '../repository/Payment';
+import Payment from '../repository/payment';
 import {PaymentManager}  from 'Managers';
 const uuidv4 = require('uuid/v4');
 

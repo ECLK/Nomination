@@ -2,10 +2,10 @@
 import {Record} from 'typed-immutable';
 
 export const Candidate =  Record({
-  candidate_id: String(),
-  full_name: String(),
-  occupation: String(),
-  candidate_electoral: String(),
-  administrative_district: String(),
-  nomination_id: String()
+  ID: String(),
+  FULL_NAME: String(),
+  OCCUPATION: String(),
+  ELECTORAL_DIVISION_NAME: String(),
+  ELECTORAL_DIVISION_CODE: String(),
+  NOMINATION_ID: String()
 });
