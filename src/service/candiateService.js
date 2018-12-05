@@ -5,21 +5,20 @@ import _ from 'lodash';
 
 
 
-// const getCandidateListByNominationId = async (req) => {
-//     const nomination_id = req.params.nominationId;
-//     console.log('candidate service js');
-//     return Candidate.getCandidateListByNomination(nomination_id);
-// }
-
 const getCandidateListByNominationId = async (req) => {
-    const nomination_id = req.params.nominationId;
-    const candidates = await CandidateRepo.getCandidateListByNomination( nomination_id );
-    console.log("------------>>",candidates);
-    if(!_.isEmpty(candidates)){
-      return CandidateManager.mapToCandidateModel(candidates)
-    }else {
-      throw new ApiError("Candidates not found");
+    try {
+      const nomination_id = req.params.nominationId;
+      const candidates = await CandidateRepo.getCandidateListByNomination( nomination_id );
+
+      if(!_.isEmpty(candidates)){
+        return CandidateManager.mapToCandidateModel(candidates)
+      }else {
+        throw new ApiError("Candidates not found");
+      }
+    }catch (e){
+      throw new ServerError("server error");
     }
+    
   };
 
 export default {

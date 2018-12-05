@@ -4,12 +4,12 @@ import { DbConnection } from './dataSource';
 const CANDIDATE_INSERT_QUERY = `INSERT INTO Candidate (candidate_id,name,nic,address,occupation, nomination_id) 
                                 VALUES (:candidate_id,:nic,:name,:occupation,:address,:nomination_id )`;
 
-const CANDIDATE_BY_NOMINATION_SELECT_QUERY = `SELECT ID ,
-                                              FULL_NAME ,
-                                              OCCUPATION ,
-                                              ELECTORAL_DIVISION_NAME ,
-                                              ELECTORAL_DIVISION_CODE ,
-                                              NOMINATION_ID 
+const CANDIDATE_BY_NOMINATION_SELECT_QUERY = `SELECT ID AS CANDIDATE_ID,
+                                              FULL_NAME AS CANDIDATE_FULL_NAME,
+                                              OCCUPATION AS CANDIDATE_OCCUPATION,
+                                              ELECTORAL_DIVISION_NAME AS CANDIDATE_ELECTORAL_DIVISION_NAME,
+                                              ELECTORAL_DIVISION_CODE AS CANDIDATE_ELECTORAL_DIVISION_CODE,
+                                              NOMINATION_ID AS CANDIDATE_NOMINATION_ID
                                              FROM CANDIDATE WHERE NOMINATION_ID = :nomination_id`;
 const UpdateCandidate = (candidate_id, nic, name, occupation, address, nomination_id) => {
   const params = {

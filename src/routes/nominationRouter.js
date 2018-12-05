@@ -16,7 +16,6 @@ export const initNominationRouter = (app) => {
         path: '/nomination/:nominationId/candidate',
         schema: GET_CANDIDATE_BY_NOMINATION_ID_SCHEMA,
         handler: (req, res, next) => {
-          console.log("kkkkkkkkk");
           return CandidateService.getCandidateListByNominationId(req)
           .then((result) => res.status(200).send(result))
           .catch(error => next(error));
@@ -29,9 +28,8 @@ export const initNominationRouter = (app) => {
         path: '/:nominationId/payment',
         schema: GET_PAYMENT_BY_NOMINATION_ID_SCHEMA,
         handler: (req, res, next) => {
-          console.log("dkjfhdfh");
           return PaymentService.getPaymentByNominationId(req)
-          .then(() => res.status(200).send())
+          .then((result) => res.status(200).send(result))
           .catch(error => next(error));
         },
       }

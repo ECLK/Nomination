@@ -34,7 +34,15 @@ const ALL_PAID_PAYMENTS_SELECT_QUERY = `SELECT
                                         LEFT JOIN election_module_by_division em ON n.division_id=em.division_id 
                                         LEFT JOIN election e ON e.id=n.election_id
                                         WHERE  p.status='paid' AND n.election_id= :id`;                                           
-const PAYMENT_SELECT_QUERY_BY_NOMINATION_ID = `SELECT * FROM payment WHERE nomination_id = :id`;
+const PAYMENT_SELECT_QUERY_BY_NOMINATION_ID = `SELECT 
+                                              ID AS PAYMENT_ID, 
+                                              DEPOSITOR AS PAYMENT_DEPOSITOR,
+                                              DEPOSIT_DATE AS PAYMENT_DEPOSIT_DATE,
+                                              AMOUNT AS PAYMENT_AMOUNT,
+                                              FILE_PATH AS PAYMENT_FILE_PATH,
+                                              STATUS  AS  PAYMENT_STATUS,
+                                              NOMINATION_ID AS PAYMENT_NOMINATION_ID
+                                              FROM PAYMENT WHERE NOMINATION_ID= :id`;
 
 const PAYMENT_STATUS_UPDATE_QUERY = `UPDATE payment SET status = :status WHERE nomination_id = :nomination_id`;
 const PAYMENT_UPDATE_QUERY = `UPDATE payment 
@@ -82,8 +90,8 @@ const getPaidAll = (election_id) => {
       });
 };
 
-const getByNominationId = (nomination_id) => {
-  const params = { id: nomination_id };
+const getByNominationId = (nominationId) => {
+  const params = { id: nominationId };
   return DbConnection()
     .query(PAYMENT_SELECT_QUERY_BY_NOMINATION_ID,
       {

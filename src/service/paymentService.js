@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import Payment from '../repository/payment';
+import PaymentRepo from '../repository/payment';
 import {PaymentManager}  from 'Managers';
 const uuidv4 = require('uuid/v4');
 
@@ -19,10 +20,23 @@ const getAllPaidPayments = async (req) => {
   return Payment.getPaidAll(election_id);
 }
 
+
+//NEW
 const getPaymentByNominationId = async (req) => {
-  const nomination_id = req.params.nomination_id;
-  return Payment.getByNominationId(nomination_id);
-}
+  try {
+    const nominationId = req.params.nominationId;
+    const payments = await PaymentRepo.getByNominationId( nominationId );
+    console.log("------------>>",payments);
+    if(!_.isEmpty(payments)){
+      return PaymentManager.mapToPaymentModel(payments)
+    }else {
+      throw new ApiError("Payment not found");
+    }
+  }catch (e){
+    throw new ServerError("server error");
+  }
+
+};
 
 const updatePaymentStatusByNominationId = async (nomination_id, status) => {
   return Payment.updateStatusByNominationId(nomination_id, status);
