@@ -1,6 +1,6 @@
 import { ServerError , ApiError } from 'Errors';
 import UserRepo from '../repository/User';
-import {UserManager}  from 'Managers'
+import {UserManager}  from 'Managers';
 import _ from 'lodash';
 
 
@@ -19,7 +19,7 @@ const getUserByUserId = async (req) => {
   const uid = req.params.userId;
   const users = await UserRepo.fetchUserById( uid );
   if(!_.isEmpty(users)){
-    return UserManager.mapToUserModel(users)
+    return UserManager.mapToUserModel(users);
   }else {
     throw new ApiError("User not found");
   }
