@@ -12,12 +12,17 @@ export const initElectionRouter = (app) => {
 		{
 			method: GET,
 			path: '/elections/:electionId',
+			schema: GET_ELECTION_BY_ID_SCHEME,
 			handler: (req, res, next) => {
-				return ElectionService.getElectionById(req)
-					.then((result) => res.status(200).send(result))
-					.catch( (error) => {
-						throw error;
-					});
+				// return ElectionService.getElectionById(req)
+				// 	.then((result) => res.status(200).send(result))
+				// 	.catch( (error) => {
+				// 		throw error;
+				// 		// chanage the caught error to a defined error
+				// 	});
+				return ElectionService.getElectionWithTimelineById(req)
+					.then( (result) => res.status(200).send(result))
+					.catch( error => next(error));
 			},
 		},
 	]);
