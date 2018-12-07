@@ -3,6 +3,8 @@ import TeamManager from './team/teamManager';
 import NominationEntryManager from './nomination/nominationEntryManager';
 import PaymentManager from './payment/paymentManager';
 import CandidateManager from './candidate/candidateManager';
+import SupportDocManager from './supportdoc/supportDocManager';
+
 
 
 
@@ -11,5 +13,6 @@ export {
   NominationEntryManager,
   PaymentManager,
   TeamManager,
-  CandidateManager
+  CandidateManager,
+  SupportDocManager
 }

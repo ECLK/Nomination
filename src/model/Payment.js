@@ -12,4 +12,3 @@ export const Payment =  Record({
 });
 
 
-

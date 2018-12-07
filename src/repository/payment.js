@@ -45,13 +45,13 @@ const PAYMENT_SELECT_QUERY_BY_NOMINATION_ID = `SELECT
                                               FROM PAYMENT WHERE NOMINATION_ID= :id`;
 
 const PAYMENT_STATUS_UPDATE_QUERY = `UPDATE payment SET status = :status WHERE nomination_id = :nomination_id`;
-const PAYMENT_UPDATE_QUERY = `UPDATE payment 
-SET 
-  depositor = :depositor, deposit_amount = :deposit_amount, deposite_date = :deposite_date, uploaded_file_name = :uploaded_file_name
-WHERE 
-  nomination_id = :nomination_id`;
+const PAYMENT_UPDATE_QUERY = `UPDATE PAYMENT 
+                              SET 
+                              DEPOSITOR = :depositor, DEPOSIT_DATE = :depositDate, AMOUNT = :amount, FILE_PATH = :filePath
+                              WHERE 
+                              NOMINATION_ID = :nominationId`;
 
-const PAYMENT_INSERT_QUERY = `INSERT INTO payment (id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, status) VALUES (:id, :depositor, :deposit_amount, :deposite_date, :uploaded_file_name, :nomination_id, :status)`;
+const PAYMENT_INSERT_QUERY = `INSERT INTO PAYMENT (ID, DEPOSITOR, DEPOSIT_DATE, AMOUNT, FILE_PATH, STATUS, NOMINATION_ID) VALUES (:id, :depositor,:depositDate, :amount, :filePath, :status , :nominationId)`;
 
 
 
@@ -116,8 +116,8 @@ const updateStatusByNominationId = (nomination_id, status) => {
 };
 
 
-const createPayment = (id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, status) => {
-  const params = { id: id, depositor: depositor, deposit_amount: deposit_amount, deposite_date: deposite_date, uploaded_file_name: uploaded_file_name, nomination_id: nomination_id, status: status};
+const createPayment = (paymentData) => {
+  const params = paymentData;
   return DbConnection()
     .query(PAYMENT_INSERT_QUERY,
       {
@@ -128,8 +128,8 @@ const createPayment = (id, depositor, deposit_amount, deposite_date, uploaded_fi
       });
 };
 
-const updatePaymentCommons = (depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id) => {
-  const params = { depositor: depositor, deposit_amount: deposit_amount, deposite_date: deposite_date, uploaded_file_name: uploaded_file_name, nomination_id: nomination_id }
+const updatePaymentCommons = (paymentData) => {
+  const params = paymentData;
   return DbConnection()
     .query(PAYMENT_UPDATE_QUERY,
       {
@@ -141,20 +141,6 @@ const updatePaymentCommons = (depositor, deposit_amount, deposite_date, uploaded
 };
 
 
-// const fetchPaymentById = (payment_id) => {
-//   const params = { id: payment_id };
-//   console.log(params);
-//   return DbConnection()
-//     .query(PAYMENT_SELECT_QUERY,
-//       {
-//         replacements: params,
-//         type: DbConnection().QueryTypes.SELECT,
-//       }).catch((error) => {
-//         throw new DBError(error);
-//     });
-// };
-
-
 
 export default {
   getAll,
@@ -164,5 +150,4 @@ export default {
   updatePaymentCommons,
   getPendingAll,
   getPaidAll,
-  // fetchPaymentById,
 }

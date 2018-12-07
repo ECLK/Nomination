@@ -6,7 +6,7 @@ const resultMaps = [
   {
     mapId: 'candidateMap',
     idProperty: 'ID',
-    properties: ['FULL_NAME','OCCUPATION', 'ELECTORAL_DIVISION_NAME', 'ELECTORAL_DIVISION_CODE','NOMINATION_ID']
+    properties: ['FULL_NAME','OCCUPATION', 'ELECTORAL_DIVISION_NAME', 'ELECTORAL_DIVISION_CODE','NIC', 'DATE_OF_BIRTH', 'GENDER','ADDRESS','NOMINATION_ID']
   }
 ];
 
@@ -21,9 +21,14 @@ const mapToCandidateModel = (candidates) => {
     occupation: mappedCandidates[0].OCCUPATION,
     electoralDivisionName: mappedCandidates[0].ELECTORAL_DIVISION_NAME,
     electoralDivisionCode: mappedCandidates[0].ELECTORAL_DIVISION_CODE,
+    nic: mappedCandidates[0].NIC,
+    dateOfBirth: mappedCandidates[0].DATE_OF_BIRTH,
+    gender: mappedCandidates[0].GENDER,
+    address: mappedCandidates[0].ADDRESS,
     nominationId: mappedCandidates[0].NOMINATION_ID,
     
   });
+
 };
 
 export default {

@@ -16,6 +16,8 @@ const getCandidateListByNominationId = async (req) => {
         throw new ApiError("Candidates not found");
       }
     }catch (e){
+      // throw e;
+      console.log("+++++++++>>>",e);
       throw new ServerError("server error");
     }
     

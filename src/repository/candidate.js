@@ -7,6 +7,10 @@ const CANDIDATE_INSERT_QUERY = `INSERT INTO Candidate (candidate_id,name,nic,add
 const CANDIDATE_BY_NOMINATION_SELECT_QUERY = `SELECT ID AS CANDIDATE_ID,
                                               FULL_NAME AS CANDIDATE_FULL_NAME,
                                               OCCUPATION AS CANDIDATE_OCCUPATION,
+                                              NIC AS CANDIDATE_NIC,
+                                              DATE_OF_BIRTH AS CANDIDATE_DATE_OF_BIRTH,
+                                              GENDER AS CANDIDATE_GENDER,
+                                              ADDRESS AS CANDIDATE_ADDRESS,
                                               ELECTORAL_DIVISION_NAME AS CANDIDATE_ELECTORAL_DIVISION_NAME,
                                               ELECTORAL_DIVISION_CODE AS CANDIDATE_ELECTORAL_DIVISION_CODE,
                                               NOMINATION_ID AS CANDIDATE_NOMINATION_ID
