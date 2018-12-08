@@ -1,11 +1,24 @@
+import { ServerError , ApiError } from 'Errors';
+import CandidateRepo from '../repository/candidate';
+import {CandidateManager}  from 'Managers'
 import _ from 'lodash';
-import Candidate from '../repository/candidate';
+
 
 const getCandidateListByNominationId = async (req) => {
-    const nomination_id = req.params.nomination_id;
-    console.log('candidate service js');
-    return Candidate.getCandidateListByNomination(nomination_id);
-}
+    try {
+      const nomination_id = req.params.nominationId;
+      const candidates = await CandidateRepo.getCandidateListByNomination( nomination_id );
+
+      if(!_.isEmpty(candidates)){
+        return CandidateManager.mapToCandidateModel(candidates)
+      }else {
+        throw new ApiError("Candidates not found");
+      }
+    }catch (e){
+      throw new ServerError("server error");
+    }
+    
+  };
 
 export default {
     getCandidateListByNominationId,

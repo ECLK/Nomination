@@ -1,5 +1,5 @@
 import { ServerError , ApiError } from 'Errors';
-import UserRepo from '../repository/User';
+import UserRepo from '../repository/user';
 import {UserManager}  from 'Managers'
 import _ from 'lodash';
 

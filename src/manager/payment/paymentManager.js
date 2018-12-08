@@ -5,29 +5,28 @@ var joinjs = require('join-js').default;
 const resultMaps = [
   {
     mapId: 'paymentMap',
-    idProperty: 'payment_id',
-    properties: ['payment_id', 'depositor', 'deposit_amount', 'deposite_date', 'uploaded_file_name', 'nomination_id', 'payment_status']
+    idProperty: 'ID',
+    properties: ['DEPOSITOR', 'AMOUNT', 'DEPOSIT_DATE', 'FILE_PATH', 'STATUS', 'NOMINATION_ID']
   }
 ];
 
-const mapToPaymentModel = (payment) => {
-  const mappedPayments = joinjs.map(payment, resultMaps, 'paymentMap', 'payment_');
-
-  //just an example how to convert row data object to Model
+const mapToPaymentModel = (payments) => {
+  
+  const mappedPayments = joinjs.map(payments, resultMaps, 'paymentMap', 'PAYMENT_');
+  
   if (mappedPayments.length>0){
-    const paymentModel = Payment({
-        payment_id: mappedPayments[0].payment_id,
-        depositor: mappedPayments[0].depositor,
-        deposit_amount: mappedPayments[0].deposit_amount,
-        deposite_date: mappedPayments[0].deposite_date,
-        uploaded_file_name: mappedPayments[0].uploaded_file_name,
-        nomination_id: mappedPayments[0].nomination_id,
-        payment_status: mappedPayments[0].payment_status,
-    });
-    console.log("paymentModel.payment_id >>>>>>>", paymentModel.get("payment_id"));
-  }
 
-  return mappedPayments;
+   return Payment({
+    id: mappedPayments[0].ID,
+    depositor: mappedPayments[0].DEPOSITOR,
+    depositAmount: mappedPayments[0].AMOUNT,
+    depositeDate: mappedPayments[0].DEPOSIT_DATE,
+    uploadedFilePath: mappedPayments[0].FILE_PATH,
+    paymentStatus: mappedPayments[0].STATUS,
+    nominationId: mappedPayments[0].NOMINATION_ID,
+  });
+  
+}
 };
 
 export default {

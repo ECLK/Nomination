@@ -1,5 +1,5 @@
 import { ServerError , ApiError } from 'Errors';
-import TeamRepo from '../repository/Team';
+import TeamRepo from '../repository/team';
 import {TeamManager}  from 'Managers'
 import _ from 'lodash';
 
