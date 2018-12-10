@@ -28,9 +28,9 @@ e.MODULE_ID AS election_module,
 etc.KEY_NAME AS timeline_key,
 etcd.value AS timeline_value
 FROM ELECTION e
-	INNER JOIN ELECTION_TIMELINE_CONFIG_DATA etcd ON e.ID = etcd.ELECTION_ID
-	INNER JOIN ELECTION_TIMELINE_CONFIG etc ON etc.ID = etcd.ELECTION_TIMELINE_CONFIG_ID
-WHERE e.ID = :id`
+	LEFT JOIN ELECTION_TIMELINE_CONFIG_DATA etcd ON e.ID = etcd.ELECTION_ID
+	LEFT JOIN ELECTION_TIMELINE_CONFIG etc ON etc.ID = etcd.ELECTION_TIMELINE_CONFIG_ID
+WHERE e.ID = :id`;
 
 const getbyIdWithTimelineData = (electionId) => {
 	const params = { id: electionId };
