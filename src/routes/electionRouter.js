@@ -14,12 +14,6 @@ export const initElectionRouter = (app) => {
 			path: '/elections/:electionId',
 			schema: GET_ELECTION_BY_ID_SCHEME,
 			handler: (req, res, next) => {
-				// return ElectionService.getElectionById(req)
-				// 	.then((result) => res.status(200).send(result))
-				// 	.catch( (error) => {
-				// 		throw error;
-				// 		// chanage the caught error to a defined error
-				// 	});
 				return ElectionService.getElectionByIdWithTimelineData(req)
 					.then( (result) => res.status(200).send(result))
 					.catch( error => next(error));

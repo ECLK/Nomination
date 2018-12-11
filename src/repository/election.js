@@ -1,24 +1,6 @@
 import { DBError } from 'Errors';
 import { DbConnection } from './dataSource';
 
-const ELECTION_SELECT_QUERY = `SELECT 
-ID AS election_id,
-NAME AS election_name,
-MODULE_ID AS election_module_id
-FROM ELECTION
-WHERE ID = :id`;
-
-const fetchElectionById = (electionId) => {
-	const params = { id: electionId };
-	return DbConnection()
-		.query(ELECTION_SELECT_QUERY, {
-			replacements: params,
-			type: DbConnection().QueryTypes.SELECT,
-		}).catch((error) => {
-			throw new DBError(error);
-		});
-};
-
 
 const ELECTION_WITH_TIMELINE_SELECT_QUERY = `SELECT 
 e.ID AS election_id,
@@ -46,6 +28,5 @@ const fetchElectionByIdWithTimelineData = (electionId) => {
 
 
 export default {
-	fetchElectionById,
 	fetchElectionByIdWithTimelineData,
 }

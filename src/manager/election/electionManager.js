@@ -18,17 +18,6 @@ const resultMaps = [
 	}
 ];
 
-
-// const mapToElectionModel = (election) => {
-// 	const mappedElection = joinjs.map(election, resultMaps, 'electionMap', 'election_');
-
-// 	return Election({
-// 		id: mappedElection[0].id,
-// 		name: mappedElection[0].name,
-// 		moduleId: mappedElection[0].module_id,
-// 	});
-// };
-
 const mapToElectionModelWithTimeline = (electionData) => {
 	const mappedElection = joinjs.map(electionData, resultMaps, 'electionMap', 'election_');
 
@@ -41,6 +30,5 @@ const mapToElectionModelWithTimeline = (electionData) => {
 }
 
 export default {
-	// mapToElectionModel,
 	mapToElectionModelWithTimeline,
 };
