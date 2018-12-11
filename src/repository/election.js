@@ -1,6 +1,5 @@
 import { DBError } from 'Errors';
 import { DbConnection } from './dataSource';
-import { formatQueryToBulkInsert, formatDataToBulkInsert } from './sqlHelper';
 
 const ELECTION_SELECT_QUERY = `SELECT 
 ID AS election_id,
@@ -9,7 +8,7 @@ MODULE_ID AS election_module_id
 FROM ELECTION
 WHERE ID = :id`;
 
-const getbyId = (electionId) => {
+const fetchElectionById = (electionId) => {
 	const params = { id: electionId };
 	return DbConnection()
 		.query(ELECTION_SELECT_QUERY, {
@@ -24,7 +23,7 @@ const getbyId = (electionId) => {
 const ELECTION_WITH_TIMELINE_SELECT_QUERY = `SELECT 
 e.ID AS election_id,
 e.NAME AS election_name,
-e.MODULE_ID AS election_module,
+e.MODULE_ID AS election_module_id,
 etc.KEY_NAME AS timeline_key,
 etcd.value AS timeline_value
 FROM ELECTION e
@@ -32,7 +31,8 @@ FROM ELECTION e
 	LEFT JOIN ELECTION_TIMELINE_CONFIG etc ON etc.ID = etcd.ELECTION_TIMELINE_CONFIG_ID
 WHERE e.ID = :id`;
 
-const getbyIdWithTimelineData = (electionId) => {
+const fetchElectionByIdWithTimelineData = (electionId) => {
+
 	const params = { id: electionId };
 	return DbConnection()
 		.query(ELECTION_WITH_TIMELINE_SELECT_QUERY, {
@@ -46,6 +46,6 @@ const getbyIdWithTimelineData = (electionId) => {
 
 
 export default {
-	getbyId,
-	getbyIdWithTimelineData,
+	fetchElectionById,
+	fetchElectionByIdWithTimelineData,
 }

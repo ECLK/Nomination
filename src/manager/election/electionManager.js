@@ -19,30 +19,28 @@ const resultMaps = [
 ];
 
 
-const mapToElectionModel = (election) => {
-	const mappedElection = joinjs.map(election, resultMaps, 'electionMap', 'election_');
+// const mapToElectionModel = (election) => {
+// 	const mappedElection = joinjs.map(election, resultMaps, 'electionMap', 'election_');
 
-	//just an example how to convert row data object to Model
+// 	return Election({
+// 		id: mappedElection[0].id,
+// 		name: mappedElection[0].name,
+// 		moduleId: mappedElection[0].module_id,
+// 	});
+// };
+
+const mapToElectionModelWithTimeline = (electionData) => {
+	const mappedElection = joinjs.map(electionData, resultMaps, 'electionMap', 'election_');
+
 	return Election({
 		id: mappedElection[0].id,
 		name: mappedElection[0].name,
-		module_id: mappedElection[0].module_id,
+		moduleId: mappedElection[0].module_id,
+		electionTimeLine: mappedElection[0].timeline,
 	});
-};
-
-const mapToElectionModelWithTimeline = (election) => {
-	const mappedElection = joinjs.map(election, resultMaps, 'electionMap', 'election_');
-
-	//just an example how to convert row data object to Model
-	// return Election({
-	// 	id: mappedElection[0].id,
-	// 	name: mappedElection[0].name,
-	// 	module_id: mappedElection[0].module_id,
-	// });
-	return mappedElection[0];
 }
 
 export default {
-	mapToElectionModel,
+	// mapToElectionModel,
 	mapToElectionModelWithTimeline,
 };

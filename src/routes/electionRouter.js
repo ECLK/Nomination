@@ -20,7 +20,7 @@ export const initElectionRouter = (app) => {
 				// 		throw error;
 				// 		// chanage the caught error to a defined error
 				// 	});
-				return ElectionService.getElectionWithTimelineById(req)
+				return ElectionService.getElectionByIdWithTimelineData(req)
 					.then( (result) => res.status(200).send(result))
 					.catch( error => next(error));
 			},

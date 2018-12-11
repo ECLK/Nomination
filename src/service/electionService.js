@@ -4,24 +4,25 @@ import ElectionRepo from '../repository/Election';
 import {ElectionManager}  from 'Managers';
 
 
-const getElectionById = async (req) => {
-    try {
-        const id = req.params.electionId;
-        const election = await ElectionRepo.getbyId(id);
-        if (!_.isEmpty(election)){
-            return ElectionManager.mapToElectionModel(election);
-        } else {
-            throw new ApiError("Election not found");
-        }
-    } catch (error) {
-        throw error;
-    }
-}
+// const getElectionById = async (req) => {
+//     try {
+//         const id = req.params.electionId;
+//         const election = await ElectionRepo.fetchElectionById(id);
+//         if (!_.isEmpty(election)){
+//             return ElectionManager.mapToElectionModel(election);
+//         } else {
+//             throw new ApiError("Election not found");
+//         }
+//     } catch (error) {
+//         throw error;
+//     }
+// }
 
-const getElectionWithTimelineById = async (req) => {
+const getElectionByIdWithTimelineData = async (req) => {
+
     try {
         const id = req.params.electionId;
-        const election = await ElectionRepo.getbyIdWithTimelineData(id);
+        const election = await ElectionRepo.fetchElectionByIdWithTimelineData(id);
         if(!_.isEmpty(election)){
             return ElectionManager.mapToElectionModelWithTimeline(election);
         } else {
@@ -33,6 +34,6 @@ const getElectionWithTimelineById = async (req) => {
 }
 
 export default {
-    getElectionById,
-    getElectionWithTimelineById,
+    // getElectionById,
+    getElectionByIdWithTimelineData,
 }
