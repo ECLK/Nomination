@@ -221,6 +221,7 @@ CREATE TABLE IF NOT EXISTS OBJECTION(
     DESCRIPTION TEXT,
     CREATE_DATE BIGINT,
     CREATED_BY VARCHAR(100),
+    CREATED_BY_TEAM_ID VARCHAR(36),
     
     NOMINATION_ID VARCHAR(36),
     FOREIGN KEY (NOMINATION_ID) REFERENCES NOMINATION(ID) ON UPDATE CASCADE ON DELETE RESTRICT
@@ -469,22 +470,22 @@ VALUES
 ('ed7e455c-eb95-4ccc-b090-32c1616c6d0c', 'REJECT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', 'f15ae97b-8e95-4f38-93d9-fb97fabdcf22'),
 ('c1313d6d-bac3-48f6-afd7-ce7899f1714a', 'SUBMIT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '7740f20e-363f-4e10-bc1f-a67d2b9cfecd'),
 ('07d4d5d9-fd83-473f-836c-a5a565d75ed1', 'SUBMIT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '1a29913e-3bc4-4a48-a35e-88f8a874e623'),
-('358f0d3c-5632-4046-9abb-f0aeab5bfe9e', 'DRAFT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '16ab500d-31b1-4176-bfa3-42e766e9d691'),
+('358f0d3c-5632-4046-9abb-f0aeab5bfe9e', 'DRAFT', '62fcdfa7-3c5a-405f-b344-79089131dd8e', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '16ab500d-31b1-4176-bfa3-42e766e9d691'),
 
 -- nominations for presidential election and 2 teams
 ('6fb66fbb-acd2-4b2e-94ac-12bee6468f5f', 'DRAFT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33'),
 ('7db3d4ba-c8a0-4340-8d6e-2d9096de7d2e', 'DRAFT', '62fcdfa7-3c5a-405f-b344-79089131dd8e', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33');
 
 INSERT INTO OBJECTION
-	(ID, DESCRIPTION, CREATE_DATE, CREATED_BY, NOMINATION_ID)
+	(ID, DESCRIPTION, CREATE_DATE, CREATED_BY, CREATED_BY_TEAM_ID, NOMINATION_ID)
 VALUES
 -- objections for praliamentary election nominations
-('417c0d5d-d417-4333-b334-56d40f725c8a', 'Objection Description 1', 1550342328, 'UsernameFromIS-1', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
-('1ecbc3f5-7802-483b-9ff4-61dd4cbc7e91', 'Objection Description 2', 1550428728, 'UsernameFromIS-2', 'a0e4a9c9-4841-45df-9600-f7a607400ab6'),
-('36f6062e-356a-4d14-84c6-2da68c962287', 'Objection Description 3', 1587148728, 'UsernameFromIS-3', 'ed7e455c-eb95-4ccc-b090-32c1616c6d0c'),
+('417c0d5d-d417-4333-b334-56d40f725c8a', 'Objection Description 1', 1550342328, 'UsernameFromIS-1', '62fcdfa7-3c5a-405f-b344-79089131dd8e', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('1ecbc3f5-7802-483b-9ff4-61dd4cbc7e91', 'Objection Description 2', 1550428728, 'UsernameFromIS-1', '62fcdfa7-3c5a-405f-b344-79089131dd8e', 'a0e4a9c9-4841-45df-9600-f7a607400ab6'),
+('36f6062e-356a-4d14-84c6-2da68c962287', 'Objection Description 3', 1587148728, 'UsernameFromIS-3', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '358f0d3c-5632-4046-9abb-f0aeab5bfe9e'),
 
 -- objections for presidential election nominations
-('27a74411-ed86-484b-9904-7146183135dc', 'Objection Description 4', 1587235128, 'UsernameFromIS-4', '6fb66fbb-acd2-4b2e-94ac-12bee6468f5f');
+('27a74411-ed86-484b-9904-7146183135dc', 'Objection Description 4', 1587235128, 'UsernameFromIS-4', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '7db3d4ba-c8a0-4340-8d6e-2d9096de7d2e');
 
 INSERT INTO OBJECTION_REVIEW
 	(ID, CREATE_BY, CREATE_DATE, NOTE, OBJECTION_ID)
