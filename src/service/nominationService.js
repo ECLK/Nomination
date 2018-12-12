@@ -1,4 +1,7 @@
+import _ from 'lodash';
+import { ServerError , ApiError } from 'Errors';
 import Nomination from '../repository/nomination';
+import {NominationManager} from 'Managers';
 
 const getNominationByTeamId = async (req) => {
     const team_id = req.params.team_id;
@@ -6,19 +9,22 @@ const getNominationByTeamId = async (req) => {
     return Nomination.fetchNominationByTeam(team_id, election_id);
 };
 
-// const updateNominationCandidates = async (req) => {
-//     const candidate_id = req.body.candidate_id;
-//     const nic = req.body.nic;
-//     const name = req.body.name;
-//     const occupation = req.body.occupation;
-//     const address = req.body.address;
-//     const nomination_id = req.body.nomination_id;
-//     return Candidate.UpdateCandidate(candidate_id, nic, name, occupation, address, nomination_id);
-//     //const name = req.body.name;
-//     //return User.createUser( id, name);
-// };
+const getNominationByStatusApprove = async (req) => {
+    try {
+        const team_id = req.params.teamId;
+        const election_id = req.params.electionId;
+        const nomination = Nomination.fetchNominationByStatusApprove(election_id, team_id);
+        if(!_.isEmpty(nomination)){
+            // TODO: incomplete
+            return nomination;
+        }
+    } catch (error) {
+        throw new ServerError("Server error", HTTP_CODE_404);
+    }
+}
 
 
 export default {
     getNominationByTeamId,
+    getNominationByStatusApprove,
 }
