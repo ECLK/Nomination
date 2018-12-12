@@ -9,7 +9,7 @@ t.FAX as team_fax,
 t.NAME_OF_AUTHORIZED_MEMBER as team_name_of_authorized_member,
 t.ADDRESS_OF_AUTHORIZED_MEMBER as team_address_of_authorized_member,
 cn.ID as contact_id,
-cn.CONTACT_NO as contact_no
+cn.CONTACT_NO as contact_number
 FROM TEAM t
 	LEFT JOIN CONTACT_NUMBER cn on t.ID = cn.TEAM_ID
 WHERE t.ID = :team_id`;
