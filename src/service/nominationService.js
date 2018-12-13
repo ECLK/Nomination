@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import { ServerError , ApiError } from 'Errors';
 import Nomination from '../repository/nomination';
-import {NominationManager} from 'Managers';
+import { NominationManager } from 'Managers';
+import { ServerError, ApiError } from 'Errors';
 
 const getNominationByTeamId = async (req) => {
     const team_id = req.params.team_id;
@@ -9,16 +9,19 @@ const getNominationByTeamId = async (req) => {
     return Nomination.fetchNominationByTeam(team_id, election_id);
 };
 
-const getNominationByStatusApprove = async (req) => {
+const getNominationByStatus = async (req) => {
     try {
         const team_id = req.params.teamId;
         const election_id = req.params.electionId;
-        const nomination = Nomination.fetchNominationByStatusApprove(election_id, team_id);
+        const status = String(req.params.status).toUpperCase();
+        const nomination = await Nomination.fetchNominationByStatus(election_id, team_id, status);
         if(!_.isEmpty(nomination)){
-            // TODO: incomplete
-            return nomination;
+            return NominationManager.mapToNominationModel(nomination);
+        } else {
+            throw new ApiError("Election not found");
         }
     } catch (error) {
+        console.log(error);
         throw new ServerError("Server error", HTTP_CODE_404);
     }
 }
@@ -26,5 +29,5 @@ const getNominationByStatusApprove = async (req) => {
 
 export default {
     getNominationByTeamId,
-    getNominationByStatusApprove,
-}
+    getNominationByStatus,
+};

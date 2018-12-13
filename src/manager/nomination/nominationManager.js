@@ -1,12 +1,26 @@
-import {Nomination} from 'Models';
+import { Nomination } from 'Models';
 var joinjs = require('join-js').default;
-
-// TODO: CLEMENT - INCOMPLETE NOMINATION MANAGER
 
 const resultMaps = [
     {
         mapId: 'nominationMap',
         idProperty: 'id',
-        properties: ['id', 'status', 'team_id', 'election_id']
+        properties: ['status', 'team_id', 'election_id', 'division_config_data_id']
     }
-]
+];
+
+const mapToNominationModel = (nominationData) => {
+    const mappedNominations = joinjs.map(nominationData, resultMaps, 'nominationMap', 'nomination_');
+
+    return Nomination({
+        id: mappedNominations[0].id,
+        status: mappedNominations[0].status,
+        teamId: mappedNominations[0].team_id,
+        electionId: mappedNominations[0].election_id,
+        divisionConfigDataId: mappedNominations[0].division_config_data_id,
+    });
+};
+
+export default {
+    mapToNominationModel,
+};
