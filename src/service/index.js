@@ -4,6 +4,7 @@ import PaymentService from './paymentService';
 import CandidateService from './candiateService';
 import TeamService from './teamService';
 import ElectionService from './electionService';
+import DivisionService from './divisionService';
 
 export {
   UserService,
@@ -12,4 +13,5 @@ export {
   CandidateService,
   TeamService,
   ElectionService,
+  DivisionService,
 }

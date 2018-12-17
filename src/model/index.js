@@ -4,6 +4,7 @@ import { Candidate} from './Candidate';
 import {Payment} from './Payment';
 import {Election} from './Election';
 import {Nomination} from './Nomination';
+import { Division } from './Division';
 
 export {
   User,
@@ -12,4 +13,5 @@ export {
   Team,
   Election,
   Nomination,
+  Division,
 };
