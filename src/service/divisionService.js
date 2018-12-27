@@ -3,14 +3,37 @@ import { ServerError } from 'Errors';
 import DivisionRepo from '../repository/Division';
 import { DivisionManager } from 'Managers';
 
-
+/**
+ * Get division list by election 
+ * @param {*} req 
+ */
 const getDivisionsByElectionId = async(req) => {
     try {
         const electionId = req.params.electionId;
         const divisions = await DivisionRepo.fetchDivisionsByElectionId(electionId);
         if (!_.isEmpty(divisions)){
             return DivisionManager.mapToDivisionModel(divisions);
+        } else {
+            throw new ApiError("Divisions not found");
+        }
+    } catch (error) {
+        console.log(error);
+        throw new ServerError("Server Error", HTTP_CODE_404);
+    }
+}
+
+/**
+ * Get eligible division list with nominations for particular election and team
+ * @param {*} req 
+ */
+const getDivisionsWithNomination = async (req) => {
+    try {
+        const electionId = req.params.electionId;
+        const teamId = req.params.teamId;
+        const divisions = await DivisionRepo.fetchDivisionsWithNomination(electionId, teamId);
+        if(!_.isEmpty(divisions)){
             // return divisions;
+            return DivisionManager.mapToDivisionModelWithNominations(divisions);
         } else {
             throw new ApiError("Divisions not found");
         }
@@ -22,4 +45,5 @@ const getDivisionsByElectionId = async(req) => {
 
 export default {
     getDivisionsByElectionId,
+    getDivisionsWithNomination,
 }

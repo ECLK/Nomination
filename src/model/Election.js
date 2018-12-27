@@ -1,5 +1,5 @@
 
-import {Record, List} from 'typed-immutable';
+import { Record, List } from 'typed-immutable';
 
 const ElectionTimeLine = Record({
   key: String(),

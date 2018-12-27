@@ -20,8 +20,7 @@ export const initElectionRouter = (app) => {
 			},
 		},
 		{
-			//todo: create sub endpoint for division for the following endpoint
-			// eg:- http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/teams/5eedb70e-a4da-48e0-b971-e06cd19ecc70/nominations/approve
+			// dev test:- http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/teams/5eedb70e-a4da-48e0-b971-e06cd19ecc70/nominations/approve
 			method: GET,
 			path: '/elections/:electionId/teams/:teamId/nominations/:status',
 			schema: {},
@@ -32,7 +31,7 @@ export const initElectionRouter = (app) => {
 			},
 		},
 		{
-			// eg:- http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/divisions/
+			// dev test: http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/divisions/
 			method: GET,
 			path: '/elections/:electionId/divisions/',
 			schema: {},
@@ -42,14 +41,16 @@ export const initElectionRouter = (app) => {
 					.catch(error => next(error));
 			},
 		},
-		// {
-		// 	//
-		// 	method: GET,
-		// 	path: '/elections/:electionId/nominations/',
-		// 	schema: {},
-		// 	handler: (req, res, next) => {
-		// 		return 
-		// 	}
-		// }
+		{
+			// dev test: http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/teams/5eedb70e-a4da-48e0-b971-e06cd19ecc70/nominations
+			method: GET,
+			path: '/elections/:electionId/teams/:teamId/nominations',
+			schema: {},
+			handler: (req, res, next) => {
+				return DivisionService.getDivisionsWithNomination(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			},
+		},
 	]);
 };
