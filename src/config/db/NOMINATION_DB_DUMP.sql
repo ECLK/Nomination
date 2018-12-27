@@ -1,5 +1,5 @@
 --
--- NOMINATION V2.5.3
+-- NOMINATION V2.6.0
 --
 DROP DATABASE IF EXISTS EC_NOMINATION;
 
@@ -19,8 +19,8 @@ USE EC_NOMINATION;
 -- election_module file to maintain election types
 CREATE TABLE IF NOT EXISTS ELECTION_MODULE(
     ID VARCHAR(36) PRIMARY KEY,
-    NAME VARCHAR(100) NOT NULL, /* eg: 'parliamentary', 'provincial' */
-    DIVISION_COMMON_NAME VARCHAR(20) /* eg: 'district', 'province' */
+    NAME VARCHAR(100) NOT NULL, 		/* eg: [1]'parliamentary', 'provincial' */
+    DIVISION_COMMON_NAME VARCHAR(20) 	/* eg: [1]'district', 'province' */
 )ENGINE=INNODB;
 
 -- manage approval status of election module
@@ -205,15 +205,19 @@ CREATE TABLE IF NOT EXISTS NOMINATION_APPROVAL(
     FOREIGN KEY (NOMINATION_ID) REFERENCES NOMINATION(ID) ON UPDATE CASCADE ON DELETE RESTRICT
 )ENGINE=INNODB;
 
--- nomination allowed roles like 'RPP', 'IG'
-CREATE TABLE IF NOT EXISTS NOMINATION_ALLOWED_ROLE(
+-- nomination allowed teams
+CREATE TABLE IF NOT EXISTS NOMINATION_ALLOWED_TEAM(
     ID VARCHAR(36) PRIMARY KEY,
-    -- NAME: 'RPP', 'IG'
-    NAME VARCHAR(200) NOT NULL,
     SELECT_FLAG BOOLEAN DEFAULT FALSE,
     
-    MODULE_ID VARCHAR(36),
-    FOREIGN KEY(MODULE_ID) REFERENCES ELECTION_MODULE(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+    -- TEAM ID is taken from Team MicroService
+	TEAM_ID VARCHAR(36),
+	
+	DIVISION_ID VARCHAR(36),
+	FOREIGN KEY (DIVISION_ID) REFERENCES DIVISION_CONFIG(ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+	
+    ELECTION_ID VARCHAR(36),
+    FOREIGN KEY(ELECTION_ID) REFERENCES ELECTION(ID) ON UPDATE CASCADE ON DELETE RESTRICT
 )ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS OBJECTION(
@@ -349,7 +353,8 @@ INSERT INTO ELECTION_MODULE
 	(ID, NAME, DIVISION_COMMON_NAME) 
 VALUES 
 ('455cd89e-269b-4b69-96ce-8d7c7bf44ac2', 'parliamentary', 'DISTRICT'),
-('7404a229-6274-43d0-b3c5-740c3c2e1256', 'presidential', 'ALL');
+('7404a229-6274-43d0-b3c5-740c3c2e1256', 'presidential', 'ALL'),
+('27757873-ed40-49f7-947b-48b432a1b062', 'provincial', 'PROVINCE');
 
 INSERT INTO SUPPORT_DOC_CONFIG
 	(ID, KEY_NAME, DESCRIPTION, DOC_CATEGORY)
@@ -378,7 +383,10 @@ VALUES
 ('43680f3e-97ac-4257-b27a-5f3b452da2e6', 'Parliamentary Election 2019', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
 
 -- presidentail
-('9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'Presidentail Election 2020', '7404a229-6274-43d0-b3c5-740c3c2e1256');
+('9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'Presidentail Election 2020', '7404a229-6274-43d0-b3c5-740c3c2e1256'),
+
+-- provincial
+('293d67ea-5898-436d-90d9-27177387be6a', 'Provincial Election 2019', '27757873-ed40-49f7-947b-48b432a1b062');
 
 /*
 INSERT INTO ELECTION_APPROVAL 
@@ -386,6 +394,7 @@ INSERT INTO ELECTION_APPROVAL
 VALUES
 ()
 */
+
 
 INSERT INTO ELECTION_TIMELINE_CONFIG 
 	(ID, KEY_NAME, DESCRIPTION)
@@ -413,7 +422,7 @@ VALUES
 INSERT INTO DIVISION_CONFIG 
 	(ID, NAME, CODE, NO_OF_CANDIDATES, MODULE_ID) 
 VALUES
--- divisions for parliamentary ('455cd89e-269b-4b69-96ce-8d7c7bf44ac2') therefore possible district names
+-- divisions for parliamentary ('455cd89e-269b-4b69-96ce-8d7c7bf44ac2') therefore all possible districts available here..
 ('65fa860e-2928-4602-9b1e-2a7cb09ea83e', 'Colombo', '1', 22, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
 ('21b9752f-8641-40c3-8205-39a612bf5244', 'Gampaha', '2', 21, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
 ('c9c710e6-cf9c-496c-9b53-2fce36598ea1', 'Kaluthara', '3', 13, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
@@ -437,7 +446,7 @@ VALUES
 ('9c2a87ca-1a5e-425b-9965-a2b7e469f647', 'Ratnapura', '21', 14, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
 ('f0cbfece-4c96-44ac-b493-f10a45753229', 'Kegalle', '22', 12, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
 
--- divisions for presidential module ('7404a229-6274-43d0-b3c5-740c3c2e1256')
+-- divisions for presidential module ('7404a229-6274-43d0-b3c5-740c3c2e1256') therefore there will be only one division as 'all-island'
 ('f04e4732-83c3-4444-a706-78b3928afd33', 'Island-wide', '00A', 1, '7404a229-6274-43d0-b3c5-740c3c2e1256');
 
 INSERT INTO DIVISION_CONFIG_DATA
@@ -460,20 +469,42 @@ VALUES
 ('9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33', TRUE);
 
 
+INSERT INTO NOMINATION_ALLOWED_TEAM
+	(ID, SELECT_FLAG, TEAM_ID, DIVISION_ID, ELECTION_ID)
+VALUES
+-- parliamentary election 2019 / team: '5eedb70e-a4da-48e0-b971-e06cd19ecc70'
+('4ae73202-6202-4529-a94b-6e69066b951f', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '65fa860e-2928-4602-9b1e-2a7cb09ea83e', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- colombo
+('22f90f10-9da1-4eb0-985a-7ab0f1357c1f', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '21b9752f-8641-40c3-8205-39a612bf5244', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- gampaha
+('32daa158-821a-4e82-8a7a-57f9b5a4a7ed', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', 'c9c710e6-cf9c-496c-9b53-2fce36598ea1', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- kaluthara
+('e3787269-d098-43a9-9a1f-fe122032f2af', FALSE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', 'f15ae97b-8e95-4f38-93d9-fb97fabdcf22', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- kandy
+('8ee18f45-5364-411f-9515-3e1ccdd20085', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '3ab3cf77-a468-41a8-821a-8aa6f38222ad', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- matale
+('6b60d7fd-1cd8-4531-a0ae-74ef225e8f5f', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '437bd796-597f-4d9e-9b09-874ecded15bf', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- nuwaraeliya
+('b7ee6f99-fb03-4560-a550-a61d72590427', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '44424777-9888-44cb-90ed-f4742e687ca6', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- galle
+('af9db0d6-0be6-4ac4-9278-790dc3a18f5c', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', 'e6af28f3-c12e-4202-bc4a-883895db0c4d', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- matara
+('f1e425d1-499f-448e-9511-39d0bfa2d3c7', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', 'ea950ed0-525a-4f6e-bb7a-478e36983d90', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- hambantota
+('4bbef7d1-1623-4c57-bba0-f42a310629d5', FALSE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '7740f20e-363f-4e10-bc1f-a67d2b9cfecd', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- jaffna
+('98e562db-6b83-475d-acad-e6dee611f094', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '561f4c0b-e278-496d-a740-f1dd7c1f4f70', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- vanni
+
+-- parliamentary election 2019 / team: '7404a229-6274-43d0-b3c5-740c3c2e1256'
+('65bb2670-23eb-45a9-9f19-2ba25c94c850', TRUE, '7404a229-6274-43d0-b3c5-740c3c2e1256', '65fa860e-2928-4602-9b1e-2a7cb09ea83e', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- colombo
+('eb8b4ffe-1fdf-4c79-978e-4adcc6b79b1b', TRUE, '7404a229-6274-43d0-b3c5-740c3c2e1256', '21b9752f-8641-40c3-8205-39a612bf5244', '43680f3e-97ac-4257-b27a-5f3b452da2e6'); -- gampaha
+
+
+
 INSERT INTO NOMINATION
 	(ID, STATUS, TEAM_ID, ELECTION_ID, DIVISION_CONFIG_DATA_ID)
 VALUES
 -- nominations for parlimentary election and team ('5eedb70e-a4da-48e0-b971-e06cd19ecc70')
-('135183e2-a0ca-44a0-9577-0d2b16c3217f', 'DRAFT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '65fa860e-2928-4602-9b1e-2a7cb09ea83e'),
+('135183e2-a0ca-44a0-9577-0d2b16c3217f', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '65fa860e-2928-4602-9b1e-2a7cb09ea83e'),
 ('416e0c20-b274-4cf2-9531-8167d2f35bf7', 'DRAFT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '21b9752f-8641-40c3-8205-39a612bf5244'),
 ('a0e4a9c9-4841-45df-9600-f7a607400ab6', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', 'c9c710e6-cf9c-496c-9b53-2fce36598ea1'),
 ('ed7e455c-eb95-4ccc-b090-32c1616c6d0c', 'REJECT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', 'f15ae97b-8e95-4f38-93d9-fb97fabdcf22'),
-('c1313d6d-bac3-48f6-afd7-ce7899f1714a', 'SUBMIT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '7740f20e-363f-4e10-bc1f-a67d2b9cfecd'),
-('07d4d5d9-fd83-473f-836c-a5a565d75ed1', 'SUBMIT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '1a29913e-3bc4-4a48-a35e-88f8a874e623'),
-('358f0d3c-5632-4046-9abb-f0aeab5bfe9e', 'DRAFT', '62fcdfa7-3c5a-405f-b344-79089131dd8e', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '16ab500d-31b1-4176-bfa3-42e766e9d691'),
+('c1313d6d-bac3-48f6-afd7-ce7899f1714a', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '7740f20e-363f-4e10-bc1f-a67d2b9cfecd'),
+('07d4d5d9-fd83-473f-836c-a5a565d75ed1', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '1a29913e-3bc4-4a48-a35e-88f8a874e623'),
+('358f0d3c-5632-4046-9abb-f0aeab5bfe9e', 'APPROVE', '62fcdfa7-3c5a-405f-b344-79089131dd8e', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '16ab500d-31b1-4176-bfa3-42e766e9d691'),
 
 -- nominations for presidential election and 2 teams
-('6fb66fbb-acd2-4b2e-94ac-12bee6468f5f', 'DRAFT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33'),
+('6fb66fbb-acd2-4b2e-94ac-12bee6468f5f', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33'),
 ('7db3d4ba-c8a0-4340-8d6e-2d9096de7d2e', 'DRAFT', '62fcdfa7-3c5a-405f-b344-79089131dd8e', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33');
 
 INSERT INTO OBJECTION
