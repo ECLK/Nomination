@@ -8,5 +8,5 @@ export const Division = Record({
     moduleId: String(),
     electionId: String(),
     configId: String(),
-    status: String(),
+    status: Number(),
 });
