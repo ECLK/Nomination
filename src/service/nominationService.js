@@ -9,6 +9,10 @@ const getNominationByTeamId = async (req) => {
     return Nomination.fetchNominationByTeam(team_id, election_id);
 };
 
+/**
+ * Method to get list of nominations for particular team under particular election
+ * @param {teamId, electionId, status} req 
+ */
 const getNominationByStatus = async (req) => {
     try {
         const team_id = req.params.teamId;
@@ -25,6 +29,9 @@ const getNominationByStatus = async (req) => {
         throw new ServerError("Server error", HTTP_CODE_404);
     }
 }
+
+
+// const getNominationsByElectionId = async (req) => 
 
 
 export default {

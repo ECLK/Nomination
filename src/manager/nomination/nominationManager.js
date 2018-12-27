@@ -1,6 +1,7 @@
 import { Nomination } from 'Models';
 var joinjs = require('join-js').default;
-const { Map, List } = require('immutable');
+import {List} from 'typed-immutable';
+import _ from 'lodash';
 
 const resultMaps = [
     {
@@ -13,15 +14,16 @@ const resultMaps = [
 const mapToNominationModel = (nominationData) => {
     const mappedNominations = joinjs.map(nominationData, resultMaps, 'nominationMap', 'nomination_');
 
-    // return Nomination({
-    //     id: mappedNominations[0].id,
-    //     status: mappedNominations[0].status,
-    //     teamId: mappedNominations[0].team_id,
-    //     electionId: mappedNominations[0].election_id,
-    //     divisionConfigDataId: mappedNominations[0].division_config_data_id,
-    // });
+    return _.reduce(mappedNominations, function(result, nomination) {
+        return result.push({
+            id: nomination.id,
+            status: nomination.status,
+            teamId: nomination.team_id,
+            electionId: nomination.election_id,
+            divisionConfigDataId: nomination.division_config_data_id,
+        });
+      },List(Nomination)());
     
-    return mappedNominations;
 
 };
 
