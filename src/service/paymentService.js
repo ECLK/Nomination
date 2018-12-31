@@ -1,8 +1,12 @@
 import _ from 'lodash';
+import { ServerError , ApiError } from 'Errors';
 import Payment from '../repository/payment';
 import PaymentRepo from '../repository/payment';
 import {PaymentManager}  from 'Managers';
+import {NominationService} from 'Service';
+import {HTTP_CODE_404,HTTP_CODE_204} from '../routes/constants/HttpCodes';
 const uuidv4 = require('uuid/v4');
+
 
 //******************* Party Secratary End points ****************************
 
@@ -10,11 +14,12 @@ const uuidv4 = require('uuid/v4');
 const getPaymentByNominationId = async (req) => {
   try {
     const nominationId = req.params.nominationId;
-    const payments = await PaymentRepo.getByNominationId( nominationId );
+    await NominationService.validateNominationId( nominationId );
+    const payments = await PaymentRepo.fetchPaymentsByNominationId( nominationId );
     if(!_.isEmpty(payments)){
       return PaymentManager.mapToPaymentModel(payments)
     }else {
-      throw new ApiError("Payment not found");
+      throw new ApiError("Payment not found",HTTP_CODE_404);
     }
   }catch (e){
     throw new ServerError("server error");
@@ -36,17 +41,12 @@ const createPaymentByNominationId = async (req) => {
     const filePath = req.body.filePath;
     const status = req.body.status;
     const nominationId = req.body.nominationId;
+    await NominationService.validateNominationId( nominationId );//TODO: yujith,re check this function
     const paymentData = {'id':id, 'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'nominationId':nominationId, 'status':status};
-    payments = await PaymentRepo.createPayment( paymentData );
-    // if(!_.isEmpty(payments)){
-    //   return "Payment Succesfull!"
-    // }else {
-    //   throw new ApiError("Payment Unsuccesfull!");
-    // }
+    return await PaymentRepo.createPayment( paymentData );
   }catch (e){
     throw new ServerError("server error");
   }
-
 };
 
 //Update payment details for a particular nomination
@@ -58,12 +58,7 @@ const updatePaymentByNominationId = async (req) => {
     const filePath = req.body.filePath;
     const nominationId = req.params.nominationId;
     const paymentData = {'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'nominationId':nominationId};
-    const payment = Payment.updatePaymentCommons(paymentData);
-    if(!_.isEmpty(payment)){
-      return "Update Succesfull!"
-    }else {
-      throw new ApiError("Update Unsuccesfull!");
-    }
+    return Payment.updatePaymentCommons(paymentData);
   }catch (e){
     throw new ServerError("server error");
   }

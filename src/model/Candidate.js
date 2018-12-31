@@ -3,13 +3,15 @@ import {Record} from 'typed-immutable';
 
 export const Candidate =  Record({
   id: String(),
-  fullName: String(),
-  occupation: String(),
-  electoralDivisionName: String(),
-  electoralDivisionCode: String(),
   nic: String(),
+  fullName: String(),
+  preferredName: String(),
   dateOfBirth: Number(),
   gender: String(),
+  occupation: String(),
   address: String(),
-  nominationId: String()
+  electoralDivisionName: String(),
+  electoralDivisionCode: String(),
+  // counsilName: String(),
+  // nominationId: String()
 });

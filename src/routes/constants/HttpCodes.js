@@ -1,6 +1,6 @@
-export const HTTP_CODE_200 = 200;
-export const HTTP_CODE_201 = 201;
-export const HTTP_CODE_204 = 204;
+export const HTTP_CODE_200 = 200;//update
+export const HTTP_CODE_201 = 201;//Created
+export const HTTP_CODE_204 = 204;//content not found
 export const HTTP_CODE_301 = 301;
 export const HTTP_CODE_304 = 304;
 export const HTTP_CODE_400 = 400;

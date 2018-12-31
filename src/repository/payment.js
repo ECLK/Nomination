@@ -34,7 +34,7 @@ const getAll = () => {
       });
 };
 
-const getByNominationId = (nominationId) => {
+const fetchPaymentsByNominationId = (nominationId) => {
   const params = { id: nominationId };
   return DbConnection()
     .query(PAYMENT_SELECT_QUERY_BY_NOMINATION_ID,
@@ -102,7 +102,7 @@ const updatePaymentCommons = (paymentData) => {
 
 export default {
   getAll,
-  getByNominationId,
+  fetchPaymentsByNominationId,
   updateStatusByNominationId,
   createPayment,
   updatePaymentCommons,

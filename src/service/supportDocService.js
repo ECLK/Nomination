@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { ServerError , ApiError } from 'Errors';
 import SupportDocRepo from '../repository/supportdoc';
 import {SupportDocManager}  from 'Managers'
+import {HTTP_CODE_404} from '../routes/constants/HttpCodes';
 const uuidv4 = require('uuid/v4');
 
 
@@ -11,11 +12,11 @@ const getsupportDocsByNominationId = async (req) => {
     try {
       const nominationId = req.params.nominationId;
       const supportDocs = await SupportDocRepo.getSupportDocByNomination( nominationId );
-
+console.log("=============",supportDocs);
       if(!_.isEmpty(supportDocs)){
         return SupportDocManager.mapToSupportDocModel(supportDocs)
       }else {
-        throw new ApiError("Support Documents found");
+        throw new ApiError("Support Documents not found",HTTP_CODE_404);
       }
     }catch (e){
       throw new ServerError("server error");
@@ -26,35 +27,49 @@ const getsupportDocsByNominationId = async (req) => {
 //Save support documents for a particuler nomination
 const saveSupportDocsByNominationId = async (req) => {
   try {
-    const id = uuidv4();
-    const supportDocConfDataId = req.body.supportDocConfDataId;
-    const filePath = req.body.filePath;
-    const nominationId = req.body.nominationId;
-    const supportDocsData = {'id':id, 'supportDocConfDataId':supportDocConfDataId, 'filePath':filePath, 'nominationId':nominationId};
-    supportDocs = await SupportDocRepo.saveSupportDocs( supportDocsData );
-    // if(!_.isEmpty(payments)){
-    //   return "Payment Succesfull!"
-    // }else {
-    //   throw new ApiError("Payment Unsuccesfull!");
-    // }
+    var supportDocsData = req.body.candidateSupportDocs;
+    var i=0;
+    var supportdocs = []; //TODO: yujith, validate supportDocConfDataId and nominationId and filePath
+       for (var {supportDocConfDataId: supportDocConfDataId, filePath: filePath,nominationId: nominationId} of supportDocsData) {
+          const id = uuidv4();
+          supportdocs[i] = {'id':id, 'filePath':filePath,'supportDocConfDataId':supportDocConfDataId, 'nominationId':nominationId};
+         i++;
+       }
+   return await SupportDocRepo.saveSupportDocs( supportdocs );
+  }catch (e){
+    throw new ServerError("server error");
+  }
+};
+
+//Update support documents for a particuler nomination in Draft level
+const updateSupportDocsByNominationId = async (req) => {
+  try {
+    var supportDocsData = req.body.candidateSupportDocs;
+    var i=0;
+    var supportdocs = []; //TODO: yujith, validate supportDocConfDataId and nominationId and filePath
+       for (var {supportDocConfDataId: supportDocConfDataId, filePath: filePath,nominationId: nominationId,nominationSupportDocId: nominationSupportDocId} of supportDocsData) {
+          // const id = uuidv4();
+          supportdocs[i] = {'filePath':filePath,'supportDocConfDataId':supportDocConfDataId, 'nominationId':nominationId, 'nominationSupportDocId':nominationSupportDocId};
+         i++;
+       }
+    const supportDocs = SupportDocRepo.updateSupportDocs(supportdocs);
+    if(!_.isEmpty(supportDocs)){
+      return true;
+    }else {
+      throw false;
+    }
   }catch (e){
     throw new ServerError("server error");
   }
 
 };
 
-//Update support documents for a particuler nomination in Draft level
-const updateSupportDocsByNominationId = async (req) => {
+const validateSupportDocId = async (req) => {  
   try {
-    const supportDocConfDataId = req.body.supportDocConfDataId;
-    const filePath = req.body.filePath;
-    const nominationId = req.params.nominationId;
-    const supportDocsData = {'supportDocConfDataId':supportDocConfDataId, 'filePath':filePath, 'nominationId':nominationId};
-    const supportDocs = SupportDocRepo.updateSupportDocs(supportDocsData);
-    if(!_.isEmpty(supportDocs)){
-      return "Update Succesfull!"
-    }else {
-      throw new ApiError("Update Unsuccesfull!");
+    const supportDocId = req;
+    const nomination = await NominationRepo.fetchSupportDocId( supportDocId );
+    if(_.isEmpty(nomination)){
+      throw new ApiError("Nomination not found");
     }
   }catch (e){
     throw new ServerError("server error");

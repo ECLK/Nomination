@@ -13,6 +13,7 @@ const resultMaps = [
 const mapToPaymentModel = (payments) => {
   
   const mappedPayments = joinjs.map(payments, resultMaps, 'paymentMap', 'PAYMENT_');
+  console.log("==============",mappedPayments);
   
   if (mappedPayments.length>0){
 

@@ -5,17 +5,22 @@ const resultMaps = [
   {
     mapId: 'teamMap',
     idProperty: 'id',
-    properties: ['id', 'name']
+    properties: ['ID', 'NAME', 'SYMBOL', 'TELEPHONE', 'FAX', 'NAME_OF_AUTHORIZED_MEMBER', 'ADDRESS_OF_AUTHORIZED_MEMBER']
   }
 ];
 
-
 const mapToTeamModel = (teams) => {
-  const mappedTeams = joinjs.map(teams, resultMaps, 'teamMap', 'team_');
-
+  console.log("rrrrrrrr",teams);
+  const mappedTeams = joinjs.map(teams, resultMaps, 'teamMap', 'TEAM_');
+  console.log("rrrrrrggggggrr",mappedTeams);
   return Team({
-    id: mappedTeams[0].id,
-    name: mappedTeams[0].name,
+    id: mappedTeams[0].ID,
+    name: mappedTeams[0].NAME,
+    symbol: mappedTeams[0].SYMBOL,
+    telephone: mappedTeams[0].TELEPHONE,
+    fax: mappedTeams[0].FAX,
+    nameOfAuthorozedMember: mappedTeams[0].NAME_OF_AUTHORIZED_MEMBER,
+    addressOfAuthorozedMember: mappedTeams[0].ADDRESS_OF_AUTHORIZED_MEMBER,
   });
 };
 
