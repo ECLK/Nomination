@@ -5,6 +5,7 @@ import PaymentManger from './payment/paymentManager';
 import ElectionManager from './election/electionManager';
 import NominationManager from './nomination/nominationManager';
 import DivisionManager from './division/divisionManager';
+import ObjectionManager from './objection/objectionManager';
 
 export {
   UserManager,
@@ -14,4 +15,5 @@ export {
   ElectionManager,
   NominationManager,
   DivisionManager,
+  ObjectionManager,
 }

@@ -5,6 +5,7 @@ import CandidateService from './candiateService';
 import TeamService from './teamService';
 import ElectionService from './electionService';
 import DivisionService from './divisionService';
+import ObjectionService from './objectionService';
 
 export {
   UserService,
@@ -14,4 +15,5 @@ export {
   TeamService,
   ElectionService,
   DivisionService,
+  ObjectionService,
 }
