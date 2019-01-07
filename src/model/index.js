@@ -6,6 +6,7 @@ import { Election } from './Election';
 import { Nomination } from './Nomination';
 import { Division, AllowedDivision } from './Division';
 import { Objection } from './Objection';
+import { SupportDoc } from './SupportDoc';
 
 export {
   User,
