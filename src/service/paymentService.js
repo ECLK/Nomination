@@ -1,17 +1,33 @@
 import _ from 'lodash';
-import Payment from '../repository/Payment';
-import { PaymentManager } from 'Managers';
+import { ServerError , ApiError } from 'Errors';
+import Payment from '../repository/payment';
+import PaymentRepo from '../repository/payment';
+import {PaymentManager}  from 'Managers';
+import {NominationService} from 'Service';
+import {HTTP_CODE_404,HTTP_CODE_204} from '../routes/constants/HttpCodes';
 const uuidv4 = require('uuid/v4');
 
 
-const getAllPayments = async () => {
-	return Payment.getAll();
+//******************* Party Secratary End points ****************************
+
+
+//Get payment details for a particular nomination
+const getPaymentByNominationId = async (req) => {
+  try {
+    const nominationId = req.params.nominationId;
+    await NominationService.validateNominationId( nominationId );
+    const payments = await PaymentRepo.fetchPaymentsByNominationId( nominationId );
+    if(!_.isEmpty(payments)){
+      return PaymentManager.mapToPaymentModel(payments)
+    }else {
+      throw new ApiError("Payment not found",HTTP_CODE_404);
+    }
+  }catch (e){
+    throw new ServerError("server error");
+  }
+
 };
 
-const getPaymentByNominationId = async (req) => {
-	const nomination_id = req.params.nomination_id;
-	return Payment.getByNominationId(nomination_id);
-}
 
 const updatePaymentStatusByNominationId = async (req) => {
 	var nomination_id = req.body.nomination_id;
@@ -19,53 +35,71 @@ const updatePaymentStatusByNominationId = async (req) => {
 	return Payment.updateStatusByNominationId(nomination_id, status);
 };
 
+//Save payment details for a particular nomination
 const createPaymentByNominationId = async (req) => {
-	const id = uuidv4();
-	const depositor = req.body.depositor;
-	const deposit_amount = req.body.deposit_amount;
-	const deposite_date = req.body.deposite_date;
-	const uploaded_file_name = req.body.uploaded_file_name;
-	const nomination_id = req.body.nomination_id;
-	const status = req.body.status;
-	return Payment.createPayment(id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, status);
-}
+  try {
+    const id = uuidv4();
+    const depositor = req.body.depositor;
+    const depositDate = req.body.depositDate;
+    const amount = req.body.amount;
+    const filePath = req.body.filePath;
+    const status = req.body.status;
+    const nominationId = req.body.nominationId;
+    await NominationService.validateNominationId( nominationId );//TODO: yujith,re check this function
+    const paymentData = {'id':id, 'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'nominationId':nominationId, 'status':status};
+    return await PaymentRepo.createPayment( paymentData );
+  }catch (e){
+    throw new ServerError("server error");
+  }
+};
 
+//Update payment details for a particular nomination
 const updatePaymentByNominationId = async (req) => {
-	const depositor = req.body.depositor;
-	const deposit_amount = req.body.deposit_amount;
-	const deposite_date = req.body.deposite_date;
-	const uploaded_file_name = req.body.uploaded_file_name;
-	const nomination_id = req.body.nomination_id;
-	return Payment.updatePaymentCommons(depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id);
+  try {
+    const depositor = req.body.depositor;
+    const depositDate = req.body.depositDate;
+    const amount = req.body.amount;
+    const filePath = req.body.filePath;
+    const nominationId = req.params.nominationId;
+    const paymentData = {'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'nominationId':nominationId};
+    return await Payment.updatePaymentCommons(paymentData);
+  }catch (e){
+    throw new ServerError("server error");
+  }
+
+};
+
+
+//******************* Ec Admin End points ****************************
+
+
+const getAllPayments = async () => {
+  return Payment.getAll();
+};
+
+const getAllPendingPayments = async (req) => {
+  const election_id = req.params.election_id;
+  return Payment.getPendingAll(election_id);
+
+}
+
+const getAllPaidPayments = async (req) => {
+  const election_id = req.params.election_id;
+  return Payment.getPaidAll(election_id);
 }
 
 
-// const updatePaymentByPaymentId = async (req) => {
-//   const payment_id = req.body.payment_id;
-//   const depositor = req.body.depositor;
-//   const deposit_amount = req.body.deposit_amount;
-//   const deposite_date = req.body.deposite_date;
-//   const uploaded_file_name = req.body.deposite_date;
-//   const nomination_id = req.body.nomination_id;
-//   const payment_status = req.body.payment_status;
-//   return Payment.createPayment( payment_id, depositor, deposit_amount, deposite_date, uploaded_file_name, nomination_id, payment_status);
-// };
-
-// const getPaymentByPaymentId = async (req) => {
-//   const payment_id = req.params.payment_id;
-//   return Payment.fetchPaymentById( payment_id );
-// };
 
 
 
 
 
 export default {
-	getAllPayments,
-	getPaymentByNominationId,
-	updatePaymentStatusByNominationId,
-	createPaymentByNominationId,
-	updatePaymentByNominationId,
-	// getPaymentByPaymentId,
-	// updatePaymentByPaymentId,
+  getAllPayments,
+  getPaymentByNominationId,
+  updatePaymentStatusByNominationId,
+  createPaymentByNominationId,
+  updatePaymentByNominationId,
+  getAllPendingPayments,
+  getAllPaidPayments,
 }
