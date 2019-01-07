@@ -19,7 +19,7 @@ const getUserByUserId = async (req) => {
   const uid = req.params.userId;
   const users = await UserRepo.fetchUserById( uid );
   if(!_.isEmpty(users)){
-    return UserManager.mapToUserModel(users)
+    return UserManager.mapToUserModel(users);
   }else {
     throw new ApiError("User not found");
   }

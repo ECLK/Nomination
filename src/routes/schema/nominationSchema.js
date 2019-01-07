@@ -18,18 +18,21 @@ export const UPDATE_PAYMENT_SCHEMA = Joi.object().keys({
 
 });
 
-export const SAVE_SUPPORT_DOC_SCHEMA = Joi.object().keys({
+ const SAVE_SUPPORT_DOC_SCHEMA = Joi.object().keys({
   supportDocConfDataId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
-  filePath: Joi.string().alphanum().max(100).required(),
+  filePath: Joi.string(),
   nominationId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
 
 });
+export let services = Joi.array().items(SAVE_SUPPORT_DOC_SCHEMA)
 
-export const UPDATE_SUPPORT_DOC_SCHEMA = Joi.object().keys({
+const UPDATE_SUPPORT_DOC_SCHEMA = Joi.object().keys({
   supportDocConfDataId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
-  filePath: Joi.string().alphanum().max(100).required(),
+  filePath: Joi.string(),
+  nominationId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
 
 });
+export let services2 = Joi.array().items(UPDATE_SUPPORT_DOC_SCHEMA)
 
 export const SAVE_CANDIDATE_SCHEMA = Joi.object().keys({
   fullName: Joi.string().alphanum().max(100).required(),
@@ -47,7 +50,7 @@ export const SAVE_CANDIDATE_SCHEMA = Joi.object().keys({
 
 export const SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA = Joi.object().keys({
   supportDocConfDataId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
-  filePath: Joi.string().alphanum().max(100).required(),
+  filePath: Joi.string().max(100).required(),
   candidateId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
 
 });

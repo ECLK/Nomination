@@ -8,14 +8,12 @@ const resultMaps = [
   {
     mapId: 'supportDocMap',
     idProperty: 'ID',
-    properties: ['SUPPORT_DOC_CONFIG_DATA_ID','FILE_PATH','KEY_NAME','NOMINATION_ID']
+    properties: ['SUPPORT_DOC_CONFIG_DATA_ID','FILE_PATH','KEY_NAME','NOMINATION_ID','STATUS']
   }
 ];
 
 
 const mapToSupportDocModel = (supportDocs) => {
-  console.log("=========",supportDocs);
-
   const mappedSupportDocs = joinjs.map(supportDocs, resultMaps, 'supportDocMap', 'SUPPORT_DOC_');
   return _.reduce(mappedSupportDocs, function(result, supportDocs) {
     return result.push({
@@ -24,9 +22,9 @@ const mapToSupportDocModel = (supportDocs) => {
       filePath: supportDocs.FILE_PATH,
       keyName: supportDocs.KEY_NAME,
       nominationId: supportDocs.NOMINATION_ID,
+      status: supportDocs.STATUS,
     });
   },List(SupportDoc)());
-
 };
 
 export default {

@@ -10,6 +10,7 @@ const uuidv4 = require('uuid/v4');
 
 //******************* Party Secratary End points ****************************
 
+
 //Get payment details for a particular nomination
 const getPaymentByNominationId = async (req) => {
   try {
@@ -27,8 +28,11 @@ const getPaymentByNominationId = async (req) => {
 
 };
 
-const updatePaymentStatusByNominationId = async (nomination_id, status) => {
-  return Payment.updateStatusByNominationId(nomination_id, status);
+
+const updatePaymentStatusByNominationId = async (req) => {
+	var nomination_id = req.body.nomination_id;
+	var status = req.body.status;
+	return Payment.updateStatusByNominationId(nomination_id, status);
 };
 
 //Save payment details for a particular nomination
@@ -58,7 +62,7 @@ const updatePaymentByNominationId = async (req) => {
     const filePath = req.body.filePath;
     const nominationId = req.params.nominationId;
     const paymentData = {'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'nominationId':nominationId};
-    return Payment.updatePaymentCommons(paymentData);
+    return await Payment.updatePaymentCommons(paymentData);
   }catch (e){
     throw new ServerError("server error");
   }
@@ -76,6 +80,7 @@ const getAllPayments = async () => {
 const getAllPendingPayments = async (req) => {
   const election_id = req.params.election_id;
   return Payment.getPendingAll(election_id);
+
 }
 
 const getAllPaidPayments = async (req) => {

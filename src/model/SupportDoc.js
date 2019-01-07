@@ -7,4 +7,5 @@ export const SupportDoc =  Record({
   filePath: String(),
   keyName: String(),
   nominationId: String(),
+  status: String(),
 });

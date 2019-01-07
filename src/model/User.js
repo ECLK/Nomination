@@ -2,6 +2,6 @@
 import {Record} from 'typed-immutable';
 
 export const User =  Record({
-  id: Number(),
+  id: String(),
   name: String(),
 });

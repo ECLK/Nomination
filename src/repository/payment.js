@@ -67,9 +67,11 @@ const createPayment = (paymentData) => {
       {
         replacements: params,
         type: DbConnection().QueryTypes.INSERT,
-      }).catch((error) => {
-        throw new DBError(error);
-      });
+      }).then((results) => {
+        return params ;
+       }).catch((error) => {
+         throw new DBError(error);
+       });
 };
 
 const updatePaymentCommons = (paymentData) => {
@@ -79,9 +81,11 @@ const updatePaymentCommons = (paymentData) => {
       {
         replacements: params,
         type: DbConnection().QueryTypes.UPDATE,
-      }).catch( (error) => {
-        throw new DBError(error);
-      });
+      }).then((results) => {
+        return params ;
+       }).catch((error) => {
+         throw new DBError(error);
+       });
 };
 
 

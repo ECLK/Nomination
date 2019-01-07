@@ -1,14 +1,19 @@
 import { DBError } from 'Errors';
 import { DbConnection } from './teamDataSource';
 
-const TEAM_SELECT_QUERY = `SELECT ID AS TEAM_ID,
-                           NAME AS TEAM_NAME,
-                           SYMBOL AS TEAM_SYMBOL,
-                           TELEPHONE AS TEAM_TELEPHONE,
-                           FAX AS TEAM_FAX,
-                           NAME_OF_AUTHORIZED_MEMBER AS TEAM_NAME_OF_AUTHORIZED_MEMBER,
-                           ADDRESS_OF_AUTHORIZED_MEMBER AS TAEM_ADDRESS_OF_AUTHORIZED_MEMBER
-                           FROM TEAM WHERE ID = :team_id`;
+
+const TEAM_SELECT_QUERY = `SELECT 
+t.ID as team_id,
+t.NAME as team_name,
+t.SYMBOL as team_symbol,
+t.FAX as team_fax,
+t.NAME_OF_AUTHORIZED_MEMBER as team_name_of_authorized_member,
+t.ADDRESS_OF_AUTHORIZED_MEMBER as team_address_of_authorized_member,
+cn.ID as contact_id,
+cn.CONTACT_NO as contact_number
+FROM TEAM t
+	LEFT JOIN CONTACT_NUMBER cn on t.ID = cn.TEAM_ID
+WHERE t.ID = :team_id`;
 
 // const TEAM_UPDATE_QUERY = `UPDATE TEAM
 // SET

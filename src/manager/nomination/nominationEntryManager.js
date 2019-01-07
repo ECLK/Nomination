@@ -1,4 +1,5 @@
 
+// TODO: CLEMENT - CHECK AND REMOVE
 var joinjs = require('join-js').default;
 // join-js usage : https://www.npmjs.com/package/join-js
 

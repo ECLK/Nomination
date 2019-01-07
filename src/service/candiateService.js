@@ -19,8 +19,7 @@ const getCandidateListByNominationId = async (req) => {
       }
     }catch (e){
       throw new ServerError("server error");
-    }
-    
+    } 
   };
 
 //Get candidate for a particular nomination by candidateId and nominationId
@@ -30,17 +29,14 @@ const getCandidateByNominationId = async (req) => {
     const candidateId = req.params.candidateId;
     const params = {'nominationId':nominationId, "candidateId":candidateId }
     const candidates = await CandidateRepo.getCandidateByNomination( params );//TODO: yujith,use fetch insted of get
-
     if(!_.isEmpty(candidates)){
       return CandidateManager.mapToCandidateModel(candidates)
     }else {
       throw new ApiError("Candidates not found",HTTP_CODE_404);
-
     }
   }catch (e){
     throw new ServerError("server error");
   }
-  
 };
 
 //Save candidate
@@ -58,28 +54,21 @@ const saveCandidateByNominationId = async (req) => {
     const electoralDivisionCode = req.body.electoralDivisionCode;
     const counsilName = req.body.counsilName;
     const nominationId = req.body.nominationId;
-
-
     const now = new Date(dateOfBirth).getTime();
-
     const nomination = await NominationService.validateNominationId( nominationId );
     if(!_.isEmpty(nomination)){
-
       const candidateData = {'id':id, 'fullName':fullName,'preferredName':preferredName, 'nic':nic, 'dateOfBirth':now,'gender':gender, 'address':address,'occupation':occupation, 'electoralDivisionName':electoralDivisionName, 'electoralDivisionCode':electoralDivisionCode, 'counsilName':counsilName,  'nominationId':nominationId};
       return await CandidateRepo.createCandidate( candidateData );
-      
     }else {
       throw new ApiError("Nomination not found");//TODO: error code will be added later
     }
   }catch (e){
     throw new ServerError("server error");
   }
-
 };
 
 //Save candidate support docs
 const saveCandidateSupportDocsByCandidateId = async (req) => {
-  console.log('test');
   try {
     const id = uuidv4();
     const filePath = req.body.filePath;
@@ -95,7 +84,6 @@ const saveCandidateSupportDocsByCandidateId = async (req) => {
     const nominationId = req.body.nominationId;
     const nomination = await NominationService.validateNominationId( nominationId );
     if(!_.isEmpty(nomination)){
-
       const candidateData = {'id':id, 'electoralDivisionCode':electoralDivisionCode, 'counsilName':counsilName,  'nominationId':nominationId};
       const candidates = await CandidateRepo.createCandidate( candidateData );
       if(candidates==0){
@@ -103,14 +91,12 @@ const saveCandidateSupportDocsByCandidateId = async (req) => {
       }else{
         return false;
       }
-
     }else {
       throw new ApiError("Nomination not found",HTTP_CODE_204);
     }
   }catch (e){
     throw new ServerError("server error");
   }
-
 };
 
 export default {

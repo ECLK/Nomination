@@ -33,28 +33,9 @@ const CANDIDATE_BY_CANDIDATE_ID_SELECT_QUERY = `SELECT ID AS CANDIDATE_ID,
 const CANDIDATE_INSERT_QUERY = `INSERT INTO CANDIDATE (ID, FULL_NAME, PREFERRED_NAME, NIC, DATE_OF_BIRTH, GENDER, ADDRESS, OCCUPATION, ELECTORAL_DIVISION_NAME, ELECTORAL_DIVISION_CODE, COUNSIL_NAME, NOMINATION_ID) 
                               VALUES (:id, :fullName,:preferredName, :nic, :dateOfBirth, :gender, :address,:occupation, :electoralDivisionName, :electoralDivisionCode, :counsilName , :nominationId)`;
 
-// const UpdateCandidate = (candidate_id, nic, name, occupation, address, nomination_id) => {
-//   const params = {
-//     candidate_id: candidate_id,
-//     nic: nic,
-//     name: name,
-//     occupation: occupation,
-//     address: address,
-//     nomination_id: nomination_id
-//   };
-//   return DbConnection()
-//     .query(CANDIDATE_INSERT_QUERY,
-//       {
-//         replacements: params,
-//         type: DbConnection().QueryTypes.INSERT,
-//       }).catch((error) => {
-//         throw new DBError(error);
-//       });
-// };
 
 const getCandidateListByNomination = (nomination_id) => {
   const params = { nomination_id: nomination_id };
-  console.log('candidate repository');
   return DbConnection()
     .query(CANDIDATE_BY_NOMINATION_SELECT_QUERY,
       {

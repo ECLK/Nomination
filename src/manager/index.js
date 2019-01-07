@@ -4,9 +4,8 @@ import NominationEntryManager from './nomination/nominationEntryManager';
 import PaymentManager from './payment/paymentManager';
 import CandidateManager from './candidate/candidateManager';
 import SupportDocManager from './supportdoc/supportDocManager';
-
-
-
+import ElectionManager from './election/electionManager';
+import NominationManager from './nomination/nominationManager';
 
 export {
   UserManager,
@@ -14,5 +13,7 @@ export {
   PaymentManager,
   TeamManager,
   CandidateManager,
-  SupportDocManager
+  SupportDocManager,
+  ElectionManager,
+  NominationManager,
 }

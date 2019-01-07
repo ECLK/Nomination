@@ -1,29 +1,37 @@
-import { Team }  from 'Models';
+import { Team } from 'Models';
 var joinjs = require('join-js').default;
 
 const resultMaps = [
-  {
-    mapId: 'teamMap',
-    idProperty: 'id',
-    properties: ['ID', 'NAME', 'SYMBOL', 'TELEPHONE', 'FAX', 'NAME_OF_AUTHORIZED_MEMBER', 'ADDRESS_OF_AUTHORIZED_MEMBER']
-  }
+
+	{
+		mapId: 'teamMap',
+		idProperty: 'id',
+		properties: ['id', 'name', 'symbol', 'fax', 'name_of_authorized_member', 'address_of_authorized_member'],
+		collections: [
+			{ name: 'contacts', mapId: 'contactMap', columnPrefix: 'contact_' }
+		]
+	},
+	{
+		mapId: 'contactMap',
+		idProperty: 'id',
+		properties: ['number']
+	}
 ];
 
 const mapToTeamModel = (teams) => {
-  console.log("rrrrrrrr",teams);
-  const mappedTeams = joinjs.map(teams, resultMaps, 'teamMap', 'TEAM_');
-  console.log("rrrrrrggggggrr",mappedTeams);
-  return Team({
-    id: mappedTeams[0].ID,
-    name: mappedTeams[0].NAME,
-    symbol: mappedTeams[0].SYMBOL,
-    telephone: mappedTeams[0].TELEPHONE,
-    fax: mappedTeams[0].FAX,
-    nameOfAuthorozedMember: mappedTeams[0].NAME_OF_AUTHORIZED_MEMBER,
-    addressOfAuthorozedMember: mappedTeams[0].ADDRESS_OF_AUTHORIZED_MEMBER,
-  });
+	const mappedTeams = joinjs.map(teams, resultMaps, 'teamMap', 'team_');
+
+	return Team({
+		id: mappedTeams[0].id,
+		name: mappedTeams[0].name,
+		symbol: mappedTeams[0].symbol,
+		fax: mappedTeams[0].fax,
+		nameOfAuthorizedMember: mappedTeams[0].name_of_authorized_member,
+		addressOfAuthorizedMember: mappedTeams[0].address_of_authorized_member,
+		contactNumber: mappedTeams[0].contacts,
+	});
 };
 
 export default {
-  mapToTeamModel
+	mapToTeamModel
 };
