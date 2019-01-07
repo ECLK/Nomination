@@ -1,10 +1,9 @@
 import _ from 'lodash';
 import { ServerError , ApiError } from 'Errors';
-import ElectionRepo from '../repository/Election';
+import ElectionRepo from '../repository/election';
 import {ElectionManager}  from 'Managers';
 
 const getElectionByIdWithTimelineData = async (req) => {
-
     try {
         const id = req.params.electionId;
         const election = await ElectionRepo.fetchElectionByIdWithTimelineData(id);

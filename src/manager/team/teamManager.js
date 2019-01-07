@@ -2,6 +2,7 @@ import { Team } from 'Models';
 var joinjs = require('join-js').default;
 
 const resultMaps = [
+
 	{
 		mapId: 'teamMap',
 		idProperty: 'id',
@@ -16,7 +17,6 @@ const resultMaps = [
 		properties: ['number']
 	}
 ];
-
 
 const mapToTeamModel = (teams) => {
 	const mappedTeams = joinjs.map(teams, resultMaps, 'teamMap', 'team_');

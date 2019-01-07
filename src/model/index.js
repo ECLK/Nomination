@@ -12,6 +12,7 @@ export {
   Candidate,
   Payment,
   Team,
+  SupportDoc,
   Election,
   Nomination,
   Division,

@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import Nomination from '../repository/nomination';
+import NominationRepo from '../repository/nomination';
+import { HTTP_CODE_404 } from '../routes/constants/HttpCodes';
 import { NominationManager } from 'Managers';
 import { ServerError, ApiError } from 'Errors';
 
@@ -9,6 +11,22 @@ const getNominationByTeamId = async (req) => {
     return Nomination.fetchNominationByTeam(team_id, election_id);
 };
 
+const validateNominationId = async (req) => {  
+    try {
+      const nominationId = req;
+      const nomination = await NominationRepo.fetchNominationByNominationId( nominationId );
+     
+      if(_.isEmpty(nomination)){
+        throw new ApiError("Nomination not found");
+      }
+      return nomination;
+    }catch (e){
+      throw new ServerError("server error");
+    }
+  
+  };
+
+  
 /**
  * Method to get list of nominations for particular team under particular election
  * @param {teamId, electionId, status} req 
@@ -31,10 +49,8 @@ const getNominationByStatus = async (req) => {
 }
 
 
-// const getNominationsByElectionId = async (req) => 
-
-
 export default {
     getNominationByTeamId,
     getNominationByStatus,
+    validateNominationId,
 };

@@ -3,6 +3,7 @@ import NominationService from './nominationService';
 import PaymentService from './paymentService';
 import CandidateService from './candiateService';
 import TeamService from './teamService';
+import SupportDocService from './supportDocService';
 import ElectionService from './electionService';
 import DivisionService from './divisionService';
 import ObjectionService from './objectionService';
@@ -13,6 +14,7 @@ export {
   NominationService,
   CandidateService,
   TeamService,
+  SupportDocService,
   ElectionService,
   DivisionService,
   ObjectionService,

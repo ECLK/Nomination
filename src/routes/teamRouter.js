@@ -1,8 +1,7 @@
+import _ from 'lodash';
 import { GET, POST } from 'HttpMethods';
 import {TeamService} from 'Service';
 import {createRoutes} from '../middleware/Router';
-import UserManager from '../manager/user/userManager';
-import {USER_EDIT_SCHEMA, GET_USER_BY_ID_SCHEMA} from './schema/userSchema';
 
 const teamRouter = createRoutes();
 
@@ -21,6 +20,7 @@ export const initTeamRouter = (app) => {
     },
   ]);
 };
+
 
 
 /**
