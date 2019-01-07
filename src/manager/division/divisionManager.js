@@ -28,7 +28,7 @@ const resultMaps = [
 const mapToDivisionModel = (divisionData) => {
     const mappedDivisions = joinjs.map(divisionData, resultMaps, 'divisionMap', 'division_');
 
-    return _.reduce(mappedDivisions, function(result, division){
+    return _.reduce(mappedDivisions, (result, division) => {
         return result.push({
             id: division.id,
             name: division.name,
@@ -46,7 +46,7 @@ const mapToDivisionModel = (divisionData) => {
 const mapToDivisionModelWithNominations = (divisionDataWithNomination) => {
     const mappedAllowedDivisions = joinjs.map(divisionDataWithNomination, resultMaps, 'allowedDivisionMap', 'division_');
 
-    return _.reduce(mappedAllowedDivisions, function(result, division){
+    return _.reduce(mappedAllowedDivisions, (result, division) => {
         return result.push({
             id: division.id,
             name: division.name,

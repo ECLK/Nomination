@@ -24,7 +24,6 @@ const fetchObjectionCreatedByTeam = (election_id, team_id) => {
                 replacements: params,
                 type: DbConnection().QueryTypes.SELECT,
             }).catch((error) => {
-                console.log(error);
                 throw new DBError(error);
             });
 };

@@ -1,23 +1,25 @@
 import _ from 'lodash';
-import { ServerError } from 'Errors';
+import { ServerError, ApiError } from 'Errors';
 import DivisionRepo from '../repository/Division';
 import { DivisionManager } from 'Managers';
+import {
+    DIVISION_NOT_FOUND_CODE,
+} from '../errors/ErrorCodes';
 
 /**
  * Get division list by election 
  * @param {*} req 
  */
-const getDivisionsByElectionId = async(req) => {
+const getDivisionsByElectionId = async (req) => {
     try {
         const electionId = req.params.electionId;
         const divisions = await DivisionRepo.fetchDivisionsByElectionId(electionId);
-        if (!_.isEmpty(divisions)){
+        if (!_.isEmpty(divisions)) {
             return DivisionManager.mapToDivisionModel(divisions);
         } else {
-            throw new ApiError("Divisions not found");
+            throw new ApiError("Divisions not found", DIVISION_NOT_FOUND_CODE);
         }
     } catch (error) {
-        console.log(error);
         throw new ServerError("Server Error", HTTP_CODE_404);
     }
 }
@@ -31,14 +33,12 @@ const getDivisionsWithNomination = async (req) => {
         const electionId = req.params.electionId;
         const teamId = req.params.teamId;
         const divisions = await DivisionRepo.fetchDivisionsWithNomination(electionId, teamId);
-        if(!_.isEmpty(divisions)){
-            // return divisions;
+        if (!_.isEmpty(divisions)) {
             return DivisionManager.mapToDivisionModelWithNominations(divisions);
         } else {
-            throw new ApiError("Divisions not found");
+            throw new ApiError("Divisions not found", DIVISION_NOT_FOUND_CODE);
         }
     } catch (error) {
-        console.log(error);
         throw new ServerError("Server Error", HTTP_CODE_404);
     }
 }

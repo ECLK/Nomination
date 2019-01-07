@@ -1,16 +1,16 @@
-import { ServerError , ApiError } from 'Errors';
+import { ApiError } from 'Errors';
 import TeamRepo from '../repository/Team';
-import {TeamManager}  from 'Managers'
+import { TeamManager } from 'Managers'
 import _ from 'lodash';
 
 const getTeamById = async (req) => {
-  const teamId = req.params.teamId;
-  const teams = await TeamRepo.fetchTeamById( teamId );
-  if(!_.isEmpty(teams)){
-    return TeamManager.mapToTeamModel(teams)
-  }else {
-    throw new ApiError("Team not found");
-  }
+	const teamId = req.params.teamId;
+	const teams = await TeamRepo.fetchTeamById(teamId);
+	if (!_.isEmpty(teams)) {
+		return TeamManager.mapToTeamModel(teams)
+	} else {
+		throw new ApiError("Team not found");
+	}
 };
 
 /**
@@ -26,6 +26,6 @@ const getTeamById = async (req) => {
 // };
 
 export default {
-    getTeamById,
-    // updateTeamById,
+	getTeamById,
+	// updateTeamById,
 }

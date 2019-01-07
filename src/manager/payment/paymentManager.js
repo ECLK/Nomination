@@ -1,6 +1,5 @@
 import { Payment }  from 'Models';
 var joinjs = require('join-js').default;
-// join-js usage : https://www.npmjs.com/package/join-js
 
 const resultMaps = [
   {
@@ -13,7 +12,6 @@ const resultMaps = [
 const mapToPaymentModel = (payment) => {
   const mappedPayments = joinjs.map(payment, resultMaps, 'paymentMap', 'payment_');
 
-  //just an example how to convert row data object to Model
   if (mappedPayments.length>0){
     const paymentModel = Payment({
         payment_id: mappedPayments[0].payment_id,

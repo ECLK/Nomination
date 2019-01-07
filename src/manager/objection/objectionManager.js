@@ -16,7 +16,7 @@ const resultMaps = [
 const mapToObjectionModel = (objectionData) => {
     const mappedData = joinjs.map(objectionData, resultMaps, 'objectionMap', 'objection_');
     
-    return _.reduce(mappedData, function(result, objection){
+    return _.reduce(mappedData, (result, objection) => {
         return result.push({
             id: objection.id,
             description: objection.description,
