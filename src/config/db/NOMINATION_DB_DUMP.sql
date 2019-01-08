@@ -1,6 +1,6 @@
---
--- NOMINATION V2.6.0
---
+-- 
+-- NOMINATION V2.6.1
+-- 
 DROP DATABASE IF EXISTS EC_NOMINATION;
 
 CREATE DATABASE IF NOT EXISTS EC_NOMINATION CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI;
@@ -10,10 +10,10 @@ USE EC_NOMINATION;
 
 
 
---
+-- 
 -- ELECTION MODULES
 -- mainly regarding to maintain the configs
---
+-- 
 
 
 -- election_module file to maintain election types
@@ -136,9 +136,9 @@ CREATE TABLE IF NOT EXISTS ELECTION_TEAM(
 
 
 
---
+-- 
 -- DIVISION DATA
---
+-- 
 
 CREATE TABLE IF NOT EXISTS DIVISION_CONFIG(
 	ID VARCHAR(36) PRIMARY KEY,
@@ -165,9 +165,9 @@ CREATE TABLE IF NOT EXISTS DIVISION_CONFIG_DATA(
 
 
 
---
+-- 
 -- NOMINATION 
---
+-- 
 
 CREATE TABLE IF NOT EXISTS NOMINATION(
     ID VARCHAR(36) PRIMARY KEY,
@@ -272,7 +272,7 @@ CREATE TABLE IF NOT EXISTS PAYMENT(
 
 -- 
 -- CANDIDATE 
---
+-- 
 
 CREATE TABLE IF NOT EXISTS CANDIDATE(
     ID VARCHAR(36) PRIMARY KEY,
@@ -280,7 +280,7 @@ CREATE TABLE IF NOT EXISTS CANDIDATE(
     PREFERRED_NAME VARCHAR(50),
     NIC VARCHAR(15),
     DATE_OF_BIRTH BIGINT,
-    GENDER VARCHAR(5),
+    GENDER VARCHAR(6),
     ADDRESS VARCHAR(300),
     OCCUPATION VARCHAR(20),
     ELECTORAL_DIVISION_NAME VARCHAR(50),
@@ -325,9 +325,9 @@ CREATE TABLE IF NOT EXISTS CANDIDATE_SUPPORT_DOC(
 
 
 
---
+-- 
 -- Table structure fsor table `USER`
---
+-- 
 
 DROP TABLE IF EXISTS `USER`;
 
@@ -370,7 +370,8 @@ INSERT INTO SUPPORT_DOC_CONFIG_DATA
 	(SUPPORT_DOC_CONFIG_ID, MODULE_ID, SELECT_FLAG)
 VALUES
 ('59f4d9df-006b-4d7c-82dc-736041e97f37', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2', TRUE),
-('b20dd58c-e5bb-469d-98c9-8711d6da1879', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2', TRUE),
+('b20dd58c-e5bb-469d-98c9-8711d6da1879', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2', TRUE), -- Nomination - nomination form
+('3fac66f2-302c-4d27-b9ae-1d004037a9ba', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2', TRUE), -- Nomination - female declaration form
 ('fe2c2d7e-66de-406a-b887-1143023f8e72', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2', TRUE),
 ('ff4c6768-bdbe-4a16-b680-5fecb6b1f747', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2', TRUE),
 ('15990459-2ea4-413f-b1f7-29a138fd7a97', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2', TRUE);
@@ -491,10 +492,14 @@ VALUES
 
 
 
+-- 
+-- nomination 
+-- 
+
 INSERT INTO NOMINATION
 	(ID, STATUS, TEAM_ID, ELECTION_ID, DIVISION_CONFIG_DATA_ID)
 VALUES
--- nominations for parlimentary election 
+-- nominations for parlimentary election and team ('5eedb70e-a4da-48e0-b971-e06cd19ecc70')
 ('135183e2-a0ca-44a0-9577-0d2b16c3217f', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '65fa860e-2928-4602-9b1e-2a7cb09ea83e'),
 ('416e0c20-b274-4cf2-9531-8167d2f35bf7', 'DRAFT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '21b9752f-8641-40c3-8205-39a612bf5244'),
 ('a0e4a9c9-4841-45df-9600-f7a607400ab6', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', 'c9c710e6-cf9c-496c-9b53-2fce36598ea1'),
@@ -504,7 +509,7 @@ VALUES
 
 ('358f0d3c-5632-4046-9abb-f0aeab5bfe9e', 'APPROVE', '62fcdfa7-3c5a-405f-b344-79089131dd8e', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '16ab500d-31b1-4176-bfa3-42e766e9d691'),
 
--- nominations for presidential election 
+-- nominations for presidential election and 2 teams
 ('6fb66fbb-acd2-4b2e-94ac-12bee6468f5f', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33'),
 ('ad78d32d-dd5a-41ac-a410-aa8500c04102', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33'),
 
@@ -538,7 +543,36 @@ VALUES
 ('7d70a34f-bce6-4a29-a693-c1ace2075a81', 'url/resource/to/file/server/file4.pdf', '59f4d9df-006b-4d7c-82dc-736041e97f37', '27a74411-ed86-484b-9904-7146183135dc' );
 
 
+-- payment for nomination
+INSERT INTO PAYMENT
+    (ID, DEPOSITOR, DEPOSIT_DATE, AMOUNT, FILE_PATH, STATUS, NOMINATION_ID)
+    -- DEPOSITOR = user role
+VALUES
+('aaba475b-fb11-4395-86f5-c7e2afdab491', 'SECRETARY', 1546851055, 200000.00, 'url/resource/to/file/server/file1.pdf', 'PENDING', '135183e2-a0ca-44a0-9577-0d2b16c3217f' ),
+('e14c183e-4e26-499f-ab6f-78666f1d5e47', 'SECRETARY', 1546851055, 260000.00, 'url/resource/to/file/server/file2.pdf', 'PENDING', '416e0c20-b274-4cf2-9531-8167d2f35bf7' ),
+('9f7b9f8f-0045-477e-a663-0bef194d9a0f', 'SECRETARY', 1546851055, 300000.00, 'url/resource/to/file/server/file3.pdf', 'PENDING', 'a0e4a9c9-4841-45df-9600-f7a607400ab6' ),
+('378a33e1-5ad0-42f1-9403-dc9dbba32f4c', 'SECRETARY', 1546851055, 500000.00, 'url/resource/to/file/server/file4.pdf', 'PENDING', 'ed7e455c-eb95-4ccc-b090-32c1616c6d0c' );
 
+
+INSERT INTO CANDIDATE
+    (ID, FULL_NAME, PREFERRED_NAME, NIC, DATE_OF_BIRTH, GENDER, ADDRESS, OCCUPATION, ELECTORAL_DIVISION_NAME, ELECTORAL_DIVISION_CODE, COUNSIL_NAME, NOMINATION_ID)
+VALUES
+('fc32c310-a1eb-4cc6-a739-da9433b5aeef', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '12', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('587b46ab-5425-408a-b303-4e992d90e2ad', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '22', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('b4f7af64-61d4-42c4-8623-8c9efb9d0f21', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '1', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('1d986c33-0e3d-4e27-9ff3-a8b03118408c', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '3', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('a5215262-6da0-4455-a7f3-9b1ae51b97f5', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '4', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('72c6427d-4378-4bd9-b83b-d4bb21fd4b49', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '8', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('82af0374-2475-47bc-bef1-ff75070ff6d5', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '7', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('5aee10f5-8e39-4f48-a3ba-d44d49b6a68e', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '14', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('a6eb639c-c6e6-4da0-b0b0-30dff94b1a8b', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '16', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('4ebce670-4226-476e-8bf8-aa810c0a60a5', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Female', 'Address', 'Businessman', 'electoral-division-name', '20', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f');
+
+INSERT INTO NOMINATION_SUPPORT_DOC
+	(ID, FILE_PATH, SUPPORT_DOC_CONFIG_DATA_ID, NOMINATION_ID)
+VALUES
+('5b8aff7b-44e6-43fe-8254-ba81c5d94129', 'url/resource/to/file/server/file1.pdf', 'b20dd58c-e5bb-469d-98c9-8711d6da1879', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('32a82ec0-f60c-49a3-9fa7-c971903d230e', 'url/resource/to/file/server/file2.pdf', '3fac66f2-302c-4d27-b9ae-1d004037a9ba', '135183e2-a0ca-44a0-9577-0d2b16c3217f');
 
 
 
