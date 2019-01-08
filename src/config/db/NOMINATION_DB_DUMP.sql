@@ -494,18 +494,20 @@ VALUES
 INSERT INTO NOMINATION
 	(ID, STATUS, TEAM_ID, ELECTION_ID, DIVISION_CONFIG_DATA_ID)
 VALUES
--- nominations for parlimentary election and team ('5eedb70e-a4da-48e0-b971-e06cd19ecc70')
+-- nominations for parlimentary election 
 ('135183e2-a0ca-44a0-9577-0d2b16c3217f', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '65fa860e-2928-4602-9b1e-2a7cb09ea83e'),
 ('416e0c20-b274-4cf2-9531-8167d2f35bf7', 'DRAFT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '21b9752f-8641-40c3-8205-39a612bf5244'),
 ('a0e4a9c9-4841-45df-9600-f7a607400ab6', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', 'c9c710e6-cf9c-496c-9b53-2fce36598ea1'),
 ('ed7e455c-eb95-4ccc-b090-32c1616c6d0c', 'REJECT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', 'f15ae97b-8e95-4f38-93d9-fb97fabdcf22'),
 ('c1313d6d-bac3-48f6-afd7-ce7899f1714a', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '7740f20e-363f-4e10-bc1f-a67d2b9cfecd'),
 ('07d4d5d9-fd83-473f-836c-a5a565d75ed1', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '1a29913e-3bc4-4a48-a35e-88f8a874e623'),
+
 ('358f0d3c-5632-4046-9abb-f0aeab5bfe9e', 'APPROVE', '62fcdfa7-3c5a-405f-b344-79089131dd8e', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '16ab500d-31b1-4176-bfa3-42e766e9d691'),
 
--- nominations for presidential election and 2 teams
+-- nominations for presidential election 
 ('6fb66fbb-acd2-4b2e-94ac-12bee6468f5f', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33'),
 ('ad78d32d-dd5a-41ac-a410-aa8500c04102', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33'),
+
 ('7db3d4ba-c8a0-4340-8d6e-2d9096de7d2e', 'DRAFT', '62fcdfa7-3c5a-405f-b344-79089131dd8e', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33');
 
 INSERT INTO OBJECTION
