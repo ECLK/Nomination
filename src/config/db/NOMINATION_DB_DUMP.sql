@@ -37,7 +37,8 @@ CREATE TABLE IF NOT EXISTS ELECTION_MODULE_APPROVAL(
 -- defines all configs required
 CREATE TABLE IF NOT EXISTS ELECTION_CONFIG(
     ID VARCHAR(36) PRIMARY KEY,
-    DESCRIPTION VARCHAR(50)
+    KEY_NAME VARCHAR(50),
+    DESCRIPTION VARCHAR(100)
 )ENGINE=INNODB;
 
 -- keep values for defined configs
@@ -571,7 +572,7 @@ VALUES
 ('4ebce670-4226-476e-8bf8-aa810c0a60a5', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Female', 'Address', 'Businessman', 'electoral-division-name', '20', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f');
 
 INSERT INTO NOMINATION_SUPPORT_DOC
-	(ID, FILE_PATH, SUPPORT_DOC_CONFIG_DATA_ID, NOMINATION_ID)
+	(ID, FILE_PATH, SUPPORT_DOC_CONFIG_DATA_ID, NOMINATION_ID, STATUS)
 VALUES
 ('5b8aff7b-44e6-43fe-8254-ba81c5d94129', 'url/resource/to/file/server/file1.pdf', 'b20dd58c-e5bb-469d-98c9-8711d6da1879', '135183e2-a0ca-44a0-9577-0d2b16c3217f', 'NEW'),
 ('32a82ec0-f60c-49a3-9fa7-c971903d230e', 'url/resource/to/file/server/file2.pdf', '3fac66f2-302c-4d27-b9ae-1d004037a9ba', '135183e2-a0ca-44a0-9577-0d2b16c3217f', 'NEW');
