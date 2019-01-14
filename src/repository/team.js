@@ -15,12 +15,6 @@ FROM TEAM t
 	LEFT JOIN CONTACT_NUMBER cn on t.ID = cn.TEAM_ID
 WHERE t.ID = :team_id`;
 
-// const TEAM_UPDATE_QUERY = `UPDATE TEAM
-// SET
-//     name=:name, type=:type, name_of_secratery=:name_of_secratery, address_of_secratery=:address_of_secratery
-// WHERE
-//     id= :id`;
-
 const fetchTeamById = (team_id) => {
     const params = { team_id: team_id };
     return DbConnection()
@@ -32,6 +26,15 @@ const fetchTeamById = (team_id) => {
                 throw new DBError(error);
             });
 };
+
+
+
+
+// const TEAM_UPDATE_QUERY = `UPDATE TEAM
+// SET
+//     name=:name, type=:type, name_of_secratery=:name_of_secratery, address_of_secratery=:address_of_secratery
+// WHERE
+//     id= :id`;
 
 
 /**

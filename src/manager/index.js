@@ -6,6 +6,8 @@ import CandidateManager from './candidate/candidateManager';
 import SupportDocManager from './supportdoc/supportDocManager';
 import ElectionManager from './election/electionManager';
 import NominationManager from './nomination/nominationManager';
+import DivisionManager from './division/divisionManager';
+import ObjectionManager from './objection/objectionManager';
 
 export {
   UserManager,
@@ -16,4 +18,6 @@ export {
   SupportDocManager,
   ElectionManager,
   NominationManager,
+  DivisionManager,
+  ObjectionManager,
 }
