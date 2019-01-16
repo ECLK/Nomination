@@ -5,6 +5,11 @@ import CandidateService from './candiateService';
 import TeamService from './teamService';
 import SupportDocService from './supportDocService';
 import ElectionService from './electionService';
+import DivisionService from './divisionService';
+import ModuleService from './moduleService';
+import ObjectionService from './objectionService';
+import ActiveElectionService from './activeElectionService';
+import ElectionNominationService from './electionNominationService';
 
 export {
   UserService,
@@ -14,4 +19,9 @@ export {
   TeamService,
   SupportDocService,
   ElectionService,
+  DivisionService,
+  ModuleService,
+  ObjectionService,
+  ActiveElectionService,
+  ElectionNominationService,
 }

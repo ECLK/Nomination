@@ -19,7 +19,7 @@ const SUPPORT_DOC_UPDATE_BASE_QUERY = `UPDATE NOMINATION_SUPPORT_DOC (ID,FILE_PA
 
 const SUPPORT_DOC_UPDATE_QUERY = `UPDATE NOMINATION_SUPPORT_DOC 
                                 SET 
-                                STATUS = "DELETED"
+                                STATUS = "DELETE"
                                 WHERE 
                                 NOMINATION_ID = :nominationId`;
 

@@ -5,6 +5,11 @@ import {Payment} from './Payment';
 import {SupportDoc} from './SupportDoc';
 import {Election} from './Election';
 import {Nomination} from './Nomination';
+import {Division} from './Division';
+import {Module} from './Module';
+import {Objection } from './Objection';
+import {ActiveElection } from './ActiveElection';
+import {ElectionNomination} from './ElectionNomination'
 
 export {
   User,
@@ -14,4 +19,9 @@ export {
   SupportDoc,
   Election,
   Nomination,
+  Division,
+  Module,
+  Objection,
+  ActiveElection,
+  ElectionNomination,
 };
