@@ -18,6 +18,7 @@ const getCandidateListByNominationId = async (req) => {
         throw new ApiError("Candidates not found",HTTP_CODE_404);
       }
     }catch (e){
+      console.log("==",e);
       throw new ServerError("server error");
     } 
   };

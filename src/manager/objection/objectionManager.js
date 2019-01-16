@@ -1,31 +1,33 @@
-import { Objection }  from 'Models';
 var joinjs = require('join-js').default;
-// join-js usage : https://www.npmjs.com/package/join-js
+import { Objection } from 'Models';
+import { List } from 'typed-immutable';
+import _ from 'lodash';
 
 const resultMaps = [
-  {
-    mapId: 'objectionMap',
-    idProperty: 'id',
-    properties: ['id', 'description', 'created_date', 'created_by', 'created_by_team_id', 'nomination_id' ]
-  }
-];
+    {
+        mapId: 'objectionMap',
+        idProperty: 'id',
+        properties: [
+            'description', 'create_date', 'create_by', 'create_by_team_id', 'nomination_id'
+        ]
+    },
+]
 
-
-const mapToObjectionModel = (objections) => {
-  const mappedObjections = joinjs.map(objections, resultMaps, 'objectionMap', 'objection_');
-
-  //just an example how to convert row data object to Model
-  return Objection({
-    id: mappedObjections[0].id,
-    description: mappedObjections[0].description,
-    created_date: mappedObjections[0].created_date,
-    created_by: mappedObjections[0].created_by,
-    created_by_team_id: mappedObjections[0].created_by_team_id,
-    nomination_id: mappedObjections[0].nomination_id,
-  });
+const mapToObjectionModel = (objectionData) => {
+    const mappedData = joinjs.map(objectionData, resultMaps, 'objectionMap', 'objection_');
+    
+    return _.reduce(mappedData, (result, objection) => {
+        return result.push({
+            id: objection.id,
+            description: objection.description,
+            createDate: objection.create_date,
+            createBy: objection.create_by,
+            createByTeamId: objection.create_by_team_id,
+            nominationId: objection.nomination_id,
+        });
+    }, List(Objection)());
 };
 
-export default {
-  mapToObjectionModel,
-};
-
+export default{
+    mapToObjectionModel,
+}

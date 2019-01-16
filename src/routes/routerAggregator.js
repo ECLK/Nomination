@@ -9,10 +9,12 @@ import { initObjectionRouter } from './objectionRouter';
 import { initActiveElectionRouter } from './activeElectionRouter';
 import { initElectionNominationRouter } from './electionNominationRouter';
 
+
 export const initRoutes = (app) => {
   initUserRouter(app);
   initDefaultRouter(app);
   initTeamRouter(app);
+  initObjectionRouter(app);
   initNominationRouter(app);
   initElectionRouter(app);
   initDivisionRouter(app);
@@ -20,4 +22,5 @@ export const initRoutes = (app) => {
   initObjectionRouter(app);
   initActiveElectionRouter(app);
   initElectionNominationRouter(app);
+
 };

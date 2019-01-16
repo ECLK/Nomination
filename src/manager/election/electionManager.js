@@ -1,7 +1,5 @@
-// TODO: CLEMENT - WIRTE UNIT TESTING FOR MANAGER FUNCTIONS
 import { Election } from 'Models';
 var joinjs = require('join-js').default;
-// join-js usage : https://www.npmjs.com/package/join-js
 
 const resultMaps = [
 	{

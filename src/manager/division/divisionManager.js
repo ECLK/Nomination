@@ -1,30 +1,65 @@
-import { Division }  from 'Models';
 var joinjs = require('join-js').default;
-// join-js usage : https://www.npmjs.com/package/join-js
+import { Division, AllowedDivision } from 'Models';
+import {List} from 'typed-immutable';
+import _ from 'lodash';
 
 const resultMaps = [
-  {
-    mapId: 'divisionMap',
-    idProperty: 'id',
-    properties: ['id', 'name', 'code', 'no_of_candidates', 'module_id']
-  }
-];
+    {
+        mapId: 'divisionMap',
+        idProperty: 'id',
+        properties: [ 'name', 'code', 'no_of_candidates', 'module_id', 'election_id', 'config_id', 'status' ]
+    },
+    {
+        mapId: 'allowedDivisionMap',
+        idProperty: 'id',
+        properties: ['name', 'code', 'no_of_candidates', 'election_id', 'team_id'],
+        collections: [
+            { name: 'nomination', mapId: 'nominationMap', columnPrefix: 'nomination_' }
+        ]
+    },
+    {
+        mapId: 'nominationMap',
+        idProperty: 'id',
+        properties: [ 'status']
+    },
+    
+]
 
+const mapToDivisionModel = (divisionData) => {
+    const mappedDivisions = joinjs.map(divisionData, resultMaps, 'divisionMap', 'division_');
 
-
-const mapToDivisionModel = (divisions) => {
-  const mappedDivisions = joinjs.map(divisions, resultMaps, 'divisionMap', 'division_');
-
-  //just an example how to convert row data object to Model
-  return Division({
-    id: mappedDivisions[0].id,
-    name: mappedDivisions[0].name,
-    code: mappedDivisions[0].code,
-    no_of_candidates: mappedDivisions[0].no_of_candidates,
-    namodule_idme: mappedDivisions[0].module_id,
-  });
+    return _.reduce(mappedDivisions, (result, division) => {
+        return result.push({
+            id: division.id,
+            name: division.name,
+            code: division.code,
+            noOfCandidates: division.no_of_candidates,
+            moduleId: division.module_id,
+            electionId: division.election_id,
+            configId: division.config_id,
+            status: division.status,
+        });
+    }, List(Division)());
 };
 
-export default {
-  mapToDivisionModel,
+
+const mapToDivisionModelWithNominations = (divisionDataWithNomination) => {
+    const mappedAllowedDivisions = joinjs.map(divisionDataWithNomination, resultMaps, 'allowedDivisionMap', 'division_');
+
+    return _.reduce(mappedAllowedDivisions, (result, division) => {
+        return result.push({
+            id: division.id,
+            name: division.name,
+            code: division.code,
+            noOfCandidates: division.no_of_candidates,
+            electionId: division.election_id,
+            teamId: division.team_id,
+            nomination: division.nomination,
+        });
+    }, List(AllowedDivision)());
 };
+
+export default{
+    mapToDivisionModel,
+    mapToDivisionModelWithNominations,
+}

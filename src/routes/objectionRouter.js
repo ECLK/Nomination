@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { GET, POST } from 'HttpMethods';
 import {ObjectionService} from 'Service';
 import {createRoutes} from '../middleware/Router';
-import ObjectionManager from '../manager/objection/objectionManager';
 import {OBJECTION_EDIT_SCHEMA, GET_OBJECTION_BY_ID_SCHEMA} from './schema/objectionSchema';
 
 const objectionRouter = createRoutes();
@@ -31,6 +30,19 @@ export const initObjectionRouter = (app) => {
         .then(() => res.status(200).send())
         .catch(error => next(error));
       },
-    }
+    },
+    {
+      method: GET,
+      path: '/elections/:electionId/teams/:teamId/objections',
+      schema: {},
+      handler: (req, res, next) => {
+          return ObjectionService.getObjectionCreatedByTeam(req)
+          .then((result) => res.status(200).send(result))
+          .catch(error => next(error));
+      },
+  },
   ]);
 };
+
+
+

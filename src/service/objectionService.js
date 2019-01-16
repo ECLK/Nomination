@@ -3,6 +3,7 @@ import ObjectionRepo from '../repository/objection';
 import {ObjectionManager}  from 'Managers';
 import _ from 'lodash';
 
+//******************* Start of Admin Endpoints ********************************
 
 const updateObjectionByObjectionId = async (req) => {
   try {
@@ -30,7 +31,24 @@ const getObjectionByObjectionId = async (req) => {
   }
 };
 
+//******************* Start of User Endpoints ********************************
+
+const getObjectionCreatedByTeam = async (req) => {
+  try {
+      const objections = await ObjectionRepo.fetchObjectionCreatedByTeam(req.params.electionId, req.params.teamId);
+      if (!_.isEmpty(objections)){
+          return ObjectionManager.mapToObjectionModel(objections);
+      } else {
+          throw new ApiError("No objection found");
+      }
+  }catch (e){
+      throw new ServerError("server error");
+  }
+}; 
+
 export default {
   getObjectionByObjectionId,
   updateObjectionByObjectionId,
+  getObjectionCreatedByTeam
+
 }
