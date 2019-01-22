@@ -1,300 +1,585 @@
--- V2.3_NOMINATION_DB
+-- 
+-- NOMINATION V2.6.1
+-- 
+DROP DATABASE IF EXISTS EC_NOMINATION;
 
--- MySQL dump 10.13  Distrib 8.0.12, for osx10.13 (x86_64)
---
--- Host: localhost    Database: NOMINATION_DB2
--- ------------------------------------------------------
--- Server version	8.0.12
+CREATE DATABASE IF NOT EXISTS EC_NOMINATION CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8mb4 ;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+USE EC_NOMINATION;
 
--- create Database
-CREATE DATABASE  IF NOT EXISTS NOMINATION_DB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- activate database for queries
-USE NOMINATION_DB;
 
---
--- Table structure for table `candidate`
---
 
-DROP TABLE IF EXISTS `candidate`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `candidate` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nic` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `occupation` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nomination_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_Candidate_Nominations1_idx` (`nomination_id`),
-  CONSTRAINT `fk_Candidate_Nominations1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`nomination_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- 
+-- ELECTION MODULES
+-- mainly regarding to maintain the configs
+-- 
 
---
--- Dumping data for table `candidate`
---
 
-LOCK TABLES `candidate` WRITE;
-/*!40000 ALTER TABLE `candidate` DISABLE KEYS */;
-INSERT INTO `candidate` VALUES ('1','henderit in voluptate velit esse c','8289191928V','ommodo consequat. Duis aute irure d','psum dolo','1'),('10',' ea commodo consequat. Duis aut','8389191928V','ommodo consequat. Duis aute irure d','ui officia','3'),('11','t nulla pariatur. Excepteur sint occaec','9289191928V','ommodo consequat. Duis aute irure d','sequat. D','3'),('12','ctetur adipiscing elit, sed do','8289191128V','ommodo consequat. Duis aute irure d','prehe','3'),('13','idunt ut labore et dolore magna a','8289191929V','ommodo consequat. Duis aute irure d','nt ut l','1'),('14','laborum.Lorem ipsum dolor sit ame','8289191238V','ommodo consequat. Duis aute irure d','ficia dese','3'),('17','mollit anim id est laborum.Lore','8289191920V','ommodo consequat. Duis aute irure d','Except','2'),('18','or in reprehenderit in voluptate vel','8289191234V','ommodo consequat. Duis aute irure d','aboris ','1'),('19','labore et dolore magna aliqua. Ut','8289191123V','ommodo consequat. Duis aute irure d',' irure d','2'),('2',' Duis aute irure dolor in reprehenderit','8289191922V','ommodo consequat. Duis aute irure d','tur. Ex','1'),('20','trud exercitation ullamco laboris ni','8289112928V','ommodo consequat. Duis aute irure d','cupidata','3'),('3','si ut aliquip ex ea commodo consequat. D','8281291928V','ommodo consequat. Duis aute irure d','t aliquip','1'),('4','tetur adipiscing elit, sed do eiusmo','8289191934V','ommodo consequat. Duis aute irure d',' ulla','3'),('5','iquip ex ea commodo consequat. Duis','8289191945V','ommodo consequat. Duis aute irure d','e cil','2'),('6','lore magna aliqua. Ut enim ad mini','8289191956V','ommodo consequat. Duis aute irure d','irure d','1'),('7','quis nostrud exercitation ulla','8289191967V','ommodo consequat. Duis aute irure d','n proident','1'),('8','ommodo consequat. Duis aute irure d','9289191920V','ommodo consequat. Duis aute irure d','enim ad mi','2'),('9','oident, sunt in culpa qui officia deser','8289191990V','ommodo consequat. Duis aute irure d','icia ','3');
-/*!40000 ALTER TABLE `candidate` ENABLE KEYS */;
-UNLOCK TABLES;
+-- election_module file to maintain election types
+CREATE TABLE IF NOT EXISTS ELECTION_MODULE(
+    ID VARCHAR(36) PRIMARY KEY,
+    NAME VARCHAR(100) NOT NULL, 		/* eg value: 'parliamentary', 'provincial' */
+    DIVISION_COMMON_NAME VARCHAR(20) 	/* eg value: 'district', 'province' */
+)ENGINE=INNODB;
 
---
--- Table structure for table `election`
---
+-- manage approval status of election module
+CREATE TABLE IF NOT EXISTS ELECTION_MODULE_APPROVAL(
+	ID VARCHAR(36) PRIMARY KEY,
+	STATUS ENUM('PENDING','APPROVE','REJECT'),
+	CREATED_DATE BIGINT,
+	CREATED_BY VARCHAR(50),
+	
+	MODULE_ID VARCHAR(36),
+    FOREIGN KEY(MODULE_ID) REFERENCES ELECTION_MODULE(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
 
-DROP TABLE IF EXISTS `election`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `election` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nomination_start_date` datetime DEFAULT NULL,
-  `nomination_end_date` datetime DEFAULT NULL,
-  `election_start_date` datetime DEFAULT NULL,
-  `election_end_date` datetime DEFAULT NULL,
-  `objection_start_date` datetime DEFAULT NULL,
-  `objection_end_date` datetime DEFAULT NULL,
-  `election_module_flag` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- defines all configs required
+CREATE TABLE IF NOT EXISTS ELECTION_CONFIG(
+    ID VARCHAR(36) PRIMARY KEY,
+    KEY_NAME VARCHAR(50),
+    DESCRIPTION VARCHAR(100)
+)ENGINE=INNODB;
 
---
--- Dumping data for table `election`
---
+-- keep values for defined configs
+CREATE TABLE IF NOT EXISTS ELECTION_CONFIG_DATA(
+	VALUE VARCHAR(100) NOT NULL,
+	
+	ELECTION_CONFIG_ID VARCHAR(36),
+	FOREIGN KEY(ELECTION_CONFIG_ID) REFERENCES ELECTION_CONFIG(ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+	
+	MODULE_ID VARCHAR(36),
+	FOREIGN KEY(MODULE_ID) REFERENCES ELECTION_MODULE(ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+	
+	PRIMARY KEY(ELECTION_CONFIG_ID, MODULE_ID)
+)ENGINE=INNODB;
 
-LOCK TABLES `election` WRITE;
-/*!40000 ALTER TABLE `election` DISABLE KEYS */;
-INSERT INTO `election` VALUES ('1','1944-07-13 11:15:12','1997-08-19 05:59:35','2028-06-08 11:00:14','1986-12-02 08:04:37','2028-02-05 15:35:44','1990-05-27 10:59:19','parliamentary'),('2','1968-10-10 09:56:19','1981-01-22 00:52:37','1977-08-23 06:48:30','1958-02-19 07:35:52','1994-06-04 16:11:03','2006-11-19 17:26:34','presidential'),('3','1951-01-04 06:24:08','1979-06-09 13:29:19','1997-06-21 04:15:59','2014-11-27 00:39:15','1996-02-07 10:16:42','2007-05-08 13:53:34','parliamentary');
-/*!40000 ALTER TABLE `election` ENABLE KEYS */;
-UNLOCK TABLES;
+-- where you store all eligibity criteria of nominations
+CREATE TABLE IF NOT EXISTS ELIGIBILITY_CONFIG(
+    ID VARCHAR(36) PRIMARY KEY,
+    DESCRIPTION TEXT NOT NULL,
+    
+    MODULE_ID VARCHAR(36),
+    FOREIGN KEY(MODULE_ID) REFERENCES ELECTION_MODULE(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
 
---
--- Table structure for table `election_module_by_division`
---
+CREATE TABLE IF NOT EXISTS SUPPORT_DOC_CONFIG(
+	ID VARCHAR(36) PRIMARY KEY,
+	KEY_NAME VARCHAR(50) NOT NULL, /* eg: 'NIC', 'Birth Certificate' */
+	DESCRIPTION VARCHAR(100),
+	DOC_CATEGORY ENUM('NOMINATION', 'CANDIDATE', 'OBJECTION')
+)ENGINE=INNODB;
 
-DROP TABLE IF EXISTS `election_module_by_division`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `election_module_by_division` (
-  `election_module_flag` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `division_name` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nominated_candidate_count` int(3) DEFAULT NULL,
-  `division_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`division_id`),
-  KEY `fk_election_model_idx` (`election_module_flag`),
-  CONSTRAINT `fk_election_model` FOREIGN KEY (`election_module_flag`) REFERENCES `election` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE IF NOT EXISTS SUPPORT_DOC_CONFIG_DATA(	
+	SUPPORT_DOC_CONFIG_ID VARCHAR(36),
+	FOREIGN KEY (SUPPORT_DOC_CONFIG_ID) REFERENCES SUPPORT_DOC_CONFIG(ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+	
+	MODULE_ID VARCHAR(36),
+    FOREIGN KEY(MODULE_ID) REFERENCES ELECTION_MODULE(ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+    
+	SELECT_FLAG BOOLEAN,
+    
+    PRIMARY KEY(SUPPORT_DOC_CONFIG_ID, MODULE_ID)
+)ENGINE=INNODB;
+
+
+
 
 --
--- Dumping data for table `election_module_by_division`
+-- ELECTION 
 --
 
-LOCK TABLES `election_module_by_division` WRITE;
-/*!40000 ALTER TABLE `election_module_by_division` DISABLE KEYS */;
-INSERT INTO `election_module_by_division` VALUES ('1','Colombo',22,'1'),('1','Gampaha',23,'2'),('1','Kurunegala',24,'3');
-/*!40000 ALTER TABLE `election_module_by_division` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE IF NOT EXISTS ELECTION(
+    ID VARCHAR(36) PRIMARY KEY,
+    NAME VARCHAR(100) NOT NULL,
+    
+    MODULE_ID VARCHAR(36),
+    FOREIGN KEY(MODULE_ID) REFERENCES ELECTION_MODULE(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
 
---
--- Table structure for table `nomination`
---
+CREATE TABLE IF NOT EXISTS ELECTION_TIMELINE_CONFIG(
+	ID VARCHAR(36) PRIMARY KEY,
+	KEY_NAME VARCHAR(50) NOT NULL,
+	DESCRIPTION VARCHAR(100)
+)ENGINE=INNODB;
 
-DROP TABLE IF EXISTS `nomination`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `nomination` (
-  `nomination_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `election_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `team_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `division_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`nomination_id`),
-  KEY `fk_election_id_idx` (`election_id`),
-  KEY `fk_team_id_idx` (`team_id`),
-  KEY `fk_division_id_idx` (`division_id`),
-  CONSTRAINT `fk_division_id` FOREIGN KEY (`division_id`) REFERENCES `election_module_by_division` (`division_id`),
-  CONSTRAINT `fk_election_id` FOREIGN KEY (`election_id`) REFERENCES `election` (`id`),
-  CONSTRAINT `fk_team_id` FOREIGN KEY (`team_id`) REFERENCES `team` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE IF NOT EXISTS ELECTION_TIMELINE_CONFIG_DATA(
+	ELECTION_TIMELINE_CONFIG_ID VARCHAR(36),
+	FOREIGN KEY (ELECTION_TIMELINE_CONFIG_ID) REFERENCES ELECTION_TIMELINE_CONFIG(ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+	
+	ELECTION_ID VARCHAR(36),
+	FOREIGN KEY(ELECTION_ID) REFERENCES ELECTION(ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+	
+	VALUE BIGINT,
+	PRIMARY KEY(ELECTION_TIMELINE_CONFIG_ID, ELECTION_ID)
+)ENGINE=INNODB;
 
---
--- Dumping data for table `nomination`
---
+CREATE TABLE IF NOT EXISTS ELECTION_APPROVAL(
+	ID VARCHAR(36) PRIMARY KEY,
+	STATUS ENUM('PENDING','APPROVE','REJECT'),
+	CREATED_DATE BIGINT,
+	CREATED_BY VARCHAR(50),
+	
+	ELECTION_ID VARCHAR(36),
+	FOREIGN KEY(ELECTION_ID) REFERENCES ELECTION(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
 
-LOCK TABLES `nomination` WRITE;
-/*!40000 ALTER TABLE `nomination` DISABLE KEYS */;
-INSERT INTO `nomination` VALUES ('1','ngPendi','2','10','2'),('2','endingP','2','4','1'),('3','gPendin','3','6','2');
-/*!40000 ALTER TABLE `nomination` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE IF NOT EXISTS ELECTION_TEAM(
+	ID VARCHAR(36) PRIMARY KEY,
+	
+	TEAM_ID VARCHAR(36),
+	
+	ELECTION_ID VARCHAR(36),
+	FOREIGN KEY(ELECTION_ID) REFERENCES ELECTION(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
 
---
--- Table structure for table `nomination_review`
---
 
-DROP TABLE IF EXISTS `nomination_review`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `nomination_review` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
-  `authorized_by` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nomination_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_EC_approval_Nominations1_idx` (`nomination_id`),
-  CONSTRAINT `fk_EC_approval_Nominations1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`nomination_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `nomination_review`
---
 
-LOCK TABLES `nomination_review` WRITE;
-/*!40000 ALTER TABLE `nomination_review` DISABLE KEYS */;
-INSERT INTO `nomination_review` VALUES ('1','. Dui','2034-03-13 19:19:19','ecat cupidatat','2'),('10','datat','2024-06-13 14:33:54','esse cillu','2'),('11','anim ','2014-11-11 06:20:09','anim id est lab','2'),('12','occae','2030-12-19 04:19:31',' nisi ut ali','3'),('13',' repr','2007-01-11 16:30:40',' ipsum dolor s','1'),('14','o eiu','1968-08-20 05:28:07','aborum.Lorem','2'),('15',' null','2031-01-14 14:51:49','epteur sint oc','1'),('16',' ea c','2033-10-05 16:18:06',' consequat.','2'),('17','a des','1963-07-26 02:08:42',' adipiscing e','2'),('18',' eius','2023-05-19 09:53:24','oluptate velit','2'),('19','venia','1997-06-10 01:14:45','aute irure ','2'),('2','sed d','1940-10-25 17:36:57','met, consectet','1'),('20',' aliq','1974-09-06 01:58:39','serunt moll','2'),('3','nulla','1966-10-30 18:19:51','llum dolore eu ','2'),('4','nim v','1946-06-05 11:00:50','n voluptate ve','3'),('5','ad mi','1976-02-22 07:36:52','ute irure dolo','1'),('6','nt in','1968-01-30 06:00:25','cillum dolore e','2'),('7','t ali','2035-09-05 10:57:37','ut labore e','1'),('8','tion ','2015-06-07 17:56:47',' eiusmod tem','2'),('9','uis n','1961-01-08 03:35:01','g elit, sed','2');
-/*!40000 ALTER TABLE `nomination_review` ENABLE KEYS */;
-UNLOCK TABLES;
 
---
--- Table structure for table `objection`
---
+-- 
+-- DIVISION DATA
+-- 
 
-DROP TABLE IF EXISTS `objection`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `objection` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_date` datetime DEFAULT NULL,
-  `created_by` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nomination_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `objection_review` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_Objections_Nominations1_idx` (`nomination_id`),
-  CONSTRAINT `fk_Objections_Nominations1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`nomination_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE IF NOT EXISTS DIVISION_CONFIG(
+	ID VARCHAR(36) PRIMARY KEY,
+	NAME VARCHAR(100) NOT NULL,
+	CODE VARCHAR(10) NOT NULL,
+	NO_OF_CANDIDATES INT(5) NOT NULL,
+	
+	MODULE_ID VARCHAR(36),
+    FOREIGN KEY(MODULE_ID) REFERENCES ELECTION_MODULE(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
 
---
--- Dumping data for table `objection`
---
+CREATE TABLE IF NOT EXISTS DIVISION_CONFIG_DATA(
+	ELECTION_ID VARCHAR(36),
+	FOREIGN KEY(ELECTION_ID) REFERENCES ELECTION(ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+	
+	DIVISION_CONFIG_ID VARCHAR(36),
+	FOREIGN KEY (DIVISION_CONFIG_ID) REFERENCES DIVISION_CONFIG(ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+	
+	SELECT_FLAG BOOLEAN,
+	
+	PRIMARY KEY(ELECTION_ID, DIVISION_CONFIG_ID)
+)ENGINE=INNODB;
 
-LOCK TABLES `objection` WRITE;
-/*!40000 ALTER TABLE `objection` DISABLE KEYS */;
-INSERT INTO `objection` VALUES ('1',' consectetur adipiscing e','2035-09-03 19:27:38','inim veniam,','3','ute irure dolor in reprehe'),('2',' eiusmod tempor incididunt ut labore et dolore magna aliq','1978-01-02 17:41:24','trud exercita','3',' exercitation ullamco laboris nisi ut aliq'),('3','aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqui','2020-04-02 10:58:55','dunt ut labor','2','lamco laboris nisi ut aliquip ex '),('4','serunt mollit anim id est laborum.Lorem ipsum dolor','2025-08-07 11:32:06','pariatur. Exce','3','ore magna aliqua. Ut enim ad minim veni'),('5','a. Ut enim ad ','2001-09-23 02:17:55','t ut labore et','1','minim ve');
-/*!40000 ALTER TABLE `objection` ENABLE KEYS */;
-UNLOCK TABLES;
 
---
--- Table structure for table `payment`
---
 
-DROP TABLE IF EXISTS `payment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `payment` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `depositor` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `deposit_amount` decimal(10,2) DEFAULT NULL,
-  `deposite_date` datetime DEFAULT NULL,
-  `uploaded_file_name` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nomination_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_Payments_Nominations1_idx` (`nomination_id`),
-  CONSTRAINT `fk_Payments_Nominations1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`nomination_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `payment`
---
+-- 
+-- NOMINATION 
+-- 
 
-LOCK TABLES `payment` WRITE;
-/*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-INSERT INTO `payment` VALUES ('1','t, sed do eiusm',10000.00,'2032-05-03 02:00:54','d do eiusmod','1','on pr'),('2','t non proid',60000.00,'2024-10-25 02:23:16','olor sit amet,','2','ercitation ullamco laboris '),('3',' id est labo',20000.00,'2031-05-24 15:45:26','od tempor i','3','ctetur adipiscin');
-/*!40000 ALTER TABLE `payment` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE IF NOT EXISTS NOMINATION(
+    ID VARCHAR(36) PRIMARY KEY,
+    STATUS ENUM('DRAFT','APPROVE','REJECT','SUBMIT'),
+    
+    TEAM_ID VARCHAR(36),
+    
+    ELECTION_ID VARCHAR(36) NOT NULL,
+    FOREIGN KEY (ELECTION_ID) REFERENCES ELECTION(ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+    
+    DIVISION_CONFIG_DATA_ID VARCHAR(36),
+    FOREIGN KEY (DIVISION_CONFIG_DATA_ID) REFERENCES DIVISION_CONFIG_DATA(DIVISION_CONFIG_ID) ON UPDATE CASCADE ON DELETE RESTRICT
+    
+)ENGINE=INNODB;
 
---
--- Table structure for table `support_doc`
---
+CREATE TABLE IF NOT EXISTS NOMINATION_SUPPORT_DOC(
+    ID VARCHAR(36) PRIMARY KEY,
+	FILE_PATH VARCHAR(200),
+	
+	SUPPORT_DOC_CONFIG_DATA_ID VARCHAR(36),
+	FOREIGN KEY (SUPPORT_DOC_CONFIG_DATA_ID) REFERENCES SUPPORT_DOC_CONFIG_DATA(SUPPORT_DOC_CONFIG_ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+	
+	NOMINATION_ID VARCHAR(36),
+    FOREIGN KEY (NOMINATION_ID) REFERENCES NOMINATION(ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+    
+	STATUS ENUM('NEW','DELETE') DEFAULT 'NEW'
+)ENGINE=INNODB;
 
-DROP TABLE IF EXISTS `support_doc`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `support_doc` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `path` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `candidate_id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_support_doc_Candidate1_idx` (`candidate_id`),
-  CONSTRAINT `fk_support_doc_Candidate1` FOREIGN KEY (`candidate_id`) REFERENCES `candidate` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE IF NOT EXISTS NOMINATION_APPROVAL(
+	ID VARCHAR(36) PRIMARY KEY,	
+	APPROVAL_DATE BIGINT,
+	APPROVAL_BY VARCHAR(100),
+	STATUS ENUM('APPROVE','REJECT'),
+	REVIEW_NOTE TEXT,
+	
+	NOMINATION_ID VARCHAR(36),
+    FOREIGN KEY (NOMINATION_ID) REFERENCES NOMINATION(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
 
---
--- Dumping data for table `support_doc`
---
+-- nomination allowed teams
+CREATE TABLE IF NOT EXISTS NOMINATION_ALLOWED_TEAM(
+    ID VARCHAR(36) PRIMARY KEY,
+    SELECT_FLAG BOOLEAN DEFAULT FALSE,
+    
+    -- TEAM ID is taken from Team MicroService
+	TEAM_ID VARCHAR(36),
+	
+	DIVISION_ID VARCHAR(36),
+	FOREIGN KEY (DIVISION_ID) REFERENCES DIVISION_CONFIG(ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+	
+    ELECTION_ID VARCHAR(36),
+    FOREIGN KEY(ELECTION_ID) REFERENCES ELECTION(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
 
-LOCK TABLES `support_doc` WRITE;
-/*!40000 ALTER TABLE `support_doc` DISABLE KEYS */;
-INSERT INTO `support_doc` VALUES ('1','rehenderit in voluptate velit esse cillum dolore eu fugi','5'),('10','am, quis no','1'),('11',' minim ','12'),('12',' non proident, sunt in culpa qui o','20'),('13','psum ','17'),('14',' in culpa qui officia deserunt mollit anim id est l','9'),('15','met, consectetur adipisc','7'),('16',' sed do eiusmod tempor incididunt','4'),('17','rud exercitation ullamco laboris nisi ut aliq','20'),('18','pidatat non proident, sunt in culpa qui offic','5'),('19','i officia dese','18'),('2','esse cillum dolore eu','20'),('20','uat. Duis au','2'),('3','aborum.Lorem ipsu','14'),('4','tetur adipiscing ','8'),('5','mollit anim id est laborum.Lorem ipsum dolor sit amet,','14'),('6','xcepteur sint oc','12'),('7','ri','13'),('8','datat non proident, sunt in culpa qui offi','13'),('9','exercitation ullamco laboris ','6');
-/*!40000 ALTER TABLE `support_doc` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE IF NOT EXISTS OBJECTION(
+    ID VARCHAR(36) PRIMARY KEY,
+    DESCRIPTION TEXT,
+    CREATE_DATE BIGINT,
+    CREATE_BY VARCHAR(100),
+    CREATE_BY_TEAM_ID VARCHAR(36),
+    
+    NOMINATION_ID VARCHAR(36),
+    FOREIGN KEY (NOMINATION_ID) REFERENCES NOMINATION(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
 
---
--- Table structure for table `team`
---
+CREATE TABLE IF NOT EXISTS OBJECTION_REVIEW(
+	ID VARCHAR(36) PRIMARY KEY,
+	CREATE_BY VARCHAR(100), /* plans is store use logged user id */
+	CREATE_DATE BIGINT,
+	NOTE TEXT,
+	
+	OBJECTION_ID VARCHAR(36),
+    FOREIGN KEY (OBJECTION_ID) REFERENCES OBJECTION(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
 
-DROP TABLE IF EXISTS `team`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `team` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name_of_secratery` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address_of_secratery` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE IF NOT EXISTS OBJECTION_SUPPORT_DOC(
+    ID VARCHAR(36) PRIMARY KEY,
+    FILE_PATH VARCHAR(300),
+    
+    SUPPORT_DOC_CONFIG_DATA_ID VARCHAR(36),
+	FOREIGN KEY (SUPPORT_DOC_CONFIG_DATA_ID) REFERENCES SUPPORT_DOC_CONFIG_DATA(SUPPORT_DOC_CONFIG_ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+    
+    OBJECTION_ID VARCHAR(36),
+    FOREIGN KEY (OBJECTION_ID) REFERENCES OBJECTION(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
 
---
--- Dumping data for table `team`
---
+-- payment for nomination
+CREATE TABLE IF NOT EXISTS PAYMENT(
+    ID VARCHAR(36) PRIMARY KEY,
+    DEPOSITOR VARCHAR(100),
+    DEPOSIT_DATE BIGINT,
+    AMOUNT DECIMAL(13,4),
+    FILE_PATH VARCHAR(300),
+    STATUS ENUM('PENDING','APPROVE','REJECT'),
+    
+    NOMINATION_ID VARCHAR(36),
+    FOREIGN KEY (NOMINATION_ID) REFERENCES NOMINATION(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
 
-LOCK TABLES `team` WRITE;
-/*!40000 ALTER TABLE `team` DISABLE KEYS */;
-INSERT INTO `team` VALUES ('1','rud exerc','ccaec','e irure','sed do eiusmod tempor incididunt ut labor'),('10','sed do ei','dent, sunt','a aliqua. Ut eni','ncididunt ut labore et dolore m'),('2','. Duis a','at non p','ollit ani','nt occaecat cupidatat non proident, sunt in c'),('3','uat. Duis','exercitat','atat non pro','olor in reprehenderit in voluptate vel'),('4','ipsum do','mco l','serunt ','n culpa qui officia deserunt mollit a'),('5','idunt','do cons','sint occaecat ','ostrud exercitation ullamco labor'),('6','iqua. ','laboris ni','tur. Except','dunt ut labore et dolore magna al'),('7','strud exe','i ut a','d tempor incidid','exercitation ullamco laboris nisi u'),('8','oident','s aute','e et dolore magna','in reprehenderit in voluptate velit es'),('9',' ut labo','im id est ','ur. Exce','sectetur adipiscing elit, sed d');
-/*!40000 ALTER TABLE `team` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-18  1:19:01
+
+
+
+-- 
+-- CANDIDATE 
+-- 
+
+CREATE TABLE IF NOT EXISTS CANDIDATE(
+    ID VARCHAR(36) PRIMARY KEY,
+    FULL_NAME VARCHAR(200),
+    PREFERRED_NAME VARCHAR(50),
+    NIC VARCHAR(15),
+    DATE_OF_BIRTH BIGINT,
+    GENDER VARCHAR(6),
+    ADDRESS VARCHAR(300),
+    OCCUPATION VARCHAR(20),
+    ELECTORAL_DIVISION_NAME VARCHAR(50),
+    ELECTORAL_DIVISION_CODE VARCHAR(10),
+    COUNSIL_NAME VARCHAR(20),
+    
+    NOMINATION_ID VARCHAR(36),
+    FOREIGN KEY(NOMINATION_ID) REFERENCES NOMINATION(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS CANDIDATE_CONFIG(
+    ID VARCHAR(36) PRIMARY KEY,
+    FULL_NAME BOOLEAN,
+    PREFERRED_NAME BOOLEAN,
+    NIC BOOLEAN,
+    DATE_OF_BIRTH BOOLEAN,
+    GENDER BOOLEAN,
+    ADDRESS BOOLEAN,
+    OCCUPATION BOOLEAN,
+    ELECTORAL_DIVISION_NAME BOOLEAN,
+    ELECTORAL_DIVISION_CODE BOOLEAN,
+    COUNSIL_NAME BOOLEAN,
+    
+    MODULE_ID VARCHAR(36),
+    FOREIGN KEY (MODULE_ID) REFERENCES ELECTION_MODULE(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS CANDIDATE_SUPPORT_DOC(
+    ID VARCHAR(36) PRIMARY KEY,
+	FILE_PATH VARCHAR(200),
+	
+	SUPPORT_DOC_CONFIG_DATA_ID VARCHAR(36),
+	FOREIGN KEY (SUPPORT_DOC_CONFIG_DATA_ID) REFERENCES SUPPORT_DOC_CONFIG_DATA(SUPPORT_DOC_CONFIG_ID) ON UPDATE CASCADE ON DELETE RESTRICT,
+    
+    CANDIDATE_ID VARCHAR(36),
+    FOREIGN KEY(CANDIDATE_ID) REFERENCES CANDIDATE(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
+
+
+
+
+
+
+
+-- 
+-- Table structure fsor table `USER`
+-- 
+
+DROP TABLE IF EXISTS `USER`;
+
+CREATE TABLE `USER` (
+  `ID` VARCHAR(36) NOT NULL,
+  `NAME` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+)ENGINE=INNODB;
+
+INSERT INTO USER VALUES ('123', 'CLEMENT');
+
+
+
+
+-- 
+-- EC-NOMINATION DATA DUMP FOR V2.5.3
+-- 
+
+-- USE EC_NOMINATION;
+
+
+INSERT INTO ELECTION_MODULE 
+	(ID, NAME, DIVISION_COMMON_NAME) 
+VALUES 
+('455cd89e-269b-4b69-96ce-8d7c7bf44ac2', 'parliamentary', 'DISTRICT'),
+('7404a229-6274-43d0-b3c5-740c3c2e1256', 'presidential', 'ALL'),
+('27757873-ed40-49f7-947b-48b432a1b062', 'provincial', 'PROVINCE');
+
+INSERT INTO SUPPORT_DOC_CONFIG
+	(ID, KEY_NAME, DESCRIPTION, DOC_CATEGORY)
+VALUES
+('59f4d9df-006b-4d7c-82dc-736041e97f37', 'Objection Support Document', 'Submit any type of document related to objection', 'OBJECTION'),
+('b20dd58c-e5bb-469d-98c9-8711d6da1879', 'Nomination Form', 'Nomination form with signature', 'NOMINATION'),
+('3fac66f2-302c-4d27-b9ae-1d004037a9ba', 'Female Declaration Form', 'Declaration form that denotes the precentage of female representation for the nomination', 'NOMINATION'),
+('fe2c2d7e-66de-406a-b887-1143023f8e72', 'NIC', 'National Identification Card', 'CANDIDATE'),
+('ff4c6768-bdbe-4a16-b680-5fecb6b1f747', 'Birth Certificate', 'Birth Certification', 'CANDIDATE'),
+('15990459-2ea4-413f-b1f7-29a138fd7a97', 'Affidavit', 'Affidavit', 'CANDIDATE');
+
+INSERT INTO SUPPORT_DOC_CONFIG_DATA
+	(SUPPORT_DOC_CONFIG_ID, MODULE_ID, SELECT_FLAG)
+VALUES
+('59f4d9df-006b-4d7c-82dc-736041e97f37', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2', TRUE),
+('b20dd58c-e5bb-469d-98c9-8711d6da1879', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2', TRUE), -- Nomination - nomination form
+('3fac66f2-302c-4d27-b9ae-1d004037a9ba', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2', TRUE), -- Nomination - female declaration form
+('fe2c2d7e-66de-406a-b887-1143023f8e72', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2', TRUE),
+('ff4c6768-bdbe-4a16-b680-5fecb6b1f747', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2', TRUE),
+('15990459-2ea4-413f-b1f7-29a138fd7a97', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2', TRUE);
+
+
+INSERT INTO ELECTION 
+	(ID, NAME, MODULE_ID) 
+VALUES 
+-- parliamentary
+('43680f3e-97ac-4257-b27a-5f3b452da2e6', 'Parliamentary Election 2019', '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+
+-- presidentail
+('9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'Presidentail Election 2020', '7404a229-6274-43d0-b3c5-740c3c2e1256'),
+
+-- provincial
+('293d67ea-5898-436d-90d9-27177387be6a', 'Provincial Election 2019', '27757873-ed40-49f7-947b-48b432a1b062');
+
+/*
+INSERT INTO ELECTION_APPROVAL 
+	(ID, STATUS, CREATED_DATE, CREATED_BY, ELECTION_ID)
+VALUES
+()
+*/
+
+
+INSERT INTO ELECTION_TIMELINE_CONFIG 
+	(ID, KEY_NAME, DESCRIPTION)
+VALUES 
+('0f62755e-9784-4046-9804-8d4deed36f2a', 'nomination_start_date', 'Start date of Nomination in UNIX TIMESTAMP'),
+('c06a789c-405c-4e7a-8df2-66766284589b','nomination_end_date', 'End date of Nomination in UNIX TIMESTAMP'),
+('675ec08b-2937-4222-94a6-0143a94763f1', 'objection_start_date', 'Start date of Objection in UNIX TIMESTAMP'),
+('64ae3e95-591a-4bf9-8a5b-10803e0eca82','objection_end_date', 'End date of Objection in UNIX TIMESTAMP');
+
+INSERT INTO ELECTION_TIMELINE_CONFIG_DATA 
+	(ELECTION_TIMELINE_CONFIG_ID, ELECTION_ID, VALUE)
+VALUES
+-- parliamentary '43680f3e-97ac-4257-b27a-5f3b452da2e6'
+('0f62755e-9784-4046-9804-8d4deed36f2a', '43680f3e-97ac-4257-b27a-5f3b452da2e6', 1546713528),
+('c06a789c-405c-4e7a-8df2-66766284589b', '43680f3e-97ac-4257-b27a-5f3b452da2e6', 1548873528),
+('675ec08b-2937-4222-94a6-0143a94763f1', '43680f3e-97ac-4257-b27a-5f3b452da2e6', 1549046328),
+('64ae3e95-591a-4bf9-8a5b-10803e0eca82', '43680f3e-97ac-4257-b27a-5f3b452da2e6', 1550255928),
+
+-- presidential '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc'
+('0f62755e-9784-4046-9804-8d4deed36f2a', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 1581791928),
+('c06a789c-405c-4e7a-8df2-66766284589b', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 1585593528),
+('675ec08b-2937-4222-94a6-0143a94763f1', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 1585766328),
+('64ae3e95-591a-4bf9-8a5b-10803e0eca82', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 1586975928);
+
+INSERT INTO DIVISION_CONFIG 
+	(ID, NAME, CODE, NO_OF_CANDIDATES, MODULE_ID) 
+VALUES
+-- divisions for parliamentary ('455cd89e-269b-4b69-96ce-8d7c7bf44ac2') therefore all possible districts available here..
+('65fa860e-2928-4602-9b1e-2a7cb09ea83e', 'Colombo', '1', 22, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('21b9752f-8641-40c3-8205-39a612bf5244', 'Gampaha', '2', 21, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('c9c710e6-cf9c-496c-9b53-2fce36598ea1', 'Kaluthara', '3', 13, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('f15ae97b-8e95-4f38-93d9-fb97fabdcf22', 'Kandy', '4', 15, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('3ab3cf77-a468-41a8-821a-8aa6f38222ad', 'Matale', '5', 08, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('437bd796-597f-4d9e-9b09-874ecded15bf', 'Nuwaraeliya', '6', 11, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('44424777-9888-44cb-90ed-f4742e687ca6', 'Galle', '7', 13, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('e6af28f3-c12e-4202-bc4a-883895db0c4d', 'Matara', '8', 10, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('ea950ed0-525a-4f6e-bb7a-478e36983d90', 'Hambantota', '9', 10, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('7740f20e-363f-4e10-bc1f-a67d2b9cfecd', 'Jaffna', '10', 10, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('561f4c0b-e278-496d-a740-f1dd7c1f4f70', 'Vanni', '11', 09, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('9c1e3ae2-c78b-4f03-8b0c-8d636a36589f', 'Batticaloa', '12', 08, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('682a2b2c-3d78-4fe7-8c25-4c04a7f75328', 'Digamulla', '13', 10, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('1a29913e-3bc4-4a48-a35e-88f8a874e623', 'Trincomalee', '14', 07, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('6541f00c-abf6-4f26-a8b0-a46599fceaeb', 'Kurunegala', '15', 18, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('5aa87f72-90c5-4a4d-8160-be750b15ed7b', 'Puttalam', '16', 11, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('4875b722-fa52-4a6f-a339-ed2fdf86fbcb', 'Anuradhapura', '17', 12, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('bf6d8e67-bb79-41c6-8647-1424ef4d6103', 'Polonnaruwa', '18', 08, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('16ab500d-31b1-4176-bfa3-42e766e9d691', 'Badulla', '19', 11, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('482ddfa5-b6d3-4701-8f17-2e92f9e02774', 'Monaragala', '20', 09, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('9c2a87ca-1a5e-425b-9965-a2b7e469f647', 'Ratnapura', '21', 14, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+('f0cbfece-4c96-44ac-b493-f10a45753229', 'Kegalle', '22', 12, '455cd89e-269b-4b69-96ce-8d7c7bf44ac2'),
+
+-- divisions for presidential module ('7404a229-6274-43d0-b3c5-740c3c2e1256') therefore there will be only one division as 'all-island'
+('f04e4732-83c3-4444-a706-78b3928afd33', 'Island-wide', '00A', 1, '7404a229-6274-43d0-b3c5-740c3c2e1256');
+
+INSERT INTO DIVISION_CONFIG_DATA
+	(ELECTION_ID, DIVISION_CONFIG_ID, SELECT_FLAG)
+VALUES
+-- division approval for 'Parliamentary Election 2019' 
+('43680f3e-97ac-4257-b27a-5f3b452da2e6', '65fa860e-2928-4602-9b1e-2a7cb09ea83e', TRUE),
+('43680f3e-97ac-4257-b27a-5f3b452da2e6', '21b9752f-8641-40c3-8205-39a612bf5244', TRUE),
+('43680f3e-97ac-4257-b27a-5f3b452da2e6', 'c9c710e6-cf9c-496c-9b53-2fce36598ea1', TRUE),
+('43680f3e-97ac-4257-b27a-5f3b452da2e6', 'f15ae97b-8e95-4f38-93d9-fb97fabdcf22', TRUE),
+('43680f3e-97ac-4257-b27a-5f3b452da2e6', '44424777-9888-44cb-90ed-f4742e687ca6', TRUE),
+('43680f3e-97ac-4257-b27a-5f3b452da2e6', '7740f20e-363f-4e10-bc1f-a67d2b9cfecd', TRUE),
+('43680f3e-97ac-4257-b27a-5f3b452da2e6', '9c1e3ae2-c78b-4f03-8b0c-8d636a36589f', TRUE),
+('43680f3e-97ac-4257-b27a-5f3b452da2e6', '1a29913e-3bc4-4a48-a35e-88f8a874e623', TRUE),
+('43680f3e-97ac-4257-b27a-5f3b452da2e6', '16ab500d-31b1-4176-bfa3-42e766e9d691', TRUE),
+('43680f3e-97ac-4257-b27a-5f3b452da2e6', 'f0cbfece-4c96-44ac-b493-f10a45753229', FALSE),
+('43680f3e-97ac-4257-b27a-5f3b452da2e6', 'ea950ed0-525a-4f6e-bb7a-478e36983d90', FALSE),
+
+-- division approval for 'Presidentail Election 2020'
+('9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33', TRUE);
+
+
+INSERT INTO NOMINATION_ALLOWED_TEAM
+	(ID, SELECT_FLAG, TEAM_ID, DIVISION_ID, ELECTION_ID)
+VALUES
+-- parliamentary election 2019 / team: '5eedb70e-a4da-48e0-b971-e06cd19ecc70'
+('4ae73202-6202-4529-a94b-6e69066b951f', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '65fa860e-2928-4602-9b1e-2a7cb09ea83e', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- colombo
+('22f90f10-9da1-4eb0-985a-7ab0f1357c1f', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '21b9752f-8641-40c3-8205-39a612bf5244', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- gampaha
+('32daa158-821a-4e82-8a7a-57f9b5a4a7ed', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', 'c9c710e6-cf9c-496c-9b53-2fce36598ea1', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- kaluthara
+('e3787269-d098-43a9-9a1f-fe122032f2af', FALSE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', 'f15ae97b-8e95-4f38-93d9-fb97fabdcf22', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- kandy
+('8ee18f45-5364-411f-9515-3e1ccdd20085', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '3ab3cf77-a468-41a8-821a-8aa6f38222ad', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- matale
+('6b60d7fd-1cd8-4531-a0ae-74ef225e8f5f', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '437bd796-597f-4d9e-9b09-874ecded15bf', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- nuwaraeliya
+('b7ee6f99-fb03-4560-a550-a61d72590427', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '44424777-9888-44cb-90ed-f4742e687ca6', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- galle
+('af9db0d6-0be6-4ac4-9278-790dc3a18f5c', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', 'e6af28f3-c12e-4202-bc4a-883895db0c4d', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- matara
+('f1e425d1-499f-448e-9511-39d0bfa2d3c7', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', 'ea950ed0-525a-4f6e-bb7a-478e36983d90', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- hambantota
+('4bbef7d1-1623-4c57-bba0-f42a310629d5', FALSE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '7740f20e-363f-4e10-bc1f-a67d2b9cfecd', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- jaffna
+('98e562db-6b83-475d-acad-e6dee611f094', TRUE, '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '561f4c0b-e278-496d-a740-f1dd7c1f4f70', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- vanni
+
+-- parliamentary election 2019 / team: '7404a229-6274-43d0-b3c5-740c3c2e1256'
+('65bb2670-23eb-45a9-9f19-2ba25c94c850', TRUE, '7404a229-6274-43d0-b3c5-740c3c2e1256', '65fa860e-2928-4602-9b1e-2a7cb09ea83e', '43680f3e-97ac-4257-b27a-5f3b452da2e6'), -- colombo
+('eb8b4ffe-1fdf-4c79-978e-4adcc6b79b1b', TRUE, '7404a229-6274-43d0-b3c5-740c3c2e1256', '21b9752f-8641-40c3-8205-39a612bf5244', '43680f3e-97ac-4257-b27a-5f3b452da2e6'); -- gampaha
+
+
+
+-- 
+-- nomination 
+-- 
+
+INSERT INTO NOMINATION
+	(ID, STATUS, TEAM_ID, ELECTION_ID, DIVISION_CONFIG_DATA_ID)
+VALUES
+-- nominations for parlimentary election and team ('5eedb70e-a4da-48e0-b971-e06cd19ecc70')
+('135183e2-a0ca-44a0-9577-0d2b16c3217f', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '65fa860e-2928-4602-9b1e-2a7cb09ea83e'),
+('416e0c20-b274-4cf2-9531-8167d2f35bf7', 'DRAFT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '21b9752f-8641-40c3-8205-39a612bf5244'),
+('a0e4a9c9-4841-45df-9600-f7a607400ab6', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', 'c9c710e6-cf9c-496c-9b53-2fce36598ea1'),
+('ed7e455c-eb95-4ccc-b090-32c1616c6d0c', 'REJECT', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', 'f15ae97b-8e95-4f38-93d9-fb97fabdcf22'),
+('c1313d6d-bac3-48f6-afd7-ce7899f1714a', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '7740f20e-363f-4e10-bc1f-a67d2b9cfecd'),
+('07d4d5d9-fd83-473f-836c-a5a565d75ed1', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '1a29913e-3bc4-4a48-a35e-88f8a874e623'),
+
+('358f0d3c-5632-4046-9abb-f0aeab5bfe9e', 'APPROVE', '62fcdfa7-3c5a-405f-b344-79089131dd8e', '43680f3e-97ac-4257-b27a-5f3b452da2e6', '16ab500d-31b1-4176-bfa3-42e766e9d691'),
+
+-- nominations for presidential election and 2 teams
+('6fb66fbb-acd2-4b2e-94ac-12bee6468f5f', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33'),
+('ad78d32d-dd5a-41ac-a410-aa8500c04102', 'APPROVE', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33'),
+
+('7db3d4ba-c8a0-4340-8d6e-2d9096de7d2e', 'DRAFT', '62fcdfa7-3c5a-405f-b344-79089131dd8e', '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc', 'f04e4732-83c3-4444-a706-78b3928afd33');
+
+INSERT INTO OBJECTION
+	(ID, DESCRIPTION, CREATE_DATE, CREATE_BY, CREATE_BY_TEAM_ID, NOMINATION_ID)
+VALUES
+-- objections for praliamentary election nominations
+('417c0d5d-d417-4333-b334-56d40f725c8a', 'Objection Description 1', 1550342328, 'UsernameFromIS-1', '62fcdfa7-3c5a-405f-b344-79089131dd8e', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('1ecbc3f5-7802-483b-9ff4-61dd4cbc7e91', 'Objection Description 2', 1550428728, 'UsernameFromIS-1', '62fcdfa7-3c5a-405f-b344-79089131dd8e', 'a0e4a9c9-4841-45df-9600-f7a607400ab6'),
+('36f6062e-356a-4d14-84c6-2da68c962287', 'Objection Description 3', 1587148728, 'UsernameFromIS-3', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '358f0d3c-5632-4046-9abb-f0aeab5bfe9e'),
+('e0093c7d-8636-4467-931c-1fbc4f2053b8', 'Objection Description 5', 1550428728, 'UsernameFromIS-1', '62fcdfa7-3c5a-405f-b344-79089131dd8e', 'ed7e455c-eb95-4ccc-b090-32c1616c6d0c'),
+
+-- objections for presidential election nominations
+('4ebac898-0e6f-11e9-ab14-d663bd873d93', 'Objection Description 4', 1550428728, 'UsernameFromIS-1', '62fcdfa7-3c5a-405f-b344-79089131dd8e', 'ad78d32d-dd5a-41ac-a410-aa8500c04102'),
+('27a74411-ed86-484b-9904-7146183135dc', 'Objection Description 6', 1587235128, 'UsernameFromIS-4', '5eedb70e-a4da-48e0-b971-e06cd19ecc70', '7db3d4ba-c8a0-4340-8d6e-2d9096de7d2e');
+
+INSERT INTO OBJECTION_REVIEW
+	(ID, CREATE_BY, CREATE_DATE, NOTE, OBJECTION_ID)
+VALUES
+('2f3ea8b3-a21e-497f-ab91-8e9eafdcd922', 'UsernameFromIS-EC-Admin1', 1550428728, 'this is a review note.', '417c0d5d-d417-4333-b334-56d40f725c8a' ),
+('7048cc45-6dab-44aa-818f-5030a93daa26', 'UsernameFromIS-EC-Admin1', 1550428728, 'this is a review note.', '1ecbc3f5-7802-483b-9ff4-61dd4cbc7e91' );
+
+INSERT INTO OBJECTION_SUPPORT_DOC
+	(ID, FILE_PATH, SUPPORT_DOC_CONFIG_DATA_ID, OBJECTION_ID)
+VALUES
+('999af464-ac5a-4b48-bdbc-fcea2840bf5b', 'url/resource/to/file/server/file1.pdf', '59f4d9df-006b-4d7c-82dc-736041e97f37', '417c0d5d-d417-4333-b334-56d40f725c8a' ),
+('bce0ba43-1098-4570-953a-81cb09e27d55', 'url/resource/to/file/server/file2.pdf', '59f4d9df-006b-4d7c-82dc-736041e97f37', '417c0d5d-d417-4333-b334-56d40f725c8a' ),
+('03d71aee-880b-4898-b04f-da21f8f095bb', 'url/resource/to/file/server/file3.pdf', '59f4d9df-006b-4d7c-82dc-736041e97f37', '36f6062e-356a-4d14-84c6-2da68c962287' ),
+('7d70a34f-bce6-4a29-a693-c1ace2075a81', 'url/resource/to/file/server/file4.pdf', '59f4d9df-006b-4d7c-82dc-736041e97f37', '27a74411-ed86-484b-9904-7146183135dc' );
+
+
+-- payment for nomination
+INSERT INTO PAYMENT
+    (ID, DEPOSITOR, DEPOSIT_DATE, AMOUNT, FILE_PATH, STATUS, NOMINATION_ID)
+    -- DEPOSITOR = user role
+VALUES
+('aaba475b-fb11-4395-86f5-c7e2afdab491', 'SECRETARY', 1546851055, 200000.00, 'url/resource/to/file/server/file1.pdf', 'PENDING', '135183e2-a0ca-44a0-9577-0d2b16c3217f' ),
+('e14c183e-4e26-499f-ab6f-78666f1d5e47', 'SECRETARY', 1546851055, 260000.00, 'url/resource/to/file/server/file2.pdf', 'PENDING', '416e0c20-b274-4cf2-9531-8167d2f35bf7' ),
+('9f7b9f8f-0045-477e-a663-0bef194d9a0f', 'SECRETARY', 1546851055, 300000.00, 'url/resource/to/file/server/file3.pdf', 'PENDING', 'a0e4a9c9-4841-45df-9600-f7a607400ab6' ),
+('378a33e1-5ad0-42f1-9403-dc9dbba32f4c', 'SECRETARY', 1546851055, 500000.00, 'url/resource/to/file/server/file4.pdf', 'PENDING', 'ed7e455c-eb95-4ccc-b090-32c1616c6d0c' );
+
+
+INSERT INTO CANDIDATE
+    (ID, FULL_NAME, PREFERRED_NAME, NIC, DATE_OF_BIRTH, GENDER, ADDRESS, OCCUPATION, ELECTORAL_DIVISION_NAME, ELECTORAL_DIVISION_CODE, COUNSIL_NAME, NOMINATION_ID)
+VALUES
+('fc32c310-a1eb-4cc6-a739-da9433b5aeef', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '12', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('587b46ab-5425-408a-b303-4e992d90e2ad', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '22', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('b4f7af64-61d4-42c4-8623-8c9efb9d0f21', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '1', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('1d986c33-0e3d-4e27-9ff3-a8b03118408c', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '3', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('a5215262-6da0-4455-a7f3-9b1ae51b97f5', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '4', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('72c6427d-4378-4bd9-b83b-d4bb21fd4b49', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '8', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('82af0374-2475-47bc-bef1-ff75070ff6d5', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '7', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('5aee10f5-8e39-4f48-a3ba-d44d49b6a68e', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '14', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('a6eb639c-c6e6-4da0-b0b0-30dff94b1a8b', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Male', 'Address', 'Businessman', 'electoral-division-name', '16', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f'),
+('4ebce670-4226-476e-8bf8-aa810c0a60a5', 'Full-Name1', 'Preffered-Name1', '883120740v', '595209600', 'Female', 'Address', 'Businessman', 'electoral-division-name', '20', 'counsil-name', '135183e2-a0ca-44a0-9577-0d2b16c3217f');
+
+INSERT INTO NOMINATION_SUPPORT_DOC
+	(ID, FILE_PATH, SUPPORT_DOC_CONFIG_DATA_ID, NOMINATION_ID, STATUS)
+VALUES
+('5b8aff7b-44e6-43fe-8254-ba81c5d94129', 'url/resource/to/file/server/file1.pdf', 'b20dd58c-e5bb-469d-98c9-8711d6da1879', '135183e2-a0ca-44a0-9577-0d2b16c3217f', 'NEW'),
+('32a82ec0-f60c-49a3-9fa7-c971903d230e', 'url/resource/to/file/server/file2.pdf', '3fac66f2-302c-4d27-b9ae-1d004037a9ba', '135183e2-a0ca-44a0-9577-0d2b16c3217f', 'NEW');
+
+
+
+
+
+
+

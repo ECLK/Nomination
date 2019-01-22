@@ -20,7 +20,6 @@ const fetchUserById = (userId) => {
     });
 };
 
-
 /**
  *
  * @param id : Bigint
@@ -38,8 +37,6 @@ const createUser = (id, name) => {
       throw new DBError(error);
     });
 };
-
-
 
 /**
  * Same can be used to insert single and multiple user too,

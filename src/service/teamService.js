@@ -1,21 +1,29 @@
+import { ServerError , ApiError } from 'Errors';
+import TeamRepo from '../repository/team';
+import {TeamManager}  from 'Managers';
 import _ from 'lodash';
-import Team from '../repository/team';
+import {HTTP_CODE_404} from '../routes/constants/HttpCodes';
+
+
 
 const getTeamById = async (req) => {
-    var team_id = req.params.team_id;
-    return Team.getTeamInfo(team_id);
-}
+  try {
+    const teamId = req.params.teamId;
+    const teams = await TeamRepo.fetchTeamById( teamId );
 
-const updateTeamById = async (req) => {
-    const id = req.body.id;
-    const name = req.body.name;
-    const type = req.body.type;
-    const name_of_secratery = req.body.name_of_secratery;
-    const address_of_secratery = req.body.address_of_secratery;
-    return Team.updateTeam(id, name, type, name_of_secratery, address_of_secratery);
-}
+    if(!_.isEmpty(teams)){
+      return TeamManager.mapToTeamModel(teams)
+    }else {
+      throw new ApiError("Team not found",HTTP_CODE_404);
+    }
+  }catch (e){
+    throw new ServerError("server error");
+  }
+  
+};
+
+
 
 export default {
     getTeamById,
-    updateTeamById,
 }

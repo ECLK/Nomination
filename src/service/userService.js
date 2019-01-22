@@ -1,6 +1,7 @@
-import { ServerError } from 'Errors';
-import UserRepo from '../repository/User';
+import { ServerError , ApiError } from 'Errors';
+import UserRepo from '../repository/user';
 import {UserManager}  from 'Managers'
+import _ from 'lodash';
 
 
 const updateUserByUserId = async (req) => {
@@ -15,8 +16,13 @@ const updateUserByUserId = async (req) => {
 };
 
 const getUserByUserId = async (req) => {
-  const uid = req.params.uid;
-  return UserRepo.fetchUserById( uid );
+  const uid = req.params.userId;
+  const users = await UserRepo.fetchUserById( uid );
+  if(!_.isEmpty(users)){
+    return UserManager.mapToUserModel(users);
+  }else {
+    throw new ApiError("User not found");
+  }
 };
 
 export default {
