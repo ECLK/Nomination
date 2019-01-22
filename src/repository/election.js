@@ -26,7 +26,28 @@ const fetchElectionByIdWithTimelineData = (electionId) => {
 };
 
 
+const ALL_ELECTIONS_SELECT_QUERY = `SELECT
+	ID as election_id,
+	NAME as election_name,
+	CREATED_BY as election_created_by,
+	CREATED_AT as election_created_at,
+	UPDATED_AT as election_updated_at,
+	MODULE_ID as election_module_id
+FROM
+	ELECTION`;
+
+const fetchAllElections = () => {
+	return DbConnection()
+		.query(ALL_ELECTIONS_SELECT_QUERY, {
+			type: DbConnection().QueryTypes.SELECT,
+		}).catch( (error) => {
+			throw new DBError(error);
+		});
+}
+
+
 
 export default {
 	fetchElectionByIdWithTimelineData,
+	fetchAllElections,
 }
