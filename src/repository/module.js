@@ -3,7 +3,20 @@ import { DbConnection } from './dataSource';
 import { formatQueryToBulkInsert, formatDataToBulkInsert} from './sqlHelper';
 
 
-const MODULE_SELECT_QUERY = `SELECT ID AS module_id, NAME AS module_name FROM ELECTION_MODULE WHERE ID = :id`;
+const ALL_MODULE_SELECT_QUERY = `SELECT  
+                                  EM.ID AS MODULE_ID,
+                                  EM.NAME AS MODULE_NAME,
+                                  EM.DIVISION_COMMON_NAME AS MODULE_DIVISION_COMMON_NAME,
+                                  EM.CREATED_BY AS MODULE_CREATED_BY,
+                                  EMA.STATUS AS MODULE_STATUS
+                                  FROM ELECTION_MODULE EM LEFT JOIN ELECTION_MODULE_APPROVAL EMA
+                                  ON EM.ID=EMA.MODULE_ID WHERE EMA.STATUS= :status`;
+const MODULE_SELECT_QUERY = `SELECT 
+                              ID AS MODULE_ID, 
+                              NAME AS MODULE_NAME,
+                              DIVISION_COMMON_NAME AS MODULE_DIVISION_COMMON_NAME,
+                              CREATED_BY AS MODULE_CREATED_BY
+                              FROM ELECTION_MODULE WHERE ID = :id`;
 const MODULE_INSERT_QUERY = `INSERT INTO ELECTION_MODULE (ID, NAME) VALUES (:id, :name)`;
 const MODULE_INSERT_BASE_QUERY = `INSERT INTO ELECTION_MODULE VALUES `;
 const MODULE_COLUMN_ORDER = ['ID', 'NAME'];
@@ -55,9 +68,23 @@ const insertModules = (modules) => {
   });
 };
 
+//get all election modules by status
+const fetchModuleSByStatus = (status) => {
+  const params = { status: status };
+  return DbConnection()
+    .query(ALL_MODULE_SELECT_QUERY,
+      {
+        replacements: params,
+        type: DbConnection().QueryTypes.SELECT,
+      }).catch((error) => {
+      throw new DBError(error);
+    });
+};
+
 
 export default {
   fetchModuleById,
   createModule,
   insertModules,
+  fetchModuleSByStatus
 }

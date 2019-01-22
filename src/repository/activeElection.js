@@ -44,6 +44,7 @@ const createActiveElection = (id, name) => {
  * @param activeElections :Array of activeElections
  * @returns {Promise.<T>}
  */
+
 const insertActiveElections = (activeElections) => {
   return DbConnection()
   .query(formatQueryToBulkInsert(ACTIVE_ELECTION_INSERT_BASE_QUERY, activeElections),
