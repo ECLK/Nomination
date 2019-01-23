@@ -46,7 +46,7 @@ const getNominationByStatus = async (req) => {
         console.log(error);
         throw new ServerError("Server error", HTTP_CODE_404);
     }
-}
+};
 
 
 export default {

@@ -30,7 +30,7 @@ const mapToModuleModel = (modules) => {
 
 return _.reduce(mappedModules, function(result, modules) {
   return result.push({
-    "id": modules.ID,
+    "id": count,
       "name": modules.NAME,
       "divisionCommonName": modules.DIVISION_COMMON_NAME,
       "createdBy": modules.CREATED_BY,
@@ -40,6 +40,29 @@ return _.reduce(mappedModules, function(result, modules) {
 
 
 };
+
+const resultMaps2 = [
+    {
+        mapId: 'moduleMap2',
+        idProperty: 'ID',
+        properties: ['NAME']
+    }
+];
+var count=0;
+
+const mapToCandidateConfigColumnNames = (modules) => {
+    const mappedModules = joinjs.map(modules, resultMaps2, 'moduleMap2', 'COLUMN_');
+
+    return _.reduce(mappedModules, function(result, modules) {
+        return result.push({
+            "id": count,
+            "column_name": modules.COLUMN_NAME
+        });
+        count++;
+    },List(Module)(),function () {
+        count=0;
+    });
+};
 export default {
-  mapToModuleModel,
+  mapToModuleModel,mapToCandidateConfigColumnNames,
 };
