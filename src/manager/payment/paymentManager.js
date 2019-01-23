@@ -1,6 +1,5 @@
 import { Payment }  from 'Models';
 var joinjs = require('join-js').default;
-// join-js usage : https://www.npmjs.com/package/join-js
 
 const resultMaps = [
   {
@@ -11,9 +10,7 @@ const resultMaps = [
 ];
 
 const mapToPaymentModel = (payments) => {
-  
   const mappedPayments = joinjs.map(payments, resultMaps, 'paymentMap', 'PAYMENT_');
-  console.log("==============",mappedPayments);
   
   if (mappedPayments.length>0){
 

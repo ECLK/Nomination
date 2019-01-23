@@ -2,7 +2,6 @@ import { Candidate }  from 'Models';
 var joinjs = require('join-js').default;
 import {List} from 'typed-immutable';
 import _ from 'lodash';
-// join-js usage : https://www.npmjs.com/package/join-js
 
 const resultMaps = [
   {
