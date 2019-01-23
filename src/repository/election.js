@@ -1,6 +1,6 @@
 import { DBError } from 'Errors';
 import { DbConnection } from './dataSource';
-
+const uuidv4 = require('uuid/v4');
 
 const ELECTION_WITH_TIMELINE_SELECT_QUERY = `SELECT 
 e.ID AS election_id,
@@ -59,6 +59,20 @@ const fetchElectionConfigById = (id) => {
             throw new DBError(error);
         });
 };
+
+//insertElectionApproval
+const INSERT_ELECTION_APPROVAL=`INSERT INTO election_approval (ID,STATUS,CREATED_BY,CREATED_AT,UPDATED_AT,ELECTION_ID) VALUES ( :ID, :STATUS, :CREATED_BY, :CREATED_AT, :UPDATED_AT, :ELECTION_ID)`;
+const insertElectionApproval = (req) => {
+    const params = {ID:uuidv4(), STATUS:req.body.status, CREATED_BY:req.body.created_by,CREATED_AT:req.body.created_date,UPDATED_AT:req.body.update_at,ELECTION_ID:req.body.election_id};
+    return DbConnection()
+        .query(INSERT_ELECTION_APPROVAL, {
+            replacements: params,
+            type: DbConnection().QueryTypes.INSERT,
+        }).catch( (error) => {
+            throw new DBError(error);
+        });
+};
+
 export default {
-	fetchElectionByIdWithTimelineData,createTest,fetchElectionConfig,fetchElectionConfigById
+	fetchElectionByIdWithTimelineData,createTest,fetchElectionConfig,fetchElectionConfigById,insertElectionApproval
 }

@@ -63,6 +63,17 @@ const getElectionConfigById = async (req) => {
         throw new ServerError("Server error", HTTP_CODE_404);
     }
 };
+
+
+const insertElectionApproval = async (req) => {
+    try {
+        //console.log(req.body);
+        return ElectionRepo.insertElectionApproval(req);
+    }catch (e){
+        throw new ServerError("server error");
+    }
+};
+
 export default {
-    getElectionByIdWithTimelineData,insertTest,GetElectionConfig,getElectionConfigById
+    getElectionByIdWithTimelineData,insertTest,GetElectionConfig,getElectionConfigById,insertElectionApproval
 }

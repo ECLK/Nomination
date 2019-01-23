@@ -67,5 +67,16 @@ export const initElectionRouter = (app) => {
 
             },
         },
+        {
+            // dev test:- http://localhost:9001/ec-election/election/election-config
+            method: POST,
+            path: '/election/active-election',
+            //schema: {},
+            handler: (req, res, next) => {
+                return ElectionService.insertElectionApproval(req)
+                    .then((result) => res.status(200).send())
+                    .catch( error => next(error));
+            },
+        },
 	]);
 };
