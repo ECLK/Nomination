@@ -40,27 +40,23 @@ const getModulesByStatus = async (req) => {
     }
 
 };
-const getColumnnamesFromCandidate_configTabel = async (req) => {
+const getColumnNamesFromCandidateConfig = async (req) => {
 
-    const modules = await ModuleRepo.fetchColumnnamesFromCandidateConfigTabel();
+    const modules = await ModuleRepo.fetchColumnNamesFromCandidateConfig();
 
     try {
 
         if (!_.isEmpty(modules)) {
-            modules.forEach(function(element) {
-                console.log(element);
-            });
-            return modules; //ModuleManager.mapToCandidateConfigColumnNames(modules);
+            return modules;
         } else {
             throw new ApiError("Module7 not found");
         }
     } catch (e) {
-        console.log(e);
         throw new ServerError("server error");
     }
 
 };
-const InsertTodivisionConfig = async (req) => {
+const InsertDivisionConfig = async (req) => {
     try {
         await ModuleRepo.UpdateElectionModule(req.body.Division_Comman_Name,req.body.MODULE_ID);
         var list = [];
@@ -68,10 +64,8 @@ const InsertTodivisionConfig = async (req) => {
         for(var i=0;i<req.body.data.length;i++){
             list[i]={'ID':uuidv4(), 'NAME':array[i].Division_name, 'CODE':array[i].Division_code, 'NO_OF_CANDIDATES':array[i].no_of_candidate, 'MODULE_ID':req.body.MODULE_ID}
         }
-        console.log(list);
         await ModuleRepo.InsertTodivisionConfig(list);
     } catch (e) {
-        console.log(e);
         throw new ServerError("server error");
     }
 
@@ -81,6 +75,7 @@ export default {
     getModuleByModuleId,
     updateModuleByModuleId,
     getModulesByStatus,
-    getColumnnamesFromCandidate_configTabel,
-    InsertTodivisionConfig
+    getColumnNamesFromCandidateConfig,
+    InsertDivisionConfig
+
 }

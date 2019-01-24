@@ -51,7 +51,7 @@ export const initModuleRouter = (app) => {
           path: '/modules/candidate-config/columns',
           schema: {},
           handler: (req, res, next) => {
-              return ModuleService.getColumnnamesFromCandidate_configTabel(req)
+              return ModuleService.getColumnNamesFromCandidateConfig(req)
                   .then((result) => res.status(200).send(result))
                   .catch(error => next(error));
           },
@@ -62,7 +62,7 @@ export const initModuleRouter = (app) => {
           path: '/modules/division-config',
          // schema: MODULE_EDIT_SCHEMA,
           handler: (req, res, next) => {
-              return ModuleService.InsertTodivisionConfig(req)
+              return ModuleService.InsertDivisionConfig(req)
                   .then(() => res.status(200).send())
                   .catch(error => next(error));
           },

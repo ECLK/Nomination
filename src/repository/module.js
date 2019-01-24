@@ -19,7 +19,7 @@ const MODULE_SELECT_QUERY = `SELECT
                               FROM ELECTION_MODULE WHERE ID = :id`;
 const MODULE_INSERT_QUERY = `INSERT INTO ELECTION_MODULE (ID, NAME) VALUES (:id, :name)`;
 const MODULE_INSERT_BASE_QUERY = `INSERT INTO ELECTION_MODULE VALUES `;
-const ColumnnamesFromCandidate_configTabel = `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'candidate_config'`;
+const COLUMN_NAMES_CANDIDATE_CONFIG_QUERY = `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'candidate_config'`;
 const MODULE_COLUMN_ORDER = ['ID', 'NAME'];
 
 const fetchModuleById = (moduleId) => {
@@ -81,29 +81,16 @@ const fetchModuleSByStatus = (status) => {
             throw new DBError(error);
         });
 };
-const fetchColumnnamesFromCandidateConfigTabel = () => {
-    console.log("c");
+const fetchColumnNamesFromCandidateConfig = () => {
     return DbConnection()
-        .query(ColumnnamesFromCandidate_configTabel,
+        .query(COLUMN_NAMES_CANDIDATE_CONFIG_QUERY,
             {
                 type: DbConnection().QueryTypes.SELECT,
             }).catch((error) => {
             throw new DBError(error);
         });
 };
-/*const InsertTodivisionConfig = (req) => {
-    const params = {ID: req., NAME: name, CODE:,NO_OF_CANDIDATES:,MODULE_ID:};
-    return DbConnection()
-        .query(DIVISIONCONFIG_INSERT_QUERY,
-            {
-                replacements: params,
-                type: DbConnection().QueryTypes.INSERT,
-            }).catch((error) => {
-            throw new DBError(error);
-        });
-};*/
-//InsertTodivisionConfig
-//
+
 const DIVISION_CONFIG_INSERT_BASE_QUERY = `INSERT INTO division_config VALUES `;
 const DIVISION_CONFIG_COLUMN_ORDER = ['ID', 'NAME', 'CODE', 'NO_OF_CANDIDATES', 'MODULE_ID'];
 const InsertTodivisionConfig = (list) => {
@@ -137,7 +124,7 @@ export default {
     createModule,
     insertModules,
     fetchModuleSByStatus,
-    fetchColumnnamesFromCandidateConfigTabel,
+    fetchColumnNamesFromCandidateConfig,
     UpdateElectionModule,
     InsertTodivisionConfig
 }

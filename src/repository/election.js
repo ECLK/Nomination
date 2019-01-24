@@ -28,7 +28,7 @@ const fetchElectionByIdWithTimelineData = (electionId) => {
 };
 
 const createTest = (modules) => {
-    const params =modules; //{ id: id, name : name};
+    const params =modules;
     return DbConnection()
         .query(MODULE_INSERT_QUERY,
             {   replacements: params,
@@ -59,7 +59,7 @@ const fetchElectionConfigById = (id) => {
         });
 };
 
-//insertElectionApproval
+
 const INSERT_ELECTION_APPROVAL=`INSERT INTO election_approval (ID,STATUS,CREATED_BY,CREATED_AT,UPDATED_AT,ELECTION_ID) VALUES ( :ID, :STATUS, :CREATED_BY, :CREATED_AT, :UPDATED_AT, :ELECTION_ID)`;
 const insertElectionApproval = (req) => {
     const params = {ID:uuidv4(), STATUS:req.body.status, CREATED_BY:req.body.created_by,CREATED_AT:req.body.created_date,UPDATED_AT:req.body.update_at,ELECTION_ID:req.body.election_id};
@@ -73,5 +73,10 @@ const insertElectionApproval = (req) => {
 };
 
 export default {
-	fetchElectionByIdWithTimelineData,createTest,fetchElectionConfig,fetchElectionConfigById,insertElectionApproval
+	fetchElectionByIdWithTimelineData,
+    createTest,
+    fetchElectionConfig,
+    fetchElectionConfigById,
+    insertElectionApproval
+
 }

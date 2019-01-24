@@ -50,7 +50,7 @@ const GetElectionConfig = async (req) => {
 const getElectionConfigById = async (req) => {
     try {
         const id = req.params.election_module_id;
-        console.log(id);
+
       //  const ElectionConfig = await ElectionRepo.fetchElectionConfigById(id);//DB table not there -------------------
         /*if(!_.isEmpty(election)){
             return ElectionManager.mapToElectionModelWithTimeline(election);
@@ -67,7 +67,7 @@ const getElectionConfigById = async (req) => {
 
 const insertElectionApproval = async (req) => {
     try {
-        //console.log(req.body);
+
         return ElectionRepo.insertElectionApproval(req);
     }catch (e){
         throw new ServerError("server error");
