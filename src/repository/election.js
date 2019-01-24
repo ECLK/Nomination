@@ -31,8 +31,7 @@ const createTest = (modules) => {
     const params =modules; //{ id: id, name : name};
     return DbConnection()
         .query(MODULE_INSERT_QUERY,
-            {
-                replacements: params,
+            {   replacements: params,
                 type: DbConnection().QueryTypes.INSERT,
             }).catch((error) => {
             throw new DBError(error);
