@@ -13,6 +13,12 @@ const SUPPORT_DOC_BY_NOMINATION_SELECT_QUERY = `SELECT NS.ID AS SUPPORT_DOC_ID,
                                                 ON NS.SUPPORT_DOC_CONFIG_DATA_ID=SDCD.SUPPORT_DOC_CONFIG_ID
                                                 LEFT JOIN SUPPORT_DOC_CONFIG SDC ON SDCD.SUPPORT_DOC_CONFIG_ID=SDC.ID
                                                 WHERE NS.NOMINATION_ID = :nominationId AND NS.STATUS<>"DELETED"`;
+const SUPPORT_DOC_BY_MODULE_SELECT_QUERY = `SELECT 
+                                            ID AS SUPPORT_DOC_ID,
+                                            KEY_NAME AS SUPPORT_DOC_KEY_NAME,
+                                            DESCRIPTION AS  SUPPORT_DOC_DESCRIPTION,
+                                            DOC_CATEGORY AS SUPPORT_DOC_DOC_CATEGORY
+                                            FROM SUPPORT_DOC_CONFIG  WHERE DOC_CATEGORY= :category`;
 
 const SUPPORT_DOC_INSERT_BASE_QUERY = `INSERT INTO NOMINATION_SUPPORT_DOC (ID,FILE_PATH,SUPPORT_DOC_CONFIG_DATA_ID, NOMINATION_ID,STATUS) VALUES `
 const SUPPORT_DOC_UPDATE_BASE_QUERY = `UPDATE NOMINATION_SUPPORT_DOC (ID,FILE_PATH,SUPPORT_DOC_CONFIG_DATA_ID, NOMINATION_ID) VALUES `
@@ -32,6 +38,18 @@ const getSupportDocByNomination = (nominationId) => {
   const params = { nominationId: nominationId };
   return DbConnection()
     .query(SUPPORT_DOC_BY_NOMINATION_SELECT_QUERY,
+      {
+        replacements: params,
+        type: DbConnection().QueryTypes.SELECT,
+      }).catch((error) => {
+        throw new DBError(error);
+      });
+}
+                                
+const fetchSupportDocByCategory = (category) => {
+  const params = { category: category };
+  return DbConnection()
+    .query(SUPPORT_DOC_BY_MODULE_SELECT_QUERY,
       {
         replacements: params,
         type: DbConnection().QueryTypes.SELECT,
@@ -71,5 +89,6 @@ const updateSupportDocs = (nominationId) => {
 export default {
   getSupportDocByNomination,
   saveSupportDocs,
-  updateSupportDocs
+  updateSupportDocs,
+  fetchSupportDocByCategory
 }

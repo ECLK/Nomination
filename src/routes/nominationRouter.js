@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { GET, POST, PUT } from 'HttpMethods';
 import {createRoutes} from '../middleware/Router';
 import { PaymentService, CandidateService,SupportDocService,NominationService } from 'Service';
-import {SAVE_PAYMENT_SCHEMA, UPDATE_PAYMENT_SCHEMA, SAVE_SUPPORT_DOC_SCHEMA, UPDATE_SUPPORT_DOC_SCHEMA, SAVE_CANDIDATE_SCHEMA, SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA} from './schema/nominationSchema';
+import {SAVE_PAYMENT_SCHEMA, UPDATE_PAYMENT_SCHEMA, SAVE_SUPPORT_DOC_SCHEMA, UPDATE_SUPPORT_DOC_SCHEMA, SAVE_CANDIDATE_SCHEMA, SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA,SAVE_NOMINATION_APPROVE_SCHEMA} from './schema/nominationSchema';
 import {HTTP_CODE_404,HTTP_CODE_201,HTTP_CODE_200} from '../routes/constants/HttpCodes';
 const multer = require('multer');
 
@@ -130,9 +130,26 @@ export const initNominationRouter = (app) => {
         handler: (req, res, next) => {
           //const fileName = req.files.file.name
           //console.log('hahahahahahha', fileName)
-          console.log("uuuuuuuuuuuuu",req)
           upload.single(req)
-          
+          .then((result) => res.status(HTTP_CODE_201).send(result))
+          .catch(error => next(error));
+        },
+      },
+      {
+        method: GET,
+        path: '/nominations/:electionId/pending-nominations/:status',
+        handler: (req, res, next) => {
+          return NominationService.getPendingNominationsByElectionId(req)
+          .then((result) => res.status(HTTP_CODE_200).send(result))
+          .catch(error => next(error));
+        },
+      },
+      {
+        method: POST,
+        path: '/nominations/:nominationId/approve-nomination',
+        schema: SAVE_NOMINATION_APPROVE_SCHEMA,
+        handler: (req, res, next) => {
+          return NominationService.saveApproveNominationByNominationId(req)
           .then((result) => res.status(HTTP_CODE_201).send(result))
           .catch(error => next(error));
         },
