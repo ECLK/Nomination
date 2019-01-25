@@ -26,8 +26,10 @@ const mapToElectionModelWithTimeline = (electionData) => {
 		moduleId: mappedElection[0].module_id,
 		electionTimeLine: mappedElection[0].timeline,
 	});
-}
+};
+
 
 export default {
 	mapToElectionModelWithTimeline,
+
 };

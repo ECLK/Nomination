@@ -35,7 +35,6 @@ const getModulesByStatus = async (req) => {
             throw new ApiError("Module7 not found");
         }
     } catch (e) {
-        console.log("====", e);
         throw new ServerError("server error");
     }
 
@@ -70,12 +69,64 @@ const InsertDivisionConfig = async (req) => {
     }
 
 };
+const insertTOElectionModuleConfigData = async (req) => {
+    try {
+        const election_module_id = req.body.election_module_id;
+        const election_module_name = req.body.election_module_name;
+        const array = req.body.DATA;
+        const list=[];
+        ModuleRepo.insertToElectionModule(election_module_id,election_module_name);
+        for(var i =0;i<array.length;i++){
+            list[i]={VALUE:array[i].DATA, ELECTION_MODULE_CONFIG_ID:array[i].ID, MODULE_ID:election_module_id}
+        }
 
+        ModuleRepo.insertToElectionModuleConfigData(list);
+    }catch (e){
+        throw new ServerError("server error");
+    }
+};
+const GetFromElectionModuleConfig = async (req) => {
+    try {
+
+        const election = await ModuleRepo.fetchElectionModuleConfig();
+        if(!_.isEmpty(election)){
+            return election;
+        } else {
+            throw new ApiError("Election not found");
+        }
+    } catch (error) {
+        console.log(error);
+        throw new ServerError("Server error", HTTP_CODE_404);
+    }
+};
+const getElectionModuleConfigDataById = async (req) => {
+    try {
+        const id = req.params.election_module_id;
+        const name = await ModuleRepo.fetchElectionModuleById(id);
+        const result = await ModuleRepo.fetchElectionModuleConfigByModuleId(id);
+        if(!_.isEmpty(result)){
+            var final={election_module_id:id,election_module_name:name[0].NAME};
+            for(var i=0;i<result.length;i++){
+                final[result[i].KEY_NAME]=result[i].VALUE;
+            }
+            return final;
+        } else {
+            throw new ApiError("Election not found");
+        }
+
+    } catch (error) {
+        throw new ServerError("Server error", HTTP_CODE_404);
+    }
+};
 export default {
     getModuleByModuleId,
     updateModuleByModuleId,
     getModulesByStatus,
     getColumnNamesFromCandidateConfig,
-    InsertDivisionConfig
+    InsertDivisionConfig,
+    insertTOElectionModuleConfigData,
+    GetFromElectionModuleConfig,
+    getElectionModuleConfigDataById
+
 
 }

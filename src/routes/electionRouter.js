@@ -33,43 +33,6 @@ export const initElectionRouter = (app) => {
         {
             // dev test:- http://localhost:9001/ec-election/election/election-config
             method: POST,
-            path: '/election/election-config',
-            //schema: {},
-            handler: (req, res, next) => {
-                return ElectionService.insertTest(req)
-					.then((result) => res.status(200).send(result))
-                    .catch( error => next(error));
-            },
-        },
-        {
-            // dev test:- http://localhost:9001/ec-election/election/election-config
-            method: GET,
-            path: '/election/election-config',
-            //schema: {},
-            handler: (req, res, next) => {
-                return ElectionService.GetElectionConfig(req)
-                    .then((result) => res.status(200).send(result))
-                    .catch( error => next(error));
-
-            },
-        },
-        //election/
-
-        {
-            // dev test:- http://localhost:9001/ec-election/election/election-config/: election_module_id
-            method: GET,
-            path: '/election/election-config/:election_module_id',
-            schema: {},
-            handler: (req, res, next) => {
-                return ElectionService.getElectionConfigById(req)
-                    .then((result) => res.status(200).send(result))
-                    .catch( error => next(error));
-
-            },
-        },
-        {
-            // dev test:- http://localhost:9001/ec-election/election/election-config
-            method: POST,
             path: '/election/active-election',
             //schema: {},
             handler: (req, res, next) => {

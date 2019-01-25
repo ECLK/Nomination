@@ -46,7 +46,6 @@ export const initModuleRouter = (app) => {
     },
       {
           // curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/modules/candidate-config/columns
-
           method: GET,
           path: '/modules/candidate-config/columns',
           schema: {},
@@ -67,6 +66,41 @@ export const initModuleRouter = (app) => {
                   .catch(error => next(error));
           },
       },
+      {
+          // dev test:- http://localhost:9001/ec-election/modules/election-config
+          method: POST,
+          path: '/modules/election-config',
+          //schema: {},
+          handler: (req, res, next) => {
+              return ModuleService.insertTOElectionModuleConfigData(req)
+                  .then((result) => res.status(200).send(result))
+                  .catch( error => next(error));
+          },
+      },
+      {
+          // dev test:- http://localhost:9001/ec-election/modules/election-config
+          method: GET,
+          path: '/modules/election-config/key-values',
+          //schema: {},
+          handler: (req, res, next) => {
+              return ModuleService.GetFromElectionModuleConfig(req)
+                  .then((result) => res.status(200).send(result))
+                  .catch( error => next(error));
+
+          },
+      },
+      {
+          // dev test:- http://localhost:9001/ec-election/modules/election-config/: election_module_id
+          method: GET,
+          path: '/modules/election-config/:election_module_id',
+          schema: {},
+          handler: (req, res, next) => {
+              return ModuleService.getElectionModuleConfigDataById(req)
+                  .then((result) => res.status(200).send(result))
+                  .catch( error => next(error));
+
+          },
+      }
 
   ]);
 };

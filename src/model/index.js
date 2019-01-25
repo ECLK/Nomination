@@ -1,22 +1,24 @@
-import { User } from './User';
-import { Team } from './Team';
-import { Candidate } from './Candidate';
-import { Payment } from './Payment';
-import { Election } from './Election';
-import { Nomination } from './Nomination';
-import { Division, AllowedDivision } from './Division';
-import { Objection } from './Objection';
-import { SupportDoc } from './SupportDoc';
+import {User} from './User';
+import {Team} from './Team';
+import {Candidate} from './Candidate';
+import {Payment} from './Payment';
+import {Election} from './Election';
+import {Nomination} from './Nomination';
+import {Division, AllowedDivision} from './Division';
+import {Objection} from './Objection';
+import {SupportDoc} from './SupportDoc';
+import {Module} from './Module';
 
 export {
-  User,
-  Candidate,
-  Payment,
-  Team,
-  SupportDoc,
-  Election,
-  Nomination,
-  Division,
-  AllowedDivision,
-  Objection,
+    User,
+    Candidate,
+    Payment,
+    Team,
+    SupportDoc,
+    Election,
+    Nomination,
+    Division,
+    AllowedDivision,
+    Objection,
+    Module
 };

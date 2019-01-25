@@ -119,6 +119,63 @@ const UpdateElectionModule = (name, id) => {
             throw new DBError(error);
         });
 };
+const ELECTION_MODULE_INSERT_QUERY = `INSERT INTO ELECTION_MODULE (ID, NAME) VALUES (:id, :name)`;
+const insertToElectionModule = (id, name) => {
+    const params = {id: id, name: name};
+    return DbConnection()
+        .query(ELECTION_MODULE_INSERT_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.INSERT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
+};
+const ELECTION_MODULE_CONFIG_INSERT_BASE_QUERY = `INSERT INTO ELECTION_MODULE_CONFIG_DATA VALUES `;
+const ELECTION_MODULE_CONFIG_COLUMN_ORDER = ['VALUE', 'ELECTION_MODULE_CONFIG_ID', 'MODULE_ID'];
+const insertToElectionModuleConfigData = (modules) => {
+    return DbConnection()
+        .query(formatQueryToBulkInsert(ELECTION_MODULE_CONFIG_INSERT_BASE_QUERY, modules),
+            {
+                replacements: formatDataToBulkInsert(modules, ELECTION_MODULE_CONFIG_COLUMN_ORDER),
+                type: DbConnection().QueryTypes.INSERT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
+};
+const GET_ELECTION_CONFIG = `SELECT * FROM ELECTION_MODULE_CONFIG`;
+const fetchElectionModuleConfig = () => {
+    return DbConnection()
+        .query(GET_ELECTION_CONFIG, {
+            type: DbConnection().QueryTypes.SELECT,
+        }).catch((error) => {
+            throw new DBError(error);
+        });
+};
+const FETCH_ELECTION_MODEL_BY_ID_QUERY = `SELECT NAME FROM ELECTION_MODULE WHERE ID= :ID`;
+const fetchElectionModuleById = (ID) => {
+    return DbConnection()
+        .query(FETCH_ELECTION_MODEL_BY_ID_QUERY, {
+            replacements: {ID: ID},
+            type: DbConnection().QueryTypes.SELECT,
+        }).catch((error) => {
+            throw new DBError(error);
+        });
+};
+const FETCH_ELECTION_CONFIG_BY_ID_QUERY = `SELECT  
+ELECTION_MODULE_CONFIG_DATA.VALUE , ELECTION_MODULE_CONFIG.ID, ELECTION_MODULE_CONFIG.KEY_NAME
+FROM ELECTION_MODULE_CONFIG_DATA 
+INNER JOIN ELECTION_MODULE_CONFIG ON ELECTION_MODULE_CONFIG.ID=election_module_config_data.ELECTION_MODULE_CONFIG_ID
+WHERE MODULE_ID=:MODULE_ID`;
+const fetchElectionModuleConfigByModuleId = (MODULE_ID) => {
+    return DbConnection()
+        .query(FETCH_ELECTION_CONFIG_BY_ID_QUERY, {
+            replacements: {MODULE_ID: MODULE_ID},
+            type: DbConnection().QueryTypes.SELECT,
+        }).catch((error) => {
+            throw new DBError(error);
+        });
+};
 export default {
     fetchModuleById,
     createModule,
@@ -126,5 +183,11 @@ export default {
     fetchModuleSByStatus,
     fetchColumnNamesFromCandidateConfig,
     UpdateElectionModule,
-    InsertTodivisionConfig
+    InsertTodivisionConfig,
+    insertToElectionModule,
+    insertToElectionModuleConfigData,
+    fetchElectionModuleConfig,
+    fetchElectionModuleById,
+    fetchElectionModuleConfigByModuleId,
+
 }
