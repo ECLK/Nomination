@@ -10,6 +10,7 @@ const electionRouter = createRoutes();
 export const initElectionRouter = (app) => {
 	electionRouter(app, [
 		{
+			// eg: http://localhost:9001/ec-election/elections
 			method: GET,
 			path: '/elections',
 			schema: {},
@@ -20,6 +21,18 @@ export const initElectionRouter = (app) => {
 			}
 		},
 		{
+			// eg: http://localhost:9001/ec-election/elections/status/PENDING
+			method: GET,
+			path: '/elections/status/:status',
+			schema: {},
+			handler: (req, res, next) => {
+				return ElectionService.getElectionsByStatus(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			}
+		},
+		{
+			// eg: http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6
 			method: GET,
 			path: '/elections/:electionId',
 			schema: GET_ELECTION_BY_ID_SCHEME,
@@ -30,7 +43,7 @@ export const initElectionRouter = (app) => {
 			},
 		},
 		{
-			// dev test:- http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/teams/5eedb70e-a4da-48e0-b971-e06cd19ecc70/nominations/approve
+			// eg: http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/teams/5eedb70e-a4da-48e0-b971-e06cd19ecc70/nominations/approve
 			method: GET,
 			path: '/elections/:electionId/teams/:teamId/nominations/:status',
 			schema: {},

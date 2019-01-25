@@ -22,7 +22,18 @@ const AllElection = Record({
 	moduleId: String(),
 });
 
+const ElectionWithStatus = Record({
+	id: String(),
+	name: String(),
+	createdBy: String(),
+	createdAt: Number(),
+	updatedAt: Number(),
+	moduleId: String(),
+	status: String(),
+})
+
 export {
 	Election,
-	AllElection
+	AllElection,
+	ElectionWithStatus,
 }
