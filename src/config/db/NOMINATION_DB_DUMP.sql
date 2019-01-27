@@ -441,12 +441,20 @@ VALUES
 ('c4f3dfd0-e73d-4b49-bc06-386d9967bb39', 'APPROVE', 'admin-user-1', 1546713528, 1546713528, '293d67ea-5898-436d-90d9-27177387be6a');
 
 
-INSERT INTO ELECTION_APPROVAL 
-	(ID, STATUS, APPROVED_BY, APPROVED_AT, UPDATED_AT, ELECTION_ID)
+INSERT INTO ELECTION_CONFIG 
+	(ID, KEY_NAME, DESCRIPTION) 
 VALUES
-('520d60d5-6f16-47be-b938-8497aafa415f', 'APPROVE', 'admin-user-1', 1546713528, 1546713528, '43680f3e-97ac-4257-b27a-5f3b452da2e6'),
-('43242b3b-ff26-483e-8f8b-a62742882c44', 'PENDING', 'admin-user-1', 1546713528, 1546713528, '9b85a650-709e-4cdc-83e1-ba4a2ad97cbc'),
-('c4f3dfd0-e73d-4b49-bc06-386d9967bb39', 'APPROVE', 'admin-user-1', 1546713528, 1546713528, '293d67ea-5898-436d-90d9-27177387be6a');
+('21e1f616-52f7-41ef-b0a0-efdd86df6939', 'Payment amount per nominee (LKR)', 'Payment amount per nominee (LKR)'),
+('d89f5fd5-6270-49e2-a553-7f2065996c77', 'Weightage (%) vote-based', 'Weightage (%) vote-based'),
+('ddd7a12c-283b-45d3-a17b-45497d9cec8d', 'Weightage (%) preference-based', 'Weightage (%) preference-based');
+
+INSERT INTO ELECTION_CONFIG_DATA 
+	(VALUE, ELECTION_CONFIG_ID, ELECTION_ID) 
+VALUES
+('2000.00', '21e1f616-52f7-41ef-b0a0-efdd86df6939', '43680f3e-97ac-4257-b27a-5f3b452da2e6'),
+('75', 'd89f5fd5-6270-49e2-a553-7f2065996c77', '43680f3e-97ac-4257-b27a-5f3b452da2e6'),
+('25', 'ddd7a12c-283b-45d3-a17b-45497d9cec8d', '43680f3e-97ac-4257-b27a-5f3b452da2e6');
+
 
 
 INSERT INTO ELECTION_TIMELINE_CONFIG 
