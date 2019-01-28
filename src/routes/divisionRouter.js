@@ -1,14 +1,15 @@
 import _ from 'lodash';
-import { GET } from 'HttpMethods';
-import { DivisionService} from 'Service';
+import { GET, POST } from 'HttpMethods';
+import { DivisionService } from 'Service';
 import { createRoutes } from '../middleware/Router';
+import { ADD_DIVISIONS_BY_MODULE_ID_SCHEMA } from './schema/divisionSchema';
 
 const divisionRouter = createRoutes();
 
 export const initDivisionRouter = (app) => {
 	divisionRouter(app, [
 		{
-			// dev test: http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/divisions/
+			// eg: http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/divisions/
 			method: GET,
 			path: '/elections/:electionId/divisions/',
 			schema: {},
@@ -19,7 +20,7 @@ export const initDivisionRouter = (app) => {
 			},
 		},
 		{
-			// dev test: http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/teams/5eedb70e-a4da-48e0-b971-e06cd19ecc70/divisions
+			// eg: http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/teams/5eedb70e-a4da-48e0-b971-e06cd19ecc70/divisions
 			method: GET,
 			path: '/elections/:electionId/teams/:teamId/divisions',
 			schema: {},
@@ -29,5 +30,16 @@ export const initDivisionRouter = (app) => {
 					.catch(error => next(error));
 			},
 		},
+		{
+			// eg: curl -H "Content-Type: application/json" -X POST -d '[{"divisionCommonName":"Province", "divisionName":"Western", "divisionCode":"01", "noOfCandidates":20},{"divisionCommonName":"Province", "divisionName":"Nothern", "divisionCode":"04", "noOfCandidates":10}]' http://localhost:9001/ec-election/modules/27757873-ed40-49f7-947b-48b432a1b062/divisions
+			method: POST,
+			path: '/modules/:moduleId/divisions',
+			schema: ADD_DIVISIONS_BY_MODULE_ID_SCHEMA,
+			handler: (req, res, next) => {
+				return DivisionService.addDivisonsByModuleId(req)
+					.then(() => res.status(200).send())
+					.catch(error => next(error));
+			}
+		}
 	]);
 };

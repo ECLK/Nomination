@@ -5,6 +5,8 @@ import { DivisionManager } from 'Managers';
 import {
     DIVISION_NOT_FOUND_CODE,
 } from '../errors/ErrorCodes';
+import {HTTP_CODE_404,HTTP_CODE_201,HTTP_CODE_200} from '../routes/constants/HttpCodes';
+const uuidv4 = require('uuid/v4');
 
 /**
  * Get division list by election 
@@ -43,7 +45,34 @@ const getDivisionsWithNomination = async (req) => {
     }
 }
 
+/**
+ * Add division set with relates to module_id
+ * @param {params, body} req 
+ */
+const addDivisonsByModuleId = async (req) => {
+    try {
+        const module_id = req.params.moduleId;
+        const division_set = req.body;
+
+        const divisions = division_set.map((division) => {
+            return(
+                {
+                    'ID': uuidv4(),
+                    'NAME': division.divisionName, 
+                    'CODE': division.divisionCode, 
+                    'NO_OF_CANDIDATES': parseInt(division.divisionCode),
+                    'MODULE_ID': module_id,
+                }
+            );
+        });
+        return DivisionRepo.insertDivisionsByModuleId(divisions);
+    } catch (error) {
+        throw new ServerError("Server error", HTTP_CODE_404);
+    }
+}
+
 export default {
     getDivisionsByElectionId,
     getDivisionsWithNomination,
+    addDivisonsByModuleId,
 }
