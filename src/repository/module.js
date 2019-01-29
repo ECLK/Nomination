@@ -64,7 +64,10 @@ const insertModules = (modules) => {
             {
                 replacements: formatDataToBulkInsert(modules, MODULE_COLUMN_ORDER),
                 type: DbConnection().QueryTypes.INSERT,
-            }).catch((error) => {
+            })
+        .then((result) => {
+            return modules;
+        }).catch((error) => {
             throw new DBError(error);
         });
 };
@@ -100,7 +103,9 @@ const InsertTodivisionConfig = (list) => {
             {
                 replacements: formatDataToBulkInsert(list, DIVISION_CONFIG_COLUMN_ORDER),
                 type: DbConnection().QueryTypes.INSERT,
-            }).catch((error) => {
+            }).then((reult) => {
+            return list;
+        }).catch((error) => {
             throw new DBError(error);
         });
 };
@@ -108,7 +113,7 @@ const InsertTodivisionConfig = (list) => {
 
 const Election_Module_UPDATE_QUERY = `UPDATE election_module SET DIVISION_COMMON_NAME = :name WHERE ID = :id`;
 const UpdateElectionModule = (name, id) => {
-    const params = { name: name, id: id };
+    const params = {name: name, id: id};
     console.log(params);
     return DbConnection()
         .query(Election_Module_UPDATE_QUERY,
@@ -139,7 +144,9 @@ const insertToElectionModuleConfigData = (modules) => {
             {
                 replacements: formatDataToBulkInsert(modules, ELECTION_MODULE_CONFIG_COLUMN_ORDER),
                 type: DbConnection().QueryTypes.INSERT,
-            }).catch((error) => {
+            }).then((results) => {
+            return modules;
+        }).catch((error) => {
             throw new DBError(error);
         });
 };

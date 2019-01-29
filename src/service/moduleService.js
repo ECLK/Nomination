@@ -9,7 +9,7 @@ const updateModuleByModuleId = async (req) => {
         const id = req.body.id;
         const name = req.body.name;
         const modules = [{'ID': id, 'NAME': name}];
-        return ModuleRepo.insertModules(modules);
+        return await ModuleRepo.insertModules(modules);
     } catch (e) {
         throw new ServerError("server error");
     }
@@ -63,7 +63,7 @@ const InsertDivisionConfig = async (req) => {
         for(var i=0;i<req.body.data.length;i++){
             list[i]={'ID':uuidv4(), 'NAME':array[i].Division_name, 'CODE':array[i].Division_code, 'NO_OF_CANDIDATES':array[i].no_of_candidate, 'MODULE_ID':req.body.MODULE_ID}
         }
-        await ModuleRepo.InsertTodivisionConfig(list);
+        return await ModuleRepo.InsertTodivisionConfig(list);
     } catch (e) {
         throw new ServerError("server error");
     }
@@ -79,9 +79,11 @@ const insertTOElectionModuleConfigData = async (req) => {
         for(var i =0;i<array.length;i++){
             list[i]={VALUE:array[i].DATA, ELECTION_MODULE_CONFIG_ID:array[i].ID, MODULE_ID:election_module_id}
         }
+         ModuleRepo.insertToElectionModuleConfigData(list);
+        return req.body;
 
-        ModuleRepo.insertToElectionModuleConfigData(list);
     }catch (e){
+        console.log('abc');
         throw new ServerError("server error");
     }
 };

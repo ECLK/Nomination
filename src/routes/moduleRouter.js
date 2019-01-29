@@ -40,7 +40,7 @@ export const initModuleRouter = (app) => {
       schema: MODULE_EDIT_SCHEMA,
       handler: (req, res, next) => {
         return ModuleService.updateModuleByModuleId(req)
-        .then(() => res.status(200).send())
+        .then((result) => res.status(200).send(result))
         .catch(error => next(error));
       },
     },
@@ -62,7 +62,7 @@ export const initModuleRouter = (app) => {
          // schema: MODULE_EDIT_SCHEMA,
           handler: (req, res, next) => {
               return ModuleService.InsertDivisionConfig(req)
-                  .then(() => res.status(200).send())
+                  .then((result) => res.status(200).send(result))
                   .catch(error => next(error));
           },
       },
