@@ -65,7 +65,7 @@ const addDivisonsByModuleId = async (req) => {
                 }
             );
         });
-        return DivisionRepo.insertDivisionsByModuleId(divisions);
+        return await DivisionRepo.insertDivisionsByModuleId(divisions);
     } catch (error) {
         throw new ServerError("Server error", HTTP_CODE_404);
     }

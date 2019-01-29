@@ -37,7 +37,7 @@ export const initDivisionRouter = (app) => {
 			schema: ADD_DIVISIONS_BY_MODULE_ID_SCHEMA,
 			handler: (req, res, next) => {
 				return DivisionService.addDivisonsByModuleId(req)
-					.then(() => res.status(200).send())
+					.then((result) => res.status(200).send(result))
 					.catch(error => next(error));
 			}
 		}

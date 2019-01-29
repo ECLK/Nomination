@@ -80,6 +80,9 @@ const insertDivisionsByModuleId = (divisions) => {
 			{
 				replacements: formatDataToBulkInsert(divisions, DIVISION_COLUMN_ORDER),
 				type: DbConnection().QueryTypes.INSERT,
+			}).then((results) => {
+				console.log(results);
+				return divisions;
 			}).catch((error) => {
 				throw new DBError(error);
 			});
