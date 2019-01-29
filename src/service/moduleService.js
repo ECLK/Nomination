@@ -25,7 +25,25 @@ const getModuleByModuleId = async (req) => {
   }
 };
 
+const getModulesByStatus = async (req) => {
+  const status = req.params.status;
+  const modules = await ModuleRepo.fetchModuleSByStatus( status );
+  try{
+    if(!_.isEmpty(modules)){
+      return ModuleManager.mapToModuleModel(modules);
+    }else {
+      throw new ApiError("Module7 not found");
+    }
+  }catch(e){
+    console.log("====",e);
+    throw new ServerError("server error");
+  }
+  
+};
+
+
 export default {
   getModuleByModuleId,
   updateModuleByModuleId,
+  getModulesByStatus
 }

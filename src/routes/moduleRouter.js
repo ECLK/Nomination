@@ -22,6 +22,18 @@ export const initModuleRouter = (app) => {
       },
     },
     {
+      // curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/module/12222?max=123234567
+      method: GET,
+      path: '/modules/:status/all',
+      schema: GET_MODULE_BY_ID_SCHEMA,
+      handler: (req, res, next) => {
+        return ModuleService.getModulesByStatus(req)
+        .then((result) => res.status(200).send(result))
+        .catch(error => next(error));
+
+      },
+    },
+    {
       // curl -H "Content-Type: application/json" -X POST -d '{"id":176484, "name":"Surath"}' http://localhost:9001/ec-election/module
       method: POST,
       path: '/modules',
