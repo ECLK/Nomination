@@ -49,9 +49,10 @@ const mapToElectionWithConfig = (electionData) => {
 		id: mappedElection[0].id,
 		name: mappedElection[0].name,
 		moduleId: mappedElection[0].module_id,
-		config: mappedElection[0].config, // does not properly get mapped here
+		electionConfig: mappedElection[0].config,
 	});
 }
+
 
 export default{
 	mapToElectionModelWithTimeline,

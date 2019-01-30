@@ -12,7 +12,7 @@ export const initElectionRouter = (app) => {
 	electionRouter(app, [
 		{
 			// eg: curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6
-			// eg: curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6?role=admin
+			// eg: curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6?meta=config
 			method: GET,
 			path: '/elections/:electionId',
 			schema: GET_ELECTION_BY_ID_SCHEME,
