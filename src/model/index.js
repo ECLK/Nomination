@@ -2,7 +2,7 @@ import { User } from './User';
 import { Team } from './Team';
 import { Candidate } from './Candidate';
 import { Payment } from './Payment';
-import { Election, ElectionWithConfig } from './Election';
+import { Election, ElectionWithConfig, ElectionV2 } from './Election';
 import { Nomination } from './Nomination';
 import { Division, AllowedDivision } from './Division';
 import { Objection } from './Objection';
@@ -16,6 +16,7 @@ export {
   SupportDoc,
   Election,
   ElectionWithConfig,
+  ElectionV2,
   Nomination,
   Division,
   AllowedDivision,

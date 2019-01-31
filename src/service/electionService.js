@@ -25,12 +25,19 @@ const getElectionByIdWithTimelineData = async (req) => {
                 } else {
                     throw new ApiError("Election not found");
                 }
+            } else if (meta == 'config,timeline'){
+                const election = await ElectionRepo.fetchElectionWithAllData(id);
+                if(!_.isEmpty(election)){
+                    return ElectionManager.mapToElectionWithAll(election);
+                } else {
+                    throw new ApiError("Election not found");
+                }
             }
             
-        } else { // default output is left
-            const election = await ElectionRepo.fetchElectionByIdWithTimelineData(id);
+        } else {
+            const election = await ElectionRepo.fetchElectionById(id);
             if(!_.isEmpty(election)){
-                return ElectionManager.mapToElectionModelWithTimeline(election);
+                return ElectionManager.mapToElectionById(election);
             } else {
                 throw new ApiError("Election not found");
             }

@@ -1,5 +1,5 @@
 
-import { Record, List } from 'typed-immutable';
+import { Record, List, Any} from 'typed-immutable';
 
 // for Election with Timeline
 const ElectionTimeLine = Record({
@@ -28,7 +28,18 @@ const ElectionWithConfig = Record({
   electionConfig: List(KeyValue),
 });
 
+// introducing new way in defining models where as it maintains one model per entity
+const ElectionV2 =  Record({
+	id: String,
+	name: String,
+	moduleId: String,
+	createdBy: String,
+	createdAt: Number,
+	updatedAt: Number,
+  });
+
 export {
   Election,
   ElectionWithConfig,
+  ElectionV2,
 }
