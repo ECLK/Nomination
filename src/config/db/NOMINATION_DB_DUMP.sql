@@ -618,13 +618,13 @@ VALUES
 
 -- payment for nomination
 INSERT INTO PAYMENT
-    (ID, DEPOSITOR, DEPOSIT_DATE, AMOUNT, FILE_PATH, STATUS, CREATED_BY, CREATED_AT, UPDATED_AT, NOMINATION_ID)
+    (ID, DEPOSITOR, DEPOSIT_DATE, AMOUNT, FILE_PATH, STATUS, NOTE, CREATED_BY, CREATED_AT, UPDATED_AT, NOMINATION_ID)
     -- DEPOSITOR = user role
 VALUES
-('aaba475b-fb11-4395-86f5-c7e2afdab491', 'SECRETARY', 1546851055, 200000.00, 'url/resource/to/file/server/file1.pdf', 'PENDING', 'party-user-1', 1546713528, 1546713528, '135183e2-a0ca-44a0-9577-0d2b16c3217f' ),
-('e14c183e-4e26-499f-ab6f-78666f1d5e47', 'SECRETARY', 1546851055, 260000.00, 'url/resource/to/file/server/file2.pdf', 'PENDING', 'party-user-2', 1546713528, 1546713528,  '416e0c20-b274-4cf2-9531-8167d2f35bf7' ),
-('9f7b9f8f-0045-477e-a663-0bef194d9a0f', 'SECRETARY', 1546851055, 300000.00, 'url/resource/to/file/server/file3.pdf', 'PENDING', 'party-user-3', 1546713528, 1546713528,  'a0e4a9c9-4841-45df-9600-f7a607400ab6' ),
-('378a33e1-5ad0-42f1-9403-dc9dbba32f4c', 'SECRETARY', 1546851055, 500000.00, 'url/resource/to/file/server/file4.pdf', 'PENDING', 'party-user-4', 1546713528, 1546713528,  'ed7e455c-eb95-4ccc-b090-32c1616c6d0c' );
+('aaba475b-fb11-4395-86f5-c7e2afdab491', 'SECRETARY', 1546851055, 200000.00, 'url/resource/to/file/server/file1.pdf', 'PENDING', null, 'party-user-1', 1546713528, 1546713528, '135183e2-a0ca-44a0-9577-0d2b16c3217f' ),
+('e14c183e-4e26-499f-ab6f-78666f1d5e47', 'SECRETARY', 1546851055, 260000.00, 'url/resource/to/file/server/file2.pdf', 'PENDING', null, 'party-user-2', 1546713528, 1546713528,  '416e0c20-b274-4cf2-9531-8167d2f35bf7' ),
+('9f7b9f8f-0045-477e-a663-0bef194d9a0f', 'SECRETARY', 1546851055, 300000.00, 'url/resource/to/file/server/file3.pdf', 'PENDING', null, 'party-user-3', 1546713528, 1546713528,  'a0e4a9c9-4841-45df-9600-f7a607400ab6' ),
+('378a33e1-5ad0-42f1-9403-dc9dbba32f4c', 'SECRETARY', 1546851055, 500000.00, 'url/resource/to/file/server/file4.pdf', 'PENDING', 'This is a sample note.', 'party-user-4', 1546713528, 1546713528,  'ed7e455c-eb95-4ccc-b090-32c1616c6d0c' );
 
 
 
