@@ -6,6 +6,9 @@ import { ObjectionManager }  from 'Managers';
 const getObjectionCreatedByTeam = async (req) => {
     try {
         const objections = await ObjectionRepo.fetchObjectionCreatedByTeam(req.params.electionId, req.params.teamId);
+        console.log('*****rr*****');
+        console.log(objections);
+        console.log('**********');
         if (!_.isEmpty(objections)){
             return ObjectionManager.mapToObjectionModel(objections);
         } else {
