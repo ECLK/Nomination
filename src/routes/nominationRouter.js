@@ -2,9 +2,21 @@ import _ from 'lodash';
 import { GET, POST, PUT } from 'HttpMethods';
 import {createRoutes} from '../middleware/Router';
 import { PaymentService, CandidateService,SupportDocService,NominationService } from 'Service';
-import {SAVE_PAYMENT_SCHEMA, UPDATE_PAYMENT_SCHEMA, SAVE_SUPPORT_DOC_SCHEMA, UPDATE_SUPPORT_DOC_SCHEMA, SAVE_CANDIDATE_SCHEMA, SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA} from './schema/nominationSchema';
+import {SAVE_PAYMENT_SCHEMA, UPDATE_PAYMENT_SCHEMA, SAVE_SUPPORT_DOC_SCHEMA, UPDATE_SUPPORT_DOC_SCHEMA, SAVE_CANDIDATE_SCHEMA, SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA,SAVE_NOMINATION_APPROVE_SCHEMA} from './schema/nominationSchema';
 import {HTTP_CODE_404,HTTP_CODE_201,HTTP_CODE_200} from '../routes/constants/HttpCodes';
+const multer = require('multer');
 
+// SET STORAGE
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+})
+ 
+var upload = multer({ storage: storage })
 
 const nominationRouter = createRoutes();
 
@@ -115,20 +127,50 @@ export const initNominationRouter = (app) => {
       {
         method: POST,
         path: '/upload',
-        // schema: SAVE_SUPPORT_DOC_SCHEMA,
         handler: (req, res, next) => {
-          console.log("=============",req);
-        let imageFile = req.files.file;
-      
-        imageFile.mv(`../public/${req.body.filename}.jpg`, function(err) {
-          if (err) {
-            return res.status(500).send(err);
-          }
-      
-          res.json({file: `public/${req.body.filename}.jpg`});
-        });
+          //const fileName = req.files.file.name
+          //console.log('hahahahahahha', fileName)
+          upload.single(req)
+          .then((result) => res.status(HTTP_CODE_201).send(result))
+          .catch(error => next(error));
         },
       },
+      {
+        method: GET,
+        path: '/nominations/:electionId/pending-nominations/:status',
+        handler: (req, res, next) => {
+          return NominationService.getPendingNominationsByElectionId(req)
+          .then((result) => res.status(HTTP_CODE_200).send(result))
+          .catch(error => next(error));
+        },
+      },
+      {
+        method: POST,
+        path: '/nominations/:nominationId/approve-nomination',
+        schema: SAVE_NOMINATION_APPROVE_SCHEMA,
+        handler: (req, res, next) => {
+          return NominationService.saveApproveNominationByNominationId(req)
+          .then((result) => res.status(HTTP_CODE_201).send(result))
+          .catch(error => next(error));
+        },
+      },
+      // {
+      //   method: POST,
+      //   path: '/upload',
+      //   // schema: SAVE_SUPPORT_DOC_SCHEMA,
+      //   handler: (req, res, next) => {
+      //     console.log("=====t========",req.acceptedFiles);
+      //   let imageFile = req.files.file;
+      
+      //   imageFile.mv(`../public/${req.body.filename}.jpg`, function(err) {
+      //     if (err) {
+      //       return res.status(500).send(err);
+      //     }
+      
+      //     res.json({file: `public/${req.body.filename}.jpg`});
+      //   });
+      //   },
+      // },
     ]);
   };
 

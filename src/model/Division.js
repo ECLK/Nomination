@@ -1,4 +1,7 @@
-import { Record, List } from 'typed-immutable';
+
+import {Record} from 'typed-immutable';
+import {List} from 'typed-immutable';
+
 
 const Division = Record({
     id: String(),
