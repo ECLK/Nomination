@@ -21,7 +21,7 @@ const getModuleByModuleId = async (req) => {
   if(!_.isEmpty(modules)){
     return ModuleManager.mapToModuleModel(modules);
   }else {
-    throw new ApiError("Module4 not found");
+    throw new ApiError("Module not found");
   }
 };
 

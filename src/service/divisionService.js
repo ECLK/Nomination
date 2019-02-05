@@ -68,6 +68,7 @@ const getDivisionsWithNomination = async (req) => {
             throw new ApiError("Divisions not found", DIVISION_NOT_FOUND_CODE);
         }
     } catch (error) {
+        console.log(error);
         throw new ServerError("Server Error", HTTP_CODE_404);
     }
 }

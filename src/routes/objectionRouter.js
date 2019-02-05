@@ -42,7 +42,6 @@ export const initObjectionRouter = (app) => {
       },
   },
   ]);
-
 };
 
 
