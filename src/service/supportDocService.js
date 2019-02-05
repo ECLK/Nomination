@@ -23,6 +23,23 @@ const getsupportDocsByNominationId = async (req) => {
     
   };
 
+  //Get support documents by category
+const getsupportDocsByCategory = async (req) => {
+  try {
+    const category = req.params.category;
+    const supportDocs = await SupportDocRepo.fetchSupportDocByCategory( category );
+    if(!_.isEmpty(supportDocs)){
+      return SupportDocManager.mapToCandidateSupportDocModel(supportDocs)
+    }else {
+      throw new ApiError("Support Documents not found",HTTP_CODE_404);
+    }
+  }catch (e){
+    console.log(e);
+    throw new ServerError("server error");
+  }
+  
+};
+
 //Save support documents for a particuler nomination
 const saveSupportDocsByNominationId = async (req) => {
   try {
@@ -80,5 +97,6 @@ const validateSupportDocId = async (req) => {
 export default {
   getsupportDocsByNominationId,
   saveSupportDocsByNominationId,
-  updateSupportDocsByNominationId
+  updateSupportDocsByNominationId,
+  getsupportDocsByCategory
 }

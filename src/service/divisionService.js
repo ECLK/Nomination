@@ -2,7 +2,6 @@ import { ServerError , ApiError } from 'Errors';
 import DivisionRepo from '../repository/division';
 import {DivisionManager}  from 'Managers';
 import _ from 'lodash';
-
 import {
     DIVISION_NOT_FOUND_CODE,
 } from '../errors/ErrorCodes';
