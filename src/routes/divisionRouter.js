@@ -9,7 +9,7 @@ const divisionRouter = createRoutes();
 export const initDivisionRouter = (app) => {
   divisionRouter(app, [
     {
-      // curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/division/12222?max=123234567
+      // curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/divisions/16ab500d-31b1-4176-bfa3-42e766e9d691
       method: GET,
       path: '/divisions/:divisionId',
       schema: GET_DIVISION_BY_ID_SCHEMA,
@@ -32,7 +32,7 @@ export const initDivisionRouter = (app) => {
       },
     },
     {
-			// dev test: http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/divisions/
+			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/divisions/
 			method: GET,
 			path: '/elections/:electionId/divisions/',
 			schema: {},
@@ -43,7 +43,7 @@ export const initDivisionRouter = (app) => {
 			},
 		},
 		{
-			// dev test: http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/teams/5eedb70e-a4da-48e0-b971-e06cd19ecc70/divisions
+			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/teams/5eedb70e-a4da-48e0-b971-e06cd19ecc70/divisions
 			method: GET,
 			path: '/elections/:electionId/teams/:teamId/divisions',
 			schema: {},
