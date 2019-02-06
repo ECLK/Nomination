@@ -11,6 +11,6 @@ export const URL_SCHEMA = Joi.object().keys({
   objectionId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
   activeElectionId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
   electionNominationId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
-  status: Joi.string().max(20),
+  status: Joi.string().max(10).regex(/^[A-Za-z-]+$/),
   category: Joi.string().max(20),
 });

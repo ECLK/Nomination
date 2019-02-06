@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { GET, POST } from 'HttpMethods';
-import {DivisionService} from 'Service';
-import {createRoutes} from '../middleware/Router';
-import {DIVISION_EDIT_SCHEMA, GET_DIVISION_BY_ID_SCHEMA} from './schema/divisionSchema';
+import { DivisionService } from 'Service';
+import { createRoutes } from '../middleware/Router';
+import { ADD_DIVISIONS_BY_MODULE_ID_SCHEMA, GET_DIVISION_BY_ID_SCHEMA, DIVISION_EDIT_SCHEMA } from './schema/divisionSchema';
 
 const divisionRouter = createRoutes();
 
@@ -53,6 +53,16 @@ export const initDivisionRouter = (app) => {
 					.catch(error => next(error));
 			},
 		},
-  ]);
+		{
+			// curl -H "Content-Type: application/json" -X POST -d '[{"divisionCommonName":"Province", "divisionName":"Western", "divisionCode":"01", "noOfCandidates":20},{"divisionCommonName":"Province", "divisionName":"Nothern", "divisionCode":"04", "noOfCandidates":10}]' http://localhost:9001/ec-election/modules/27757873-ed40-49f7-947b-48b432a1b062/divisions
+			method: POST,
+			path: '/modules/:moduleId/divisions',
+			schema: ADD_DIVISIONS_BY_MODULE_ID_SCHEMA,
+			handler: (req, res, next) => {
+				return DivisionService.addDivisonsByModuleId(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			}
+		}
+	]);
 };
-

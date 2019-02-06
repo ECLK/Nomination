@@ -2,6 +2,9 @@ import { DBError } from 'Errors';
 import { DbConnection } from './dataSource';
 import { formatQueryToBulkInsert, formatDataToBulkInsert} from './sqlHelper';
 
+// common query
+const DIVISION_INSERT_BASE_QUERY = `INSERT INTO DIVISION_CONFIG VALUES `;
+const DIVISION_COLUMN_ORDER = ['ID', 'NAME', 'CODE', 'NO_OF_CANDIDATES', 'MODULE_ID'];
 
 /**
  * Get divisions by electon-id.
@@ -25,7 +28,7 @@ WHERE
 	dcd.ELECTION_ID = :id AND dcd.SELECT_FLAG = TRUE`;
 
 const fetchDivisionsByElectionId = (electionId) => {
-	const params = { id: electionId};
+	const params = { id: electionId };
 	return DbConnection()
 		.query(DIVISIONS_BY_ELECTION_ID_SELECT_QUERY, {
 			replacements: params,
@@ -60,8 +63,7 @@ const createDivision = (id, name, code, no_of_candidates, module_id) => {
 };
 
 
-const DIVISION_INSERT_BASE_QUERY = `INSERT INTO DIVISION_CONFIG VALUES `;
-const DIVISION_COLUMN_ORDER = ['ID', 'NAME'];
+
 /**
  * Same can be used to insert single and multiple division too,
  * we should pass list of divisions(division) to insert multiple divisions
@@ -132,11 +134,28 @@ const fetchDivisionsWithNomination = (electionId, teamId) => {
 }
 
 
+const insertDivisionsByModuleId = (divisions) => {
+	return DbConnection()
+		.query(formatQueryToBulkInsert(DIVISION_INSERT_BASE_QUERY, divisions),
+			{
+				replacements: formatDataToBulkInsert(divisions, DIVISION_COLUMN_ORDER),
+				type: DbConnection().QueryTypes.INSERT,
+			}).then(() => {
+				return divisions;
+			}).catch((error) => {
+				throw new DBError(error);
+			});
+};
+
+
+
 export default {
   fetchDivisionById,
   createDivision,
 	insertDivisions,
 	fetchDivisionsByElectionId,
 	fetchDivisionsWithNomination,
+	insertDivisionsByModuleId,
 }
+
 
