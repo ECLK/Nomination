@@ -37,6 +37,7 @@ const updatePaymentStatusByNominationId = async (req) => {
 
 //Save payment details for a particular nomination
 const createPaymentByNominationId = async (req) => {
+  console.log("---------",req.body);
   try {
     const id = uuidv4();
     const depositor = req.body.depositor;
@@ -49,6 +50,7 @@ const createPaymentByNominationId = async (req) => {
     const paymentData = {'id':id, 'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'nominationId':nominationId, 'status':status};
     return await PaymentRepo.createPayment( paymentData );
   }catch (e){
+    console.log(e);
     throw new ServerError("server error");
   }
 };
