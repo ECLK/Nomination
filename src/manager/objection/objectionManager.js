@@ -8,21 +8,22 @@ const resultMaps = [
         mapId: 'objectionMap',
         idProperty: 'id',
         properties: [
-            'description', 'create_date', 'create_by', 'create_by_team_id', 'nomination_id'
+            'description', 'created_at', 'created_by', 'created_by_team_id', 'nomination_id'
         ]
     },
 ]
 
 const mapToObjectionModel = (objectionData) => {
+    console.log(objectionData);
     const mappedData = joinjs.map(objectionData, resultMaps, 'objectionMap', 'objection_');
     
     return _.reduce(mappedData, (result, objection) => {
         return result.push({
             id: objection.id,
             description: objection.description,
-            createDate: objection.create_date,
-            createBy: objection.create_by,
-            createByTeamId: objection.create_by_team_id,
+            createdAt: objection.created_at,
+            createdBy: objection.created_by,
+            createdByTeamId: objection.created_by_team_id,
             nominationId: objection.nomination_id,
         });
     }, List(Objection)());
