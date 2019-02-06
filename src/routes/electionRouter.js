@@ -10,7 +10,7 @@ const electionRouter = createRoutes();
 export const initElectionRouter = (app) => {
 	electionRouter(app, [
 		{
-			// eg: http://localhost:9001/ec-election/elections
+			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections
 			method: GET,
 			path: '/elections',
 			schema: {},
@@ -21,7 +21,7 @@ export const initElectionRouter = (app) => {
 			}
 		},
 		{
-			// eg: http://localhost:9001/ec-election/elections/status/PENDING
+			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/status/PENDING
 			method: GET,
 			path: '/elections/status/:status',
 			schema: {},
@@ -32,7 +32,7 @@ export const initElectionRouter = (app) => {
 			}
 		},
 		{
-			// eg: http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6
+			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6
 			method: GET,
 			path: '/elections/:electionId',
 			schema: GET_ELECTION_BY_ID_SCHEME,
