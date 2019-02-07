@@ -35,17 +35,17 @@ const UPDATE_SUPPORT_DOC_SCHEMA = Joi.object().keys({
 export let services2 = Joi.array().items(UPDATE_SUPPORT_DOC_SCHEMA)
 
 export const SAVE_CANDIDATE_SCHEMA = Joi.object().keys({
-  fullName: Joi.string().alphanum().max(100).required(),
-  preferredName: Joi.string().alphanum().max(100).required(),
-  nic: Joi.string().max(15).required(),//TODO : yujith, write regexp for nic validation
-  dateOfBirth: Joi.date().format('YYYY-MM-DD').options({ convert: true }),//TODO: yujith, should'nt be submit future date, if this canot do with joi do it with service function
-  gender: Joi.string().max(5).required(),//TODO: yujith,provide specific types like Male/Female
-  address: Joi.string().max(300).required(),
-  occupation: Joi.string().max(20).required(),
-  electoralDivisionName: Joi.string().max(50).required(),//TODO: yujith,validate with service function with particuler election module
-  electoralDivisionCode: Joi.string().max(10).required(),//TODO: yujith,validate with service function with particuler election module
-  counsilName: Joi.string().max(20).required(),//TODO: yujith, get to know the purpase 
-  nominationId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
+  fullName: Joi.string().max(300).regex(/^[\w\s]+$/).required(),
+  preferredName: Joi.string().max(100).regex(/^[\w\s]+$/).required(),
+  nic: Joi.string().max(15).required(),
+  dateOfBirth: Joi.number().integer().positive(),
+  gender: Joi.string().max(6).valid('MALE','FEMALE').required(),
+  address: Joi.string().max(300),
+  occupation: Joi.string().max(50),
+  electoralDivisionName: Joi.string().max(50).required(),
+  electoralDivisionCode: Joi.string().max(10).required(),
+  counsilName: Joi.string().max(20).required(),
+  nominationId: Joi.string().min(36).max(36).regex(/^[\w\s-]+$/),
 });
 
 export const SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA = Joi.object().keys({
