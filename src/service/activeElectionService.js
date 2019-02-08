@@ -16,10 +16,10 @@ const updateActiveElectionByActiveElectionId = async (req) => {
     const created_at = req.body.created_at;
     const updated_at = req.body.updated_at;
 
-    const activeElections = [{'ID':id, 'NAME':name, 'CREATED_BY':created_by, 'CREATED_AT':created_at, 'UPDATED_AT':updated_at, 'MODULE_ID':module_id}];
-    return ActiveElectionRepo.insertActiveElections(activeElections);
+    const activeElections = {'id':id, 'name':name, 'created_by':created_by, 'created_at':created_at, 'updated_at':updated_at, 'module_id':module_id};
+
+    return await ActiveElectionRepo.insertActiveElections(activeElections);
   }catch (e){
-    console.log("==========",e);
     throw new ServerError("server error");
   }
 };

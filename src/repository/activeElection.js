@@ -4,9 +4,8 @@ import { formatQueryToBulkInsert, formatDataToBulkInsert} from './sqlHelper';
 
 
 const ACTIVE_ELECTION_SELECT_QUERY = `SELECT ID AS activeElection_id, NAME AS activeElection_name, MODULE_ID as activeElection_module_id FROM ELECTION WHERE ID = :id`;
-const ACTIVE_ELECTION_INSERT_QUERY = `INSERT INTO ELECTION (ID, NAME) VALUES (:id, :name, :module_id)`;
-const ACTIVE_ELECTION_INSERT_BASE_QUERY = `INSERT INTO ELECTION VALUES `;
-const ACTIVE_ELECTION_COLUMN_ORDER = ['ID', 'NAME','CREATED_BY','CREATED_AT','UPDATED_AT', 'MODULE_ID'];
+const ACTIVE_ELECTION_INSERT_QUERY = `INSERT INTO ELECTION (ID, NAME, CREATED_BY, CREATED_AT, UPDATED_AT, MODULE_ID) 
+							                        VALUES (:id, :name,:created_by, :created_at, :updated_at, :module_id)`;
 
 const fetchActiveElectionById = (activeElectionId) => {
   const params = { id: activeElectionId };
@@ -45,17 +44,20 @@ const createActiveElection = (id, name) => {
  * @returns {Promise.<T>}
  */
 
+
 const insertActiveElections = (activeElections) => {
-  return DbConnection()
-  .query(formatQueryToBulkInsert(ACTIVE_ELECTION_INSERT_BASE_QUERY, activeElections),
-    {
-      replacements: formatDataToBulkInsert(activeElections, ACTIVE_ELECTION_COLUMN_ORDER),
-      type: DbConnection().QueryTypes.INSERT,
-    }).then((results) => {
-      return results;
-    }).catch((error) => {
-      throw new DBError(error);
-    });
+  const params = activeElections;
+  console.log("params",params);
+	return DbConnection()
+		.query(ACTIVE_ELECTION_INSERT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.INSERT,
+			}).then((results) => {
+				return params;
+			}).catch((error) => {
+				throw new DBError(error);
+			});
 };
 
 
