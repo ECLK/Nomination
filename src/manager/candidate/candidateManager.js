@@ -29,6 +29,8 @@ return _.reduce(mappedCandidates, function(result, candidate) {
       "address": candidate.ADDRESS,
       "counsilName": candidate.COUNSIL_NAME,
       "nominationId": candidate.NOMINATION_ID,
+      "action": "true",
+
   });
 },List(Candidate)());
 
