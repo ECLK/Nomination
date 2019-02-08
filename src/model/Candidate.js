@@ -12,6 +12,7 @@ export const Candidate =  Record({
   address: String(),
   electoralDivisionName: String(),
   electoralDivisionCode: String(),
+  action: String(),
   // counsilName: String(),
   // nominationId: String()
 });

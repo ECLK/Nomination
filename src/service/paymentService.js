@@ -41,13 +41,16 @@ const createPaymentByNominationId = async (req) => {
   try {
     const id = uuidv4();
     const depositor = req.body.depositor;
-    const depositDate = req.body.depositDate;
+    var depositDate = req.body.depositDate;
+    // var depositDateInt = Date.parse(depositDate);
+    var myDate = new Date(depositDate);
+var depositDateInt = myDate.getTime();
     const amount = req.body.amount;
     const filePath = req.body.filePath;
     const status = req.body.status;
     const nominationId = req.body.nominationId;
     await NominationService.validateNominationId( nominationId );//TODO: yujith,re check this function
-    const paymentData = {'id':id, 'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'nominationId':nominationId, 'status':status};
+    const paymentData = {'id':id, 'depositor':depositor,'depositDate':depositDateInt, 'amount':amount, 'filePath':filePath, 'nominationId':nominationId, 'status':status};
     return await PaymentRepo.createPayment( paymentData );
   }catch (e){
     console.log(e);
