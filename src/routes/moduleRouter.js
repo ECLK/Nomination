@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { GET, POST } from 'HttpMethods';
-import {ModuleService} from 'Service';
+import {ModuleService,SupportDocService} from 'Service';
 import {createRoutes} from '../middleware/Router';
 import ModuleManager from '../manager/module/moduleManager';
 import {MODULE_EDIT_SCHEMA, GET_MODULE_BY_ID_SCHEMA} from './schema/moduleSchema';
@@ -43,6 +43,18 @@ export const initModuleRouter = (app) => {
         .then(() => res.status(200).send())
         .catch(error => next(error));
       },
-    }
+    },
+    {
+      // curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/module/12222?max=123234567
+      method: GET,
+      path: '/modules/:category/support-docs',
+      schema: {},
+      handler: (req, res, next) => {
+        return SupportDocService.getsupportDocsByCategory(req)
+        .then((result) => res.status(200).send(result))
+        .catch(error => next(error));
+
+      },
+    },
   ]);
 };

@@ -6,7 +6,7 @@ import { Payment } from './Payment';
 import { Election } from './Election';
 import { Nomination } from './Nomination';
 import { Division, AllowedDivision } from './Division';
-import { SupportDoc } from './SupportDoc';
+import { SupportDoc,CandidateSupportDoc } from './SupportDoc';
 import {Module} from './Module';
 import {Objection } from './Objection';
 import {ActiveElection } from './ActiveElection';
@@ -21,6 +21,7 @@ export {
   Payment,
   Team,
   SupportDoc,
+  CandidateSupportDoc,
   Election,
   Nomination,
   Division,

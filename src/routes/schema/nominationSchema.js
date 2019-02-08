@@ -54,3 +54,13 @@ export const SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA = Joi.object().keys({
   candidateId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
 
 });
+
+export const SAVE_NOMINATION_APPROVE_SCHEMA = Joi.object().keys({
+  createdBy: Joi.string(),
+  createdAt: Joi.string(),
+  updatedAt: Joi.string(),
+  reviewNote: Joi.string(),
+  status: Joi.string().valid('1ST-APPROVE','2ND-APPROVE','REJECT'),
+  nominationId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
+
+});
