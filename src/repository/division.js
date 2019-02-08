@@ -2,11 +2,9 @@ import { DBError } from 'Errors';
 import { DbConnection } from './dataSource';
 import { formatQueryToBulkInsert, formatDataToBulkInsert} from './sqlHelper';
 
-
-const DIVISION_SELECT_QUERY = `SELECT ID AS division_id, NAME AS division_name, CODE AS division_code, NO_OF_CANDIDATES AS division_no_of_candidates, MODULE_ID AS division_module_id FROM DIVISION_CONFIG WHERE ID = :id`;
-const DIVISION_INSERT_QUERY = `INSERT INTO DIVISION_CONFIG (ID, NAME, CODE, NO_OF_CANDIDATES, MODULE_ID) VALUES (:id, :name, :code, :no_of_candidates, :module_id)`;
+// common query
 const DIVISION_INSERT_BASE_QUERY = `INSERT INTO DIVISION_CONFIG VALUES `;
-const DIVISION_COLUMN_ORDER = ['ID', 'NAME'];
+const DIVISION_COLUMN_ORDER = ['ID', 'NAME', 'CODE', 'NO_OF_CANDIDATES', 'MODULE_ID'];
 
 /**
  * Get divisions by electon-id.
@@ -29,26 +27,8 @@ FROM
 WHERE
 	dcd.ELECTION_ID = :id AND dcd.SELECT_FLAG = TRUE`;
 
-/**
- * Get divisions with nomination data
- * 
- */
-
-	const DIVISIONS_WITH_NOMINATION_SELECT_QUERY = `SELECT 
-	N.DIVISION_CONFIG_ID AS division_id,
-	DC.NAME AS division_name,
-	DC.CODE AS division_code,
-	DC.NO_OF_CANDIDATES AS division_no_of_candidates,
-	N.ELECTION_ID AS division_election_id,
-	N.TEAM_ID AS division_team_id,
-	N.ID AS nomination_id,
-	N.STATUS AS nomination_status
-	FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID=DC.ID
-	WHERE N.ELECTION_ID=:election_id  AND N.TEAM_ID=:team_id `;
-
-
 const fetchDivisionsByElectionId = (electionId) => {
-	const params = { id: electionId};
+	const params = { id: electionId };
 	return DbConnection()
 		.query(DIVISIONS_BY_ELECTION_ID_SELECT_QUERY, {
 			replacements: params,
@@ -58,18 +38,12 @@ const fetchDivisionsByElectionId = (electionId) => {
 		});
 };
 
-const fetchDivisionById = (divisionId) => {
-  const params = { id: divisionId };
-  return DbConnection()
-    .query(DIVISION_SELECT_QUERY,
-      {
-        replacements: params,
-        type: DbConnection().QueryTypes.SELECT,
-      }).catch((error) => {
-      throw new DBError(error);
-    });
-};
 
+
+const DIVISION_INSERT_QUERY = `INSERT INTO DIVISION_CONFIG 
+	(ID, NAME, CODE, NO_OF_CANDIDATES, MODULE_ID) 
+VALUES 
+	(:id, :name, :code, :no_of_candidates, :module_id)`;
 /**
  *
  * @param id : Bigint
@@ -87,6 +61,8 @@ const createDivision = (id, name, code, no_of_candidates, module_id) => {
       throw new DBError(error);
     });
 };
+
+
 
 /**
  * Same can be used to insert single and multiple division too,
@@ -106,6 +82,45 @@ const insertDivisions = (divisions) => {
 };
 
 
+const DIVISION_SELECT_QUERY = `SELECT 
+	ID AS division_id, 
+	NAME AS division_name, 
+	CODE AS division_code, 
+	NO_OF_CANDIDATES AS division_no_of_candidates, 
+	MODULE_ID AS division_module_id 
+FROM 
+	DIVISION_CONFIG 
+WHERE 
+	ID = :id`;
+const fetchDivisionById = (divisionId) => {
+  const params = { id: divisionId };
+  return DbConnection()
+    .query(DIVISION_SELECT_QUERY,
+      {
+        replacements: params,
+        type: DbConnection().QueryTypes.SELECT,
+      }).catch((error) => {
+      throw new DBError(error);
+    });
+};
+
+
+/**
+ * Get divisions with nomination data
+ * 
+ */
+const DIVISIONS_WITH_NOMINATION_SELECT_QUERY = `SELECT 
+N.DIVISION_CONFIG_ID AS division_id,
+DC.NAME AS division_name,
+DC.CODE AS division_code,
+DC.NO_OF_CANDIDATES AS division_no_of_candidates,
+N.ELECTION_ID AS division_election_id,
+N.TEAM_ID AS division_team_id,
+N.ID AS nomination_id,
+N.STATUS AS nomination_status
+FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID=DC.ID
+WHERE N.ELECTION_ID=:election_id  AND N.TEAM_ID=:team_id `;
+
 const fetchDivisionsWithNomination = (electionId, teamId) => {
 	const params = { election_id: electionId, team_id: teamId };
 	return DbConnection()
@@ -119,11 +134,28 @@ const fetchDivisionsWithNomination = (electionId, teamId) => {
 }
 
 
+const insertDivisionsByModuleId = (divisions) => {
+	return DbConnection()
+		.query(formatQueryToBulkInsert(DIVISION_INSERT_BASE_QUERY, divisions),
+			{
+				replacements: formatDataToBulkInsert(divisions, DIVISION_COLUMN_ORDER),
+				type: DbConnection().QueryTypes.INSERT,
+			}).then(() => {
+				return divisions;
+			}).catch((error) => {
+				throw new DBError(error);
+			});
+};
+
+
+
 export default {
   fetchDivisionById,
   createDivision,
 	insertDivisions,
 	fetchDivisionsByElectionId,
 	fetchDivisionsWithNomination,
+	insertDivisionsByModuleId,
 }
+
 
