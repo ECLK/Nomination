@@ -65,18 +65,8 @@ export const initNominationRouter = (app) => {
 					.catch(error => next(error));
 			}
 		},
-		//TODO : yujith, this function is not compleate yet
-		// {
-		//   method: POST,
-		//   path: '/nominations/candidates/:candidateId/support-docs',
-		//   schema: SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA,
-		//   handler: (req, res, next) => {
-		//     return CandidateService.saveCandidateSupportDocsByCandidateId(req)
-		//     .then((result) => res.status(HTTP_CODE_201).send(result))
-		//     .catch(error => next(error));
-		//   },
-		// },
 		{
+			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/nominations/a0e4a9c9-4841-45df-9600-f7a607400ab6/payments
 			method: GET,
 			path: '/nominations/:nominationId/payments',
 			schema: {},

@@ -8,6 +8,7 @@ import { initModuleRouter } from './moduleRouter';
 import { initObjectionRouter } from './objectionRouter';
 import { initActiveElectionRouter } from './activeElectionRouter';
 import { initElectionNominationRouter } from './electionNominationRouter';
+import { initPaymentRouter } from './paymentRouter';
 
 
 export const initRoutes = (app) => {
@@ -22,5 +23,5 @@ export const initRoutes = (app) => {
   initObjectionRouter(app);
   initActiveElectionRouter(app);
   initElectionNominationRouter(app);
-
+  initPaymentRouter(app);
 };
