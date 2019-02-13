@@ -9,8 +9,12 @@ const PAYMENT_SELECT_QUERY_BY_NOMINATION_ID = `SELECT
                                               DEPOSIT_DATE AS PAYMENT_DEPOSIT_DATE,
                                               AMOUNT AS PAYMENT_AMOUNT,
                                               FILE_PATH AS PAYMENT_FILE_PATH,
-                                              STATUS  AS  PAYMENT_STATUS,
-                                              NOMINATION_ID AS PAYMENT_NOMINATION_ID
+											  STATUS  AS  PAYMENT_STATUS,
+											  NOTE AS PAYMENT_NOTE,
+											  NOMINATION_ID AS PAYMENT_NOMINATION_ID,
+											  CREATED_BY AS PAYMENT_CREATED_BY,
+											  CREATED_AT AS PAYMENT_CREATED_AT,
+											  UPDATED_AT AS PAYMENT_UPDATED_AT
                                               FROM PAYMENT WHERE NOMINATION_ID= :id`;
 
 const fetchPaymentsByNominationId = (nominationId) => {
