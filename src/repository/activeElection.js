@@ -5,7 +5,13 @@ import { formatQueryToBulkInsert, formatDataToBulkInsert} from './sqlHelper';
 
 const ACTIVE_ELECTION_SELECT_QUERY = `SELECT ID AS activeElection_id, NAME AS activeElection_name, MODULE_ID as activeElection_module_id FROM ELECTION WHERE ID = :id`;
 const ACTIVE_ELECTION_INSERT_QUERY = `INSERT INTO ELECTION (ID, NAME, CREATED_BY, CREATED_AT, UPDATED_AT, MODULE_ID) 
-							                        VALUES (:id, :name,:created_by, :created_at, :updated_at, :module_id)`;
+                                      VALUES (:id, :name,:created_by, :created_at, :updated_at, :module_id)`;
+const TIME_LINE_COLUMN_ORDER = ['id','electionTimeLineConfigId', 'electionId', 'value'];
+const TIME_LINE_INSERT_BASE_QUERY = `INSERT INTO ELECTION_TIMELINE_CONFIG_DATA (ID,ELECTION_TIMELINE_CONFIG_ID,ELECTION_ID, VALUE) VALUES `
+const ELECTION_CONF_COLUMN_ORDER = ['id','electionConfigId', 'electionId', 'value'];
+const ELECTION_CONF_INSERT_BASE_QUERY = `INSERT INTO ELECTION_CONFIG_DATA (ID,ELECTION_CONFIG_ID,ELECTION_ID, VALUE) VALUES `
+
+
 
 const fetchActiveElectionById = (activeElectionId) => {
   const params = { id: activeElectionId };
@@ -60,9 +66,40 @@ const insertActiveElections = (activeElections) => {
 			});
 };
 
+const saveTimeLine = (timeLine) => { 
+  console.log("timeLine",timeLine);
+  return DbConnection()
+  .query(formatQueryToBulkInsert(TIME_LINE_INSERT_BASE_QUERY, timeLine),
+    {
+      replacements: formatDataToBulkInsert(timeLine, TIME_LINE_COLUMN_ORDER),
+      type: DbConnection().QueryTypes.INSERT,
+    }).then((results) => {
+      return timeLine ;
+     }).catch((error) => {
+       throw new DBError(error);
+     });
+};
+
+const saveActiveElectionConf = (config) => { 
+  return DbConnection()
+  .query(formatQueryToBulkInsert(ELECTION_CONF_INSERT_BASE_QUERY, config),
+    {
+      replacements: formatDataToBulkInsert(config, ELECTION_CONF_COLUMN_ORDER),
+      type: DbConnection().QueryTypes.INSERT,
+    }).then((results) => {
+      return config ;
+     }).catch((error) => {
+       throw new DBError(error);
+     });
+};
+
+
+
 
 export default {
   fetchActiveElectionById,
   createActiveElection,
   insertActiveElections,
+  saveTimeLine,
+  saveActiveElectionConf
 }
