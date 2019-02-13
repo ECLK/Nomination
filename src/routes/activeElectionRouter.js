@@ -33,6 +33,24 @@ export const initActiveElectionRouter = (app) => {
         .then((result) => res.status(200).send(result))
 					.catch(error => next(error));
       },
-    }
+    },
+    {
+      method: POST,
+      path: '/activeElections/TimeLine',
+      handler: (req, res, next) => {
+        return ActiveElectionService.saveActiveElectionTimeLine(req)
+        .then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+      },
+    },
+    {
+      method: POST,
+      path: '/activeElections/Config',
+      handler: (req, res, next) => {
+        return ActiveElectionService.saveActiveElectionConfig(req)
+        .then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+      },
+    },
   ]);
 };

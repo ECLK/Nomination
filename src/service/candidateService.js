@@ -11,6 +11,7 @@ const uuidv4 = require('uuid/v4');
 const getCandidateListByNominationId = async (req) => {
 	try {
 		const nomination_id = req.params.nominationId;
+		console.log("44444444444444",nomination_id);
 		const candidates = await CandidateRepo.getCandidateListByNomination(nomination_id);
 		if (!_.isEmpty(candidates)) {
 			return CandidateManager.mapToCandidateModel(candidates)
@@ -101,6 +102,7 @@ const saveCandidateByNominationId = async (req) => {
 			throw new ApiError("Nomination not found");//TODO: error code will be added later
 		}
 	} catch (e) {
+		console.log(e);
 		throw new ServerError("server error");
 	}
 };
