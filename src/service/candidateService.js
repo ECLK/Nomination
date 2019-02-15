@@ -11,7 +11,6 @@ const uuidv4 = require('uuid/v4');
 const getCandidateListByNominationId = async (req) => {
 	try {
 		const nomination_id = req.params.nominationId;
-		console.log("44444444444444",nomination_id);
 		const candidates = await CandidateRepo.getCandidateListByNomination(nomination_id);
 		if (!_.isEmpty(candidates)) {
 			return CandidateManager.mapToCandidateModel(candidates)
@@ -19,8 +18,7 @@ const getCandidateListByNominationId = async (req) => {
 			throw new ApiError("Candidates not found", HTTP_CODE_404);
 		}
 	} catch (e) {
-		console.log("==", e);
-		throw new ServerError("server error");
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 };
 
@@ -37,7 +35,7 @@ const getCandidateByNominationId = async (req) => {
 			throw new ApiError("Candidates not found", HTTP_CODE_404);
 		}
 	} catch (e) {
-		throw new ServerError("server error");
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 };
 
@@ -55,13 +53,14 @@ const updateCandidateDataById = async (req) => {
 			return await CandidateRepo.updateCandidate(candidate);
 		}
 	} catch (error) {
-		throw new ServerError("server error");
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 }
 
 /**
- * method to verify the certain candidate exists before we do an update.
- * @param {*} candidateId 
+ * @description method to verify the certain candidate exists before we do an update.
+ * @param {string} candidateId 
+ * @returns boolean
  */
 const isCandidateExists = async (candidateId) => {
 	try {
@@ -99,11 +98,10 @@ const saveCandidateByNominationId = async (req) => {
 			const candidateData = { 'id': id, 'fullName': fullName, 'preferredName': preferredName, 'nic': nic, 'dateOfBirth': now, 'gender': gender, 'address': address, 'occupation': occupation, 'electoralDivisionName': electoralDivisionName, 'electoralDivisionCode': electoralDivisionCode, 'counsilName': counsilName, 'nominationId': nominationId };
 			return await CandidateRepo.createCandidate(candidateData);
 		} else {
-			throw new ApiError("Nomination not found");//TODO: error code will be added later
+			throw new ApiError("Nomination not found", HTTP_CODE_204);
 		}
 	} catch (e) {
-		console.log(e);
-		throw new ServerError("server error");
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 };
 
@@ -135,16 +133,80 @@ const saveCandidateSupportDocsByCandidateId = async (req) => {
 			throw new ApiError("Nomination not found", HTTP_CODE_204);
 		}
 	} catch (e) {
-		throw new ServerError("server error");
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 };
 
+/**
+ * @description to save candidate config details
+ * @param {any} req 
+ * @return boolean
+ */
+const saveCandidateConfig = async (req) => {
+	try {
+		const moduleId = req.params.moduleId;
+		const configReceivedData = req.body.candidateConfig;
+		const configs = ["fullName", "preferredName", "nic", "dateOfBirth", "gender", "address", "occupation", "electoralDivisionName", "electoralDivisionCode", "counsilName"];
+		
+		// check if it is an INSERT or UPDATE
+		const moduleExists = await isModuleExistAtCandidateConfig(moduleId);
+		if (!moduleExists){ // INSERT
+			const configData = await generateFullDatasetJsonObject(configs, configReceivedData);
+			configData.id = uuidv4();
+			configData.moduleId = moduleId;
+			return CandidateRepo.insertCandidateConfigByModuleId(configData);
+		} else {
+			// todo update config data
+		}
+	} catch (error) {
+		throw new ServerError("server error", HTTP_CODE_404);
+	}
+}
 
+/**
+ * @description check if there's a record in candidate config to the given module_id
+ * @param {string} moduleId 
+ * @return boolean
+ */
+const isModuleExistAtCandidateConfig = async (moduleId) => {
+	try {
+		const configs = await CandidateRepo.getCandidateConfigByModuleId(moduleId);
+		if (!_.isEmpty(configs)){
+			return true;
+		} else {
+			return false;
+		}
+	} catch (error) {
+		throw new ApiError("Module not found", HTTP_CODE_204);
+	}
+}
+
+/**
+ * @description creating full data set with boolean values populated
+ * @param { string[] } fullset 
+ * @param { string[] } subset 
+ * @returns JSON Object
+ */
+const generateFullDatasetJsonObject = async (fullset, subset) => {
+	let jsonString = "{ ";
+	fullset.forEach((fullsetItem) => {
+		if(subset.find((subsetItem) => subsetItem == fullsetItem)){
+			jsonString += '"'+fullsetItem+'": true, ';
+		} else {
+			jsonString += '"'+fullsetItem+'": false, ';
+		}
+	});
+	jsonString = jsonString.slice(0, -2);
+	jsonString += " }";
+
+	return JSON.parse(jsonString);
+}
 
 export default {
 	getCandidateListByNominationId,
 	saveCandidateByNominationId,
 	getCandidateByNominationId,
 	saveCandidateSupportDocsByCandidateId,
-	updateCandidateDataById
+	updateCandidateDataById,
+	saveCandidateConfig
 }

@@ -113,10 +113,43 @@ const getCandidateById = (candidateId) => {
 			})
 }
 
+const CANDIDATE_CONFIG_BY_MODULE_ID_SELECT_QUERY = `SELECT * FROM CANDIDATE_CONFIG WHERE MODULE_ID = :moduleId`;
+const getCandidateConfigByModuleId = (moduleId) => {
+	const params = { moduleId: moduleId };
+	return DbConnection()
+		.query(CANDIDATE_CONFIG_BY_MODULE_ID_SELECT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT
+			}).catch((error) => {
+				throw new DBError(error);
+			});
+}
+
+const CANDIDATE_CONFIG_INSERT_QUERY = `INSERT INTO CANDIDATE_CONFIG
+	(ID, FULL_NAME, PREFERRED_NAME, NIC, DATE_OF_BIRTH, GENDER, ADDRESS, OCCUPATION, ELECTORAL_DIVISION_NAME, ELECTORAL_DIVISION_CODE, COUNSIL_NAME, MODULE_ID)
+VALUES
+	(:id, :fullName, :preferredName, :nic, :dateOfBirth, :gender, :address, :occupation, :electoralDivisionName, :electoralDivisionCode, :counsilName, :moduleId)`;
+const insertCandidateConfigByModuleId = (configData) => {
+	const params = configData;
+	return DbConnection()
+		.query(CANDIDATE_CONFIG_INSERT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.INSERT
+			}).then(() => {
+				return params;
+			}).catch((error) => {
+				throw new DBError(error);
+			});
+}
+
 export default {
 	getCandidateListByNomination,
 	createCandidate,
 	getCandidateByNomination,
 	getCandidateById,
-	updateCandidate
+	updateCandidate,
+	getCandidateConfigByModuleId,
+	insertCandidateConfigByModuleId
 }
