@@ -35,7 +35,7 @@ const mapToSupportDocModel = (supportDocs) => {
 
 const mapToCandidateSupportDocModel = (supportDocs) => {
   const mappedSupportDocs = joinjs.map(supportDocs, resultMaps, 'candidateSupportDocMap', 'SUPPORT_DOC_');
-  console.log(mappedSupportDocs);
+  
   return _.reduce(mappedSupportDocs, function(result, supportDocs) {
     return result.push({
       id: supportDocs.ID,
