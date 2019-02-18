@@ -57,14 +57,18 @@ export const initModuleRouter = (app) => {
 			},
 		},
 		{
-			// curl -H "Content-Type: application/json" -X POST -d '{"candidateConfig":["fullName","nic","dateOfBirth","gender"],"candidateSupportDoc":["birthCertificate","nic"]}' http://localhost:9001/ec-election/module/455cd89e-269b-4b69-96ce-8d7c7bf44ac2/candidate-form-config
+			// curl -H "Content-Type: application/json" -X POST -d '{"candidateConfig":["fullName","nic","dateOfBirth","gender"],"supportDocConfigData":["birthCertificate","nic"]}' http://localhost:9001/ec-election/module/455cd89e-269b-4b69-96ce-8d7c7bf44ac2/candidate-form-config
 			method: POST,
 			path: '/module/:moduleId/candidate-form-config',
 			handler: (req, res, next) => {
 				const candidate_config = CandidateService.saveCandidateConfig(req)
-					.then((result) => res.status(200).send(result))
 					.catch((error) => next(error));
-					return candidate_config;
+				if(!_.isEmpty(candidate_config)){
+					const candidate_suppport_doc_config = CandidateService.saveCandidateSupportDocConfigData(req)
+						.then((result) => res.status(200).send(result))
+						.catch((error) => next(error));
+					return candidate_suppport_doc_config;
+				}
 			}
 		}
 	]);

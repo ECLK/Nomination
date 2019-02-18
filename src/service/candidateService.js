@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import { ServerError, ApiError } from 'Errors';
 import CandidateRepo from '../repository/candidate';
+import SupportDocRepo from '../repository/supportdoc';
 import { CandidateManager } from 'Managers'
-import { NominationService } from 'Service';
+import { NominationService, SupportDocService } from 'Service';
 import { HTTP_CODE_404, HTTP_CODE_204 } from '../routes/constants/HttpCodes';
 const uuidv4 = require('uuid/v4');
 
@@ -48,7 +49,7 @@ const updateCandidateDataById = async (req) => {
 	try {
 		const candidateData = req.body;
 		const candidateId = req.params.candidateId;
-		if (isCandidateExists(candidateId)){
+		if (isCandidateExists(candidateId)) {
 			const candidate = { 'id': candidateId, 'fullName': candidateData.fullName, 'preferredName': candidateData.preferredName, 'nic': candidateData.nic, 'dateOfBirth': candidateData.dateOfBirth, 'gender': candidateData.gender, 'address': candidateData.address, 'occupation': candidateData.occupation, 'electoralDivisionName': candidateData.electoralDivisionName, 'electoralDivisionCode': candidateData.electoralDivisionCode, 'counsilName': candidateData.counsilName };
 			return await CandidateRepo.updateCandidate(candidate);
 		}
@@ -65,7 +66,7 @@ const updateCandidateDataById = async (req) => {
 const isCandidateExists = async (candidateId) => {
 	try {
 		const candidate = await CandidateRepo.getCandidateById(candidateId);
-		if (!_.isEmpty(candidate)){
+		if (!_.isEmpty(candidate)) {
 			return true;
 		} else {
 			return false;
@@ -147,10 +148,10 @@ const saveCandidateConfig = async (req) => {
 		const moduleId = req.params.moduleId;
 		const configReceivedData = req.body.candidateConfig;
 		const configs = ["fullName", "preferredName", "nic", "dateOfBirth", "gender", "address", "occupation", "electoralDivisionName", "electoralDivisionCode", "counsilName"];
-		
+
 		// check if it is an INSERT or UPDATE
 		const moduleExists = await isModuleExistAtCandidateConfig(moduleId);
-		if (!moduleExists){ // INSERT
+		if (!moduleExists) { // INSERT
 			const configData = await generateFullDatasetJsonObject(configs, configReceivedData);
 			configData.id = uuidv4();
 			configData.moduleId = moduleId;
@@ -171,7 +172,7 @@ const saveCandidateConfig = async (req) => {
 const isModuleExistAtCandidateConfig = async (moduleId) => {
 	try {
 		const configs = await CandidateRepo.getCandidateConfigByModuleId(moduleId);
-		if (!_.isEmpty(configs)){
+		if (!_.isEmpty(configs)) {
 			return true;
 		} else {
 			return false;
@@ -190,10 +191,10 @@ const isModuleExistAtCandidateConfig = async (moduleId) => {
 const generateFullDatasetJsonObject = async (fullset, subset) => {
 	let jsonString = "{ ";
 	fullset.forEach((fullsetItem) => {
-		if(subset.find((subsetItem) => subsetItem == fullsetItem)){
-			jsonString += '"'+fullsetItem+'": true, ';
+		if (subset.find((subsetItem) => subsetItem == fullsetItem)) {
+			jsonString += '"' + fullsetItem + '": true, ';
 		} else {
-			jsonString += '"'+fullsetItem+'": false, ';
+			jsonString += '"' + fullsetItem + '": false, ';
 		}
 	});
 	jsonString = jsonString.slice(0, -2);
@@ -202,11 +203,34 @@ const generateFullDatasetJsonObject = async (fullset, subset) => {
 	return JSON.parse(jsonString);
 }
 
+
+const saveCandidateSupportDocConfigData = async (req) => {
+	try {
+		const moduleId = req.params.moduleId;
+		const supportDocConfigReceivedData = req.body.supportDocConfigData;
+		const val = { "params": { "category": "CANDIDATE" } };
+		const candidateSupportDocConfig = await SupportDocService.getsupportDocsByCategory(val);
+
+		const supportDocs = supportDocConfigReceivedData.map( data => {
+			return({
+				"SUPPORT_DOC_CONFIG_ID": candidateSupportDocConfig.find(doc => _.camelCase(doc.keyName) === data).id, // filter data for requested docs
+				"MODULE_ID": moduleId,
+				"SELECT_FLAG": true
+			});
+		});
+
+		return await SupportDocRepo.insertSupportDocConfigData(supportDocs);
+	} catch (error) {
+		throw new ServerError("server error", HTTP_CODE_404);
+	}
+}
+
 export default {
 	getCandidateListByNominationId,
 	saveCandidateByNominationId,
 	getCandidateByNominationId,
 	saveCandidateSupportDocsByCandidateId,
 	updateCandidateDataById,
-	saveCandidateConfig
+	saveCandidateConfig,
+	saveCandidateSupportDocConfigData
 }
