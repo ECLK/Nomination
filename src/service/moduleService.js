@@ -46,8 +46,9 @@ const getModulesByStatus = async (req) => {
  * @returns boolean
  */
 const validateModuleId = async (moduleId) => {
-	const id = await getModuleByModuleId(moduleId);
-	if (!_.isEmpty(id)){ // when promise is sent, this will not work. need to refine.
+	const req = {"params": {"moduleId": moduleId }};
+	const id = await getModuleByModuleId(req);
+	if (!_.isEmpty(id)){
 		return true;
 	} else {
 		return false;
