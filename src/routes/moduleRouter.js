@@ -61,13 +61,18 @@ export const initModuleRouter = (app) => {
 			method: POST,
 			path: '/modules/:moduleId/candidate-form-config',
 			handler: (req, res, next) => {
+				let candidate_config_result;
 				const candidate_config = CandidateService.saveCandidateConfig(req)
+					.then((result) => candidate_config_result = result)
 					.catch((error) => next(error));
 				if(!_.isEmpty(candidate_config)){
 					const candidate_suppport_doc_config = CandidateService.saveCandidateSupportDocConfigData(req)
-						.then((result) => res.status(200).send(result))
+						.then((result) => res.status(200).send({
+							"candidateConfig": candidate_config_result,
+							"supportDocConfigData": result
+						}))
 						.catch((error) => next(error));
-					return candidate_suppport_doc_config;
+
 				}
 			}
 		}
