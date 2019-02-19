@@ -89,7 +89,6 @@ const updateSupportDocs = (nominationId) => {
 
 // ***************** SUPPORT_DOC_CONFIG_DATA ******************
 
-
 const SUPPORT_DOC_CONFIG_DATA_INSERT_BASE_QUERY = 'INSERT INTO SUPPORT_DOC_CONFIG_DATA VALUES';
 const SUPPORT_DOC_CONFIG_DATA_COLUMN_ORDER = ['SUPPORT_DOC_CONFIG_ID', 'MODULE_ID', 'SELECT_FLAG'];
 
