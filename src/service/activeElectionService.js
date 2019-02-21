@@ -62,6 +62,24 @@ const saveActiveElectionConfig = async (req) => {
   }
 };
 
+    //Save Allow nomination list
+    const saveAllowedNominatonList = async (req) => {
+      try {
+        var nominationAllowData = req.body.nominationAllowData;
+        var i=0;
+        var nominationAllow = []; //TODO: yujith, validate electionTimeLineConfigId and electionId and filePath
+           for (var {team_id: team_id, election_id: election_id,division_id: division_id} of nominationAllowData) {
+              const id = uuidv4();
+              nominationAllow[i] = {'id':id,'status':'DRAFT','team_id':team_id,'created_by':'123','created_at':'123','updated_at':'123', 'election_id':election_id,'division_id':division_id};
+             i++;
+           }
+       return await ActiveElectionRepo.saveAllowedNominations( nominationAllow );
+      }catch (e){
+        console.log(e);
+        throw new ServerError("server error");
+      }
+    };
+
 const getActiveElectionByActiveElectionId = async (req) => {
   const uid = req.params.activeElectionId;
   const activeElections = await ActiveElectionRepo.fetchActiveElectionById( uid );
@@ -76,5 +94,6 @@ export default {
   getActiveElectionByActiveElectionId,
   updateActiveElectionByActiveElectionId,
   saveActiveElectionTimeLine,
-  saveActiveElectionConfig
+  saveActiveElectionConfig,
+  saveAllowedNominatonList
 }
