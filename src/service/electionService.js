@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { ServerError , ApiError } from 'Errors';
 import ElectionRepo from '../repository/election';
+import { HTTP_CODE_404 } from '../routes/constants/HttpCodes';
 import {ElectionManager}  from 'Managers';
 
 const getElectionByIdWithTimelineData = async (req) => {
@@ -47,6 +48,7 @@ const GetElectionConfig = async (req) => {
         throw new ServerError("Server error", HTTP_CODE_404);
     }
 };
+
 const getElectionConfigById = async (req) => {
     try {
         const id = req.params.election_module_id;
@@ -63,6 +65,24 @@ const getElectionConfigById = async (req) => {
         throw new ServerError("Server error", HTTP_CODE_404);
     }
 };
+
+const getAllElections = async () => {
+    try {
+        const elections = await ElectionRepo.fetchAllElections();
+        if(!_.isEmpty(elections)){
+            return ElectionManager.mapToAllElection(elections);
+        } else {
+            throw new ApiError("No Election found");
+        }
+    } catch (error) {
+        throw new ServerError("Server error", HTTP_CODE_404);
+    }
+}
+
 export default {
-    getElectionByIdWithTimelineData,insertTest,GetElectionConfig,getElectionConfigById
+    getElectionByIdWithTimelineData,
+    insertTest,
+    GetElectionConfig,
+    getElectionConfigById,
+    getAllElections,
 }

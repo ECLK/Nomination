@@ -11,6 +11,16 @@ export const initElectionRouter = (app) => {
 	electionRouter(app, [
 		{
 			method: GET,
+			path: '/elections',
+			schema: {},
+			handler: (req, res, next) => {
+				return ElectionService.getAllElections(req)
+					.then( (result) => res.status(200).send(result))
+					.catch( error => next(error));
+			}
+		},
+		{
+			method: GET,
 			path: '/elections/:electionId',
 			schema: GET_ELECTION_BY_ID_SCHEME,
 			handler: (req, res, next) => {
