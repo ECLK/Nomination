@@ -43,6 +43,30 @@ export const initModuleRouter = (app) => {
         .then(() => res.status(200).send())
         .catch(error => next(error));
       },
-    }
+    },
+      {
+          // curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/modules/candidate-config/columns
+
+          method: GET,
+          path: '/modules/candidate-config/columns',
+          schema: {},
+          handler: (req, res, next) => {
+              return ModuleService.getColumnnamesFromCandidate_configTabel(req)
+                  .then((result) => res.status(200).send(result))
+                  .catch(error => next(error));
+          },
+      },
+      {
+          // curl -H "Content-Type: application/json" -X POST -d '{"id":176484, "name":"Surath"}' http://localhost:9001/ec-election/module
+          method: POST,
+          path: '/modules/division-config',
+         // schema: MODULE_EDIT_SCHEMA,
+          handler: (req, res, next) => {
+              return ModuleService.InsertTodivisionConfig(req)
+                  .then(() => res.status(200).send())
+                  .catch(error => next(error));
+          },
+      },
+
   ]);
 };

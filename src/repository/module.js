@@ -1,6 +1,6 @@
-import { DBError } from 'Errors';
-import { DbConnection } from './dataSource';
-import { formatQueryToBulkInsert, formatDataToBulkInsert} from './sqlHelper';
+import {DBError} from 'Errors';
+import {DbConnection} from './dataSource';
+import {formatQueryToBulkInsert, formatDataToBulkInsert} from './sqlHelper';
 
 
 const ALL_MODULE_SELECT_QUERY = `SELECT  
@@ -19,18 +19,19 @@ const MODULE_SELECT_QUERY = `SELECT
                               FROM ELECTION_MODULE WHERE ID = :id`;
 const MODULE_INSERT_QUERY = `INSERT INTO ELECTION_MODULE (ID, NAME) VALUES (:id, :name)`;
 const MODULE_INSERT_BASE_QUERY = `INSERT INTO ELECTION_MODULE VALUES `;
+const ColumnnamesFromCandidate_configTabel = `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'candidate_config'`;
 const MODULE_COLUMN_ORDER = ['ID', 'NAME'];
 
 const fetchModuleById = (moduleId) => {
-  const params = { id: moduleId };
-  return DbConnection()
-    .query(MODULE_SELECT_QUERY,
-      {
-        replacements: params,
-        type: DbConnection().QueryTypes.SELECT,
-      }).catch((error) => {
-      throw new DBError(error);
-    });
+    const params = {id: moduleId};
+    return DbConnection()
+        .query(MODULE_SELECT_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.SELECT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
 };
 
 /**
@@ -40,15 +41,15 @@ const fetchModuleById = (moduleId) => {
  * @returns {Promise.<T>}
  */
 const createModule = (id, name) => {
-  const params = { id: id, name : name};
-  return DbConnection()
-    .query(MODULE_INSERT_QUERY,
-      {
-        replacements: params,
-        type: DbConnection().QueryTypes.INSERT,
-      }).catch((error) => {
-      throw new DBError(error);
-    });
+    const params = {id: id, name: name};
+    return DbConnection()
+        .query(MODULE_INSERT_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.INSERT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
 };
 
 /**
@@ -58,33 +59,85 @@ const createModule = (id, name) => {
  * @returns {Promise.<T>}
  */
 const insertModules = (modules) => {
-  return DbConnection()
-  .query(formatQueryToBulkInsert(MODULE_INSERT_BASE_QUERY, modules),
-    {
-      replacements: formatDataToBulkInsert(modules, MODULE_COLUMN_ORDER),
-      type: DbConnection().QueryTypes.INSERT,
-    }).catch((error) => {
-    throw new DBError(error);
-  });
+    return DbConnection()
+        .query(formatQueryToBulkInsert(MODULE_INSERT_BASE_QUERY, modules),
+            {
+                replacements: formatDataToBulkInsert(modules, MODULE_COLUMN_ORDER),
+                type: DbConnection().QueryTypes.INSERT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
 };
 
 //get all election modules by status
 const fetchModuleSByStatus = (status) => {
-  const params = { status: status };
-  return DbConnection()
-    .query(ALL_MODULE_SELECT_QUERY,
-      {
-        replacements: params,
-        type: DbConnection().QueryTypes.SELECT,
-      }).catch((error) => {
-      throw new DBError(error);
-    });
+    const params = {status: status};
+    return DbConnection()
+        .query(ALL_MODULE_SELECT_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.SELECT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
+};
+const fetchColumnnamesFromCandidateConfigTabel = () => {
+    console.log("c");
+    return DbConnection()
+        .query(ColumnnamesFromCandidate_configTabel,
+            {
+                type: DbConnection().QueryTypes.SELECT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
+};
+/*const InsertTodivisionConfig = (req) => {
+    const params = {ID: req., NAME: name, CODE:,NO_OF_CANDIDATES:,MODULE_ID:};
+    return DbConnection()
+        .query(DIVISIONCONFIG_INSERT_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.INSERT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
+};*/
+//InsertTodivisionConfig
+//
+const DIVISION_CONFIG_INSERT_BASE_QUERY = `INSERT INTO division_config VALUES `;
+const DIVISION_CONFIG_COLUMN_ORDER = ['ID', 'NAME', 'CODE', 'NO_OF_CANDIDATES', 'MODULE_ID'];
+const InsertTodivisionConfig = (list) => {
+
+    return DbConnection()
+        .query(formatQueryToBulkInsert(DIVISION_CONFIG_INSERT_BASE_QUERY, list),
+            {
+                replacements: formatDataToBulkInsert(list, DIVISION_CONFIG_COLUMN_ORDER),
+                type: DbConnection().QueryTypes.INSERT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
 };
 
 
+const Election_Module_UPDATE_QUERY = `UPDATE election_module SET DIVISION_COMMON_NAME = :name WHERE ID = :id`;
+const UpdateElectionModule = (name, id) => {
+    const params = { name: name, id: id };
+    console.log(params);
+    return DbConnection()
+        .query(Election_Module_UPDATE_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.UPDATE,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
+};
 export default {
-  fetchModuleById,
-  createModule,
-  insertModules,
-  fetchModuleSByStatus
+    fetchModuleById,
+    createModule,
+    insertModules,
+    fetchModuleSByStatus,
+    fetchColumnnamesFromCandidateConfigTabel,
+    UpdateElectionModule,
+    InsertTodivisionConfig
 }
