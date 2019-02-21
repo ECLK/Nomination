@@ -29,7 +29,7 @@ const getCandidateByNominationId = async (req) => {
 		const nominationId = req.params.nominationId;
 		const candidateId = req.params.candidateId;
 		const params = { 'nominationId': nominationId, "candidateId": candidateId }
-		const candidates = await CandidateRepo.getCandidateByNomination(params);//TODO: yujith,use fetch insted of get
+		const candidates = await CandidateRepo.fetchCandidateByNomination(params);
 		if (!_.isEmpty(candidates)) {
 			return CandidateManager.mapToCandidateModel(candidates)
 		} else {
