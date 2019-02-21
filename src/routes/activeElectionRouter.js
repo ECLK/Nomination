@@ -52,5 +52,14 @@ export const initActiveElectionRouter = (app) => {
 					.catch(error => next(error));
       },
     },
+     {//TODO: yujith, remove this after compleating the call election function
+      method: POST,
+      path: '/activeElectionsData',
+      handler: (req, res, next) => {
+        return ActiveElectionService.saveAllowedNominatonList(req)
+        .then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+      },
+    },
   ]);
 };
