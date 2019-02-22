@@ -6,6 +6,7 @@ import { NominationManager } from 'Managers';
 import {NominationService} from 'Service';
 import { ServerError, ApiError } from 'Errors';
 const uuidv4 = require('uuid/v4');
+import { HTTP_CODE_404, HTTP_CODE_204 } from '../routes/constants/HttpCodes';
 
 
 const getNominationByTeamId = async (req) => {
@@ -20,11 +21,11 @@ const validateNominationId = async (req) => {
       const nomination = await NominationRepo.fetchNominationByNominationId( nominationId );
      
       if(_.isEmpty(nomination)){
-        throw new ApiError("Nomination not found");
+        throw new ApiError("Nomination not found", HTTP_CODE_204);
       }
       return nomination;
     }catch (e){
-      throw new ServerError("server error");
+      throw new ServerError("Server error", HTTP_CODE_404);
     }
   
   };
@@ -40,14 +41,12 @@ const getNominationByStatus = async (req) => {
         const election_id = req.params.electionId;
         const status = String(req.params.status).toUpperCase();
         const nomination = await Nomination.fetchNominationByStatus(election_id, team_id, status);
-        console.log("rffffffffffe");
         if(!_.isEmpty(nomination)){
             return NominationManager.mapToNominationModel(nomination);
         } else {
-            throw new ApiError("Election not found");
+            throw new ApiError("Election not found", HTTP_CODE_204);
         }
     } catch (error) {
-        console.log(error);
         throw new ServerError("Server error", HTTP_CODE_404);
     }
 }
@@ -64,10 +63,10 @@ const getPendingNominationsByElectionId = async (req) => {
       if(!_.isEmpty(nominations)){
         return NominationManager.mapToNominationModel(nominations)
       }else {
-        throw new ApiError("Nominations not found",HTTP_CODE_404);
+        throw new ApiError("Nominations not found", HTTP_CODE_204);
       }
     } catch (e){
-      throw new ServerError("server error");
+      throw new ServerError("Server error", HTTP_CODE_404);
     }
   };
 
@@ -87,11 +86,10 @@ const saveApproveNominationByNominationId = async (req) => {
         const nominationData = {'id':id, 'createdBy':createdBy,'createdAt':createdAt,'updatedAt':updatedAt, 'status':status, 'reviewNote':reviewNote, 'nominationId':nominationId};
         return await NominationRepo.createNominationStatus( nominationData );
       }else {
-        throw new ApiError("Nomination not found");//TODO: error code will be added later
+        throw new ApiError("Nomination not found", HTTP_CODE_204);
       }
-    }catch (e){
-      console.log(e);
-      throw new ServerError("server error");
+    }catch (error){
+      throw new ServerError("Server error", HTTP_CODE_404);
     }
   };
 

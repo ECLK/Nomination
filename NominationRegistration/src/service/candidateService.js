@@ -15,11 +15,10 @@ const getCandidateListByNominationId = async (req) => {
 		if (!_.isEmpty(candidates)) {
 			return CandidateManager.mapToCandidateModel(candidates)
 		} else {
-			throw new ApiError("Candidates not found", HTTP_CODE_404);
+			throw new ApiError("Candidates not found", HTTP_CODE_204);
 		}
-	} catch (e) {
-		console.log("==", e);
-		throw new ServerError("server error");
+	} catch (error) {
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 };
 
@@ -33,10 +32,10 @@ const getCandidateByNominationId = async (req) => {
 		if (!_.isEmpty(candidates)) {
 			return CandidateManager.mapToCandidateModel(candidates)
 		} else {
-			throw new ApiError("Candidates not found", HTTP_CODE_404);
+			throw new ApiError("Candidates not found", HTTP_CODE_204);
 		}
 	} catch (e) {
-		throw new ServerError("server error");
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 };
 
@@ -54,7 +53,7 @@ const updateCandidateDataById = async (req) => {
 			return await CandidateRepo.updateCandidate(candidate);
 		}
 	} catch (error) {
-		throw new ServerError("server error");
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 }
 
@@ -98,11 +97,10 @@ const saveCandidateByNominationId = async (req) => {
 			const candidateData = { 'id': id, 'fullName': fullName, 'preferredName': preferredName, 'nic': nic, 'dateOfBirth': now, 'gender': gender, 'address': address, 'occupation': occupation, 'electoralDivisionName': electoralDivisionName, 'electoralDivisionCode': electoralDivisionCode, 'counsilName': counsilName, 'nominationId': nominationId };
 			return await CandidateRepo.createCandidate(candidateData);
 		} else {
-			throw new ApiError("Nomination not found");//TODO: error code will be added later
+			throw new ApiError("Nomination not found", HTTP_CODE_204);
 		}
-	} catch (e) {
-		console.log(e);
-		throw new ServerError("server error");
+	} catch (error) {
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 };
 
@@ -133,8 +131,8 @@ const saveCandidateSupportDocsByCandidateId = async (req) => {
 		} else {
 			throw new ApiError("Nomination not found", HTTP_CODE_204);
 		}
-	} catch (e) {
-		throw new ServerError("server error");
+	} catch (error) {
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 };
 
