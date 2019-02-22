@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Nomination from '../repository/nomination';
 import NominationRepo from '../repository/nomination';
-import { HTTP_CODE_404 } from '../routes/constants/HttpCodes';
+import { HTTP_CODE_404, HTTP_CODE_204 } from '../routes/constants/HttpCodes';
 import { NominationManager } from 'Managers';
 import {NominationService} from 'Service';
 import { ServerError, ApiError } from 'Errors';
@@ -20,11 +20,11 @@ const validateNominationId = async (req) => {
       const nomination = await NominationRepo.fetchNominationByNominationId( nominationId );
      
       if(_.isEmpty(nomination)){
-        throw new ApiError("Nomination not found");
+        throw new ApiError("Nomination not found", HTTP_CODE_204);
       }
       return nomination;
     }catch (e){
-      throw new ServerError("server error");
+      throw new ServerError("server error", HTTP_CODE_404);
     }
   
   };
@@ -43,7 +43,7 @@ const getNominationByStatus = async (req) => {
         if(!_.isEmpty(nomination)){
             return NominationManager.mapToNominationModel(nomination);
         } else {
-            throw new ApiError("Election not found");
+            throw new ApiError("Election not found", HTTP_CODE_204);
         }
     } catch (error) {
         throw new ServerError("Server error", HTTP_CODE_404);
