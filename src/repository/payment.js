@@ -86,7 +86,7 @@ const PAYMENT_UPDATE_QUERY = `UPDATE PAYMENT
                               SET 
                               DEPOSITOR = :depositor, DEPOSIT_DATE = :depositDate, AMOUNT = :amount, FILE_PATH = :filePath
                               WHERE 
-                              NOMINATION_ID = :nominationId`;
+                              ID = :paymentId`;
 
 const updatePaymentCommons = (paymentData) => {
   const params = paymentData;

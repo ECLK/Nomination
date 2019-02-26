@@ -11,15 +11,20 @@ const uuidv4 = require('uuid/v4');
 const getCandidateListByNominationId = async (req) => {
 	try {
 		const nomination_id = req.params.nominationId;
-		console.log("44444444444444",nomination_id);
-		const candidates = await CandidateRepo.getCandidateListByNomination(nomination_id);
+		const nomination = await NominationService.validateNominationId(nomination_id);
+
+		if (!_.isEmpty(nomination)) {
+			const candidates = await CandidateRepo.getCandidateListByNomination(nomination_id);
 		if (!_.isEmpty(candidates)) {
 			return CandidateManager.mapToCandidateModel(candidates)
 		} else {
 			throw new ApiError("Candidates not found", HTTP_CODE_404);
 		}
+		} else {
+			throw new ApiError("Nomination not found", HTTP_CODE_204);
+		}
 	} catch (e) {
-		console.log("==", e);
+		console.log(e);
 		throw new ServerError("server error");
 	}
 };

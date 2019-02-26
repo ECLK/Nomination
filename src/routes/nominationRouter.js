@@ -98,9 +98,10 @@ export const initNominationRouter = (app) => {
 		},
 		{
 			method: PUT,
-			path: '/nominations/:nominationId/payments',
-			schema: UPDATE_PAYMENT_SCHEMA,
+			path: '/nominations/:paymentId/payments',
+			// schema: UPDATE_PAYMENT_SCHEMA,
 			handler: (req, res, next) => {
+				console.log("req",req.body);
 				return PaymentService.updatePaymentByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_201).send(result))
 					.catch(error => next(error));
