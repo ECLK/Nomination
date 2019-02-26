@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import Nomination from '../repository/nomination';
 import NominationRepo from '../repository/nomination';
-import { HTTP_CODE_404 } from '../routes/constants/HttpCodes';
 import { NominationManager } from 'Managers';
 import {NominationService} from 'Service';
 import { ServerError, ApiError } from 'Errors';
