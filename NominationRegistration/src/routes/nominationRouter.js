@@ -54,17 +54,6 @@ export const initNominationRouter = (app) => {
 					.catch(error => next(error));
 			}
 		},
-		//TODO : yujith, this function is not compleate yet
-		// {
-		//   method: POST,
-		//   path: '/nominations/candidates/:candidateId/support-docs',
-		//   schema: SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA,
-		//   handler: (req, res, next) => {
-		//     return CandidateService.saveCandidateSupportDocsByCandidateId(req)
-		//     .then((result) => res.status(HTTP_CODE_201).send(result))
-		//     .catch(error => next(error));
-		//   },
-		// },
 		{
 			method: GET,
 			path: '/nominations/:nominationId/payments',
@@ -79,7 +68,6 @@ export const initNominationRouter = (app) => {
 			method: POST,
 			path: '/nominations/payments',
 			handler: (req, res, next) => {
-				// console.log(req);
 				return PaymentService.createPaymentByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_201).send(result))
 					.catch(error => next(error));

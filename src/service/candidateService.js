@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import { ServerError, ApiError } from 'Errors';
 import CandidateRepo from '../repository/candidate';
+import SupportDocRepo from '../repository/supportdoc';
 import { CandidateManager } from 'Managers'
-import { NominationService } from 'Service';
+import { NominationService, SupportDocService, ModuleService } from 'Service';
 import { HTTP_CODE_404, HTTP_CODE_204 } from '../routes/constants/HttpCodes';
 const uuidv4 = require('uuid/v4');
 
@@ -35,14 +36,14 @@ const getCandidateByNominationId = async (req) => {
 		const nominationId = req.params.nominationId;
 		const candidateId = req.params.candidateId;
 		const params = { 'nominationId': nominationId, "candidateId": candidateId }
-		const candidates = await CandidateRepo.getCandidateByNomination(params);//TODO: yujith,use fetch insted of get
+		const candidates = await CandidateRepo.fetchCandidateByNomination(params);
 		if (!_.isEmpty(candidates)) {
 			return CandidateManager.mapToCandidateModel(candidates)
 		} else {
 			throw new ApiError("Candidates not found", HTTP_CODE_404);
 		}
 	} catch (e) {
-		throw new ServerError("server error");
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 };
 
@@ -55,23 +56,24 @@ const updateCandidateDataById = async (req) => {
 	try {
 		const candidateData = req.body;
 		const candidateId = req.params.candidateId;
-		if (isCandidateExists(candidateId)){
+		if (isCandidateExists(candidateId)) {
 			const candidate = { 'id': candidateId, 'fullName': candidateData.fullName, 'preferredName': candidateData.preferredName, 'nic': candidateData.nic, 'dateOfBirth': candidateData.dateOfBirth, 'gender': candidateData.gender, 'address': candidateData.address, 'occupation': candidateData.occupation, 'electoralDivisionName': candidateData.electoralDivisionName, 'electoralDivisionCode': candidateData.electoralDivisionCode, 'counsilName': candidateData.counsilName };
 			return await CandidateRepo.updateCandidate(candidate);
 		}
 	} catch (error) {
-		throw new ServerError("server error");
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 }
 
 /**
- * method to verify the certain candidate exists before we do an update.
- * @param {*} candidateId 
+ * @description method to verify the certain candidate exists before we do an update.
+ * @param {string} candidateId 
+ * @returns boolean
  */
 const isCandidateExists = async (candidateId) => {
 	try {
 		const candidate = await CandidateRepo.getCandidateById(candidateId);
-		if (!_.isEmpty(candidate)){
+		if (!_.isEmpty(candidate)) {
 			return true;
 		} else {
 			return false;
@@ -104,11 +106,10 @@ const saveCandidateByNominationId = async (req) => {
 			const candidateData = { 'id': id, 'fullName': fullName, 'preferredName': preferredName, 'nic': nic, 'dateOfBirth': now, 'gender': gender, 'address': address, 'occupation': occupation, 'electoralDivisionName': electoralDivisionName, 'electoralDivisionCode': electoralDivisionCode, 'counsilName': counsilName, 'nominationId': nominationId };
 			return await CandidateRepo.createCandidate(candidateData);
 		} else {
-			throw new ApiError("Nomination not found");//TODO: error code will be added later
+			throw new ApiError("Nomination not found", HTTP_CODE_204);
 		}
 	} catch (e) {
-		console.log(e);
-		throw new ServerError("server error");
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 };
 
@@ -140,10 +141,114 @@ const saveCandidateSupportDocsByCandidateId = async (req) => {
 			throw new ApiError("Nomination not found", HTTP_CODE_204);
 		}
 	} catch (e) {
-		throw new ServerError("server error");
+		throw new ServerError("server error", HTTP_CODE_404);
 	}
 };
 
+/**
+ * @description to save candidate config details
+ * @param {any} req 
+ * @return boolean
+ */
+const saveCandidateConfig = async (req) => {
+	let isValidModuleId;
+	try {
+		isValidModuleId = await ModuleService.validateModuleId(req.params.moduleId);
+	} catch (error) {
+		throw new ApiError("Module not found", HTTP_CODE_204);
+	}
+	try {
+		if (isValidModuleId) {
+			const moduleId = req.params.moduleId;
+			const configReceivedData = req.body.candidateConfig;
+			const configs = ["fullName", "preferredName", "nic", "dateOfBirth", "gender", "address", "occupation", "electoralDivisionName", "electoralDivisionCode", "counsilName"];
+
+			// check if it is an INSERT or UPDATE
+			const moduleExists = await isModuleExistAtCandidateConfig(moduleId);
+			if (!moduleExists) { // INSERT
+				const configData = await generateFullDatasetJsonObject(configs, configReceivedData);
+				configData.id = uuidv4();
+				configData.moduleId = moduleId;
+				return CandidateRepo.insertCandidateConfigByModuleId(configData);
+			}
+		} else {
+			throw new ApiError("Module not found", HTTP_CODE_204);
+		}
+
+	} catch (error) {
+		throw new ServerError("server error", HTTP_CODE_404);
+	}
+
+}
+
+/**
+ * @description check if there's a record in candidate config to the given module_id
+ * @param {string} moduleId 
+ * @return boolean
+ */
+const isModuleExistAtCandidateConfig = async (moduleId) => {
+	try {
+		const configs = await CandidateRepo.getCandidateConfigByModuleId(moduleId);
+		if (!_.isEmpty(configs)) {
+			return true;
+		} else {
+			return false;
+		}
+	} catch (error) {
+		throw new ApiError("Module not found", HTTP_CODE_204);
+	}
+}
+
+/**
+ * @description creating full data set with boolean values populated
+ * @param { string[] } fullset 
+ * @param { string[] } subset 
+ * @returns JSON Object
+ */
+const generateFullDatasetJsonObject = async (fullset, subset) => {
+	let jsonString = "{ ";
+	fullset.forEach((fullsetItem) => {
+		if (subset.find((subsetItem) => subsetItem == fullsetItem)) {
+			jsonString += '"' + fullsetItem + '": true, ';
+		} else {
+			jsonString += '"' + fullsetItem + '": false, ';
+		}
+	});
+	jsonString = jsonString.slice(0, -2);
+	jsonString += " }";
+
+	return JSON.parse(jsonString);
+}
+
+
+const saveCandidateSupportDocConfigData = async (req) => {
+	let isValidModuleId;
+	try {
+		isValidModuleId = await ModuleService.validateModuleId(req.params.moduleId);
+	} catch (error) {
+		throw new ApiError("Module not found", HTTP_CODE_204);
+	}
+	try {
+		if (isValidModuleId) {
+			const moduleId = req.params.moduleId;
+			const supportDocConfigReceivedData = req.body.supportDocConfigData;
+			const val = { "params": { "category": "CANDIDATE" } };
+			const candidateSupportDocConfig = await SupportDocService.getsupportDocsByCategory(val);
+
+			const supportDocs = supportDocConfigReceivedData.map(data => {
+				return ({
+					"SUPPORT_DOC_CONFIG_ID": candidateSupportDocConfig.find(doc => _.camelCase(doc.keyName) === data).id, // filter data for requested docs
+					"MODULE_ID": moduleId,
+					"SELECT_FLAG": true
+				});
+			});
+
+			return await SupportDocRepo.insertSupportDocConfigData(supportDocs);
+		}
+	} catch (error) {
+		throw new ServerError("server error", HTTP_CODE_404);
+	}
+}
 
 
 export default {
@@ -151,5 +256,7 @@ export default {
 	saveCandidateByNominationId,
 	getCandidateByNominationId,
 	saveCandidateSupportDocsByCandidateId,
-	updateCandidateDataById
+	updateCandidateDataById,
+	saveCandidateConfig,
+	saveCandidateSupportDocConfigData
 }

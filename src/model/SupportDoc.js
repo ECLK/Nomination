@@ -9,6 +9,7 @@ const SupportDoc =  Record({
   nominationId: String(),
   status: String(),
 });
+
 const CandidateSupportDoc =  Record({
   id: String(),
   keyName: String(),
@@ -16,7 +17,7 @@ const CandidateSupportDoc =  Record({
   docCategory: String(),
 });
 
-export default {
+export {
   SupportDoc,
   CandidateSupportDoc,
 }
