@@ -10,7 +10,6 @@ const PAYMENT_SELECT_QUERY_BY_NOMINATION_ID = `SELECT
                                               AMOUNT AS PAYMENT_AMOUNT,
                                               FILE_PATH AS PAYMENT_FILE_PATH,
 											  STATUS  AS  PAYMENT_STATUS,
-											  NOTE AS PAYMENT_NOTE,
 											  NOMINATION_ID AS PAYMENT_NOMINATION_ID,
 											  CREATED_BY AS PAYMENT_CREATED_BY,
 											  CREATED_AT AS PAYMENT_CREATED_AT,
@@ -52,9 +51,9 @@ const updateStatusByNominationId = (nomination_id, status) => {
 
 
 const PAYMENT_INSERT_QUERY = `INSERT INTO PAYMENT 
-  (ID, DEPOSITOR, DEPOSIT_DATE, AMOUNT, FILE_PATH, STATUS, NOMINATION_ID) 
+  (ID, DEPOSITOR, DEPOSIT_DATE, AMOUNT, FILE_PATH, STATUS, CREATED_BY, CREATED_AT, UPDATED_AT, NOMINATION_ID) 
 VALUES 
-  (:id, :depositor,:depositDate, :amount, :filePath, :status , :nominationId)`;
+  (:id, :depositor,:depositDate, :amount, :filePath, :status, :createdBy, :createdAt, :updatedAt , :nominationId)`;
 
 const createPayment = (paymentData) => {
 	const params = paymentData;
@@ -75,7 +74,7 @@ const createPayment = (paymentData) => {
 
 const PAYMENT_UPDATE_QUERY = `UPDATE PAYMENT 
                               SET 
-                              DEPOSITOR = :depositor, DEPOSIT_DATE = :depositDate, AMOUNT = :amount, FILE_PATH = :filePath
+                              DEPOSITOR = :depositor, DEPOSIT_DATE = :depositDate, AMOUNT = :amount, FILE_PATH = :filePath, UPDATED_AT = :updatedAt
                               WHERE 
                               ID = :paymentId`;
 
