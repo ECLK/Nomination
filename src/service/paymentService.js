@@ -25,6 +25,7 @@ const getPaymentByNominationId = async (req) => {
       // throw new ApiError("Payment not found",HTTP_CODE_404);
     }
   }catch (e){
+		console.log(e);
     throw new ServerError("server error");
   }
 
@@ -46,12 +47,15 @@ const createPaymentByNominationId = async (req) => {
 		// var depositDateInt = Date.parse(depositDate);
 		var myDate = new Date(depositDate);
 		var depositDateInt = myDate.getTime();
+		const updatedAt = req.body.updatedAt;
+		const createdAt = req.body.createdAt;
+		const createdBy = req.body.createdBy;
 		const amount = req.body.amount;
 		const filePath = req.body.filePath;
 		const status = req.body.status;
 		const nominationId = req.body.nominationId;
 		await NominationService.validateNominationId(nominationId);//TODO: yujith,re check this function
-		const paymentData = { 'id': id, 'depositor': depositor, 'depositDate': depositDateInt, 'amount': amount, 'filePath': filePath, 'nominationId': nominationId, 'status': status };
+		const paymentData = { 'id': id, 'depositor': depositor, 'depositDate': depositDateInt, 'amount': amount, 'updatedAt': updatedAt, 'createdAt': createdAt, 'createdBy': createdBy, 'filePath': filePath, 'nominationId': nominationId, 'status': status };
 		return await PaymentRepo.createPayment(paymentData);
 	} catch (e) {
 		console.log(e);
@@ -61,17 +65,15 @@ const createPaymentByNominationId = async (req) => {
 
 //Update payment details for a particular nomination
 const updatePaymentByNominationId = async (req) => {
-  console.log("test");
   try {
     const depositor = req.body.depositor;
     const depositDate = req.body.depositDate;
-    console.log("test",depositDate);
-
     const amount = req.body.amount;
     const filePath = req.body.filePath;
-    const paymentId = req.params.paymentId;
+		const paymentId = req.params.paymentId;
+		const updatedAt = req.body.updatedAt;
     const nominationId = req.params.nominationId;
-    const paymentData = {'paymentId':paymentId,'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'nominationId':nominationId};
+    const paymentData = {'paymentId':paymentId,'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'updatedAt':updatedAt, 'nominationId':nominationId};
     return await Payment.updatePaymentCommons(paymentData);
   }catch (e){
     console.log(e);

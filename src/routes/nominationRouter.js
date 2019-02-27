@@ -80,7 +80,6 @@ export const initNominationRouter = (app) => {
 			method: POST,
 			path: '/nominations/payments',
 			handler: (req, res, next) => {
-				// console.log(req);
 				return PaymentService.createPaymentByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_201).send(result))
 					.catch(error => next(error));
@@ -91,7 +90,6 @@ export const initNominationRouter = (app) => {
 			path: '/nominations/:paymentId/payments',
 			// schema: UPDATE_PAYMENT_SCHEMA,
 			handler: (req, res, next) => {
-				console.log("req",req.body);
 				return PaymentService.updatePaymentByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_201).send(result))
 					.catch(error => next(error));
