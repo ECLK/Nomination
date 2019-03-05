@@ -68,48 +68,54 @@ const insertActiveElections = (activeElections) => {
 			});
 };
 
-const saveTimeLine = (timeLine) => { 
-  console.log("timeLine",timeLine);
+/**
+ * save active election transaction (first step)
+ * save active election time line
+ * @returns {Promise.<T>}
+ */
+const saveTimeLine = (timeLine, transaction) => {
   return DbConnection()
   .query(formatQueryToBulkInsert(TIME_LINE_INSERT_BASE_QUERY, timeLine),
     {
       replacements: formatDataToBulkInsert(timeLine, TIME_LINE_COLUMN_ORDER),
       type: DbConnection().QueryTypes.INSERT,
-    }).then((results) => {
-      return timeLine ;
-     }).catch((error) => {
+      transaction,
+    }).catch((error) => {
        throw new DBError(error);
      });
 };
-
-const saveActiveElectionConf = (config) => { 
+/**
+ * save active election transaction (second step)
+ * save active election config
+ * @returns {Promise.<T>}
+ */
+const saveActiveElectionConf = (config, transaction) => {
   return DbConnection()
   .query(formatQueryToBulkInsert(ELECTION_CONF_INSERT_BASE_QUERY, config),
     {
       replacements: formatDataToBulkInsert(config, ELECTION_CONF_COLUMN_ORDER),
       type: DbConnection().QueryTypes.INSERT,
-    }).then((results) => {
-      return config ;
-     }).catch((error) => {
+      transaction,
+    }).catch((error) => {
        throw new DBError(error);
      });
 };
-
-const saveAllowedNominations = (nominationAllow) => { 
-  console.log("nominationAllow",nominationAllow);
+/**
+ * save active election transaction (third step)
+ * save allow nomination
+ * @returns {Promise.<T>}
+ */
+const saveAllowedNominations = (nominationAllow, transaction) => {
   return DbConnection()
   .query(formatQueryToBulkInsert(NOMINATON_ALLOW_INSERT_BASE_QUERY, nominationAllow),
     {
       replacements: formatDataToBulkInsert(nominationAllow, NOMINATON_ALLOW_COLUMN_ORDER),
       type: DbConnection().QueryTypes.INSERT,
-    }).then((results) => {
-      return nominationAllow ;
-     }).catch((error) => {
+      transaction,
+    }).catch((error) => {
        throw new DBError(error);
      });
 };
-
-
 
 
 export default {
