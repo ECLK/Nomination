@@ -84,9 +84,25 @@ const isCandidateExists = async (candidateId) => {
 }
 
 
+//Delete candidate from particular nomination
+	const deleteCandidateByCandidateId = async (req) => {
+		console.log("=====================",req.params.candidateId);
+		try {
+			const candidateId = req.params.candidateId;
+			if (isCandidateExists(candidateId)) {
+				return await CandidateRepo.deleteCandidate(candidateId);
+			}
+		} catch (error) {
+			console.log(error);
+			throw new ServerError("server error", HTTP_CODE_404);
+		}
+	}
+
+
 
 //Save candidate
 const saveCandidateByNominationId = async (req) => {
+	console.log("sdfsdfddddddddddddddddddd",req.body);
 	try {
 		const id = uuidv4();
 		const fullName = req.body.fullName;
@@ -100,15 +116,15 @@ const saveCandidateByNominationId = async (req) => {
 		const electoralDivisionCode = req.body.electoralDivisionCode;
 		const counsilName = req.body.counsilName;
 		const nominationId = req.body.nominationId;
-		const now = new Date(dateOfBirth).getTime();
 		const nomination = await NominationService.validateNominationId(nominationId);
 		if (!_.isEmpty(nomination)) {
-			const candidateData = { 'id': id, 'fullName': fullName, 'preferredName': preferredName, 'nic': nic, 'dateOfBirth': now, 'gender': gender, 'address': address, 'occupation': occupation, 'electoralDivisionName': electoralDivisionName, 'electoralDivisionCode': electoralDivisionCode, 'counsilName': counsilName, 'nominationId': nominationId };
+			const candidateData = { 'id': id, 'fullName': fullName, 'preferredName': preferredName, 'nic': nic, 'dateOfBirth': dateOfBirth, 'gender': gender, 'address': address, 'occupation': occupation, 'electoralDivisionName': electoralDivisionName, 'electoralDivisionCode': electoralDivisionCode, 'counsilName': counsilName, 'nominationId': nominationId };
 			return await CandidateRepo.createCandidate(candidateData);
 		} else {
 			throw new ApiError("Nomination not found", HTTP_CODE_204);
 		}
 	} catch (e) {
+		console.log(e);
 		throw new ServerError("server error", HTTP_CODE_404);
 	}
 };
@@ -258,5 +274,6 @@ export default {
 	saveCandidateSupportDocsByCandidateId,
 	updateCandidateDataById,
 	saveCandidateConfig,
-	saveCandidateSupportDocConfigData
+	saveCandidateSupportDocConfigData,
+	deleteCandidateByCandidateId
 }
