@@ -52,6 +52,28 @@ const createObjection = (id, description) => {
     });
 };
 
+
+/**
+ * To be remove by @Udith
+ * @param id
+ * @param description
+ * @returns {Promise.<T>}
+ */
+const sampleTransactionCreateObjection = (id, description, transaction) => {
+  const params = { id: id, description : description};
+  return DbConnection()
+  .query(OBJECTION_INSERT_QUERY,
+    {
+      replacements: params,
+      type: DbConnection().QueryTypes.INSERT,
+      transaction,
+    }).catch((error) => {
+    throw new DBError(error);
+  });
+};
+
+
+
 /**
  * Same can be used to insert single and multiple objection too,
  * we should pass list of objections(objection) to insert multiple objections
@@ -88,6 +110,6 @@ export default {
   createObjection,
   insertObjections,
   fetchObjectionCreatedByTeam,
-
+  sampleTransactionCreateObjection,
 }
 

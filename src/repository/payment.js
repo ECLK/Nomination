@@ -47,6 +47,26 @@ const updateStatusByNominationId = (nomination_id, status) => {
 			});
 };
 
+/**
+ * To be remove by @Udith
+ * @param nomination_id
+ * @param status
+ * @returns {Promise.<T>}
+ */
+const sampleTransactionUpdateStatusByNominationId = (nomination_id, status, transaction) => {
+  const params = { nomination_id: nomination_id, status: status };
+  console.log(params);
+  return DbConnection()
+  .query(PAYMENT_STATUS_UPDATE_QUERY,
+    {
+      replacements: params,
+      type: DbConnection().QueryTypes.UPDATE,
+      transaction,
+    }).catch((error) => {
+    throw new DBError(error);
+  });
+};
+
 
 
 
@@ -128,5 +148,6 @@ export default {
 	updateStatusByNominationId,
 	createPayment,
 	updatePaymentCommons,
-	fetchPaymentsByElectionId
+	fetchPaymentsByElectionId,
+  sampleTransactionUpdateStatusByNominationId,
 }
