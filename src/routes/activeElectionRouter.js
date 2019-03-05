@@ -36,27 +36,9 @@ export const initActiveElectionRouter = (app) => {
     },
     {
       method: POST,
-      path: '/activeElections/TimeLine',
-      handler: (req, res, next) => {
-        return ActiveElectionService.saveActiveElectionTimeLine(req)
-        .then((result) => res.status(200).send(result))
-					.catch(error => next(error));
-      },
-    },
-    {
-      method: POST,
-      path: '/activeElections/Config',
-      handler: (req, res, next) => {
-        return ActiveElectionService.saveActiveElectionConfig(req)
-        .then((result) => res.status(200).send(result))
-					.catch(error => next(error));
-      },
-    },
-     {//TODO: yujith, remove this after compleating the call election function
-      method: POST,
       path: '/activeElectionsData',
       handler: (req, res, next) => {
-        return ActiveElectionService.saveAllowedNominatonList(req)
+        return ActiveElectionService.saveActiveElectionData(req)
         .then((result) => res.status(200).send(result))
 					.catch(error => next(error));
       },
