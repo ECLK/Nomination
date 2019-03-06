@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{00e38c43-3f57-4058-a731-1e207abf63af}</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectView>ShowAllFiles</ProjectView>
+    <StartupFile />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <ItemGroup>
+    <Content Include="package-lock.json" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="NominationRegistration\package.json" />
+    <Content Include="NominationRegistration\README.md" />
+    <Content Include="src\index.js" />
+    <Content Include="NominationRegistration\src\index.js" />
+    <Content Include="NominationRegistration\src\config\development.json" />
+    <Content Include="NominationRegistration\src\config\log4js-config.json" />
+    <Content Include="NominationRegistration\src\errors\sample.json" />
+    <Content Include="NominationRegistration\src\errors\ErrorCodes.js" />
+    <Content Include="NominationRegistration\src\errors\ErrorMessages.js" />
+    <Content Include="NominationRegistration\src\errors\Errors.js" />
+    <Content Include="NominationRegistration\src\manager\index.js" />
+    <Content Include="NominationRegistration\src\middleware\Error.js" />
+    <Content Include="NominationRegistration\src\middleware\ErrorMiddleware.js" />
+    <Content Include="NominationRegistration\src\middleware\express.js" />
+    <Content Include="NominationRegistration\src\middleware\Logger.js" />
+    <Content Include="NominationRegistration\src\middleware\Router.js" />
+    <Content Include="NominationRegistration\src\middleware\Swagger.js" />
+    <Content Include="NominationRegistration\src\middleware\ValidatorMiddleware.js" />
+    <Content Include="NominationRegistration\src\middleware\WSMiddleware.js" />
+    <Content Include="NominationRegistration\src\model\Candidate.js" />
+    <Content Include="NominationRegistration\src\model\Division.js" />
+    <Content Include="NominationRegistration\src\model\index.js" />
+    <Content Include="NominationRegistration\src\model\Nomination.js" />
+    <Content Include="NominationRegistration\src\model\Payment.js" />
+    <Content Include="NominationRegistration\src\model\SupportDoc.js" />
+    <Content Include="NominationRegistration\src\repository\candidate.js" />
+    <Content Include="NominationRegistration\src\repository\dataSource.js" />
+    <Content Include="NominationRegistration\src\repository\division.js" />
+    <Content Include="NominationRegistration\src\repository\nomination.js" />
+    <Content Include="NominationRegistration\src\repository\payment.js" />
+    <Content Include="NominationRegistration\src\repository\sqlHelper.js" />
+    <Content Include="NominationRegistration\src\repository\supportdoc.js" />
+    <Content Include="NominationRegistration\src\routes\nominationRouter.js" />
+    <Content Include="NominationRegistration\src\routes\routerAggregator.js" />
+    <Content Include="NominationRegistration\src\service\candidateService.js" />
+    <Content Include="NominationRegistration\src\service\divisionService.js" />
+    <Content Include="NominationRegistration\src\service\index.js" />
+    <Content Include="NominationRegistration\src\service\nominationService.js" />
+    <Content Include="NominationRegistration\src\service\paymentService.js" />
+    <Content Include="NominationRegistration\src\service\supportDocService.js" />
+    <Content Include="NominationRegistration\src\test\test_helper.js" />
+    <Content Include="NominationRegistration\src\utils\SQLHelper.js" />
+    <Content Include="NominationRegistration\src\manager\candidate\candidateManager.js" />
+    <Content Include="NominationRegistration\src\manager\division\divisionManager.js" />
+    <Content Include="NominationRegistration\src\manager\nomination\nominationEntryManager.js" />
+    <Content Include="NominationRegistration\src\manager\nomination\nominationManager.js" />
+    <Content Include="NominationRegistration\src\manager\payment\paymentManager.js" />
+    <Content Include="NominationRegistration\src\manager\supportdoc\supportDocManager.js" />
+    <Content Include="NominationRegistration\src\manager\division\test\divisionManager-Spec.js" />
+    <Content Include="NominationRegistration\src\repository\test\sqlHelper-Spec.js" />
+    <Content Include="NominationRegistration\src\routes\constants\ErrorCodeMapper.js" />
+    <Content Include="NominationRegistration\src\routes\constants\HttpCodes.js" />
+    <Content Include="NominationRegistration\src\routes\constants\HttpMethods.js" />
+    <Content Include="NominationRegistration\src\routes\constants\URLSchema.js" />
+    <Content Include="NominationRegistration\src\routes\schema\divisionSchema.js" />
+    <Content Include="NominationRegistration\src\routes\schema\nominationSchema.js" />
+    <Content Include="NominationRegistration\src\test\integration-test\user\User-Spec.js" />
+    <Content Include="src\config\development.json" />
+    <Content Include="src\config\log4js-config.json" />
+    <Content Include="src\errors\sample.json" />
+    <Content Include="src\errors\ErrorCodes.js" />
+    <Content Include="src\errors\ErrorMessages.js" />
+    <Content Include="src\errors\Errors.js" />
+    <Content Include="src\manager\index.js" />
+    <Content Include="src\middleware\Error.js" />
+    <Content Include="src\middleware\ErrorMiddleware.js" />
+    <Content Include="src\middleware\express.js" />
+    <Content Include="src\middleware\Logger.js" />
+    <Content Include="src\middleware\Router.js" />
+    <Content Include="src\middleware\Swagger.js" />
+    <Content Include="src\middleware\ValidatorMiddleware.js" />
+    <Content Include="src\middleware\WSMiddleware.js" />
+    <Content Include="src\model\ActiveElection.js" />
+    <Content Include="src\model\Candidate.js" />
+    <Content Include="src\model\Division.js" />
+    <Content Include="src\model\Election.js" />
+    <Content Include="src\model\ElectionNomination.js" />
+    <Content Include="src\model\index.js" />
+    <Content Include="src\model\Module.js" />
+    <Content Include="src\model\Nomination.js" />
+    <Content Include="src\model\Objection.js" />
+    <Content Include="src\model\Payment.js" />
+    <Content Include="src\model\SupportDoc.js" />
+    <Content Include="src\model\Team.js" />
+    <Content Include="src\model\User.js" />
+    <Content Include="src\repository\activeElection.js" />
+    <Content Include="src\repository\candidate.js" />
+    <Content Include="src\repository\dataSource.js" />
+    <Content Include="src\repository\division.js" />
+    <Content Include="src\repository\election.js" />
+    <Content Include="src\repository\electionNomination.js" />
+    <Content Include="src\repository\module.js" />
+    <Content Include="src\repository\nomination.js" />
+    <Content Include="src\repository\objection.js" />
+    <Content Include="src\repository\payment.js" />
+    <Content Include="src\repository\sqlHelper.js" />
+    <Content Include="src\repository\supportdoc.js" />
+    <Content Include="src\repository\team.js" />
+    <Content Include="src\repository\teamDataSource.js" />
+    <Content Include="src\repository\user.js" />
+    <Content Include="src\routes\activeElectionRouter.js" />
+    <Content Include="src\routes\defaultRouter.js" />
+    <Content Include="src\routes\divisionRouter.js" />
+    <Content Include="src\routes\electionNominationRouter.js" />
+    <Content Include="src\routes\electionRouter.js" />
+    <Content Include="src\routes\moduleRouter.js" />
+    <Content Include="src\routes\nominationRouter.js" />
+    <Content Include="src\routes\objectionRouter.js" />
+    <Content Include="src\routes\paymentRouter.js" />
+    <Content Include="src\routes\review.js" />
+    <Content Include="src\routes\routerAggregator.js" />
+    <Content Include="src\routes\teamRouter.js" />
+    <Content Include="src\routes\userRouter.js" />
+    <Content Include="src\service\activeElectionService.js" />
+    <Content Include="src\service\candidateService.js" />
+    <Content Include="src\service\divisionService.js" />
+    <Content Include="src\service\electionNominationService.js" />
+    <Content Include="src\service\electionService.js" />
+    <Content Include="src\service\index.js" />
+    <Content Include="src\service\moduleService.js" />
+    <Content Include="src\service\nominationService.js" />
+    <Content Include="src\service\objectionService.js" />
+    <Content Include="src\service\paymentService.js" />
+    <Content Include="src\service\reviewService.js" />
+    <Content Include="src\service\supportDocService.js" />
+    <Content Include="src\service\teamService.js" />
+    <Content Include="src\service\userService.js" />
+    <Content Include="src\test\test_helper.js" />
+    <Content Include="src\utils\SQLHelper.js" />
+    <Content Include="src\manager\activeElection\activeElectionManager.js" />
+    <Content Include="src\manager\candidate\candidateManager.js" />
+    <Content Include="src\manager\division\divisionManager.js" />
+    <Content Include="src\manager\election\electionManager.js" />
+    <Content Include="src\manager\electionNomination\electionNominationManager.js" />
+    <Content Include="src\manager\module\moduleManager.js" />
+    <Content Include="src\manager\nomination\nominationEntryManager.js" />
+    <Content Include="src\manager\nomination\nominationManager.js" />
+    <Content Include="src\manager\objection\objectionManager.js" />
+    <Content Include="src\manager\payment\paymentManager.js" />
+    <Content Include="src\manager\supportdoc\supportDocManager.js" />
+    <Content Include="src\manager\team\teamManager.js" />
+    <Content Include="src\manager\user\userManager.js" />
+    <Content Include="src\manager\activeElection\test\activeElectionManager-Spec.js" />
+    <Content Include="src\manager\division\test\divisionManager-Spec.js" />
+    <Content Include="src\manager\electionNomination\test\electionNominationManager-Spec.js" />
+    <Content Include="src\manager\module\test\moduleManager-Spec.js" />
+    <Content Include="src\manager\objection\test\objectionManager-Spec.js" />
+    <Content Include="src\manager\team\test\teamManager-Spec.js" />
+    <Content Include="src\manager\user\test\userManager-Spec.js" />
+    <Content Include="src\repository\test\sqlHelper-Spec.js" />
+    <Content Include="src\routes\constants\ErrorCodeMapper.js" />
+    <Content Include="src\routes\constants\HttpCodes.js" />
+    <Content Include="src\routes\constants\HttpMethods.js" />
+    <Content Include="src\routes\constants\URLSchema.js" />
+    <Content Include="src\routes\schema\activeElectionSchema.js" />
+    <Content Include="src\routes\schema\divisionSchema.js" />
+    <Content Include="src\routes\schema\electionNominationSchema.js" />
+    <Content Include="src\routes\schema\electionSchema.js" />
+    <Content Include="src\routes\schema\moduleSchema.js" />
+    <Content Include="src\routes\schema\nominationSchema.js" />
+    <Content Include="src\routes\schema\objectionSchema.js" />
+    <Content Include="src\routes\schema\userSchema.js" />
+    <Content Include="src\test\integration-test\user\User-Spec.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="api-docs" />
+    <Folder Include="api-docs\paths" />
+    <Folder Include="log" />
+    <Folder Include="NominationRegistration" />
+    <Folder Include="NominationRegistration\api-docs" />
+    <Folder Include="NominationRegistration\api-docs\paths" />
+    <Folder Include="NominationRegistration\log" />
+    <Folder Include="NominationRegistration\src" />
+    <Folder Include="NominationRegistration\src\config" />
+    <Folder Include="NominationRegistration\src\config\db" />
+    <Folder Include="NominationRegistration\src\errors" />
+    <Folder Include="NominationRegistration\src\manager" />
+    <Folder Include="NominationRegistration\src\manager\candidate" />
+    <Folder Include="NominationRegistration\src\manager\division" />
+    <Folder Include="NominationRegistration\src\manager\division\test" />
+    <Folder Include="NominationRegistration\src\manager\nomination" />
+    <Folder Include="NominationRegistration\src\manager\payment" />
+    <Folder Include="NominationRegistration\src\manager\supportdoc" />
+    <Folder Include="NominationRegistration\src\middleware" />
+    <Folder Include="NominationRegistration\src\model" />
+    <Folder Include="NominationRegistration\src\repository" />
+    <Folder Include="NominationRegistration\src\repository\test" />
+    <Folder Include="NominationRegistration\src\routes" />
+    <Folder Include="NominationRegistration\src\routes\constants" />
+    <Folder Include="NominationRegistration\src\routes\schema" />
+    <Folder Include="NominationRegistration\src\service" />
+    <Folder Include="NominationRegistration\src\test" />
+    <Folder Include="NominationRegistration\src\test\integration-test" />
+    <Folder Include="NominationRegistration\src\test\integration-test\user" />
+    <Folder Include="NominationRegistration\src\utils" />
+    <Folder Include="src" />
+    <Folder Include="src\config" />
+    <Folder Include="src\config\db" />
+    <Folder Include="src\errors" />
+    <Folder Include="src\manager" />
+    <Folder Include="src\manager\activeElection" />
+    <Folder Include="src\manager\activeElection\test" />
+    <Folder Include="src\manager\candidate" />
+    <Folder Include="src\manager\division" />
+    <Folder Include="src\manager\division\test" />
+    <Folder Include="src\manager\election" />
+    <Folder Include="src\manager\electionNomination" />
+    <Folder Include="src\manager\electionNomination\test" />
+    <Folder Include="src\manager\module" />
+    <Folder Include="src\manager\module\test" />
+    <Folder Include="src\manager\nomination" />
+    <Folder Include="src\manager\objection" />
+    <Folder Include="src\manager\objection\test" />
+    <Folder Include="src\manager\payment" />
+    <Folder Include="src\manager\supportdoc" />
+    <Folder Include="src\manager\team" />
+    <Folder Include="src\manager\team\test" />
+    <Folder Include="src\manager\user" />
+    <Folder Include="src\manager\user\test" />
+    <Folder Include="src\middleware" />
+    <Folder Include="src\model" />
+    <Folder Include="src\repository" />
+    <Folder Include="src\repository\test" />
+    <Folder Include="src\routes" />
+    <Folder Include="src\routes\constants" />
+    <Folder Include="src\routes\schema" />
+    <Folder Include="src\service" />
+    <Folder Include="src\test" />
+    <Folder Include="src\test\integration-test" />
+    <Folder Include="src\test\integration-test\user" />
+    <Folder Include="src\utils" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

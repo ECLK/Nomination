@@ -8,7 +8,6 @@ export const Payment =  Record({
   depositeDate: Number(),
   uploadedFilePath: String(),
   status: String(),
-  note: String(),
   nominationId: String(),
   createdBy: String(),
   createdAt: Number(),

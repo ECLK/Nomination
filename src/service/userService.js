@@ -1,7 +1,10 @@
 import { ServerError , ApiError } from 'Errors';
-import UserRepo from '../repository/user';
-import {UserManager}  from 'Managers'
 import _ from 'lodash';
+import {UserManager}  from 'Managers'
+import UserRepo from '../repository/user';
+
+import SampleTransactionService  from '../repository/sampleTransaction'
+
 
 
 const updateUserByUserId = async (req) => {
@@ -25,7 +28,31 @@ const getUserByUserId = async (req) => {
   }
 };
 
+/**
+ * TODO : Take this as a sample use for real world scenario buy @Udith
+ * @param req
+ * @returns {Promise.<void>}
+ */
+const updateAsTransaction = async (req) => {
+
+  try {
+    const objectionId = '1234';
+    const ObjectionDes = 'des for objection';
+    const nominationId = '234';
+    const nominationStatus = 'APPROVE';
+    await SampleTransactionService.saveRecordsToDB({
+      objectionId,
+      ObjectionDes,
+      nominationId,
+      nominationStatus,
+    });
+  }catch (e){
+    throw new ServerError("server error");
+  }
+};
+
 export default {
   getUserByUserId,
   updateUserByUserId,
+  updateAsTransaction,
 }

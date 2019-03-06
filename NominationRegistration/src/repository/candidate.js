@@ -47,7 +47,7 @@ const getCandidateListByNomination = (nomination_id) => {
 			});
 }
 
-const getCandidateByNomination = (params) => {
+const fetchCandidateByNomination = (params) => {
 	return DbConnection()
 		.query(CANDIDATE_BY_CANDIDATE_ID_SELECT_QUERY,
 			{
@@ -116,7 +116,7 @@ const getCandidateById = (candidateId) => {
 export default {
 	getCandidateListByNomination,
 	createCandidate,
-	getCandidateByNomination,
+	fetchCandidateByNomination,
 	getCandidateById,
 	updateCandidate
 }

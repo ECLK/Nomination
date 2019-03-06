@@ -10,6 +10,8 @@ const TIME_LINE_COLUMN_ORDER = ['id','electionTimeLineConfigId', 'electionId', '
 const TIME_LINE_INSERT_BASE_QUERY = `INSERT INTO ELECTION_TIMELINE_CONFIG_DATA (ID,ELECTION_TIMELINE_CONFIG_ID,ELECTION_ID, VALUE) VALUES `
 const ELECTION_CONF_COLUMN_ORDER = ['id','electionConfigId', 'electionId', 'value'];
 const ELECTION_CONF_INSERT_BASE_QUERY = `INSERT INTO ELECTION_CONFIG_DATA (ID,ELECTION_CONFIG_ID,ELECTION_ID, VALUE) VALUES `
+const NOMINATON_ALLOW_INSERT_BASE_QUERY = `INSERT INTO NOMINATION (ID,STATUS,TEAM_ID, CREATED_BY,CREATED_AT,UPDATED_AT,ELECTION_ID,DIVISION_CONFIG_ID) VALUES `
+const NOMINATON_ALLOW_COLUMN_ORDER = ['id','status', 'team_id', 'created_by','created_at','updated_at', 'election_id', 'division_id'];
 
 
 
@@ -66,34 +68,54 @@ const insertActiveElections = (activeElections) => {
 			});
 };
 
-const saveTimeLine = (timeLine) => { 
-  console.log("timeLine",timeLine);
+/**
+ * save active election transaction (first step)
+ * save active election time line
+ * @returns {Promise.<T>}
+ */
+const saveTimeLine = (timeLine, transaction) => {
   return DbConnection()
   .query(formatQueryToBulkInsert(TIME_LINE_INSERT_BASE_QUERY, timeLine),
     {
       replacements: formatDataToBulkInsert(timeLine, TIME_LINE_COLUMN_ORDER),
       type: DbConnection().QueryTypes.INSERT,
-    }).then((results) => {
-      return timeLine ;
-     }).catch((error) => {
+      transaction,
+    }).catch((error) => {
        throw new DBError(error);
      });
 };
-
-const saveActiveElectionConf = (config) => { 
+/**
+ * save active election transaction (second step)
+ * save active election config
+ * @returns {Promise.<T>}
+ */
+const saveActiveElectionConf = (config, transaction) => {
   return DbConnection()
   .query(formatQueryToBulkInsert(ELECTION_CONF_INSERT_BASE_QUERY, config),
     {
       replacements: formatDataToBulkInsert(config, ELECTION_CONF_COLUMN_ORDER),
       type: DbConnection().QueryTypes.INSERT,
-    }).then((results) => {
-      return config ;
-     }).catch((error) => {
+      transaction,
+    }).catch((error) => {
        throw new DBError(error);
      });
 };
-
-
+/**
+ * save active election transaction (third step)
+ * save allow nomination
+ * @returns {Promise.<T>}
+ */
+const saveAllowedNominations = (nominationAllow, transaction) => {
+  return DbConnection()
+  .query(formatQueryToBulkInsert(NOMINATON_ALLOW_INSERT_BASE_QUERY, nominationAllow),
+    {
+      replacements: formatDataToBulkInsert(nominationAllow, NOMINATON_ALLOW_COLUMN_ORDER),
+      type: DbConnection().QueryTypes.INSERT,
+      transaction,
+    }).catch((error) => {
+       throw new DBError(error);
+     });
+};
 
 
 export default {
@@ -101,5 +123,6 @@ export default {
   createActiveElection,
   insertActiveElections,
   saveTimeLine,
-  saveActiveElectionConf
+  saveActiveElectionConf,
+  saveAllowedNominations
 }

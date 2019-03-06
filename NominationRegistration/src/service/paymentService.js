@@ -4,7 +4,7 @@ import Payment from '../repository/payment';
 import PaymentRepo from '../repository/payment';
 import {PaymentManager}  from 'Managers';
 import {NominationService} from 'Service';
-import {HTTP_CODE_404,HTTP_CODE_204} from '../routes/constants/HttpCodes';
+import {HTTP_CODE_404, HTTP_CODE_204} from '../routes/constants/HttpCodes';
 const uuidv4 = require('uuid/v4');
 
 
@@ -37,7 +37,6 @@ const updatePaymentStatusByNominationId = async (req) => {
 
 //Save payment details for a particular nomination
 const createPaymentByNominationId = async (req) => {
-  console.log("---------",req.body);
   try {
     const id = uuidv4();
     const depositor = req.body.depositor;
@@ -52,8 +51,7 @@ var depositDateInt = myDate.getTime();
     await NominationService.validateNominationId( nominationId );//TODO: yujith,re check this function
     const paymentData = {'id':id, 'depositor':depositor,'depositDate':depositDateInt, 'amount':amount, 'filePath':filePath, 'nominationId':nominationId, 'status':status};
     return await PaymentRepo.createPayment( paymentData );
-  }catch (e){
-    console.log(e);
+  }catch (error){
     throw new ServerError("server error");
   }
 };
@@ -69,7 +67,7 @@ const updatePaymentByNominationId = async (req) => {
     const paymentData = {'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'nominationId':nominationId};
     return await Payment.updatePaymentCommons(paymentData);
   }catch (e){
-    throw new ServerError("server error");
+    throw new ServerError("server error", HTTP_CODE_404);
   }
 
 };

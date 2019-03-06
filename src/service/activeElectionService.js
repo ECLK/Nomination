@@ -3,6 +3,8 @@ import ActiveElectionRepo from '../repository/activeElection';
 import {ActiveElectionManager}  from 'Managers';
 import _ from 'lodash';
 const uuidv4 = require('uuid/v4');
+import ActiveElectionTransactionService  from '../repository/activeElectionTransaction'
+
 
 
 
@@ -21,7 +23,6 @@ const updateActiveElectionByActiveElectionId = async (req) => {
 
     return await ActiveElectionRepo.insertActiveElections(activeElections);
   }catch (e){
-    console.log(e);
     throw new ServerError("server error");
   }
 };
@@ -37,9 +38,8 @@ const saveActiveElectionTimeLine = async (req) => {
           timeLine[i] = {'id':id,'electionTimeLineConfigId':electionTimeLineConfigId,'value':value, 'electionId':electionId};
          i++;
        }
-   return await ActiveElectionRepo.saveTimeLine( timeLine );
+       return timeLine;
   }catch (e){
-    console.log(e);
     throw new ServerError("server error");
   }
 };
@@ -55,12 +55,50 @@ const saveActiveElectionConfig = async (req) => {
           config[i] = {'id':id,'electionConfigId':electionConfigId,'value':value, 'electionId':electionId};
          i++;
        }
-   return await ActiveElectionRepo.saveActiveElectionConf( config );
+       return config;
   }catch (e){
-    console.log(e);
     throw new ServerError("server error");
   }
 };
+
+    //Save Allow nomination list
+    const saveAllowedNominatonList = async (req) => {
+      try {
+        var nominationAllowData = req.body.nominationAllowData;
+        var i=0;
+        var nominationAllow = []; //TODO: yujith, validate electionTimeLineConfigId and electionId and filePath
+           for (var {team_id: team_id, election_id: election_id,division_id: division_id} of nominationAllowData) {
+              const id = uuidv4();
+              nominationAllow[i] = {'id':id,'status':'DRAFT','team_id':team_id,'created_by':'123','created_at':'123','updated_at':'123', 'election_id':election_id,'division_id':division_id};
+             i++;
+           }
+      return nominationAllow;
+      }catch (e){
+        throw new ServerError("server error");
+      }
+    };
+
+    /**
+     * @param req
+     * @returns {Promise.<void>}
+     */
+    const saveActiveElectionData = async (req) => {
+      console.log(req.body);
+
+      try {
+        const saveActiveElectionTimeLineData = await saveActiveElectionTimeLine(req);
+        const saveActiveElectionConfigData =  await saveActiveElectionConfig(req);
+        const saveAllowedNominatonListData =  await saveAllowedNominatonList(req);
+
+        await ActiveElectionTransactionService.saveActiveElectionDataToDB({
+          saveActiveElectionTimeLineData,
+          saveActiveElectionConfigData,
+          saveAllowedNominatonListData,
+        });
+      }catch (e){
+        throw new ServerError("server error");
+      }
+    };
 
 const getActiveElectionByActiveElectionId = async (req) => {
   const uid = req.params.activeElectionId;
@@ -75,6 +113,5 @@ const getActiveElectionByActiveElectionId = async (req) => {
 export default {
   getActiveElectionByActiveElectionId,
   updateActiveElectionByActiveElectionId,
-  saveActiveElectionTimeLine,
-  saveActiveElectionConfig
+  saveActiveElectionData
 }

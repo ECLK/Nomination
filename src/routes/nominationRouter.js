@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { GET, POST, PUT } from 'HttpMethods';
+import { GET, POST, PUT, DELETE } from 'HttpMethods';
 import { createRoutes } from '../middleware/Router';
 import { PaymentService, CandidateService, SupportDocService, NominationService } from 'Service';
 import { SAVE_PAYMENT_SCHEMA, UPDATE_PAYMENT_SCHEMA, SAVE_SUPPORT_DOC_SCHEMA, UPDATE_SUPPORT_DOC_SCHEMA, SAVE_CANDIDATE_SCHEMA, SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA, SAVE_NOMINATION_APPROVE_SCHEMA } from './schema/nominationSchema';
@@ -44,6 +44,16 @@ export const initNominationRouter = (app) => {
 			},
 		},
 		{
+			method: DELETE,
+			path: '/nominations/:candidateId/candidates',
+			schema: {},
+			handler: (req, res, next) => {
+				return CandidateService.deleteCandidateByCandidateId(req)
+					.then((result) => res.status(HTTP_CODE_200).send(result))
+					.catch(error => next(error));
+			},
+		},
+		{
 			method: GET,
 			path: '/nominations/:nominationId/candidates/:candidateId',
 			schema: {},
@@ -80,7 +90,6 @@ export const initNominationRouter = (app) => {
 			method: POST,
 			path: '/nominations/payments',
 			handler: (req, res, next) => {
-				// console.log(req);
 				return PaymentService.createPaymentByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_201).send(result))
 					.catch(error => next(error));
@@ -88,8 +97,8 @@ export const initNominationRouter = (app) => {
 		},
 		{
 			method: PUT,
-			path: '/nominations/:nominationId/payments',
-			schema: UPDATE_PAYMENT_SCHEMA,
+			path: '/nominations/:paymentId/payments',
+			// schema: UPDATE_PAYMENT_SCHEMA,
 			handler: (req, res, next) => {
 				return PaymentService.updatePaymentByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_201).send(result))

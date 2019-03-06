@@ -36,18 +36,9 @@ export const initActiveElectionRouter = (app) => {
     },
     {
       method: POST,
-      path: '/activeElections/TimeLine',
+      path: '/activeElectionsData',
       handler: (req, res, next) => {
-        return ActiveElectionService.saveActiveElectionTimeLine(req)
-        .then((result) => res.status(200).send(result))
-					.catch(error => next(error));
-      },
-    },
-    {
-      method: POST,
-      path: '/activeElections/Config',
-      handler: (req, res, next) => {
-        return ActiveElectionService.saveActiveElectionConfig(req)
+        return ActiveElectionService.saveActiveElectionData(req)
         .then((result) => res.status(200).send(result))
 					.catch(error => next(error));
       },
