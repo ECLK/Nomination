@@ -103,19 +103,6 @@ const deleteCandidateByCandidateId = async (req) => {
 }
 
 
-//Delete candidate from particular nomination
-	const deleteCandidateByCandidateId = async (req) => {
-		console.log("=====================",req.params.candidateId);
-		try {
-			const candidateId = req.params.candidateId;
-			if (isCandidateExists(candidateId)) {
-				return await CandidateRepo.deleteCandidate(candidateId);
-			}
-		} catch (error) {
-			console.log(error);
-			throw new ServerError("server error", HTTP_CODE_404);
-		}
-	}
 
 
 
