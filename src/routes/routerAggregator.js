@@ -9,7 +9,7 @@ import {initObjectionRouter} from './objectionRouter';
 import {initActiveElectionRouter} from './activeElectionRouter';
 import {initElectionNominationRouter} from './electionNominationRouter';
 import {initPaymentRouter} from './paymentRouter';
-import {initReviewRouter} from './review';
+import { initReviewRouter } from './reviewRouter';
 
 
 export const initRoutes = (app) => {

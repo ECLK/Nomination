@@ -9,7 +9,11 @@ const uuidv4 = require('uuid/v4');
 
 
 const putPaymentsBypaymentId = async (req) => {
-    return await ReviewRepo.updatePaymentStatus(req.params.paymentId, req.body.status);
+    try{
+        return await ReviewRepo.updatePaymentStatus(req.params.paymentId, req.body.status);
+    } catch (e) {
+        throw new ServerError("server error");
+    }
 };
 
 
