@@ -1,3 +1,0 @@
-E:\2019-02-21\Nomination-backend\Nomination\obj\Debug\Nomination.njsprojAssemblyReference.cache
-E:\2019-02-21\Nomination-backend\Nomination\obj\Debug\Nomination.njsproj.CoreCompileInputs.cache
-E:\2019-02-21\Nomination-backend\Nomination\bin\Microsoft.NodejsTools.WebRole.dll
