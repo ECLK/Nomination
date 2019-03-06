@@ -9,7 +9,7 @@
     "npm": ">=3"
   },
   "scripts": {
-    "start": "NODE_ENV=development nodemon --exec 'babel-node ./src/index.js' | bunyan",
+    "start": "NODE_ENV=development nodemon --exec 'babel-node ./src/index.js' --conf-path='/Users/ananda/org/LSF/Election/Nomination/nomination-fork/src/config/development.json' | bunyan",
     "test:cmd": "./node_modules/.bin/_mocha --compilers js:babel-core/register --timeout 100000 --harmony --require babel-polyfill",
     "test": "npm run test:cmd  './src/test/**/*.@(js)' -w",
     "test:custom": "npm run test:cmd -- -w",
@@ -35,6 +35,7 @@
   "homepage": "",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "minimist": "^1.2.0",
     "continuation-local-storage": "^3.2.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.7.1",
