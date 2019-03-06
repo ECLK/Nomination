@@ -9,7 +9,7 @@
     "npm": ">=3"
   },
   "scripts": {
-    "start": "SET NODE_ENV=development  && babel-node ./src/index.js | bunyan",
+    "start": "NODE_ENV=development nodemon --exec 'babel-node ./src/index.js' | bunyan",
     "test:cmd": "./node_modules/.bin/_mocha --compilers js:babel-core/register --timeout 100000 --harmony --require babel-polyfill",
     "test": "npm run test:cmd  './src/test/**/*.@(js)' -w",
     "test:custom": "npm run test:cmd -- -w",
