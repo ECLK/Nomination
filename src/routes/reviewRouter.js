@@ -8,7 +8,7 @@ const paymentRouter = createRoutes();
 export const initReviewRouter = (app) => {
     paymentRouter(app, [
         {
-            // curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/payments
+            // curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/review/378a33e1-5ad0-42f1-9403-dc9dbba32f4c/payments
             method: PUT,
             path: '/review/:paymentId/payments',
            // schema: {},
@@ -18,6 +18,18 @@ export const initReviewRouter = (app) => {
                  	.catch(error => next(error));
 
             },
-        }
+        },
+        {
+            // curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/payments/378a33e1-5ad0-42f1-9403-dc9dbba32f4c/note
+            method: PUT,// /payments/:payment_id/note
+            path: '/payments/:paymentId/note',
+            // schema: {},
+            handler: (req, res, next) => {
+                return reviewService.putPaymentNoteBypaymentId(req)
+                    .then((result) => res.status(200).send(result))
+                    .catch(error => next(error));
+
+            },
+        },
     ]);
 };

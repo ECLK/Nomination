@@ -15,9 +15,19 @@ const putPaymentsBypaymentId = async (req) => {
         throw new ServerError("server error");
     }
 };
+const putPaymentNoteBypaymentId = async (req) => {
+    try {
+        return await ReviewRepo.updatePaymentNote(req.params.paymentId, req.body.note);
+    }
+    catch (e) {
+        throw new ServerError("server error");
+    }
+} 
 
+ 
 
 
 export default {
-    putPaymentsBypaymentId
+    putPaymentsBypaymentId,
+    putPaymentNoteBypaymentId
 }
