@@ -76,14 +76,50 @@ export const initModuleRouter = (app) => {
 				}
 			}
 		},
+		// {
+		// 	method: GET,
+		// 	path: '/election-modules',
+		// 	handler: (req, res, next) => {
+		// 	  return ModuleService.saveElectionModule(req)
+		// 	  .then((result) => res.status(200).send(result))
+		// 				  .catch(error => next(error));
+		// 	},
+		// },
 		{
 			method: POST,
-			path: '/modules/moduleData',
+			path: '/election-modules',
 			handler: (req, res, next) => {
 			  return ModuleService.saveElectionModule(req)
 			  .then((result) => res.status(200).send(result))
 						  .catch(error => next(error));
 			},
-		  },
+		},
+		{
+			method: PUT,
+			path: '/election-modules/:moduleID',
+			handler: (req, res, next) => {
+			  return ModuleService.saveElectionModule(req)
+			  .then((result) => res.status(200).send(result))
+						  .catch(error => next(error));
+			},
+		},
+		// {
+		// 	method: GET,
+		// 	path: '/election-modules/:moduleID',
+		// 	handler: (req, res, next) => {
+		// 	  return ModuleService.saveElectionModule(req)
+		// 	  .then((result) => res.status(200).send(result))
+		// 				  .catch(error => next(error));
+		// 	},
+		// },
+		// {
+		// 	method: DELETE,
+		// 	path: '/election-modules/:moduleID',
+		// 	handler: (req, res, next) => {
+		// 	  return ModuleService.saveElectionModule(req)
+		// 	  .then((result) => res.status(200).send(result))
+		// 				  .catch(error => next(error));
+		// 	},
+		// },
 	]);
 };
