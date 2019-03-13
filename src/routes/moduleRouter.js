@@ -75,6 +75,15 @@ export const initModuleRouter = (app) => {
 
 				}
 			}
-		}
+		},
+		{
+			method: POST,
+			path: '/modules/moduleData',
+			handler: (req, res, next) => {
+			  return ModuleService.saveElectionModule(req)
+			  .then((result) => res.status(200).send(result))
+						  .catch(error => next(error));
+			},
+		  },
 	]);
 };
