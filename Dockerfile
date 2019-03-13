@@ -6,7 +6,9 @@ RUN mkdir -p /var/tmp/nomination-api
 WORKDIR /var/tmp/nomination-api
 
 #Installing Redis and Git
-RUN apt-get update && apt-get install
+# RUN apt-get update && apt-get install
+RUN apt-get install -y openssh-server apache2 supervisor
+
 ADD . /var/tmp/nomination-api
 #Add Supervisor config
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -21,5 +23,5 @@ EXPOSE 12201
 
 
 #start application
-# CMD ["/usr/bin/supervisord"]
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+CMD ["/usr/bin/supervisord"]
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
