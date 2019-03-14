@@ -22,6 +22,7 @@ const MODULE_SELECT_QUERY = `SELECT
 const MODULE_INSERT_QUERY = `INSERT INTO ELECTION_MODULE (ID, NAME, DIVISION_COMMON_NAME, CREATED_BY, CREATED_AT, UPDATED_AT) 
                               VALUES (:id, :name,:divisionCommonName, :createdBy, :createdAt, :updatedAt)`;
 const MODULE_INSERT_BASE_QUERY = `INSERT INTO ELECTION_MODULE VALUES `;
+const ColumnnamesFromCandidate_configTabel = `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'candidate_config'`;
 const MODULE_COLUMN_ORDER = ['ID', 'NAME'];
 const CANDIDATE_CONFIG_INSERT_BASE_QUERY = `INSERT INTO CANDIDATE_CONFIG_DATA (ID,CANDIDATE_CONFIG_ID,MODULE_ID) VALUES `
 const CANDIDATE_CONFIG_COLUMN_ORDER = ['id', 'candidateConfigId','moduleId'];
@@ -51,15 +52,15 @@ const ELECTION_CONFIG_DELETE_QUERY = `DELETE FROM ELECTION_MODULE_CONFIG_DATA WH
 
                                 
 const fetchModuleById = (moduleId) => {
-  const params = { id: moduleId };
-  return DbConnection()
-    .query(MODULE_SELECT_QUERY,
-      {
-        replacements: params,
-        type: DbConnection().QueryTypes.SELECT,
-      }).catch((error) => {
-      throw new DBError(error);
-    });
+    const params = {id: moduleId};
+    return DbConnection()
+        .query(MODULE_SELECT_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.SELECT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
 };
 
 
@@ -70,27 +71,63 @@ const fetchModuleById = (moduleId) => {
  * @returns {Promise.<T>}
  */
 const insertModules = (modules) => {
-  return DbConnection()
-  .query(formatQueryToBulkInsert(MODULE_INSERT_BASE_QUERY, modules),
-    {
-      replacements: formatDataToBulkInsert(modules, MODULE_COLUMN_ORDER),
-      type: DbConnection().QueryTypes.INSERT,
-    }).catch((error) => {
-    throw new DBError(error);
-  });
+    return DbConnection()
+        .query(formatQueryToBulkInsert(MODULE_INSERT_BASE_QUERY, modules),
+            {
+                replacements: formatDataToBulkInsert(modules, MODULE_COLUMN_ORDER),
+                type: DbConnection().QueryTypes.INSERT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
 };
 
 //get all election modules by status
 const fetchModuleSByStatus = (status) => {
-  const params = { status: status };
-  return DbConnection()
-    .query(ALL_MODULE_SELECT_QUERY,
-      {
-        replacements: params,
-        type: DbConnection().QueryTypes.SELECT,
-      }).catch((error) => {
-      throw new DBError(error);
-    });
+    const params = {status: status};
+    return DbConnection()
+        .query(ALL_MODULE_SELECT_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.SELECT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
+};
+const fetchColumnnamesFromCandidateConfigTabel = () => {
+    console.log("c");
+    return DbConnection()
+        .query(ColumnnamesFromCandidate_configTabel,
+            {
+                type: DbConnection().QueryTypes.SELECT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
+};
+/*const InsertTodivisionConfig = (req) => {
+    const params = {ID: req., NAME: name, CODE:,NO_OF_CANDIDATES:,MODULE_ID:};
+    return DbConnection()
+        .query(DIVISIONCONFIG_INSERT_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.INSERT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
+};*/
+//InsertTodivisionConfig
+//
+const DIVISION_CONFIG_INSERT_BASE_QUERY = `INSERT INTO division_config VALUES `;
+const DIVISION_CONFIG_COLUMN_ORDER = ['ID', 'NAME', 'CODE', 'NO_OF_CANDIDATES', 'MODULE_ID'];
+const InsertTodivisionConfig = (list) => {
+
+    return DbConnection()
+        .query(formatQueryToBulkInsert(DIVISION_CONFIG_INSERT_BASE_QUERY, list),
+            {
+                replacements: formatDataToBulkInsert(list, DIVISION_CONFIG_COLUMN_ORDER),
+                type: DbConnection().QueryTypes.INSERT,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
 };
 
 const saveCandidateConf = async (moduleId, data, transaction) => {
@@ -259,6 +296,19 @@ const insertElectionModule = (params,transaction) => {
 
 
 
+const Election_Module_UPDATE_QUERY = `UPDATE election_module SET DIVISION_COMMON_NAME = :name WHERE ID = :id`;
+const UpdateElectionModule = (name, id) => {
+    const params = { name: name, id: id };
+    console.log(params);
+    return DbConnection()
+        .query(Election_Module_UPDATE_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.UPDATE,
+            }).catch((error) => {
+            throw new DBError(error);
+        });
+};
 export default {
   fetchModuleById,
   insertModules,

@@ -43,9 +43,23 @@ const getModulesByStatus = async (req) => {
 	} catch (error) {
 		throw new ServerError("server error");
 	}
-
 };
 
+const InsertTodivisionConfig = async (req) => {
+    try {
+        await ModuleRepo.UpdateElectionModule(req.body.Division_Comman_Name,req.body.MODULE_ID);
+        var list = [];
+        var array=req.body.data;
+        for(var i=0;i<req.body.data.length;i++){
+            list[i]={'ID':uuidv4(), 'NAME':array[i].Division_name, 'CODE':array[i].Division_code, 'NO_OF_CANDIDATES':array[i].no_of_candidate, 'MODULE_ID':req.body.MODULE_ID}
+        }
+        console.log(list);
+        await ModuleRepo.InsertTodivisionConfig(list);
+    } catch (e) {
+        console.log(e);
+        throw new ServerError("server error");
+    }
+};
 /**
  * @description validator for module_id
  * @param {string} moduleId 

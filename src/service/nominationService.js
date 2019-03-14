@@ -48,7 +48,7 @@ const getNominationByStatus = async (req) => {
     } catch (error) {
         throw new ServerError("Server error", HTTP_CODE_404);
     }
-}
+};
 
 //Get second approve pending nomination list by electionId
 const getPendingNominationsByElectionId = async (req) => {
