@@ -1,4 +1,0 @@
-/employeeShift/{merchantId}:
-  $ref: ./employeeShifts.yaml
-/employeeShift/{merchantId}/{shiftId}:
-  $ref: ./employeeShiftByShiftId.yaml
