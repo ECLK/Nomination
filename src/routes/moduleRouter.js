@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { GET, POST } from 'HttpMethods';
+import { GET, POST, PUT } from 'HttpMethods';
 import { ModuleService, SupportDocService, CandidateService } from 'Service';
 import { createRoutes } from '../middleware/Router';
 import ModuleManager from '../manager/module/moduleManager';
