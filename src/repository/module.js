@@ -1,6 +1,8 @@
 import { DBError } from 'Errors';
 import { DbConnection } from './dataSource';
 import { formatQueryToBulkInsert, formatDataToBulkInsert} from './sqlHelper';
+const uuidv4 = require('uuid/v4');
+
 
 
 const ALL_MODULE_SELECT_QUERY = `SELECT  
@@ -91,24 +93,14 @@ const fetchModuleSByStatus = (status) => {
     });
 };
 
-/**
- * save active election transaction 
- * save module candidate config
- * @returns {Promise.<T>}
- */
-// const saveCandidateConf = (saveCandidateFormConfigurationData, transaction) => {
-//   return DbConnection()
-//   .query(formatQueryToBulkInsert(CANDIDATE_CONFIG_INSERT_BASE_QUERY, saveCandidateFormConfigurationData),
-//     {
-//       replacements: formatDataToBulkInsert(saveCandidateFormConfigurationData, CANDIDATE_CONFIG_COLUMN_ORDER),
-//       type: DbConnection().QueryTypes.INSERT,
-//       transaction,
-//     }).catch((error) => {
-//        throw new DBError(error);
-//      });
-// };
-const saveCandidateConf = async (moduleId,saveCandidateFormConfigurationData, transaction) => {
- const params = {moduleId:moduleId};
+const saveCandidateConf = async (moduleId, data, transaction) => {
+    const params = {moduleId:moduleId};
+    // Transforming the object to match update query { }
+    data = data.map((record) => {
+      record.moduleId = moduleId;
+      record.id = uuidv4();
+      return record;
+    });
  await  DbConnection()
   .query(CANDIDATE_CONFIG_DELETE_QUERY,
     {
@@ -118,15 +110,17 @@ const saveCandidateConf = async (moduleId,saveCandidateFormConfigurationData, tr
     }).catch((error) => {
       throw new DBError(error);
     });
+  if( data instanceof Array && data.length > 0){
   return DbConnection()
-  .query(formatQueryToBulkInsert(CANDIDATE_CONFIG_INSERT_BASE_QUERY, saveCandidateFormConfigurationData),
+  .query(formatQueryToBulkInsert(CANDIDATE_CONFIG_INSERT_BASE_QUERY, data),
     {
-      replacements: formatDataToBulkInsert(saveCandidateFormConfigurationData, CANDIDATE_CONFIG_COLUMN_ORDER),
+      replacements: formatDataToBulkInsert(data, CANDIDATE_CONFIG_COLUMN_ORDER),
       type: DbConnection().QueryTypes.INSERT,
       transaction,
     }).catch((error) => {
        throw new DBError(error);
      });
+    }
 };
 
 /**
@@ -134,8 +128,13 @@ const saveCandidateConf = async (moduleId,saveCandidateFormConfigurationData, tr
  * save module candidate supporting docs
  * @returns {Promise.<T>}
  */
-const saveSupportDocs = async (moduleId,saveSupportingDocumentsData, transaction) => {
+const saveSupportDocs = async (moduleId,data, transaction) => {
   const params = {moduleId:moduleId};
+  data = data.map((record) => {
+    record.moduleId = moduleId;
+    record.id = uuidv4();
+    return record;
+});
   await  DbConnection()
   .query(SUPPORTING_DOC_DELETE_QUERY,
     {
@@ -145,24 +144,30 @@ const saveSupportDocs = async (moduleId,saveSupportingDocumentsData, transaction
     }).catch((error) => {
       throw new DBError(error);
     });
+  if( data instanceof Array && data.length > 0){
   return DbConnection()
-  .query(formatQueryToBulkInsert(SUPPORT_DOC_INSERT_BASE_QUERY, saveSupportingDocumentsData),
+  .query(formatQueryToBulkInsert(SUPPORT_DOC_INSERT_BASE_QUERY, data),
     {
-      replacements: formatDataToBulkInsert(saveSupportingDocumentsData, SUPPORT_DOC_COLUMN_ORDER),
+      replacements: formatDataToBulkInsert(data, SUPPORT_DOC_COLUMN_ORDER),
       type: DbConnection().QueryTypes.INSERT,
       transaction,
     }).catch((error) => {
        throw new DBError(error);
      });
+    }
 };
 /**
  * save active election transaction 
  * save module division config
  * @returns {Promise.<T>}
  */
-const saveDivisionConf = async (moduleId,saveDivisionConfigData, transaction) => {
+const saveDivisionConf = async (moduleId,data, transaction) => {
   const params = {moduleId:moduleId};
-  console.log("paramss",params);
+  data = data.map((record) => {
+    record.moduleId = moduleId;
+    record.id = uuidv4();
+    return record;
+});
   await  DbConnection()
   .query(DIVISION_CONFIG_DELETE_QUERY,
     {
@@ -172,15 +177,17 @@ const saveDivisionConf = async (moduleId,saveDivisionConfigData, transaction) =>
     }).catch((error) => {
       throw new DBError(error);
     });
+  if( data instanceof Array && data.length > 0){
   return DbConnection()
-  .query(formatQueryToBulkInsert(DIVISION_INSERT_BASE_QUERY, saveDivisionConfigData),
+  .query(formatQueryToBulkInsert(DIVISION_INSERT_BASE_QUERY, data),
     {
-      replacements: formatDataToBulkInsert(saveDivisionConfigData, DIVISION_COLUMN_ORDER),
+      replacements: formatDataToBulkInsert(data, DIVISION_COLUMN_ORDER),
       type: DbConnection().QueryTypes.INSERT,
       transaction,
     }).catch((error) => {
        throw new DBError(error);
      });
+    }
 };
 
 /**
@@ -188,8 +195,13 @@ const saveDivisionConf = async (moduleId,saveDivisionConfigData, transaction) =>
  * save module election config
  * @returns {Promise.<T>}
  */
-const saveElectionConfig = async (moduleId,saveElectionConfigData, transaction) => {
+const saveElectionConfig = async (moduleId,data, transaction) => {
   const params = {moduleId:moduleId};
+  data = data.map((record) => {
+    record.moduleId = moduleId;
+    record.id = uuidv4();
+    return record;
+});
   await  DbConnection()
   .query(ELECTION_CONFIG_DELETE_QUERY,
     {
@@ -199,15 +211,17 @@ const saveElectionConfig = async (moduleId,saveElectionConfigData, transaction) 
     }).catch((error) => {
       throw new DBError(error);
     });
+  if( data instanceof Array && data.length > 0){
   return DbConnection()
-  .query(formatQueryToBulkInsert(ELECTION_CONFIG_INSERT_BASE_QUERY, saveElectionConfigData),
+  .query(formatQueryToBulkInsert(ELECTION_CONFIG_INSERT_BASE_QUERY, data),
     {
-      replacements: formatDataToBulkInsert(saveElectionConfigData, ELECTION_CONFIG_COLUMN_ORDER),
+      replacements: formatDataToBulkInsert(data, ELECTION_CONFIG_COLUMN_ORDER),
       type: DbConnection().QueryTypes.INSERT,
       transaction,
     }).catch((error) => {
        throw new DBError(error);
      });
+    }
 };
 /**
  * save active election transaction 
@@ -231,8 +245,7 @@ const updateElectionModule = (params,transaction) => {
  * save active election transaction 
  * insert election module 
  */
-const insertElectionModule = (params) => {
-
+const insertElectionModule = (params,transaction) => {
   return DbConnection()
     .query(MODULE_INSERT_QUERY,
       {
