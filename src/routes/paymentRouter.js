@@ -1,33 +1,23 @@
 import _ from 'lodash';
-import {PaymentService} from 'Service';
-import PaymentManager from '../manager/payment/paymentManager';
+import { GET, POST } from 'HttpMethods';
+import { PaymentService } from 'Service';
+import { createRoutes } from '../middleware/Router';
 
-const express = require('express');
-const router = express.Router();
+const paymentRouter = createRoutes();
 
-router.get('/:payment_id', (req, res, next) => {
-  return PaymentService.getPaymentByPaymentId(req).then((results) => {
-    if(results instanceof Error)
-      next(results);
-    else
-      // res.json(!_.isEmpty(results) ? PaymentManager.mapToPaymentModel(results) : []);
-      res.json(!_.isEmpty(results) ? results : []);
-  });
-});
+export const initPaymentRouter = (app) => {
+	paymentRouter(app, [
+		{
+			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/payments
+			method: GET,
+			path: '/elections/:electionId/payments',
+			schema: {},
+			handler: (req, res, next) => {
+				return PaymentService.getPaymentsByElectionId(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
 
-router.post('/', (req, res, next) => {
-  return PaymentService.updatePaymentByPaymentId(req).then((results) => {
-    console.log("Request body", req.body.id);
-    if(results instanceof Error)
-      next(results);
-    else
-      res.json(results);
-  });
-});
-
-router.get('/', function(req, res){
-  res.send('get payment home');
-});
-
-
-module.exports = router;
+			},
+		}
+	]);
+};

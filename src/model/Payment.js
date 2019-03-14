@@ -7,8 +7,11 @@ export const Payment =  Record({
   depositAmount: Number(),
   depositeDate: Number(),
   uploadedFilePath: String(),
-  paymentStatus: String(),
+  status: String(),
   nominationId: String(),
+  createdBy: String(),
+  createdAt: Number(),
+  updatedAt: Number()
 });
 
 

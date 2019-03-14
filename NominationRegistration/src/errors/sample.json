@@ -1,5 +1,0 @@
-{
-  "message":"{\"name\":\"ApiError\",\"code\":40050,\"data\":{\"uid\":\"123456\"},\"httpCode\":400}",
-  "name":"ApiError",
-  "code":40050
-}

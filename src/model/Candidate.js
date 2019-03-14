@@ -6,12 +6,13 @@ export const Candidate =  Record({
   nic: String(),
   fullName: String(),
   preferredName: String(),
-  dateOfBirth: Number(),
+  dateOfBirth: String(),
   gender: String(),
   occupation: String(),
   address: String(),
   electoralDivisionName: String(),
   electoralDivisionCode: String(),
+  action: String(),
   // counsilName: String(),
   // nominationId: String()
 });

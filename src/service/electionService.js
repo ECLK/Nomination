@@ -79,10 +79,26 @@ const getAllElections = async () => {
     }
 }
 
+const getElectionsByStatus = async (req) => {
+    try {
+        const status = req.params.status;
+        const elections = await ElectionRepo.fetchElectionsByStatus(status);
+        if(!_.isEmpty(elections)){
+            return ElectionManager.mapToElectionWithStatus(elections);
+        } else {
+            throw new ApiError("No Election found");
+        }
+    } catch (error) {
+        console.log(error);
+        throw new ServerError("Server error", HTTP_CODE_404);
+    }
+}
+
 export default {
     getElectionByIdWithTimelineData,
     insertTest,
     GetElectionConfig,
     getElectionConfigById,
     getAllElections,
+    getElectionsByStatus,
 }

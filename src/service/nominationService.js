@@ -1,9 +1,12 @@
 import _ from 'lodash';
 import Nomination from '../repository/nomination';
 import NominationRepo from '../repository/nomination';
-import { HTTP_CODE_404 } from '../routes/constants/HttpCodes';
 import { NominationManager } from 'Managers';
+import {NominationService} from 'Service';
 import { ServerError, ApiError } from 'Errors';
+const uuidv4 = require('uuid/v4');
+import { HTTP_CODE_404, HTTP_CODE_204 } from '../routes/constants/HttpCodes';
+
 
 const getNominationByTeamId = async (req) => {
     const team_id = req.params.team_id;
@@ -17,11 +20,11 @@ const validateNominationId = async (req) => {
       const nomination = await NominationRepo.fetchNominationByNominationId( nominationId );
      
       if(_.isEmpty(nomination)){
-        throw new ApiError("Nomination not found");
+        throw new ApiError("Nomination not found", HTTP_CODE_204);
       }
       return nomination;
     }catch (e){
-      throw new ServerError("server error");
+      throw new ServerError("Server error", HTTP_CODE_404);
     }
   
   };
@@ -40,17 +43,60 @@ const getNominationByStatus = async (req) => {
         if(!_.isEmpty(nomination)){
             return NominationManager.mapToNominationModel(nomination);
         } else {
-            throw new ApiError("Election not found");
+            throw new ApiError("Election not found", HTTP_CODE_204);
         }
     } catch (error) {
-        console.log(error);
         throw new ServerError("Server error", HTTP_CODE_404);
     }
 };
+
+//Get second approve pending nomination list by electionId
+const getPendingNominationsByElectionId = async (req) => {
+    try {
+      const electionId = req.params.electionId;
+      const status = req.params.status;
+      const params = {'electionId':electionId, "status":status }
+      const nominations = await NominationRepo.fetchPendingNominationList( params );
+      console.log("params",nominations);
+
+      if(!_.isEmpty(nominations)){
+        return NominationManager.mapToNominationModel(nominations)
+      }else {
+        throw new ApiError("Nominations not found", HTTP_CODE_204);
+      }
+    } catch (e){
+      throw new ServerError("Server error", HTTP_CODE_404);
+    }
+  };
+
+  //approve nomination by nomination id
+const saveApproveNominationByNominationId = async (req) => {
+    try {
+      const id = uuidv4();
+      const createdBy = req.body.createdBy;
+      const createdAt = req.body.createdAt;
+      const updatedAt = req.body.updatedAt;
+      const status = req.body.status;
+      const reviewNote = req.body.reviewNote;;
+      const nominationId = req.params.nominationId;
+    //   const now = new Date(dateOfBirth).getTime();
+      const nomination = await NominationService.validateNominationId( nominationId );
+      if(!_.isEmpty(nomination)){
+        const nominationData = {'id':id, 'createdBy':createdBy,'createdAt':createdAt,'updatedAt':updatedAt, 'status':status, 'reviewNote':reviewNote, 'nominationId':nominationId};
+        return await NominationRepo.createNominationStatus( nominationData );
+      }else {
+        throw new ApiError("Nomination not found", HTTP_CODE_204);
+      }
+    }catch (error){
+      throw new ServerError("Server error", HTTP_CODE_404);
+    }
+  };
 
 
 export default {
     getNominationByTeamId,
     getNominationByStatus,
     validateNominationId,
+    getPendingNominationsByElectionId,
+    saveApproveNominationByNominationId
 };

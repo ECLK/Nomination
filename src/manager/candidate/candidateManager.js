@@ -2,6 +2,8 @@ import { Candidate }  from 'Models';
 var joinjs = require('join-js').default;
 import {List} from 'typed-immutable';
 import _ from 'lodash';
+import moment from 'moment';
+
 
 const resultMaps = [
   {
@@ -24,11 +26,13 @@ return _.reduce(mappedCandidates, function(result, candidate) {
       "electoralDivisionName": candidate.ELECTORAL_DIVISION_NAME,
       "electoralDivisionCode": candidate.ELECTORAL_DIVISION_CODE,
       "nic": candidate.NIC,
-      "dateOfBirth": candidate.DATE_OF_BIRTH,
+      "dateOfBirth": moment(new Date(candidate.DATE_OF_BIRTH)).format('YYYY-MM-DD'),
       "gender": candidate.GENDER,
       "address": candidate.ADDRESS,
       "counsilName": candidate.COUNSIL_NAME,
       "nominationId": candidate.NOMINATION_ID,
+      "action": "true",
+
   });
 },List(Candidate)());
 

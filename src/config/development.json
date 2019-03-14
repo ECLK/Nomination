@@ -1,9 +1,9 @@
 {
   "env-message": "App Started on Dev Environment.",
-  "DB_NAME": "",
+  "DB_NAME": "EC_NOMINATION",
   "DB_USER": "root",
   "DB_HOST": "127.0.0.1",
-  "DB_PASSWORD": "root",
+  "DB_PASSWORD": "Admin@#321",
   "DB_CONNECTION_TYPE": "SEQUELIZE",
   "SERVER_PORT":8081,
   "CONTEXT": "/nomination-api/",

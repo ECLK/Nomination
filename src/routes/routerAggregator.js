@@ -3,9 +3,14 @@ import { initDefaultRouter } from './defaultRouter';
 import { initTeamRouter } from './teamRouter';
 import { initNominationRouter } from './nominationRouter';
 import { initElectionRouter } from './electionRouter';
-import { initObjectionRouter } from './objectionRouter';
 import { initDivisionRouter } from './divisionRouter';
 import { initModuleRouter } from './moduleRouter';
+import { initObjectionRouter } from './objectionRouter';
+import { initActiveElectionRouter } from './activeElectionRouter';
+import { initElectionNominationRouter } from './electionNominationRouter';
+import { initPaymentRouter } from './paymentRouter';
+
+
 export const initRoutes = (app) => {
   initUserRouter(app);
   initDefaultRouter(app);
@@ -15,4 +20,8 @@ export const initRoutes = (app) => {
   initElectionRouter(app);
   initDivisionRouter(app);
   initModuleRouter(app);
+  initObjectionRouter(app);
+  initActiveElectionRouter(app);
+  initElectionNominationRouter(app);
+  initPaymentRouter(app);
 };

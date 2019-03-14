@@ -9,7 +9,7 @@
     "npm": ">=3"
   },
   "scripts": {
-    "start": "SET NODE_ENV=development  nodemon & babel-node ./src/index.js | bunyan",
+    "start": "NODE_ENV=development nodemon --exec 'babel-node ./src/index.js' --conf-path='/home/lsf/Nomination/src/config/development.json' | bunyan",
     "test:cmd": "./node_modules/.bin/_mocha --compilers js:babel-core/register --timeout 100000 --harmony --require babel-polyfill",
     "test": "npm run test:cmd  './src/test/**/*.@(js)' -w",
     "test:custom": "npm run test:cmd -- -w",
@@ -17,7 +17,8 @@
     "cover:cmd": "istanbul cover ./node_modules/.bin/_mocha  -- --timeout 10000 --harmony --require babel-register --require ./src/test/test_helper.js  -R spec -c",
     "cover:integration": "npm run cover:cmd './src/test/integration-test/**/*.@(js)' && npm run open:cover",
     "cover:all": "npm run cover:cmd './src/**/**/test/*.@(js)' && npm run open:cover",
-    "open:cover": "xdg-open ./coverage/lcov-report/index.html"
+    "open:cover": "xdg-open ./coverage/lcov-report/index.html",
+    "build": "babel ./src --out-dir build --copy-files"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "cors": "^2.7.1",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
+    "express-fileupload": "^1.1.1-alpha.1",
     "flow-runtime": "^0.2.1",
     "fraction.js": "^3.3.1",
     "globule": "^1.1.0",
@@ -48,8 +50,11 @@
     "join-js": "^1.0.1",
     "js-yaml": "^3.7.0",
     "json-refs": "^2.1.6",
-    "lodash": "^4.14.1",
+    "lodash": "^4.17.11",
     "log4js": "~0.6.15",
+    "minimist": "^1.2.0",
+    "moment": "^2.24.0",
+    "multer": "^1.4.1",
     "mysql": "^2.12.0",
     "path": "^0.12.7",
     "query-string": "^4.2.2",
@@ -57,7 +62,8 @@
     "swaggerize-ui": "^1.0.1",
     "typed-immutable": "^0.1.0",
     "util": "^0.10.3",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "webpack": "^4.29.6"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
@@ -86,7 +92,8 @@
     "mocha": "^4.0.1",
     "nodemon": "^1.10.0",
     "sinon": "^1.17.4 ",
-    "sinon-chai": "^2.8.0"
+    "sinon-chai": "^2.8.0",
+    "webpack-cli": "^3.2.3"
   },
   "optionalDependencies": {
     "fsevents": "1.0.15"
