@@ -3,6 +3,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { bindMiddlewares } from './WSMiddleware';
+import configService from '../config/ConfigService';
 
 let log4js = require('log4js');
 let logger = log4js.getLogger("app");
@@ -32,7 +33,7 @@ app.use((error, req, res, next) => {
   return res.status(500).send(error.message);
 });
 
-const server = app.listen(process.env.SERVER_PORT, () => {
+const server = app.listen(configService.getConfig('SERVER_PORT'), () => {
     logger.info('Express server listening on port ', server.address().port, " with pid ", process.pid );
 });
 
