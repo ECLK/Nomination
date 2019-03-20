@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { GET, POST, PUT, DELETE } from 'HttpMethods';
 import { createRoutes } from '../middleware/Router';
-import { PaymentService, CandidateService, SupportDocService, NominationService } from 'Service';
+import { PaymentService, CandidateService, SupportDocService, NominationService, UploadService} from 'Service';
 import { SAVE_PAYMENT_SCHEMA, UPDATE_PAYMENT_SCHEMA, SAVE_SUPPORT_DOC_SCHEMA, UPDATE_SUPPORT_DOC_SCHEMA, SAVE_CANDIDATE_SCHEMA, SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA, SAVE_NOMINATION_APPROVE_SCHEMA } from './schema/nominationSchema';
 import { HTTP_CODE_404, HTTP_CODE_201, HTTP_CODE_200 } from '../routes/constants/HttpCodes';
 const multer = require('multer');
@@ -162,6 +162,16 @@ export const initNominationRouter = (app) => {
 					.catch(error => next(error));
 			},
 		},
+    {
+      method: POST,
+      path: '/file-upload',
+      handler: (req, res, next) => {
+        // console.log(req);
+        return UploadService.uploadFile(req)
+          .then((result) => res.status(HTTP_CODE_201).send(result))
+          .catch(error => next(error));
+      },
+    },
 		// {
 		//   method: POST,
 		//   path: '/upload',
