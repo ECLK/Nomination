@@ -5,7 +5,7 @@
   "DB_HOST": "127.0.0.1",
   "DB_PASSWORD": "Admin@#321",
   "DB_CONNECTION_TYPE": "SEQUELIZE",
-  "SERVER_PORT":8081,
+  "SERVER_PORT":9001,
   "CONTEXT": "/nomination-api/",
   "swagger-enabled": true,
   "APP_ENV": "",
