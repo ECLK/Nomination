@@ -10,7 +10,8 @@ import { SupportDoc,CandidateSupportDoc } from './SupportDoc';
 import {Module} from './Module';
 import {Objection } from './Objection';
 import {ActiveElection } from './ActiveElection';
-import {ElectionNomination} from './ElectionNomination'
+import {ElectionNomination} from './ElectionNomination';
+import {ApprovedElection} from './approvedElection';
 
 
 export {
@@ -30,4 +31,5 @@ export {
   ActiveElection,
   ElectionNomination,
   AllowedDivision,
+  ApprovedElection,
 };

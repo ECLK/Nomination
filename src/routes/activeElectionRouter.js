@@ -53,5 +53,15 @@ export const initActiveElectionRouter = (app) => {
 					.catch(error => next(error));
       },
     },
+    {
+      method: GET,
+      path: '/activeElectionsData',
+      handler: (req, res, next) => {
+        return ActiveElectionService.getApprovedElectionData(req)
+            .then((result) => res.status(200).send(result))
+            .catch(error => next(error));
+      },
+    },
+
   ]);
 };

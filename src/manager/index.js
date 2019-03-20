@@ -10,7 +10,7 @@ import ModuleManager from './module/moduleManager';
 import ObjectionManager from './objection/objectionManager';
 import ActiveElectionManager from './activeElection/activeElectionManager';
 import ElectionNominationManager from './electionNomination/electionNominationManager';
-
+import ApprovedElectionManager from './approvedElection/ApprovedElectionManager';
 export {
   UserManager,
   PaymentManager,
@@ -24,4 +24,5 @@ export {
   ObjectionManager,
   ActiveElectionManager,
   ElectionNominationManager,
+  ApprovedElectionManager,
 }

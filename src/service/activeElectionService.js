@@ -1,8 +1,10 @@
 import { ServerError , ApiError } from 'Errors';
 import ActiveElectionRepo from '../repository/activeElection';
-import {ActiveElectionManager}  from 'Managers';
+import {ActiveElectionManager,ApprovedElectionManager}  from 'Managers';
 import _ from 'lodash';
 import { executeTransaction } from '../repository/TransactionExecutor';
+import ElectionRepo from "../repository/election";
+import {HTTP_CODE_404} from "../routes/constants/HttpCodes";
 const uuidv4 = require('uuid/v4');
 
 
@@ -87,9 +89,17 @@ const getActiveElectionByActiveElectionId = async (req) => {
     throw new ApiError("ActiveElection not found");
   }
 };
-
+const getApprovedElectionData =async () =>{
+    const elections = await ElectionRepo.fetchApprovedElections();
+    if(!_.isEmpty(elections)){
+      return ApprovedElectionManager.mapToApprovedElectionsDataModel(elections);
+    } else {
+      throw new ApiError("No Election found");
+    }
+}
 export default {
   getActiveElectionByActiveElectionId,
   updateActiveElectionByActiveElectionId,
-  saveActiveElectionData
+  saveActiveElectionData,
+  getApprovedElectionData
 }

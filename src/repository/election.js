@@ -75,10 +75,37 @@ const fetchElectionsByStatus = (status) => {
 		});
 }
 
+const APPROVED_ELECTION_SELECT_QUERY = `SELECT 
+E.ID AS APPROVED_ELECTION_ID,
+E.NAME AS APPROVED_ELECTION_NAME,
+E.CREATED_BY AS APPROVED_ELECTION_CREATED_BY,
+E.CREATED_AT AS APPROVED_ELECTION_CREATED_AT,
+E.UPDATED_AT AS APPROVED_ELECTION_UPDATED_AT,
+E.MODULE_ID AS APPROVED_ELECTION_MODULE_ID,
+EA.STATUS AS APPROVED_ELECTION_STATUS,
+EA.APPROVED_BY AS APPROVED_ELECTION_APPROVED_BY,
+EA.APPROVED_AT AS APPROVED_ELECTION_APPROVED_AT,
+EA.UPDATED_AT AS APPROVED_ELECTION_UPDATED_AT
+FROM ELECTION AS E
+INNER JOIN election_approval AS EA
+ON E.ID = EA.ELECTION_ID
+WHERE EA.STATUS="APPROVE"`;
+const fetchApprovedElections=()=>{
+	return DbConnection()
+		.query(APPROVED_ELECTION_SELECT_QUERY, {
+			//replacements: params,
+			type: DbConnection().QueryTypes.SELECT,
+		}).catch( (error) => {
+			console.log(error);
+			throw new DBError(error);
+		});
+}
+
 
 
 export default {
 	fetchElectionByIdWithTimelineData,
 	fetchAllElections,
 	fetchElectionsByStatus,
+	fetchApprovedElections,
 }
