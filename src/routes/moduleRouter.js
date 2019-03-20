@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { GET, POST } from 'HttpMethods';
+import { GET, POST, PUT } from 'HttpMethods';
 import { ModuleService, SupportDocService, CandidateService } from 'Service';
 import { createRoutes } from '../middleware/Router';
 import ModuleManager from '../manager/module/moduleManager';
@@ -75,6 +75,52 @@ export const initModuleRouter = (app) => {
 
 				}
 			}
-		}
+		},
+		// {
+		// 	method: GET,
+		// 	path: '/election-modules',
+		// 	handler: (req, res, next) => {
+		// 	  return ModuleService.saveElectionModule(req)
+		// 	  .then((result) => res.status(200).send(result))
+		// 				  .catch(error => next(error));
+		// 	},
+		// },
+		{
+			method: POST,
+			path: '/election-modules',
+			handler: (req, res, next) => {
+				console.log("kkkkkkkkk",req.body);
+			  return ModuleService.saveElectionModule(req)
+			  .then((result) => res.status(200).send(result))
+						  .catch(error => next(error));
+			},
+		},
+		{
+			method: PUT,
+			path: '/election-modules/:moduleId',
+			handler: (req, res, next) => {
+			  return ModuleService.saveElectionModule(req)
+			  .then((result) => res.status(200).send(result))
+						  .catch(error => next(error));
+			},
+		},
+		// {
+		// 	method: GET,
+		// 	path: '/election-modules/:moduleID',
+		// 	handler: (req, res, next) => {
+		// 	  return ModuleService.saveElectionModule(req)
+		// 	  .then((result) => res.status(200).send(result))
+		// 				  .catch(error => next(error));
+		// 	},
+		// },
+		// {
+		// 	method: DELETE,
+		// 	path: '/election-modules/:moduleID',
+		// 	handler: (req, res, next) => {
+		// 	  return ModuleService.saveElectionModule(req)
+		// 	  .then((result) => res.status(200).send(result))
+		// 				  .catch(error => next(error));
+		// 	},
+		// },
 	]);
 };

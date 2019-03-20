@@ -89,19 +89,17 @@ const isCandidateExists = async (candidateId) => {
 
 
 //Delete candidate from particular nomination
-const deleteCandidateByCandidateId = async (req) => {
-    console.log("=====================", req.params.candidateId);
-    try {
-        const candidateId = req.params.candidateId;
-        if (isCandidateExists(candidateId)) {
-            return await CandidateRepo.deleteCandidate(candidateId);
-        }
-    } catch (error) {
-        console.log(error);
-        throw new ServerError("server error", HTTP_CODE_404);
-    }
-}
 
+	const deleteCandidateByCandidateId = async (req) => {
+		try {
+			const candidateId = req.params.candidateId;
+			if (isCandidateExists(candidateId)) {
+				return await CandidateRepo.deleteCandidate(candidateId);
+			}
+		} catch (error) {
+			throw new ServerError("server error", HTTP_CODE_404);
+		}
+	}
 
 
 
@@ -109,7 +107,7 @@ const deleteCandidateByCandidateId = async (req) => {
 //Save candidate
 const saveCandidateByNominationId = async (req) => {
 
-	console.log("sdfsdfddddddddddddddddddd",req.body);
+
 	try {
 		const id = uuidv4();
 		const fullName = req.body.fullName;
@@ -131,7 +129,6 @@ const saveCandidateByNominationId = async (req) => {
 			throw new ApiError("Nomination not found", HTTP_CODE_204);
 		}
 	} catch (e) {
-		console.log(e);
 		throw new ServerError("server error", HTTP_CODE_404);
 	}
 

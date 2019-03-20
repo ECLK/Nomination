@@ -2,6 +2,12 @@ import { ServerError, ApiError } from 'Errors';
 import ModuleRepo from '../repository/module';
 import { ModuleManager } from 'Managers';
 import _ from 'lodash';
+const uuidv4 = require('uuid/v4');
+import { executeTransaction } from '../repository/TransactionExecutor';
+
+// import ModuleTransactionService  from '../repository/moduleTransaction';
+
+
 
 
 const updateModuleByModuleId = async (req) => {
@@ -55,10 +61,47 @@ const validateModuleId = async (moduleId) => {
 	}
 }
 
+const saveElectionModule = async (req) => {
+	try {
+  return executeTransaction(async (transaction) => {
+		let moduleId = req.params.moduleId;
+	if(moduleId !== undefined){
+		const name = req.body.name;
+		const divisionCommonName = req.body.divisionCommonName;
+		const createdBy = req.body.createdBy;
+		const createdAt = req.body.createdAt;
+		const updatedAt = req.body.updatedAt;
+		const params = {'id':moduleId, "name":name, "divisionCommonName":divisionCommonName, "createdBy":createdBy, "createdAt":createdAt, "updatedAt":updatedAt }
+	await ModuleRepo.updateElectionModule(params,transaction);
+	}else{
+		moduleId = uuidv4();
+		const name = req.body.name;
+		const divisionCommonName = req.body.divisionCommonName;
+		const createdBy = req.body.createdBy;
+		const createdAt = req.body.createdAt;
+		const updatedAt = req.body.updatedAt;
+		const params = {'id':moduleId, "name":name, "divisionCommonName":divisionCommonName, "createdBy":createdBy, "createdAt":createdAt, "updatedAt":updatedAt }
+	await	ModuleRepo.insertElectionModule(params,transaction);	
+	}
+			await ModuleRepo.saveCandidateConf(moduleId,req.body.candidateFormConfiguration, transaction);
+		
+			await ModuleRepo.saveSupportDocs(moduleId,req.body.supportingDocuments, transaction);
+		
+			await ModuleRepo.saveDivisionConf(moduleId,req.body.divisionConfig, transaction);
+		
+			await ModuleRepo.saveElectionConfig(moduleId,req.body.electionConfig, transaction);
+		
+    return true;
+	});
+}catch (e){
+	throw new ServerError("server error");
+}
+};
 
 export default {
 	getModuleByModuleId,
 	updateModuleByModuleId,
 	getModulesByStatus,
-	validateModuleId
+	validateModuleId,
+	saveElectionModule
 }

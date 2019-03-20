@@ -8,7 +8,12 @@ coverage
 *.iml
 package-lock.json
 .DS_Store
+build/
+
+
+
 
 .bin
 .vs
 .obj
+

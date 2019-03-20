@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { GET, POST } from 'HttpMethods';
+import { GET, POST, PUT } from 'HttpMethods';
 import {ActiveElectionService} from 'Service';
 import {createRoutes} from '../middleware/Router';
 import ActiveElectionManager from '../manager/activeElection/activeElectionManager';
@@ -25,6 +25,7 @@ export const initActiveElectionRouter = (app) => {
     },
     {
       // curl -H "Content-Type: application/json" -X POST -d '{"id":176484, "name":"Surath"}' http://localhost:9001/ec-election/activeElection
+      //TODO: yujith, remove this after complete the schema function on saving call election end points 
       method: POST,
       path: '/activeElections',
       schema: ACTIVE_ELECTION_EDIT_SCHEMA,
@@ -37,6 +38,15 @@ export const initActiveElectionRouter = (app) => {
     {
       method: POST,
       path: '/activeElectionsData',
+      handler: (req, res, next) => {
+        return ActiveElectionService.saveActiveElectionData(req)
+        .then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+      },
+    },
+    {
+      method: PUT,
+      path: '/activeElectionsData/:electionId',
       handler: (req, res, next) => {
         return ActiveElectionService.saveActiveElectionData(req)
         .then((result) => res.status(200).send(result))
