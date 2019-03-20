@@ -25,6 +25,7 @@ export const initActiveElectionRouter = (app) => {
     },
     {
       // curl -H "Content-Type: application/json" -X POST -d '{"id":176484, "name":"Surath"}' http://localhost:9001/ec-election/activeElection
+      //TODO: yujith, remove this after complete the schema function on saving call election end points 
       method: POST,
       path: '/activeElections',
       schema: ACTIVE_ELECTION_EDIT_SCHEMA,
