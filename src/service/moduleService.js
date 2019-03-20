@@ -41,6 +41,7 @@ const getModulesByStatus = async (req) => {
 			throw new ApiError("Module7 not found");
 		}
 	} catch (error) {
+		console.log(error);
 		throw new ServerError("server error");
 	}
 };

@@ -21,9 +21,11 @@ const ACTIVE_ELECTION_UPDATE_QUERY = `UPDATE ELECTION
                                 UPDATED_AT = :updated_at
                                 WHERE 
                                 ID = :id`;
-const ELECTION_TIMELINE_DELETE_QUERY = `DELETE FROM ELECTION_TIMELINE_CONFIG_DATA WHERE ELECTION_ID = :electionId`;
+const ELECTION_TIMELINE_DELETE_QUERY = `DELETE FROM ELECTION_TIMELINE WHERE ELECTION_ID = :electionId`;
 const ALLOW_NOMINATION_DELETE_QUERY = `DELETE FROM NOMINATION WHERE ELECTION_ID = :electionId`;
 
+const ACTIVE_ELECTION_TIMELINE_INSERT_QUERY = `INSERT INTO ELECTION_TIMELINE (ID, NOMINATION_START, NOMINATION_END, OBJECTION_START, OBJECTION_END, ELECTION_ID) 
+                                      VALUES (:id, :nomination_start,:nomination_end, :objection_start, :objection_end, :electionId)`;
 
 const fetchActiveElectionById = (activeElectionId) => {
   const params = { id: activeElectionId };
@@ -62,14 +64,8 @@ const createActiveElection = (id, name) => {
  */
 const saveElectionTimeLine = async (electionId, data, transaction) => {
   const params = {electionId:electionId};
-  console.log("params",params);
-  console.log("data",data);
-  // Transforming the object to match update query { }
-  data = data.map((record) => {
-    record.electionId = electionId;
-    record.id = uuidv4();
-    return record;
-  });
+  id = uuidv4();
+  data = { id: id, nomination_start : data.nominationStart, nomination_end: nominationEnd, objection_start : data.objectionStart, objection_end: objectionEnd, electionId: electionId};
 await  DbConnection()
 .query(ELECTION_TIMELINE_DELETE_QUERY,
   {
@@ -82,16 +78,50 @@ await  DbConnection()
   });
 if( data instanceof Array && data.length > 0){
   return DbConnection()
-  .query(formatQueryToBulkInsert(TIME_LINE_INSERT_BASE_QUERY, data),
-    {
-      replacements: formatDataToBulkInsert(data, TIME_LINE_COLUMN_ORDER),
-      type: DbConnection().QueryTypes.INSERT,
-      transaction,
-    }).catch((error) => {
-       throw new DBError(error);
-     });
+    .query(ACTIVE_ELECTION_TIMELINE_INSERT_QUERY,
+      {
+        replacements: data,
+        type: DbConnection().QueryTypes.INSERT,
+        transaction
+      }).catch((error) => {
+      throw new DBError(error);
+    });
   }
 };
+
+//undo if bullk timeline added
+// const saveElectionTimeLine = async (electionId, data, transaction) => {
+//   const params = {electionId:electionId};
+//   console.log("params",params);
+//   console.log("data",data);
+//   // Transforming the object to match update query { }
+//   data = data.map((record) => {
+//     record.electionId = electionId;
+//     record.id = uuidv4();
+//     return record;
+//   });
+// await  DbConnection()
+// .query(ELECTION_TIMELINE_DELETE_QUERY,
+//   {
+//     replacements: params,
+//     type: DbConnection().QueryTypes.DELETE,
+//     transaction
+//   }).catch((error) => {
+//     console.log(error);
+//     throw new DBError(error);
+//   });
+// if( data instanceof Array && data.length > 0){
+//   return DbConnection()
+//   .query(formatQueryToBulkInsert(TIME_LINE_INSERT_BASE_QUERY, data),
+//     {
+//       replacements: formatDataToBulkInsert(data, TIME_LINE_COLUMN_ORDER),
+//       type: DbConnection().QueryTypes.INSERT,
+//       transaction,
+//     }).catch((error) => {
+//        throw new DBError(error);
+//      });
+//   }
+// };
 
 /**
  * save active election transaction (third step)
