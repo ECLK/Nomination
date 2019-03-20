@@ -1,4 +1,5 @@
 const fs = require('fs');
+var path = require('path');
 let log4js = require('log4js');
 
 const LOGS_PATH = './log';
@@ -28,6 +29,6 @@ export default (app) => {
         }
     }
 
-    log4js.configure('./src/config/log4js-config.json');
+    log4js.configure(path.join(__dirname, '..', 'config', 'log4js-config.json'));
     app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
 };
