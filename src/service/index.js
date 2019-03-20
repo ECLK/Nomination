@@ -10,6 +10,7 @@ import ModuleService from './moduleService';
 import ObjectionService from './objectionService';
 import ActiveElectionService from './activeElectionService';
 import ElectionNominationService from './electionNominationService';
+import UploadService from './uploadService';
 
 export {
   UserService,
@@ -24,4 +25,5 @@ export {
   ObjectionService,
   ActiveElectionService,
   ElectionNominationService,
+  UploadService,
 }
