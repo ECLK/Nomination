@@ -1,27 +1,48 @@
-FROM anandafit/ec-nomination:latest
-MAINTAINER anandafit;
+FROM node:6.16.0-jessie AS build
+# set user configurations
+ENV USER=builder
+ENV USER_HOME=/home/${USER}
 
-#Create app directory
-RUN mkdir -p /var/tmp/nomination-api
-WORKDIR /var/tmp/nomination-api
+RUN mkdir -p $USER_HOME/Nomination
+ADD . $USER_HOME/Nomination
+WORKDIR $USER_HOME/Nomination
+RUN ./build.sh
 
-#Installing Redis and Git
-# RUN apt-get update && apt-get install
-RUN apt-get install -y openssh-server apache2 supervisor
+FROM node:6.16.0-jessie
+# set user configurations
+ENV USER=lsf
+ENV USER_ID=1001
+ENV USER_GROUP=lsf
+ENV USER_GROUP_ID=1001
+ENV USER_HOME=/home/${USER}
 
-ADD . /var/tmp/nomination-api
-#Add Supervisor config
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# create a user group and a user
+RUN groupadd --system -g ${USER_GROUP_ID} ${USER_GROUP} && \
+    useradd --system --create-home --home-dir ${USER_HOME} --no-log-init -g ${USER_GROUP_ID} -u ${USER_ID} ${USER}
 
-#start script is in this src
-WORKDIR /var/tmp/nomination-api
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+supervisor
+
+RUN mkdir -p $USER_HOME/Nomination
+RUN mkdir -p $USER_HOME/Nomination/api-docs
+RUN mkdir -p $USER_HOME/Nomination/node_modules
+RUN mkdir -p $USER_HOME/Nomination/build
+
+WORKDIR $USER_HOME/Nomination
+
+COPY --from=build /home/builder/Nomination/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+RUN touch /home/lsf/Nomination/.env
+COPY --from=build /home/builder/Nomination/api-docs/ /home/lsf/Nomination/api-docs/
+COPY --from=build /home/builder/Nomination/node_modules/ /home/lsf/Nomination/node_modules/
+COPY --from=build /home/builder/Nomination/build/ /home/lsf/Nomination/build/
+COPY --from=build /home/builder/Nomination/src/config/development.json /home/lsf/Nomination/prod.json 
 
 ENV APP_ID 'nomination-api'
 
-EXPOSE 8081
-EXPOSE 12201
-
+EXPOSE 9001
 
 #start application
+#CMD ["/bin/bash"]
 CMD ["/usr/bin/supervisord"]
-# ENTRYPOINT ["tail", "-f", "/dev/null"]
