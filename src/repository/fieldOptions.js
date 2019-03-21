@@ -5,6 +5,41 @@ const uuidv4 = require('uuid/v4');
 
 
 
+const CANDIDATE_CONFIG_QUERY = `SELECT id as 'key', DESCRIPTION as 'value' FROM CANDIDATE_CONFIG`;
+const CANDIDATE_SUPPORTING_DOCS_QUERY = `SELECT ID as 'key', DESCRIPTION as 'value' FROM SUPPORT_DOC_CONFIG WHERE DOC_CATEGORY LIKE 'CANDIDATE' `;
+
+const fetchCandidateConfig = (moduleId) => {
+  const params = {id: moduleId};
+  return DbConnection()
+      .query(CANDIDATE_CONFIG_QUERY,
+          {
+              replacements: params,
+              type: DbConnection().QueryTypes.SELECT,
+          }).catch((error) => {
+          throw new DBError(error);
+      });
+};
+
+const fetchCandidateSupportingDocs = (moduleId) => {
+  const params = {id: moduleId};
+  return DbConnection()
+      .query(CANDIDATE_SUPPORTING_DOCS_QUERY,
+          {
+              replacements: params,
+              type: DbConnection().QueryTypes.SELECT,
+          }).catch((error) => {
+          throw new DBError(error);
+      });
+};
+
+
+export default {
+  fetchCandidateConfig,
+  fetchCandidateSupportingDocs
+};
+
+/*
+
 const ALL_MODULE_SELECT_QUERY = `SELECT  
                                   EM.ID AS MODULE_ID,
                                   EM.NAME AS MODULE_NAME,
@@ -20,9 +55,7 @@ const MODULE_SELECT_QUERY = `SELECT
                               CREATED_BY AS MODULE_CREATED_BY
                               FROM ELECTION_MODULE WHERE ID = :id`;
 const MODULE_INSERT_QUERY = `INSERT INTO ELECTION_MODULE (ID, NAME, DIVISION_COMMON_NAME, CREATED_BY, CREATED_AT, UPDATED_AT) 
-                              VALUES (:id, :name,:divisionCommonName, :createdBy, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())`;
-const MODULE_APPROVE_QUERY = `INSERT INTO ELECTION_MODULE_APPROVAL (ID, STATUS, APPROVED_BY, APPROVED_AT, UPDATED_AT, MODULE_ID) 
-                              VALUES (:id, 'APPROVE', :createdBy, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), :moduleId)`;
+                              VALUES (:id, :name,:divisionCommonName, :createdBy, :createdAt, :updatedAt)`;
 const MODULE_INSERT_BASE_QUERY = `INSERT INTO ELECTION_MODULE VALUES `;
 const ColumnnamesFromCandidate_configTabel = `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'candidate_config'`;
 const MODULE_COLUMN_ORDER = ['ID', 'NAME'];
@@ -71,7 +104,7 @@ const fetchModuleById = (moduleId) => {
  * we should pass list of modules(module) to insert multiple modules
  * @param modules :Array of modules
  * @returns {Promise.<T>}
- */
+ *//*
 const insertModules = (modules) => {
     return DbConnection()
         .query(formatQueryToBulkInsert(MODULE_INSERT_BASE_QUERY, modules),
@@ -118,6 +151,7 @@ const fetchColumnnamesFromCandidateConfigTabel = () => {
 };*/
 //InsertTodivisionConfig
 //
+/*
 const DIVISION_CONFIG_INSERT_BASE_QUERY = `INSERT INTO division_config VALUES `;
 const DIVISION_CONFIG_COLUMN_ORDER = ['ID', 'NAME', 'CODE', 'NO_OF_CANDIDATES', 'MODULE_ID'];
 const InsertTodivisionConfig = (list) => {
@@ -166,7 +200,7 @@ const saveCandidateConf = async (moduleId, data, transaction) => {
  * save active election transaction 
  * save module candidate supporting docs
  * @returns {Promise.<T>}
- */
+ *//*
 const saveSupportDocs = async (moduleId,data, transaction) => {
   const params = {moduleId:moduleId};
   data = data.map((record) => {
@@ -199,7 +233,7 @@ const saveSupportDocs = async (moduleId,data, transaction) => {
  * save active election transaction 
  * save module division config
  * @returns {Promise.<T>}
- */
+ *//*
 const saveDivisionConf = async (moduleId,data, transaction) => {
   const params = {moduleId:moduleId};
   data = data.map((record) => {
@@ -233,7 +267,7 @@ const saveDivisionConf = async (moduleId,data, transaction) => {
  * save active election transaction 
  * save module election config
  * @returns {Promise.<T>}
- */
+ *//*
 const saveElectionConfig = async (moduleId,data, transaction) => {
   const params = {moduleId:moduleId};
   data = data.map((record) => {
@@ -266,7 +300,7 @@ const saveElectionConfig = async (moduleId,data, transaction) => {
  * save active election transaction 
  * update module division common name
  * @returns {Promise.<T>}
- */
+ *//*
 const updateElectionModule = (params,transaction) => {
 	return DbConnection()
 		.query(ELECTION_MODULE_UPDATE_QUERY,
@@ -283,7 +317,7 @@ const updateElectionModule = (params,transaction) => {
  *
  * save active election transaction 
  * insert election module 
- */
+ *//*
 const insertElectionModule = (params,transaction) => {
   return DbConnection()
     .query(MODULE_INSERT_QUERY,
@@ -296,17 +330,6 @@ const insertElectionModule = (params,transaction) => {
     });
 };
 
-const approveElectionModule = (params,transaction) => {
-  return DbConnection()
-    .query(MODULE_APPROVE_QUERY,
-      {
-        replacements: params,
-        type: DbConnection().QueryTypes.INSERT,
-        transaction,
-      }).catch((error) => {
-      throw new DBError(error);
-    });
-};
 
 
 const Election_Module_UPDATE_QUERY = `UPDATE election_module SET DIVISION_COMMON_NAME = :name WHERE ID = :id`;
@@ -331,6 +354,5 @@ export default {
   saveDivisionConf,
   saveElectionConfig,
   updateElectionModule,
-  insertElectionModule,
-  approveElectionModule
-}
+  insertElectionModule
+}*/
