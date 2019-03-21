@@ -10,18 +10,20 @@ import ModuleService from './moduleService';
 import ObjectionService from './objectionService';
 import ActiveElectionService from './activeElectionService';
 import ElectionNominationService from './electionNominationService';
+import reviewService from './reviewService';
 
 export {
-  UserService,
-  PaymentService,
-  NominationService,
-  CandidateService,
-  TeamService,
-  SupportDocService,
-  ElectionService,
-  DivisionService,
-  ModuleService,
-  ObjectionService,
-  ActiveElectionService,
-  ElectionNominationService,
+    UserService,
+    PaymentService,
+    NominationService,
+    CandidateService,
+    TeamService,
+    SupportDocService,
+    ElectionService,
+    DivisionService,
+    ModuleService,
+    ObjectionService,
+    ActiveElectionService,
+    ElectionNominationService,
+    reviewService,
 }
