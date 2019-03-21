@@ -91,11 +91,14 @@ const saveElectionModule = async (req) => {
 		moduleId = uuidv4();
 		const name = req.body.name;
 		const divisionCommonName = req.body.divisionCommonName;
+		// Following should be set from the server.
 		const createdBy = req.body.createdBy;
 		const createdAt = req.body.createdAt;
 		const updatedAt = req.body.updatedAt;
-		const params = {'id':moduleId, "name":name, "divisionCommonName":divisionCommonName, "createdBy":createdBy, "createdAt":createdAt, "updatedAt":updatedAt }
-	await	ModuleRepo.insertElectionModule(params,transaction);	
+		let params = {'id':moduleId, "name":name, "divisionCommonName":divisionCommonName, "createdBy":createdBy, "createdAt":createdAt, "updatedAt":updatedAt }
+		await	ModuleRepo.insertElectionModule(params,transaction);
+		params = {'moduleId':moduleId, id: uuidv4(), "createdBy":createdBy}
+		await	ModuleRepo.approveElectionModule(params,transaction);	
 	}
 			await ModuleRepo.saveCandidateConf(moduleId,req.body.candidateFormConfiguration, transaction);
 		
