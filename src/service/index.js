@@ -11,6 +11,7 @@ import ObjectionService from './objectionService';
 import ActiveElectionService from './activeElectionService';
 import ElectionNominationService from './electionNominationService';
 import UploadService from './uploadService';
+import FieldOptionService from './fieldOptionService';
 
 export {
   UserService,
@@ -26,4 +27,5 @@ export {
   ActiveElectionService,
   ElectionNominationService,
   UploadService,
+  FieldOptionService
 }
