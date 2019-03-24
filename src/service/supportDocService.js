@@ -44,15 +44,17 @@ const getsupportDocsByCategory = async (req) => {
 const saveSupportDocsByNominationId = async (req) => {
   try {
     var supportDocsData = req.body.candidateSupportDocs;
+    var nominationId = req.body.nominationId;
     var i=0;
     var supportdocs = []; //TODO: yujith, validate supportDocConfDataId and nominationId and filePath
-       for (var {supportDocConfDataId: supportDocConfDataId, filePath: filePath,nominationId: nominationId} of supportDocsData) {
-          const id = uuidv4();
-          supportdocs[i] = {'id':id, 'filePath':filePath,'supportDocConfDataId':supportDocConfDataId,'status':"NEW", 'nominationId':nominationId};
+       for (var {id: id, filename: filename, originalname: originalname} of supportDocsData) {
+          const uuid = uuidv4();
+          supportdocs[i] = {'id':uuid, 'filePath':filename,'originalName':originalname,'supportDocConfDataId':id,'status':"NEW", 'nominationId':nominationId};
          i++;
        }
    return await SupportDocRepo.saveSupportDocs( supportdocs );
   }catch (e){
+    console.log(e);
     throw new ServerError("server error");
   }
 };
@@ -64,9 +66,9 @@ const updateSupportDocsByNominationId = async (req) => {
     var supportDocsData = req.body.candidateSupportDocs;
     var i=0;
     var supportdocs = []; //TODO: yujith, validate supportDocConfDataId and nominationId and filePath
-       for (var {supportDocConfDataId: supportDocConfDataId, filePath: filePath,nominationId: nominationId} of supportDocsData) {
+       for (var {supportDocConfDataId: supportDocConfDataId,originalName: originalName, filePath: filePath} of supportDocsData) {
           // const id = uuidv4();
-          supportdocs[i] = {'filePath':filePath,'supportDocConfDataId':supportDocConfDataId, 'nominationId':nominationId};
+          supportdocs[i] = {'filePath':filePath,'originalName':originalName,'supportDocConfDataId':supportDocConfDataId, 'nominationId':nominationId};
          i++;
        }
     const supportDoc = await SupportDocRepo.updateSupportDocs(nominationId);

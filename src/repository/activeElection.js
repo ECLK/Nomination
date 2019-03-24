@@ -63,9 +63,16 @@ const createActiveElection = (id, name) => {
  * @returns {Promise.<T>}
  */
 const saveElectionTimeLine = async (electionId, data, transaction) => {
+  console.log("data",data.nominationEnd);
   const params = {electionId:electionId};
-  id = uuidv4();
-  data = { id: id, nomination_start : data.nominationStart, nomination_end: nominationEnd, objection_start : data.objectionStart, objection_end: objectionEnd, electionId: electionId};
+try{
+
+  const id = uuidv4();
+  data = { id: id, nomination_start : data.nominationStart, nomination_end: data.nominationEnd, objection_start : data.objectionStart, objection_end: data.objectionEnd, electionId: electionId};
+  console.log("data",data);
+}catch(e){
+  console.log(e);
+}
 await  DbConnection()
 .query(ELECTION_TIMELINE_DELETE_QUERY,
   {
@@ -76,7 +83,6 @@ await  DbConnection()
     console.log(error);
     throw new DBError(error);
   });
-if( data instanceof Array && data.length > 0){
   return DbConnection()
     .query(ACTIVE_ELECTION_TIMELINE_INSERT_QUERY,
       {
@@ -86,7 +92,7 @@ if( data instanceof Array && data.length > 0){
       }).catch((error) => {
       throw new DBError(error);
     });
-  }
+  
 };
 
 //undo if bullk timeline added

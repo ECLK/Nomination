@@ -30,7 +30,7 @@ const mapToModuleModel = (modules) => {
 
 return _.reduce(mappedModules, function(result, modules) {
   return result.push({
-    "id": count,
+    "id": modules.ID,
       "name": modules.NAME,
       "divisionCommonName": modules.DIVISION_COMMON_NAME,
       "createdBy": modules.CREATED_BY,
