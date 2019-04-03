@@ -3,7 +3,8 @@ import {Record} from 'typed-immutable';
 
 const SupportDoc =  Record({
   id: String(),
-  supportDocConfDataId: String(),
+  supportDocConfId: String(),
+  originalName: String(),
   filePath: String(),
   keyName: String(),
   nominationId: String(),

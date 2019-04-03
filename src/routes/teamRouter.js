@@ -18,6 +18,17 @@ export const initTeamRouter = (app) => {
 
       },
     },
+    {
+      method: GET,
+      path: '/teams',
+      schema: {},
+      handler: (req, res, next) => {
+        return TeamService.getAllTeams(req)
+        .then((result) => res.status(200).send(result))
+        .catch(error => next(error));
+
+      },
+    },
   ]);
 };
 

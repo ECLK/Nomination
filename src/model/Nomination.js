@@ -1,9 +1,24 @@
-import {Record} from 'typed-immutable';
+import {Record , List, Maybe} from 'typed-immutable';
 
-export const Nomination = Record({
-    id: String(),
-    status: String(),
-    teamId: String(),
-    electionId: String(),
-    divisionConfigDataId: String(),
+const candidate = Record({
+    id: Maybe(String),
+    nic: Maybe(String),
+    name: Maybe(String),
+    occupation: Maybe(String),
+    address: Maybe(String),
 });
+
+const Nomination = Record({
+    id: String(),
+    division_name: String(),
+    party: Maybe(String),
+    payment_status: Maybe(String),
+    objection_status: Maybe(String),
+    approval_status: Maybe(String),
+    candidates: List(candidate),
+
+});
+
+export {
+	Nomination
+}

@@ -8,6 +8,8 @@ const uuidv4 = require('uuid/v4');
 const ACTIVE_ELECTION_SELECT_QUERY = `SELECT ID AS activeElection_id, NAME AS activeElection_name, MODULE_ID as activeElection_module_id FROM ELECTION WHERE ID = :id`;
 const ACTIVE_ELECTION_INSERT_QUERY = `INSERT INTO ELECTION (ID, NAME, CREATED_BY, CREATED_AT, UPDATED_AT, MODULE_ID) 
                                       VALUES (:id, :name,:created_by, :created_at, :updated_at, :module_id)`;
+const ACTIVE_ELECTION_STATUS_INSERT_QUERY = `INSERT INTO ELECTION_APPROVAL (ID, STATUS, APPROVED_BY, APPROVED_AT, UPDATED_AT, ELECTION_ID) 
+                                      VALUES (:id, :status,:created_by, :created_at, :updated_at, :electionId)`;
 const TIME_LINE_COLUMN_ORDER = ['id','electionTimeLineConfigId', 'electionId', 'value'];
 const TIME_LINE_INSERT_BASE_QUERY = `INSERT INTO ELECTION_TIMELINE_CONFIG_DATA (ID,ELECTION_TIMELINE_CONFIG_ID,ELECTION_ID, VALUE) VALUES `
 const ELECTION_CONF_COLUMN_ORDER = ['id','electionConfigId', 'electionId', 'value'];
@@ -21,6 +23,12 @@ const ACTIVE_ELECTION_UPDATE_QUERY = `UPDATE ELECTION
                                 UPDATED_AT = :updated_at
                                 WHERE 
                                 ID = :id`;
+const ACTIVE_ELECTION_STATUS_UPDATE_QUERY = `UPDATE ELECTION_APPROVAL 
+                                SET 
+                                STATUS = :status,
+                                UPDATED_AT = :updatedAt
+                                WHERE 
+                                ELECTION_ID = :electionId`;
 const ELECTION_TIMELINE_DELETE_QUERY = `DELETE FROM ELECTION_TIMELINE WHERE ELECTION_ID = :electionId`;
 const ALLOW_NOMINATION_DELETE_QUERY = `DELETE FROM NOMINATION WHERE ELECTION_ID = :electionId`;
 
@@ -94,6 +102,26 @@ await  DbConnection()
     });
   
 };
+
+/**
+ * save active election oending status on election approval table
+ * @returns {Promise.<T>}
+ */
+const savePendingElectionStatus = (pendingStatusData,transaction) => {
+  console.log("pendingStatusData",pendingStatusData);
+	return DbConnection()
+		.query(ACTIVE_ELECTION_STATUS_INSERT_QUERY,
+			{
+				replacements: pendingStatusData,
+        type: DbConnection().QueryTypes.INSERT,
+        transaction
+			}).then((results) => {
+				return pendingStatusData;
+			}).catch((error) => {
+				throw new DBError(error);
+			});
+};
+
 
 //undo if bullk timeline added
 // const saveElectionTimeLine = async (electionId, data, transaction) => {
@@ -187,14 +215,14 @@ const saveActiveElectionConf = (config, transaction) => {
  * @param activeElections :Array of activeElections
  * @returns {Promise.<T>}
  */
-const insertActiveElections = (activeElections) => {
+const insertActiveElections = (activeElections,transaction) => {
   const params = activeElections;
-  console.log("params",params);
 	return DbConnection()
 		.query(ACTIVE_ELECTION_INSERT_QUERY,
 			{
 				replacements: params,
-				type: DbConnection().QueryTypes.INSERT,
+        type: DbConnection().QueryTypes.INSERT,
+        transaction
 			}).then((results) => {
 				return params;
 			}).catch((error) => {
@@ -218,6 +246,21 @@ const updateActiveElections = (params,transaction) => {
 			});
 };
 
+const updateElectionStatus = (params) => {
+  console.log("params",params);
+	return DbConnection()
+		.query(ACTIVE_ELECTION_STATUS_UPDATE_QUERY,
+			{
+				replacements: params,
+        type: DbConnection().QueryTypes.UPDATE,
+      }).then((responce) => {
+        return params;
+      })
+      .catch((error) => {
+				throw new DBError(error);
+			});
+};
+
 
 export default {
   fetchActiveElectionById,
@@ -226,5 +269,7 @@ export default {
   saveElectionTimeLine,
   saveActiveElectionConf,
   saveAllowedNominations,
-  updateActiveElections
+  updateActiveElections,
+  savePendingElectionStatus,
+  updateElectionStatus
 }

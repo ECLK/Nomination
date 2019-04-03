@@ -7,24 +7,32 @@ const resultMaps = [
     {
         mapId: 'nominationMap',
         idProperty: 'id',
-        properties: ['status', 'team_id', 'election_id', 'division_config_data_id']
-    }
+        properties: ['party', 'division_name','payment_status', 'objection_status','objection_status','approval_status'],
+        collections: [
+			{ name: 'Candidates', mapId: 'candidateMap', columnPrefix: 'candidate_' }
+		]
+    },
+    {
+		mapId: 'candidateMap',
+		idProperty: 'id',
+		properties: ['name','nic','occupation','address']
+	},
 ];
 
 const mapToNominationModel = (nominationData) => {
     const mappedNominations = joinjs.map(nominationData, resultMaps, 'nominationMap', 'nomination_');
-
     return _.reduce(mappedNominations, function(result, nomination) {
+        console.log("mappedNominations",nomination.Candidates);
         return result.push({
             id: nomination.id,
-            status: nomination.status,
-            teamId: nomination.team_id,
-            electionId: nomination.election_id,
-            divisionConfigDataId: nomination.division_config_data_id,
+            division_name: nomination.division_name,
+            party: nomination.party,
+            payment_status: nomination.payment_status,
+            objection_status: nomination.objection_status,
+            approval_status: nomination.approval_status,
+            candidates: nomination.Candidates,
         });
       },List(Nomination)());
-    
-
 };
 
 export default {

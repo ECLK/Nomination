@@ -7,13 +7,13 @@ const resultMaps = [
 	{
 		mapId: 'electionMap',
 		idProperty: 'id',
-		properties: ['id', 'name', 'module_id'],
+		properties: ['id', 'name', 'module_id','nomination_start','nomination_end','objection_start','objection_end','module_name','approval_status'],
 		collections: [
-			{ name: 'timeline', mapId: 'timelineMap', columnPrefix: 'timeline_' }
+			{ name: 'config', mapId: 'configMap', columnPrefix: 'config_' }
 		]
 	},
 	{
-		mapId: 'timelineMap',
+		mapId: 'configMap',
 		idProperty: 'key',
 		properties: ['value']
 	},
@@ -30,13 +30,19 @@ const resultMaps = [
 ];
 
 const mapToElectionModelWithTimeline = (electionData) => {
+	console.log("mappedElection",electionData);
 	const mappedElection = joinjs.map(electionData, resultMaps, 'electionMap', 'election_');
-
 	return Election({
 		id: mappedElection[0].id,
 		name: mappedElection[0].name,
 		moduleId: mappedElection[0].module_id,
-		electionTimeLine: mappedElection[0].timeline,
+		nominationStart: mappedElection[0].nomination_start,
+		nominationEnd: mappedElection[0].nomination_end,
+		objectionStart: mappedElection[0].objection_start,
+		objectionEnd: mappedElection[0].objection_end,
+		moduleName: mappedElection[0].module_name,
+		approval_status: mappedElection[0].approval_status,
+		electionConfig: mappedElection[0].config,
 	});
 }
 
@@ -57,14 +63,11 @@ const mapToAllElection = (electionData) => {
 
 const mapToElectionWithStatus = (electionData) => {
 	const mappedElection = joinjs.map(electionData, resultMaps, 'electionWithStatus', 'election_');
-
+console.log("mappedElection",mappedElection);
 	return _.reduce(mappedElection, (result, election) => {
 		return result.push({
 			id: election.id,
             name: election.name,
-            createdBy: election.created_by,
-			createdAt: election.created_at,
-			updatedAt: election.updated_at,
 			moduleId: election.module_id,
 			status: election.status,
 		});

@@ -4,8 +4,9 @@ import NominationRepo from '../repository/nomination';
 import { NominationManager } from 'Managers';
 import {NominationService} from 'Service';
 import { ServerError, ApiError } from 'Errors';
-const uuidv4 = require('uuid/v4');
 import { HTTP_CODE_404, HTTP_CODE_204 } from '../routes/constants/HttpCodes';
+import { executeTransaction } from '../repository/TransactionExecutor';
+const uuidv4 = require('uuid/v4');
 
 
 const getNominationByTeamId = async (req) => {
@@ -14,10 +15,10 @@ const getNominationByTeamId = async (req) => {
     return Nomination.fetchNominationByTeam(team_id, election_id);
 };
 
-const validateNominationId = async (req) => {  
+const validateNominationId = async (req,transaction) => {  
     try {
       const nominationId = req;
-      const nomination = await NominationRepo.fetchNominationByNominationId( nominationId );
+      const nomination = await NominationRepo.fetchNominationByNominationId( nominationId,transaction );
      
       if(_.isEmpty(nomination)){
         throw new ApiError("Nomination not found", HTTP_CODE_204);
@@ -55,16 +56,20 @@ const getPendingNominationsByElectionId = async (req) => {
     try {
       const electionId = req.params.electionId;
       const status = req.params.status;
-      const params = {'electionId':electionId, "status":status }
+      const teamId = req.params.teamId;
+
+      const params = {'electionId':electionId, "status":status, "teamId":teamId }
       const nominations = await NominationRepo.fetchPendingNominationList( params );
       console.log("params",nominations);
 
       if(!_.isEmpty(nominations)){
         return NominationManager.mapToNominationModel(nominations)
       }else {
-        throw new ApiError("Nominations not found", HTTP_CODE_204);
+        // throw new ApiError("Nominations not found", HTTP_CODE_204);
+        return [];
       }
     } catch (e){
+      console.log(e);
       throw new ServerError("Server error", HTTP_CODE_404);
     }
   };
@@ -72,6 +77,7 @@ const getPendingNominationsByElectionId = async (req) => {
   //approve nomination by nomination id
 const saveApproveNominationByNominationId = async (req) => {
     try {
+      return executeTransaction(async (transaction) => {
       const id = uuidv4();
       const createdBy = req.body.createdBy;
       const createdAt = req.body.createdAt;
@@ -80,14 +86,17 @@ const saveApproveNominationByNominationId = async (req) => {
       const reviewNote = req.body.reviewNote;;
       const nominationId = req.params.nominationId;
     //   const now = new Date(dateOfBirth).getTime();
-      const nomination = await NominationService.validateNominationId( nominationId );
+      const nomination = await NominationService.validateNominationId( nominationId,transaction );
       if(!_.isEmpty(nomination)){
         const nominationData = {'id':id, 'createdBy':createdBy,'createdAt':createdAt,'updatedAt':updatedAt, 'status':status, 'reviewNote':reviewNote, 'nominationId':nominationId};
-        return await NominationRepo.createNominationStatus( nominationData );
+        return await NominationRepo.createNominationStatus(nominationId, nominationData,transaction );
+          
       }else {
         throw new ApiError("Nomination not found", HTTP_CODE_204);
       }
+    });
     }catch (error){
+      console.log(error);
       throw new ServerError("Server error", HTTP_CODE_404);
     }
   };

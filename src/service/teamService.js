@@ -22,8 +22,26 @@ const getTeamById = async (req) => {
   
 };
 
+//Get all teams
+const getAllTeams = async (req) => {
+  try {
+    const teams = await TeamRepo.fetchAllTeams();
+console.log("teams",teams);
+    if(!_.isEmpty(teams)){
+      return teams;
+    }else {
+      return [];
+      // throw new ApiError("Team not found",HTTP_CODE_404);
+    }
+  }catch (e){
+    throw new ServerError("server error");
+  }
+  
+};
+
 
 
 export default {
     getTeamById,
+    getAllTeams
 }

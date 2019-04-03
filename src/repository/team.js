@@ -1,5 +1,7 @@
 import { DBError } from 'Errors';
-import { DbConnection } from './teamDataSource';
+// import { DbConnection } from './teamDataSource';
+import { DbConnection } from './dataSource';
+
 
 
 const TEAM_SELECT_QUERY = `SELECT 
@@ -14,6 +16,10 @@ cn.CONTACT_NO as contact_number
 FROM TEAM t
 	LEFT JOIN CONTACT_NUMBER cn on t.ID = cn.TEAM_ID
 WHERE t.ID = :team_id`;
+const ALL_TEAM_SELECT_QUERY = `SELECT 
+ID as team_id,
+TEAM_NAME as team_name
+FROM TEAM_CONFIG`;
 
 const fetchTeamById = (team_id) => {
     const params = { team_id: team_id };
@@ -23,6 +29,20 @@ const fetchTeamById = (team_id) => {
                 replacements: params,
                 type: DbConnection().QueryTypes.SELECT,
             }).catch((error) => {
+                throw new DBError(error);
+            });
+};
+
+const fetchAllTeams = () => {
+    return DbConnection()
+        .query(ALL_TEAM_SELECT_QUERY,
+            {
+                replacements: {},
+                type: DbConnection().QueryTypes.SELECT,
+            }).then((response) => {
+                return response;
+            })
+            .catch((error) => {
                 throw new DBError(error);
             });
 };
@@ -55,5 +75,6 @@ const fetchTeamById = (team_id) => {
 
 export default {
   fetchTeamById,
+  fetchAllTeams
     // updateTeam,
 }

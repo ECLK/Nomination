@@ -5,6 +5,8 @@ import SupportDocRepo from '../repository/supportdoc';
 import { CandidateManager } from 'Managers'
 import { NominationService, SupportDocService, ModuleService } from 'Service';
 import { HTTP_CODE_404, HTTP_CODE_204 } from '../routes/constants/HttpCodes';
+import { executeTransaction } from '../repository/TransactionExecutor';
+
 const uuidv4 = require('uuid/v4');
 
 
@@ -101,6 +103,7 @@ const isCandidateExists = async (candidateId) => {
 //Save candidate
 const saveCandidateByNominationId = async (req) => {
 	try {
+		return executeTransaction(async (transaction) => {
 		const id = uuidv4();
 		const fullName = req.body.fullName;
 		const preferredName = req.body.preferredName;
@@ -116,10 +119,13 @@ const saveCandidateByNominationId = async (req) => {
 		const nomination = await NominationService.validateNominationId(nominationId);
 		if (!_.isEmpty(nomination)) {
 			const candidateData = { 'id': id, 'fullName': fullName, 'preferredName': preferredName, 'nic': nic, 'dateOfBirth': dateOfBirth, 'gender': gender, 'address': address, 'occupation': occupation, 'electoralDivisionName': electoralDivisionName, 'electoralDivisionCode': electoralDivisionCode, 'counsilName': counsilName, 'nominationId': nominationId };
-			return await CandidateRepo.createCandidate(candidateData);
+			await CandidateRepo.createCandidate(candidateData,transaction);
+			await CandidateRepo.updateNominationStatus( nominationId,transaction );
+			return true;
 		} else {
 			throw new ApiError("Nomination not found", HTTP_CODE_204);
 		}
+	});
 	} catch (e) {
 		throw new ServerError("server error", HTTP_CODE_404);
 	}
