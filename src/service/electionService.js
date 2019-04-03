@@ -11,9 +11,10 @@ const getElectionByIdWithTimelineData = async (req) => {
         if(!_.isEmpty(election)){
             return ElectionManager.mapToElectionModelWithTimeline(election);
         } else {
-            throw new ApiError("Election not found");
+            return [];
         }
     } catch (error) {
+        console.log(error);
         throw new ServerError("Server error", HTTP_CODE_404);
     }
 };
@@ -72,6 +73,21 @@ const getAllElections = async () => {
         if(!_.isEmpty(elections)){
             return ElectionManager.mapToAllElection(elections);
         } else {
+            // throw new ApiError("No Election found");
+            return [];
+        }
+    } catch (error) {
+        throw new ServerError("Server error", HTTP_CODE_404);
+    }
+}
+
+//TODO: yujith, remove this after demo
+const getElectionIdForDemo = async () => {
+    try {
+        const elections = await ElectionRepo.fetchLastElectionId();
+        if(!_.isEmpty(elections)){
+            return elections;
+        } else {
             throw new ApiError("No Election found");
         }
     } catch (error) {
@@ -79,10 +95,13 @@ const getAllElections = async () => {
     }
 }
 
+
 const getElectionsByStatus = async (req) => {
+    console.log("sssssssssssssssssssssssssssssss");
     try {
         const status = req.params.status;
         const elections = await ElectionRepo.fetchElectionsByStatus(status);
+        console.log("elections",elections);
         if(!_.isEmpty(elections)){
             return ElectionManager.mapToElectionWithStatus(elections);
         } else {
@@ -101,4 +120,5 @@ export default {
     getElectionConfigById,
     getAllElections,
     getElectionsByStatus,
+    getElectionIdForDemo
 }

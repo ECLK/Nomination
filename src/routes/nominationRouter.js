@@ -125,6 +125,16 @@ export const initNominationRouter = (app) => {
 			},
 		},
 		{
+			method: POST,
+			path: '/nominations/candidate/support-docs',
+			schema: {},
+			handler: (req, res, next) => {
+				return SupportDocService.saveCandidateSupportDocsByCandidateId(req)
+					.then((result) => res.status(HTTP_CODE_201).send(result))
+					.catch(error => next(error));
+			},
+		},
+		{
 			method: PUT,
 			path: '/nominations/:nominationId/support-docs',
 			schema: UPDATE_SUPPORT_DOC_SCHEMA,
@@ -145,7 +155,7 @@ export const initNominationRouter = (app) => {
 		},
 		{
 			method: GET,
-			path: '/nominations/:electionId/pending-nominations/:status',
+			path: '/nominations/:electionId/pending-nominations/:status/team/:teamId',
 			handler: (req, res, next) => {
 				return NominationService.getPendingNominationsByElectionId(req)
 					.then((result) => res.status(HTTP_CODE_200).send(result))

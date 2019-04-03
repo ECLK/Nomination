@@ -34,7 +34,11 @@ const CANDIDATE_INSERT_QUERY = `INSERT INTO CANDIDATE (ID, FULL_NAME, PREFERRED_
 							  VALUES (:id, :fullName,:preferredName, :nic, :dateOfBirth, :gender, :address,:occupation, :electoralDivisionName, :electoralDivisionCode, :counsilName , :nominationId)`;
 					
 const CANDIDATE_BY_CANDIDATE_ID_DELETE_QUERY = `DELETE FROM CANDIDATE WHERE ID = :candidateId`;
-											  
+const NOMINATION_STATUS_UPDATE_QUERY = `UPDATE NOMINATION 
+                                SET 
+                                STATUS = "DRAFT"
+                                WHERE 
+                                ID = :nominationId`;						  
 							  
 
 const getCandidateListByNomination = (nomination_id) => {
@@ -74,7 +78,7 @@ const deleteCandidate = (candidateId) => {
 			});
 }
 
-const createCandidate = (candidateData) => {
+const createCandidate = (candidateData,transaction) => {
 	console.log("candidateData",candidateData);
 	const params = candidateData;
 	return DbConnection()
@@ -82,6 +86,7 @@ const createCandidate = (candidateData) => {
 			{
 				replacements: params,
 				type: DbConnection().QueryTypes.INSERT,
+				transaction
 			}).then((results) => {
 				return params;
 			}).catch((error) => {
@@ -161,6 +166,22 @@ const insertCandidateConfigByModuleId = (configData) => {
 			});
 }
 
+//Update nomination status to DRAFT if any candidate added
+const updateNominationStatus = (nominationId,transaction) => {
+	const params = { nominationId: nominationId };
+	return DbConnection()
+		.query(NOMINATION_STATUS_UPDATE_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.UPDATE,
+				transaction
+			}).then((results) => {
+				return params;
+			}).catch((error) => {
+				throw new DBError(error);
+			});
+};
+
 export default {
 	getCandidateListByNomination,
 	createCandidate,
@@ -169,5 +190,6 @@ export default {
 	updateCandidate,
 	getCandidateConfigByModuleId,
 	insertCandidateConfigByModuleId,
-	deleteCandidate
+	deleteCandidate,
+	updateNominationStatus
 }

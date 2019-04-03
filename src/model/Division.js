@@ -27,6 +27,7 @@ const AllowedDivision = Record({
     noOfCandidates: Number(),
     electionId: String(),
     teamId: String(),
+    currentCandidateCount: Number(),
     nomination: List(Nomination),
 });
 

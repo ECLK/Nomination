@@ -12,7 +12,7 @@ const resultMaps = [
     {
         mapId: 'allowedDivisionMap',
         idProperty: 'id',
-        properties: ['name', 'code', 'no_of_candidates', 'election_id', 'team_id'],
+        properties: ['name', 'code', 'no_of_candidates', 'election_id', 'team_id','current_candidate_count'],
         collections: [
             { name: 'nomination', mapId: 'nominationMap', columnPrefix: 'nomination_' }
         ]
@@ -54,6 +54,7 @@ const mapToDivisionModelWithNominations = (divisionDataWithNomination) => {
             noOfCandidates: division.no_of_candidates,
             electionId: division.election_id,
             teamId: division.team_id,
+            currentCandidateCount: division.current_candidate_count,
             nomination: division.nomination,
         });
     }, List(AllowedDivision)());

@@ -8,7 +8,7 @@ const resultMaps = [
   {
     mapId: 'supportDocMap',
     idProperty: 'ID',
-    properties: ['SUPPORT_DOC_CONFIG_DATA_ID','FILE_PATH','KEY_NAME','NOMINATION_ID','STATUS']
+    properties: ['SUPPORT_DOC_CONFIG_ID','ORIGINAL_NAME','FILE_PATH','KEY_NAME','NOMINATION_ID','STATUS']
   },
   {
     mapId: 'candidateSupportDocMap',
@@ -24,7 +24,8 @@ const mapToSupportDocModel = (supportDocs) => {
   return _.reduce(mappedSupportDocs, function(result, supportDocs) {
     return result.push({
       id: supportDocs.ID,
-      supportDocConfDataId: supportDocs.SUPPORT_DOC_CONFIG_DATA_ID,
+      supportDocConfId: supportDocs.SUPPORT_DOC_CONFIG_ID,
+      originalName:supportDocs.ORIGINAL_NAME,
       filePath: supportDocs.FILE_PATH,
       keyName: supportDocs.KEY_NAME,
       nominationId: supportDocs.NOMINATION_ID,

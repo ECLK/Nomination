@@ -63,7 +63,10 @@ const getDivisionsWithNomination = async (req) => {
     try {
         const electionId = req.params.electionId;
         const teamId = req.params.teamId;
+        console.log("tepppppppppppppppppppppppppppppamId",teamId);
         const divisions = await DivisionRepo.fetchDivisionsWithNomination(electionId, teamId);
+        console.log("teamdivisionsId",divisions);
+
         if (!_.isEmpty(divisions)) {
             return DivisionManager.mapToDivisionModelWithNominations(divisions);
         } else {

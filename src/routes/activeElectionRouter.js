@@ -53,5 +53,14 @@ export const initActiveElectionRouter = (app) => {
 					.catch(error => next(error));
       },
     },
+    {
+			method: POST,
+			path: '/activeElections/:electionId/approve-active-election',
+			handler: (req, res, next) => {
+				return ActiveElectionService.saveApproveElectionByElectionId(req)
+					.then((result) => res.status(HTTP_CODE_201).send(result))
+					.catch(error => next(error));
+			},
+		},
   ]);
 };
