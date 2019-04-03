@@ -46,12 +46,15 @@ const ELECTION_BY_STATUS_SELECT_QUERY = `SELECT
 										E.ID AS election_id,
 										E.NAME AS election_name,
 										E.MODULE_ID AS election_module_id,
-										EA.STATUS AS election_status
+										EA.STATUS AS election_status,
+										E.CREATED_BY AS election_created_by,
+										EA.UPDATED_AT AS election_last_modified
 										FROM
 										ELECTION E LEFT JOIN ELECTION_APPROVAL EA
 										ON E.ID=EA.ELECTION_ID
-										WHERE EA.STATUS=:status OR EA.STATUS='APPROVE' OR EA.STATUS='REJECT'`;
-									
+										WHERE EA.STATUS=:status`;
+										// WHERE EA.STATUS=:status OR EA.STATUS='APPROVE' OR EA.STATUS='REJECT'`;
+
 									
 const LAST_ELECTION_ID_SELECT_QUERY = `SELECT ID
 										FROM ELECTION
