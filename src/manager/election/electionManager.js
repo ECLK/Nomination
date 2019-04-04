@@ -25,7 +25,7 @@ const resultMaps = [
 	{
 		mapId: 'electionWithStatus',
 		idProperty: 'id',
-		properties: ['name', 'created_by',	'created_at', 'updated_at', 'module_id', 'status']
+		properties: ['name', 'created_by',	'created_at', 'updated_at', 'module_id', 'status','last_modified']
 	}
 ];
 
@@ -69,6 +69,8 @@ console.log("mappedElection",mappedElection);
 			id: election.id,
             name: election.name,
 			moduleId: election.module_id,
+			createdBy:election.created_by,
+			lastModified: election.last_modified,
 			status: election.status,
 		});
 	}, List(ElectionWithStatus)());

@@ -10,7 +10,7 @@ const resultMaps = [
   {
     mapId: 'moduleMap',
     idProperty: 'ID',
-    properties: ['NAME', 'DIVISION_COMMON_NAME', 'CREATED_BY', 'STATUS']
+    properties: ['NAME', 'DIVISION_COMMON_NAME', 'CREATED_BY', 'STATUS','LAST_MODIFIED']
   }
 ];
 
@@ -27,14 +27,14 @@ const resultMaps = [
 
 const mapToModuleModel = (modules) => {
   const mappedModules = joinjs.map(modules, resultMaps, 'moduleMap', 'MODULE_');
-
 return _.reduce(mappedModules, function(result, modules) {
   return result.push({
     "id": modules.ID,
       "name": modules.NAME,
       "divisionCommonName": modules.DIVISION_COMMON_NAME,
       "createdBy": modules.CREATED_BY,
-      "status": modules.STATUS
+      "status": modules.STATUS,
+      "lastModified":modules.LAST_MODIFIED
   });
 },List(Module)());
 

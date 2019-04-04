@@ -38,7 +38,8 @@ const getModulesByStatus = async (req) => {
 		if (!_.isEmpty(modules)) {
 			return ModuleManager.mapToModuleModel(modules);
 		} else {
-			throw new ApiError("Module7 not found");
+			return [];
+			// throw new ApiError("Module7 not found");
 		}
 	} catch (error) {
 		console.log(error);

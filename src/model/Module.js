@@ -7,4 +7,5 @@ export const Module = Record({
     createdBy: String(),
     status: String(),
     column_name: String(),
+    lastModified: Number()
 });
