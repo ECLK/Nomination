@@ -1,4 +1,5 @@
-FROM node:6.16.0-jessie AS build
+#FROM node:6.16.0-jessie AS build
+FROM node:8.15.1-jessie AS build
 # set user configurations
 ENV USER=builder
 ENV USER_HOME=/home/${USER}
@@ -8,7 +9,8 @@ ADD . $USER_HOME/Nomination
 WORKDIR $USER_HOME/Nomination
 RUN ./build.sh
 
-FROM node:6.16.0-jessie
+# FROM node:6.16.0-jessie
+FROM node:8.15.1-jessie
 # set user configurations
 ENV USER=lsf
 ENV USER_ID=1001
