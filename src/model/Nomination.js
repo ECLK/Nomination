@@ -16,7 +16,7 @@ const Nomination = Record({
     objection_status: Maybe(String),
     approval_status: Maybe(String),
     candidates: List(candidate),
-
+    reviewNote: Maybe(String)
 });
 
 export {

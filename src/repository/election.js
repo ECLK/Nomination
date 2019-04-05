@@ -21,7 +21,7 @@ const ELECTION_WITH_TIMELINE_SELECT_QUERY = `SELECT * FROM (
 											LEFT JOIN ELECTION_MODULE em ON em.ID = e.MODULE_ID
 											LEFT JOIN ELECTION_MODULE_CONFIG_DATA ecd ON em.ID = ecd.MODULE_ID
 											LEFT JOIN ELECTION_APPROVAL ea ON e.ID = ea.ELECTION_ID
-											WHERE e.ID = :id
+											WHERE e.ID = :id 
 											GROUP BY ecd.ID) AS t1
 											LEFT JOIN ELECTION_MODULE_CONFIG ec ON t1.config_key = ec.ID `;
 
