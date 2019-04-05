@@ -27,7 +27,8 @@ const PENDING_NOMINATION_SELECT_QUERY_ALL = `SELECT
 																				C.ADDRESS AS candidate_address,
 																				P.STATUS AS nomination_payment_status,
 																				OBR.STATUS AS nomination_objection_status,
-																				NA.STATUS AS nomination_approval_status
+																				NA.STATUS AS nomination_approval_status,
+																				NA.REVIEW_NOTE AS nomination_review_note
 																				FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
 																				LEFT JOIN TEAM_CONFIG TC ON N.TEAM_ID = TC.ID
 																				LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 
@@ -48,7 +49,8 @@ const PENDING_NOMINATION_SELECT_QUERY = `SELECT
 																				C.ADDRESS AS candidate_address,
 																				P.STATUS AS nomination_payment_status,
 																				OBR.STATUS AS nomination_objection_status,
-																				NA.STATUS AS nomination_approval_status
+																				NA.STATUS AS nomination_approval_status,
+																				NA.REVIEW_NOTE AS nomination_review_note
 																				FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
 																				LEFT JOIN TEAM_CONFIG TC ON N.TEAM_ID = TC.ID
 																				LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 

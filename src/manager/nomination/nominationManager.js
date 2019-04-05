@@ -7,7 +7,7 @@ const resultMaps = [
     {
         mapId: 'nominationMap',
         idProperty: 'id',
-        properties: ['party', 'division_name','payment_status', 'objection_status','objection_status','approval_status'],
+        properties: ['party', 'division_name','payment_status', 'objection_status','objection_status','approval_status','review_note'],
         collections: [
 			{ name: 'Candidates', mapId: 'candidateMap', columnPrefix: 'candidate_' }
 		]
@@ -31,6 +31,7 @@ const mapToNominationModel = (nominationData) => {
             objection_status: nomination.objection_status,
             approval_status: nomination.approval_status,
             candidates: nomination.Candidates,
+            reviewNote: nomination.review_note
         });
       },List(Nomination)());
 };
