@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.11 (64 bit)
 MySQL - 8.0.13 : Database - EC_NOMINATION
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -55,7 +56,17 @@ CREATE TABLE `CANDIDATE_CONFIG` (
 
 /*Data for the table `CANDIDATE_CONFIG` */
 
-insert  into `CANDIDATE_CONFIG`(`ID`,`KEY_NAME`,`DESCRIPTION`) values ('1','FULL_NAME','candidate name'),('10','COUNSIL_NAME',NULL),('2','PREFERRED_NAME',NULL),('3','NIC',NULL),('4','DATE_OF_BIRTH',NULL),('5','GENDER',NULL),('6','ADDRESS',NULL),('7','OCCUPATION',NULL),('8','ELECTORAL_DIVISION_NAME',NULL),('9','ELECTORAL_DIVISION_CODE',NULL);
+INSERT INTO `CANDIDATE_CONFIG` (`ID`, `KEY_NAME`, `DESCRIPTION`) VALUES
+('1', 'FULL_NAME', 'Name Of Candidate (Full Name)'),
+('2', 'PREFERRED_NAME', 'Preferred Name'),
+('3', 'NIC', 'National Identity Card (NIC)'),
+('4', 'DATE_OF_BIRTH', 'Date of Birth'),
+('5', 'GENDER', 'Gender'),
+('6', 'ADDRESS', 'Address'),
+('7', 'OCCUPATION', 'Occupation'),
+('8', 'ELECTORAL_DIVISION_NAME', 'Election Division Name'),
+('9', 'ELECTORAL_DIVISION_CODE', 'Election Division Code'),
+('10', 'COUNSIL_NAME', 'Counsil Name');
 
 /*Table structure for table `CANDIDATE_CONFIG_DATA` */
 
