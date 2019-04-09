@@ -13,7 +13,7 @@ const ALL_MODULE_SELECT_QUERY = `SELECT
                                   EMA.STATUS AS MODULE_STATUS,
                                   EMA.APPROVED_AT AS MODULE_LAST_MODIFIED
                                   FROM ELECTION_MODULE EM LEFT JOIN ELECTION_MODULE_APPROVAL EMA
-                                  ON EM.ID=EMA.MODULE_ID WHERE EMA.STATUS= :status`;
+                                  ON EM.ID=EMA.MODULE_ID WHERE EMA.STATUS= :status ORDER BY EM.NAME`;
 const MODULE_SELECT_QUERY = `SELECT 
                               ID AS MODULE_ID, 
                               NAME AS MODULE_NAME,

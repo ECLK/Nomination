@@ -97,7 +97,6 @@ const getElectionIdForDemo = async () => {
 
 
 const getElectionsByStatus = async (req) => {
-    console.log("sssssssssssssssssssssssssssssss");
     try {
         const status = req.params.status;
         const elections = await ElectionRepo.fetchElectionsByStatus(status);
