@@ -10,7 +10,8 @@ const ALL_MODULE_SELECT_QUERY = `SELECT
                                   EM.NAME AS MODULE_NAME,
                                   EM.DIVISION_COMMON_NAME AS MODULE_DIVISION_COMMON_NAME,
                                   EM.CREATED_BY AS MODULE_CREATED_BY,
-                                  EMA.STATUS AS MODULE_STATUS
+                                  EMA.STATUS AS MODULE_STATUS,
+                                  EMA.APPROVED_AT AS MODULE_LAST_MODIFIED
                                   FROM ELECTION_MODULE EM LEFT JOIN ELECTION_MODULE_APPROVAL EMA
                                   ON EM.ID=EMA.MODULE_ID WHERE EMA.STATUS= :status ORDER BY EM.NAME`;
 const MODULE_SELECT_QUERY = `SELECT 

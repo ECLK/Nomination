@@ -21,7 +21,7 @@ const ELECTION_WITH_TIMELINE_SELECT_QUERY = `SELECT * FROM (
 											LEFT JOIN ELECTION_MODULE em ON em.ID = e.MODULE_ID
 											LEFT JOIN ELECTION_MODULE_CONFIG_DATA ecd ON em.ID = ecd.MODULE_ID
 											LEFT JOIN ELECTION_APPROVAL ea ON e.ID = ea.ELECTION_ID
-											WHERE e.ID = :id
+											WHERE e.ID = :id 
 											GROUP BY ecd.ID) AS t1
 											LEFT JOIN ELECTION_MODULE_CONFIG ec ON t1.config_key = ec.ID `;
 
@@ -46,12 +46,15 @@ const ELECTION_BY_STATUS_SELECT_QUERY = `SELECT
 										E.ID AS election_id,
 										E.NAME AS election_name,
 										E.MODULE_ID AS election_module_id,
-										EA.STATUS AS election_status
+										EA.STATUS AS election_status,
+										E.CREATED_BY AS election_created_by,
+										EA.UPDATED_AT AS election_last_modified
 										FROM
 										ELECTION E LEFT JOIN ELECTION_APPROVAL EA
 										ON E.ID=EA.ELECTION_ID
-										WHERE EA.STATUS=:status OR EA.STATUS='APPROVE' OR EA.STATUS='REJECT'`;
-									
+										WHERE EA.STATUS=:status`;
+										// WHERE EA.STATUS=:status OR EA.STATUS='APPROVE' OR EA.STATUS='REJECT'`;
+
 									
 const LAST_ELECTION_ID_SELECT_QUERY = `SELECT ID
 										FROM ELECTION
