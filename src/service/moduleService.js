@@ -77,6 +77,7 @@ const validateModuleId = async (moduleId) => {
 }
 
 const saveElectionModule = async (req) => {
+	console.log("sdssssssssssss",req.body);
 	try {
   return executeTransaction(async (transaction) => {
 		let moduleId = req.params.moduleId;
