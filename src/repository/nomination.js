@@ -63,7 +63,7 @@ const PENDING_NOMINATION_SELECT_QUERY = `SELECT
 
 const NOMINATION_STATUS_INSERT_QUERY = `INSERT INTO NOMINATION_APPROVAL (ID, APPROVED_BY, APPROVED_AT, UPDATED_AT, STATUS, REVIEW_NOTE, NOMINATION_ID) 
                               					VALUES (:id, :createdBy,:createdAt, :updatedAt, :status, :reviewNote, :nominationId)`;
-const NOMINATION_APPROVE_DELETE_QUERY = `DELETE FROM NOMINATION_APPROVAL WHERE NOMINATION_ID = :nominationId AND STATUS='1ST-APPROVE' OR STATUS='REJECT'`;
+const NOMINATION_APPROVE_DELETE_QUERY = `DELETE FROM NOMINATION_APPROVAL WHERE NOMINATION_ID = :nominationId AND STATUS='1ST-APPROVE' OR STATUS='REJECT' OR STATUS='2ND-APPROVE'`;
 
 
 const fetchNominationByTeam = (team_id, election_id) => {
@@ -147,7 +147,6 @@ const fetchPendingNominationList = (params) => {
 
 const createNominationStatus = async (nominationId, nominationData, transaction) => {
   const params = {nominationId:nominationId};
-console.log("params",params);
 await  DbConnection()
 .query(NOMINATION_APPROVE_DELETE_QUERY,
   {

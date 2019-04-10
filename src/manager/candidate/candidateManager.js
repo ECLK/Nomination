@@ -9,7 +9,7 @@ const resultMaps = [
   {
     mapId: 'candidateMap',
     idProperty: 'ID',
-    properties: ['FULL_NAME', 'PREFERRED_NAME','OCCUPATION', 'ELECTORAL_DIVISION_NAME', 'ELECTORAL_DIVISION_CODE','NIC', 'DATE_OF_BIRTH', 'GENDER','ADDRESS','COUNSIL_NAME', 'NOMINATION_ID']
+    properties: ['FULL_NAME', 'PREFERRED_NAME','OCCUPATION','NIC', 'DATE_OF_BIRTH', 'GENDER','ADDRESS', 'NOMINATION_ID']
   }
 ];
 
