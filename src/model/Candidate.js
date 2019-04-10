@@ -10,8 +10,8 @@ export const Candidate =  Record({
   gender: String(),
   occupation: String(),
   address: String(),
-  electoralDivisionName: String(),
-  electoralDivisionCode: String(),
+  // electoralDivisionName: String(),
+  // electoralDivisionCode: String(),
   action: String(),
   // counsilName: String(),
   // nominationId: String()
