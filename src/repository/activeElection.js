@@ -118,6 +118,7 @@ const savePendingElectionStatus = (pendingStatusData,transaction) => {
 			}).then((results) => {
 				return pendingStatusData;
 			}).catch((error) => {
+        console.log("errrrrror",error);
 				throw new DBError(error);
 			});
 };
@@ -187,6 +188,7 @@ if( data instanceof Array && data.length > 0){
       type: DbConnection().QueryTypes.INSERT,
       transaction,
     }).catch((error) => {
+      console.log("error",error);
        throw new DBError(error);
      });
   }

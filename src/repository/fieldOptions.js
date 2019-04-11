@@ -6,7 +6,7 @@ const uuidv4 = require('uuid/v4');
 
 
 const CANDIDATE_CONFIG_QUERY = `SELECT id as 'key', DESCRIPTION as 'value' FROM CANDIDATE_CONFIG`;
-const CANDIDATE_SUPPORTING_DOCS_QUERY = `SELECT ID as 'key', DESCRIPTION as 'value' FROM SUPPORT_DOC_CONFIG WHERE DOC_CATEGORY LIKE 'CANDIDATE' `;
+const CANDIDATE_SUPPORTING_DOCS_QUERY = `SELECT ID as 'key', KEY_NAME as 'value' FROM SUPPORT_DOC_CONFIG WHERE DOC_CATEGORY LIKE 'CANDIDATE' OR DOC_CATEGORY LIKE 'NOMINATION'  `;
 
 const fetchCandidateConfig = (moduleId) => {
   const params = {id: moduleId};

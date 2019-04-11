@@ -33,14 +33,15 @@ const MODULE_INSERT_QUERY = `INSERT INTO election_config (election_module_id, el
 const GET_ELECTION_CONFIG_BY_ID=`SELECT * FROM election_module_config WHERE id=:id`;
 
 const ALL_ELECTIONS_SELECT_QUERY = `SELECT
-									ID as election_id,
-									NAME as election_name,
-									CREATED_BY as election_created_by,
-									CREATED_AT as election_created_at,
-									UPDATED_AT as election_updated_at,
-									MODULE_ID as election_module_id
+									E.ID AS election_id,
+									E.NAME AS election_name,
+									E.MODULE_ID AS election_module_id,
+									EA.STATUS AS election_status,
+									E.CREATED_BY AS election_created_by,
+									EA.UPDATED_AT AS election_last_modified
 									FROM
-									ELECTION`;
+									ELECTION E LEFT JOIN ELECTION_APPROVAL EA
+									ON E.ID=EA.ELECTION_ID`;
 
 const ELECTION_BY_STATUS_SELECT_QUERY = `SELECT
 										E.ID AS election_id,
