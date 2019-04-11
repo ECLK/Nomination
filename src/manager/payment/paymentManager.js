@@ -20,6 +20,7 @@ const mapToPaymentModel = (payments) => {
 			id: mappedPayments[0].ID,
 			depositor: mappedPayments[0].DEPOSITOR,
 			depositAmount: mappedPayments[0].AMOUNT,
+			amount: mappedPayments[0].AMOUNT,
 			depositeDate: mappedPayments[0].DEPOSIT_DATE,
 			uploadedFilePath: mappedPayments[0].FILE_PATH,
 			status: mappedPayments[0].STATUS,

@@ -24,7 +24,8 @@ const AllElection = Record({
 	name: String(),
 	createdBy: String(),
 	createdAt: Number(),
-	updatedAt: Number(),
+	lastModified: Number(),
+	status: String(),
 	moduleId: String(),
 });
 

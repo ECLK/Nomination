@@ -5,6 +5,7 @@ export const Payment =  Record({
   id: String(),
   depositor: String(),
   depositAmount: Number(),
+  amount: Number(),
   depositeDate: Number(),
   uploadedFilePath: String(),
   status: String(),
