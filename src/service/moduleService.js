@@ -78,7 +78,6 @@ const validateModuleId = async (moduleId) => {
 }
 
 const saveElectionModule = async (req) => {
-	console.log("sdssssssssssss",req.body);
 	try {
   return executeTransaction(async (transaction) => {
 		let moduleId = req.params.moduleId;
@@ -110,6 +109,8 @@ const saveElectionModule = async (req) => {
 			await ModuleRepo.saveDivisionConf(moduleId,req.body.divisionConfig, transaction);
 		
 			await ModuleRepo.saveElectionConfig(moduleId,req.body.electionConfig, transaction);
+
+			await ModuleRepo.saveEligibilityConfig(moduleId,req.body.eligibilityCheckList, transaction);
 		
     return true;
 	});

@@ -114,22 +114,32 @@ const updatePaymentCommons = (paymentData) => {
 
 
 const PAYMENTS_BY_ELECTION_ID_SELECT_QUERY = `SELECT 
-	p.ID AS PAYMENT_ID, 
-	p.DEPOSITOR AS PAYMENT_DEPOSITOR,
-	p.DEPOSIT_DATE AS PAYMENT_DEPOSIT_DATE,
-	p.AMOUNT AS PAYMENT_AMOUNT,
-	p.FILE_PATH AS PAYMENT_FILE_PATH,
-	p.STATUS  AS  PAYMENT_STATUS,
-	p.NOTE AS PAYMENT_NOTE,
-	p.NOMINATION_ID AS PAYMENT_NOMINATION_ID,
-	p.CREATED_BY AS PAYMENT_CREATED_BY,
-	p.CREATED_AT AS PAYMENT_CREATED_AT,
-	p.UPDATED_AT AS PAYMENT_UPDATED_AT
-FROM 
-	PAYMENT p
-	LEFT JOIN NOMINATION n ON n.ID = p.NOMINATION_ID
-WHERE 
-	n.ELECTION_ID = :electionId`;
+											p.ID AS PAYMENT_ID, 
+											p.DEPOSITOR AS PAYMENT_DEPOSITOR,
+											p.DEPOSIT_DATE AS PAYMENT_DEPOSIT_DATE,
+											p.AMOUNT AS PAYMENT_AMOUNT,
+											p.FILE_PATH AS PAYMENT_FILE_PATH,
+											p.STATUS  AS  PAYMENT_STATUS,
+											p.NOTE AS PAYMENT_NOTE,
+											p.NOMINATION_ID AS PAYMENT_NOMINATION_ID,
+											p.CREATED_BY AS PAYMENT_CREATED_BY,
+											p.CREATED_AT AS PAYMENT_CREATED_AT,
+											p.UPDATED_AT AS PAYMENT_UPDATED_AT,
+											dc.NAME  AS PAYMENT_DIVISION_NAME,
+											emcd.VALUE AS PAYMENT_CANDIDATE_PAYMENT,
+											dc.NO_OF_CANDIDATES AS PAYMENT_NO_OF_CANDIDATE,
+											tc.TEAM_NAME AS PAYMENT_TEAM_NAME
+											FROM 
+											PAYMENT p
+											LEFT JOIN NOMINATION n ON n.ID = p.NOMINATION_ID
+											LEFT JOIN DIVISION_CONFIG dc ON n.DIVISION_CONFIG_ID=dc.ID	
+											LEFT JOIN ELECTION e ON n.ELECTION_ID=e.ID
+											LEFT JOIN ELECTION_MODULE em ON e.MODULE_ID=em.ID
+											LEFT JOIN ELECTION_MODULE_CONFIG_DATA emcd ON em.ID=emcd.MODULE_ID
+											LEFT JOIN ELECTION_MODULE_CONFIG emc ON emc.ID=emcd.ELECTION_MODULE_CONFIG_ID
+											LEFT JOIN TEAM_CONFIG tc ON tc.ID=n.TEAM_ID
+											WHERE 
+											n.ELECTION_ID = :electionId AND emc.KEY_NAME='candidate payment'`;
 const fetchPaymentsByElectionId = (election_id) => {
 	const params = { electionId: election_id };
 	return DbConnection()
@@ -142,6 +152,46 @@ const fetchPaymentsByElectionId = (election_id) => {
 			});
 }
 
+const PAYMENT_REVIEW_STATUS_UPDATE_QUERY = `UPDATE PAYMENT 
+                              SET 
+                              STATUS = :status
+                              WHERE 
+                              ID = :paymentId`;
+
+const updatePaymentStatus = (paymentId,status) => {
+    const params = { 'status': status, 'paymentId': paymentId};
+    return DbConnection()
+        .query(PAYMENT_REVIEW_STATUS_UPDATE_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.UPDATE,
+            }).then((results) => {
+                return params;
+            }).catch((error) => {
+                throw new DBError(error);
+            });
+};
+
+const PAYMENT_REVIEW_NOTE_UPDATE_QUERY = `UPDATE PAYMENT 
+                              SET 
+                              NOTE = :note
+                              WHERE 
+                              ID = :paymentId`;
+
+const updatePaymentNote = (paymentId,note) => {
+    const params = { 'note': note, 'paymentId': paymentId};
+    return DbConnection()
+        .query(PAYMENT_REVIEW_NOTE_UPDATE_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.UPDATE,
+            }).then((results) => {
+                return params;
+            }).catch((error) => {
+                throw new DBError(error);
+            });
+};
+
 
 export default {
 	fetchPaymentsByNominationId,
@@ -150,4 +200,6 @@ export default {
 	updatePaymentCommons,
 	fetchPaymentsByElectionId,
   sampleTransactionUpdateStatusByNominationId,
+  updatePaymentStatus,
+  updatePaymentNote
 }
