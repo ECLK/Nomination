@@ -47,10 +47,16 @@ const ELECTION_MODULE_UPDATE_QUERY = `UPDATE ELECTION_MODULE
 const ELECTION_CONFIG_INSERT_BASE_QUERY = `INSERT INTO ELECTION_MODULE_CONFIG_DATA (ID,VALUE,ELECTION_MODULE_CONFIG_ID,MODULE_ID) VALUES `
 const ELECTION_CONFIG_COLUMN_ORDER = ['id', 'value','electionModuleConfigId','moduleId'];
 
+const ELIGIBILITY_CONFIG_INSERT_BASE_QUERY = `INSERT INTO ELIGIBILITY_CONFIG_DATA (ID,ELIGIBILITY_CONFIG_ID,MODULE_ID) VALUES `
+const ELIGIBILITY_CONFIG_COLUMN_ORDER = ['id', 'eligibilityId','moduleId'];
+
+
 const CANDIDATE_CONFIG_DELETE_QUERY = `DELETE FROM CANDIDATE_CONFIG_DATA WHERE MODULE_ID = :moduleId`;
 const SUPPORTING_DOC_DELETE_QUERY = `DELETE FROM SUPPORT_DOC_CONFIG_DATA WHERE MODULE_ID = :moduleId`;
 const DIVISION_CONFIG_DELETE_QUERY = `DELETE FROM DIVISION_CONFIG WHERE MODULE_ID = :moduleId`;
 const ELECTION_CONFIG_DELETE_QUERY = `DELETE FROM ELECTION_MODULE_CONFIG_DATA WHERE MODULE_ID = :moduleId`;
+const ELIGIBILITY_CONFIG_DELETE_QUERY = `DELETE FROM ELIGIBILITY_CONFIG_DATA WHERE MODULE_ID = :moduleId`;
+
 
 
                                 
@@ -265,6 +271,41 @@ const saveElectionConfig = async (moduleId,data, transaction) => {
 };
 /**
  * save active election transaction 
+ * save module eligibility config
+ * @returns {Promise.<T>}
+ */
+const saveEligibilityConfig = async (moduleId,data, transaction) => {
+  const params = {moduleId:moduleId};
+  data = data.map((record) => {
+    record.moduleId = moduleId;
+    record.id = uuidv4();
+    return record;
+});
+  await  DbConnection()
+  .query(ELIGIBILITY_CONFIG_DELETE_QUERY,
+    {
+      replacements: params,
+      type: DbConnection().QueryTypes.DELETE,
+      transaction
+    }).catch((error) => {
+      throw new DBError(error);
+    });
+  if( data instanceof Array && data.length > 0){
+  return DbConnection()
+  .query(formatQueryToBulkInsert(ELIGIBILITY_CONFIG_INSERT_BASE_QUERY, data),
+    {
+      replacements: formatDataToBulkInsert(data, ELIGIBILITY_CONFIG_COLUMN_ORDER),
+      type: DbConnection().QueryTypes.INSERT,
+      transaction,
+    }).catch((error) => {
+      console.log(error);
+       throw new DBError(error);
+     });
+    }
+};
+
+/**
+ * save active election transaction 
  * update module division common name
  * @returns {Promise.<T>}
  */
@@ -333,5 +374,6 @@ export default {
   saveElectionConfig,
   updateElectionModule,
   insertElectionModule,
-  approveElectionModule
+  approveElectionModule,
+  saveEligibilityConfig
 }

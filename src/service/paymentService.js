@@ -93,7 +93,7 @@ const getPaymentsByElectionId = async (req) => {
 		if (!_.isEmpty(payments)){
 			return PaymentManager.mapToPaymentModel(payments);
 		} else {
-			throw new ApiError("Payments not found");
+			return [];
 		}
 	} catch (error) {
 		throw new ServerError("Server error", HTTP_CODE_404);
@@ -111,7 +111,22 @@ const getAllPaidPayments = async (req) => {
 	return Payment.getPaidAll(election_id);
 }
 
+const putPaymentsBypaymentId = async (req) => {
+	try{
+			return await PaymentRepo.updatePaymentStatus(req.params.paymentId, req.body.status);
+	} catch (e) {
+			throw new ServerError("server error");
+	}
+};
 
+const savePaymentNoteBypaymentId = async (req) => {
+	try{
+			return await PaymentRepo.updatePaymentNote(req.params.paymentId, req.body.note);
+	} catch (e) {
+		console.log(e);
+			throw new ServerError("server error");
+	}
+};
 
 
 export default {
@@ -121,5 +136,7 @@ export default {
 	updatePaymentByNominationId,
 	getAllPendingPayments,
 	getAllPaidPayments,
-	getPaymentsByElectionId
+	getPaymentsByElectionId,
+	putPaymentsBypaymentId,
+	savePaymentNoteBypaymentId
 }

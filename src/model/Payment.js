@@ -1,18 +1,21 @@
 
-import {Record} from 'typed-immutable';
+import {Record,Maybe} from 'typed-immutable';
 
 export const Payment =  Record({
-  id: String(),
+  payment_id: String(),
   depositor: String(),
-  depositAmount: Number(),
+  deposit_amount: Number(),
   amount: Number(),
-  depositeDate: Number(),
+  deposit_date: Number(),
   uploadedFilePath: String(),
-  status: String(),
-  nominationId: String(),
+  payment_status: String(),
+  nomination_id: String(),
   createdBy: String(),
   createdAt: Number(),
-  updatedAt: Number()
+  updatedAt: Number(),
+  division_name: String(),
+  candidate_payment: String(),
+  team_name: String(),
+  no_of_candidate: Number(),
+  note: Maybe(String),
 });
-
-
