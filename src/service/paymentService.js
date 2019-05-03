@@ -18,7 +18,7 @@ const getPaymentByNominationId = async (req) => {
     await NominationService.validateNominationId( nominationId );
     const payments = await PaymentRepo.fetchPaymentsByNominationId( nominationId );
     if(!_.isEmpty(payments)){
-      return PaymentManager.mapToPaymentModel(payments)
+      return PaymentManager.mapToNominationPaymentModel(payments)
     }else {
       var payments = [];
       return PaymentManager.mapToPaymentModel(payments)
