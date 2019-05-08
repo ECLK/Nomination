@@ -16,6 +16,17 @@ export const initFieldOptionsRouter = (app) => {
 			    .then((result) => res.status(200).send(result))
 				.catch(error => next(error));
 			},
+		},
+		{
+			method: GET,
+			path: '/field-options/:fieldName/:moduleId',
+			handler: (req, res, next) => {
+				let fieldName = req.params.fieldName;
+				let moduleId = req.params.moduleId;
+			    return FieldOptionService.getCallElectionFieldOptions(fieldName,moduleId)
+			    .then((result) => res.status(200).send(result))
+				.catch(error => next(error));
+			},
 		}
 	]);
 };
