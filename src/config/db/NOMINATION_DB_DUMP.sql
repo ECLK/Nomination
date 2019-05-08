@@ -2,8 +2,7 @@
 SQLyog Ultimate v11.11 (64 bit)
 MySQL - 8.0.13 : Database - EC_NOMINATION
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -54,17 +53,7 @@ CREATE TABLE `CANDIDATE_CONFIG` (
 
 /*Data for the table `CANDIDATE_CONFIG` */
 
-INSERT INTO `CANDIDATE_CONFIG` (`ID`, `KEY_NAME`, `DESCRIPTION`) VALUES
-('1', 'FULL_NAME', 'Name Of Candidate (Full Name)'),
-('2', 'PREFERRED_NAME', 'Preferred Name'),
-('3', 'NIC', 'National Identity Card (NIC)'),
-('4', 'DATE_OF_BIRTH', 'Date of Birth'),
-('5', 'GENDER', 'Gender'),
-('6', 'ADDRESS', 'Address'),
-('7', 'OCCUPATION', 'Occupation'),
-('8', 'ELECTORAL_DIVISION_NAME', 'Election Division Name'),
-('9', 'ELECTORAL_DIVISION_CODE', 'Election Division Code'),
-('10', 'COUNSIL_NAME', 'Counsil Name');
+insert  into `CANDIDATE_CONFIG`(`ID`,`KEY_NAME`,`DESCRIPTION`) values ('1','FULL_NAME','Name Of Candidate (Full Name)'),('2','PREFERRED_NAME','Preferred Name'),('3','NIC','National Identity Card (NIC)'),('4','DATE_OF_BIRTH','Date of Birth'),('5','GENDER','Gender'),('6','ADDRESS','Address'),('7','OCCUPATION','Occupation');
 
 /*Table structure for table `CANDIDATE_CONFIG_DATA` */
 
@@ -82,6 +71,8 @@ CREATE TABLE `CANDIDATE_CONFIG_DATA` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `CANDIDATE_CONFIG_DATA` */
+
+insert  into `CANDIDATE_CONFIG_DATA`(`ID`,`MODULE_ID`,`CANDIDATE_CONFIG_ID`) values ('0f7bf7c7-38ef-40cf-97d8-e4ce87eb3a0f','7180ca1c-20bf-46bd-91e1-32e301c80f35','7'),('1c45c874-c8d8-42c6-864b-397e3ca3688f','7180ca1c-20bf-46bd-91e1-32e301c80f35','5'),('61f076fc-ae01-4881-9500-cec089dc1370','7180ca1c-20bf-46bd-91e1-32e301c80f35','6'),('69b19d6d-4585-49dc-84d6-4fe43ea1c7e2','7180ca1c-20bf-46bd-91e1-32e301c80f35','2'),('c0dbd677-5efc-46d7-a505-e66dbb24622c','7180ca1c-20bf-46bd-91e1-32e301c80f35','3'),('cd2ef8ff-f4fa-4bdc-a88d-e7271fab297c','7180ca1c-20bf-46bd-91e1-32e301c80f35','4'),('d3268869-232e-4884-9eac-eb0221ea4636','7180ca1c-20bf-46bd-91e1-32e301c80f35','1');
 
 /*Table structure for table `CANDIDATE_SUPPORT_DOC` */
 
@@ -123,6 +114,8 @@ CREATE TABLE `DIVISION_CONFIG` (
 
 /*Data for the table `DIVISION_CONFIG` */
 
+insert  into `DIVISION_CONFIG`(`ID`,`NAME`,`CODE`,`NO_OF_CANDIDATES`,`MODULE_ID`) values ('2c130539-41b2-440b-a8a8-b7d0bec2acec','Uva','001',38,'7180ca1c-20bf-46bd-91e1-32e301c80f35'),('43c9f21d-e98d-4826-aa61-c1338662bfd8','Wayamba','005',56,'7180ca1c-20bf-46bd-91e1-32e301c80f35'),('5f92f166-3098-4e4a-b8cc-65b77a070ad2','South','004',62,'7180ca1c-20bf-46bd-91e1-32e301c80f35'),('d7a252e6-ef2f-4d41-b44f-e54b731c994b','Western ','002',111,'7180ca1c-20bf-46bd-91e1-32e301c80f35'),('e05bd742-75ba-4ba7-bcae-c13a6c9bff5b','Central ','003',65,'7180ca1c-20bf-46bd-91e1-32e301c80f35');
+
 /*Table structure for table `DIVISION_CONFIG_DATA` */
 
 DROP TABLE IF EXISTS `DIVISION_CONFIG_DATA`;
@@ -157,6 +150,8 @@ CREATE TABLE `ELECTION` (
 
 /*Data for the table `ELECTION` */
 
+insert  into `ELECTION`(`ID`,`NAME`,`CREATED_BY`,`CREATED_AT`,`UPDATED_AT`,`MODULE_ID`) values ('f2448efc-f1a4-4417-81ff-5ca11f216b54','Provincial Council 2019','admin',1557313005000,1557313005000,'7180ca1c-20bf-46bd-91e1-32e301c80f35');
+
 /*Table structure for table `ELECTION_APPROVAL` */
 
 DROP TABLE IF EXISTS `ELECTION_APPROVAL`;
@@ -174,6 +169,8 @@ CREATE TABLE `ELECTION_APPROVAL` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `ELECTION_APPROVAL` */
+
+insert  into `ELECTION_APPROVAL`(`ID`,`STATUS`,`APPROVED_BY`,`APPROVED_AT`,`UPDATED_AT`,`ELECTION_ID`) values ('5674a8b6-aa5a-4b7d-8cef-de894a598a6f','APPROVE','admin',1557313005000,1557313065000,'f2448efc-f1a4-4417-81ff-5ca11f216b54');
 
 /*Table structure for table `ELECTION_CONFIG` */
 
@@ -224,7 +221,7 @@ CREATE TABLE `ELECTION_MODULE` (
 
 /*Data for the table `ELECTION_MODULE` */
 
-insert  into `ELECTION_MODULE`(`ID`,`NAME`,`DIVISION_COMMON_NAME`,`CREATED_BY`,`CREATED_AT`,`UPDATED_AT`) values ('0ef56c85-1b58-4996-976c-a0484d48ef80','Provincial Council','Provinsi88al','admin',234234,234344),('2134234','Referendum','Island','Admin',1546713528,1546713528),('234234','Local Government','Local authority','admin',1546713528,1546713528),('27757873-ed40-49f7-947b-48b432a1b062','Provincial Council','Provinsi88al','admin-user-1',1546713528,234344),('2a1f626f-47db-409b-9f7b-6121c76ba4cf','asd','Provintial','admin',1554695642,1554695642),('455cd89e-269b-4b69-96ce-8d7c7bf44ac2','Parliamentary','DISTRICT','admin-user-1',1546713528,1546713528),('7404a229-6274-43d0-b3c5-740c3c2e1256','Presidential','ALL','admin-user-1',1546713528,1546713528),('7e3a179d-41ab-4dca-a478-b939834f7c40','','Provintial','admin',1554694405,1554694405),('a0db7265-7b0f-49bc-9783-704af17de520','','Provintial','admin',1554653631,1554653631),('a7d6a31e-bccc-400b-931e-72e9bc859cf9','Provincial Council','Provinsi88al','admin',234234,234344),('c10a9037-773e-41bb-a219-c70722545a0d','Provincial Council','Provinsi88al','admin',234234,234344),('c59b899a-90b5-45f5-97a1-1ddfaa7366d7','Provincial Council','Provinsi88al','admin',234234,234344),('e5ccab36-4029-410f-992e-03d81453d02e','ParliamentaryNew ','Provintial','admin',1554654709,1554654709),('fee08feb-a595-44c4-8196-7ef84bc3c640','','Provintial','admin',1554654445,1554654445);
+insert  into `ELECTION_MODULE`(`ID`,`NAME`,`DIVISION_COMMON_NAME`,`CREATED_BY`,`CREATED_AT`,`UPDATED_AT`) values ('7180ca1c-20bf-46bd-91e1-32e301c80f35','Provincial Council  ','Province','admin',1557308032,1557308054000);
 
 /*Table structure for table `ELECTION_MODULE_APPROVAL` */
 
@@ -244,7 +241,7 @@ CREATE TABLE `ELECTION_MODULE_APPROVAL` (
 
 /*Data for the table `ELECTION_MODULE_APPROVAL` */
 
-insert  into `ELECTION_MODULE_APPROVAL`(`ID`,`STATUS`,`APPROVED_BY`,`APPROVED_AT`,`UPDATED_AT`,`MODULE_ID`) values ('21423423','APPROVE','Admin',1546713528,1546713528,'2134234'),('27e4bf42-927b-4c88-8ae0-825741ddda4e','APPROVE','admin-user-2',1546713528,1546713528,'7404a229-6274-43d0-b3c5-740c3c2e1256'),('3423423','APPROVE','Admin',1546713528,1546713528,'234234'),('354ee027-093b-412d-becc-be9b354eddcc','APPROVE','admin-user-2',1546713528,1546713528,'27757873-ed40-49f7-947b-48b432a1b062'),('77baf5c9-7fb7-424d-ab07-9fff2dfa9f2c','APPROVE','admin-user-2',1546713528,1546713528,'455cd89e-269b-4b69-96ce-8d7c7bf44ac2');
+insert  into `ELECTION_MODULE_APPROVAL`(`ID`,`STATUS`,`APPROVED_BY`,`APPROVED_AT`,`UPDATED_AT`,`MODULE_ID`) values ('f5a232b1-a769-449d-baa6-b0fac654b075','APPROVE','admin',1557308032,1557308032,'7180ca1c-20bf-46bd-91e1-32e301c80f35');
 
 /*Table structure for table `ELECTION_MODULE_CONFIG` */
 
@@ -259,7 +256,7 @@ CREATE TABLE `ELECTION_MODULE_CONFIG` (
 
 /*Data for the table `ELECTION_MODULE_CONFIG` */
 
-insert  into `ELECTION_MODULE_CONFIG`(`ID`,`KEY_NAME`,`DESCRIPTION`) values ('123213','candidate payment','candidate payment amount'),('1243123','nomination submission by',NULL),('15990459-2ea4-413f-b1f7-29a138fd7a97','cal type',NULL),('234433','weightagePrefarenceBased',NULL),('2353453','authority',NULL),('324324','weightageVoteBased',NULL),('fe2c2d7e-66de-406a-b887-1143023f8e72','pay allowed',NULL),('ff4c6768-bdbe-4a16-b680-5fecb6b1f747','test',NULL);
+insert  into `ELECTION_MODULE_CONFIG`(`ID`,`KEY_NAME`,`DESCRIPTION`) values ('123213','candidate payment','candidate payment amount'),('1243123','nomination submission by',NULL),('142343242343','create allayance',NULL),('15990459-2ea4-413f-b1f7-29a138fd7a97','cal type',NULL),('234433','weightagePrefarenceBased',NULL),('2353453','authority',NULL),('253454355','objection allowed',NULL),('324324','weightageVoteBased',NULL),('fe2c2d7e-66de-406a-b887-1143023f8e72','pay allowed',NULL),('ff4c6768-bdbe-4a16-b680-5fecb6b1f747','test',NULL);
 
 /*Table structure for table `ELECTION_MODULE_CONFIG_DATA` */
 
@@ -279,7 +276,7 @@ CREATE TABLE `ELECTION_MODULE_CONFIG_DATA` (
 
 /*Data for the table `ELECTION_MODULE_CONFIG_DATA` */
 
-insert  into `ELECTION_MODULE_CONFIG_DATA`(`ID`,`VALUE`,`ELECTION_MODULE_CONFIG_ID`,`MODULE_ID`) values ('1000d0f4-0337-4d94-b46f-b0f8b6cbae77','allowed','15990459-2ea4-413f-b1f7-29a138fd7a97','7e3a179d-41ab-4dca-a478-b939834f7c40'),('1231223','500','123213','27757873-ed40-49f7-947b-48b432a1b062'),('12342141','Party Leader / IG Leader','1243123','27757873-ed40-49f7-947b-48b432a1b062'),('1face747-bcb0-48cc-b6fa-67fa5e68e37b','allowed','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','c10a9037-773e-41bb-a219-c70722545a0d'),('23512354234','Director General, Election Commission','2353453','27757873-ed40-49f7-947b-48b432a1b062'),('29792729-762a-4b39-8e73-286bf85de973','allowed','fe2c2d7e-66de-406a-b887-1143023f8e72','c59b899a-90b5-45f5-97a1-1ddfaa7366d7'),('2df49c26-2928-4817-a5e8-f1a06ae2d5d1','Vote & preferential basis','15990459-2ea4-413f-b1f7-29a138fd7a97','27757873-ed40-49f7-947b-48b432a1b062'),('2ea93971-0a30-44b1-bc9d-a360c86d7f6b','allowed','fe2c2d7e-66de-406a-b887-1143023f8e72','c10a9037-773e-41bb-a219-c70722545a0d'),('34523523','25','234433','27757873-ed40-49f7-947b-48b432a1b062'),('42da6867-8a4e-4842-a11e-43f67156710f','allowed','fe2c2d7e-66de-406a-b887-1143023f8e72','a7d6a31e-bccc-400b-931e-72e9bc859cf9'),('51329544-511f-4d99-8021-50c4db3b8190','Vote & preferential basis','15990459-2ea4-413f-b1f7-29a138fd7a97','0ef56c85-1b58-4996-976c-a0484d48ef80'),('5345435','75','324324','27757873-ed40-49f7-947b-48b432a1b062'),('5b53611e-a18c-4003-967e-a271619d2792','allowed','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','c59b899a-90b5-45f5-97a1-1ddfaa7366d7'),('757c1ec5-fc67-4f01-a5dd-79c141656b41','allowed','fe2c2d7e-66de-406a-b887-1143023f8e72','0ef56c85-1b58-4996-976c-a0484d48ef80'),('7866767c-8050-424f-9fac-43e3ab79630f','Vote & preferential basis','15990459-2ea4-413f-b1f7-29a138fd7a97','c59b899a-90b5-45f5-97a1-1ddfaa7366d7'),('803dd1af-71d7-4873-bd92-0a70b95f357f','allowed','15990459-2ea4-413f-b1f7-29a138fd7a97','2a1f626f-47db-409b-9f7b-6121c76ba4cf'),('89d141fd-26e9-4682-86e1-77ce9e92fc1e','allowed','15990459-2ea4-413f-b1f7-29a138fd7a97','fee08feb-a595-44c4-8196-7ef84bc3c640'),('9561302d-cf7f-4fd1-8217-ff85e8c46165','allowed','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','a7d6a31e-bccc-400b-931e-72e9bc859cf9'),('a5d77fd8-b348-471e-b1ab-074d11dcc887','Vote & preferential basis','15990459-2ea4-413f-b1f7-29a138fd7a97','a7d6a31e-bccc-400b-931e-72e9bc859cf9'),('af2bb611-b68c-4eae-a3a8-49e3e1dd6fdb','allowed','15990459-2ea4-413f-b1f7-29a138fd7a97','a0db7265-7b0f-49bc-9783-704af17de520'),('b1edfab6-7f44-4fa6-8ef4-4ee4d3e02e24','Vote & preferential basis','15990459-2ea4-413f-b1f7-29a138fd7a97','c10a9037-773e-41bb-a219-c70722545a0d'),('c18528b7-54a6-460e-846a-896cbefe9d2f','allowed','fe2c2d7e-66de-406a-b887-1143023f8e72','27757873-ed40-49f7-947b-48b432a1b062'),('dc06786b-2d57-4e00-aa7f-b33def00a9e4','allowed','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','27757873-ed40-49f7-947b-48b432a1b062'),('df1e804b-7fd5-42e5-b566-3484449eb540','allowed','15990459-2ea4-413f-b1f7-29a138fd7a97','e5ccab36-4029-410f-992e-03d81453d02e'),('eb7ce243-e929-487e-b40b-06e65976c16b','allowed','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','0ef56c85-1b58-4996-976c-a0484d48ef80');
+insert  into `ELECTION_MODULE_CONFIG_DATA`(`ID`,`VALUE`,`ELECTION_MODULE_CONFIG_ID`,`MODULE_ID`) values ('3eb7fc2b-e949-4c4e-af70-faaa04d495c9','vote_and_prefrence','15990459-2ea4-413f-b1f7-29a138fd7a97','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('45a249fc-c53c-4fbb-9189-3aab5b68034d','a93b50c8-b6b0-4aa6-9b14-4817dbb268d9','2353453','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('58178c19-bfb1-4270-80e5-998428f7d641','NotAllowed','142343242343','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('838ee0a4-4f8c-43f5-acfa-d02fa9c6d598','2000','123213','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('999b760f-9a6c-4c3c-950b-f6b644924267','Allowed','253454355','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('b19724c1-5ef7-4df3-9f90-bc2651c48e36','Yes','fe2c2d7e-66de-406a-b887-1143023f8e72','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('fe548b4e-0118-4759-b461-cdd6b34d2bfd','Independent Group Leader','1243123','7180ca1c-20bf-46bd-91e1-32e301c80f35');
 
 /*Table structure for table `ELECTION_TEAM` */
 
@@ -313,6 +310,8 @@ CREATE TABLE `ELECTION_TIMELINE` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `ELECTION_TIMELINE` */
+
+insert  into `ELECTION_TIMELINE`(`ID`,`NOMINATION_START`,`NOMINATION_END`,`OBJECTION_START`,`OBJECTION_END`,`ELECTION_ID`) values ('51ce83d4-1a48-4bf0-9962-0857243f51be',1557253800000,1557685800000,1557772200000,1558290600000,'f2448efc-f1a4-4417-81ff-5ca11f216b54');
 
 /*Table structure for table `ELECTION_TIMELINE_CONFIG` */
 
@@ -353,14 +352,32 @@ DROP TABLE IF EXISTS `ELIGIBILITY_CONFIG`;
 
 CREATE TABLE `ELIGIBILITY_CONFIG` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `DESCRIPTION` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `MODULE_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `MODULE_ID` (`MODULE_ID`),
-  CONSTRAINT `ELIGIBILITY_CONFIG_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `ELECTION_MODULE` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  `DESCRIPTION` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `ELIGIBILITY_CONFIG` */
+
+insert  into `ELIGIBILITY_CONFIG`(`ID`,`DESCRIPTION`) values ('1','Minimum age 35 years'),('2','Does not serve as a Judicial Officer'),('3','Does not serve as as the Commissioner-General'),('4','Does not serve as the Auditor-General'),('5','Does not serve as a Judicial Officer'),('6','Is not standing nominated as a candidate for election by more than one recognized political party or independent group in respect of any electoral district');
+
+/*Table structure for table `ELIGIBILITY_CONFIG_DATA` */
+
+DROP TABLE IF EXISTS `ELIGIBILITY_CONFIG_DATA`;
+
+CREATE TABLE `ELIGIBILITY_CONFIG_DATA` (
+  `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ELIGIBILITY_CONFIG_ID` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `MODULE_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `MODULE_ID` (`MODULE_ID`),
+  KEY `ELIGIBILITY_CONFIG_DATA_ibfk_2` (`ELIGIBILITY_CONFIG_ID`),
+  CONSTRAINT `ELIGIBILITY_CONFIG_DATA_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `ELECTION_MODULE` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `ELIGIBILITY_CONFIG_DATA_ibfk_2` FOREIGN KEY (`ELIGIBILITY_CONFIG_ID`) REFERENCES `ELIGIBILITY_CONFIG` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `ELIGIBILITY_CONFIG_DATA` */
+
+insert  into `ELIGIBILITY_CONFIG_DATA`(`ID`,`ELIGIBILITY_CONFIG_ID`,`MODULE_ID`) values ('6a82fc9c-5a5b-462d-879d-441fb89a829e','2','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('731ebe7d-3604-4d50-8b39-0a83dc6d27d4','3','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('80a6c7e7-3349-4a7d-a9fe-048874f6a3d6','1','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('9e54256b-f0f8-4d9b-a454-a176aece3aff','4','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('f721cb67-8842-4dad-be42-20c1abbd9ccb','5','7180ca1c-20bf-46bd-91e1-32e301c80f35');
 
 /*Table structure for table `NOMINATION` */
 
@@ -385,6 +402,8 @@ CREATE TABLE `NOMINATION` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `NOMINATION` */
+
+insert  into `NOMINATION`(`ID`,`STATUS`,`TEAM_ID`,`CREATED_BY`,`CREATED_AT`,`UPDATED_AT`,`ELECTION_ID`,`DIVISION_CONFIG_ID`) values ('0d3e94d6-ec9b-4438-9538-566aaec0533f','NEW','3333','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','e05bd742-75ba-4ba7-bcae-c13a6c9bff5b'),('0ed5b85c-4d0f-40af-ae07-98925015b9ee','NEW','4444','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','43c9f21d-e98d-4826-aa61-c1338662bfd8'),('1043343b-8d57-4337-8dfc-3e091c733d29','NEW','1111','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','43c9f21d-e98d-4826-aa61-c1338662bfd8'),('1e1149a8-ede3-4895-9f56-cd8e8dd3ca4d','NEW','4444','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','d7a252e6-ef2f-4d41-b44f-e54b731c994b'),('21d9336d-1037-4a0d-8049-29c4a13772db','NEW','1111','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','d7a252e6-ef2f-4d41-b44f-e54b731c994b'),('23ead720-2670-4b38-878a-2d0afc0440c0','NEW','2222','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','e05bd742-75ba-4ba7-bcae-c13a6c9bff5b'),('3eb859d9-8602-47f2-ae89-c184cd7792e6','NEW','3333','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','2c130539-41b2-440b-a8a8-b7d0bec2acec'),('4d2da45a-f176-4722-849c-8fa4905f2249','NEW','1111','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','e05bd742-75ba-4ba7-bcae-c13a6c9bff5b'),('564144ac-a901-4839-8572-d8fffe49f698','NEW','3333','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','43c9f21d-e98d-4826-aa61-c1338662bfd8'),('5db33a35-0452-4207-94f9-843f60be1178','NEW','1111','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','5f92f166-3098-4e4a-b8cc-65b77a070ad2'),('5dd5dbf5-d854-4ea4-92b4-ab416a897deb','NEW','3333','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','d7a252e6-ef2f-4d41-b44f-e54b731c994b'),('6f927a99-218b-4af8-a2ea-86e1684c2f33','NEW','1111','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','2c130539-41b2-440b-a8a8-b7d0bec2acec'),('7bdb9463-bca2-49d5-b2b9-ad7aa16a11d2','NEW','4444','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','2c130539-41b2-440b-a8a8-b7d0bec2acec'),('9ee3c7e2-2f25-44b4-b9aa-211fc8089119','NEW','2222','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','5f92f166-3098-4e4a-b8cc-65b77a070ad2'),('ce09bcea-af69-4cfb-aaa6-f28ca87df9b2','NEW','2222','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','43c9f21d-e98d-4826-aa61-c1338662bfd8'),('d2079131-2563-4d9d-962c-983e56970596','NEW','2222','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','d7a252e6-ef2f-4d41-b44f-e54b731c994b'),('de66e667-8f2e-478a-a7af-29ea04358a98','NEW','2222','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','2c130539-41b2-440b-a8a8-b7d0bec2acec'),('dfe2719f-3b9c-45f7-9afe-39bac89fbb8b','NEW','4444','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','e05bd742-75ba-4ba7-bcae-c13a6c9bff5b'),('eb5b63b3-5010-4c88-a016-1a812a54e093','NEW','3333','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','5f92f166-3098-4e4a-b8cc-65b77a070ad2'),('f62ae6a5-157b-4389-9b6e-6b86aab53268','NEW','4444','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','5f92f166-3098-4e4a-b8cc-65b77a070ad2');
 
 /*Table structure for table `NOMINATION_APPROVAL` */
 
@@ -535,7 +554,7 @@ CREATE TABLE `SUPPORT_DOC_CONFIG_DATA` (
 
 /*Data for the table `SUPPORT_DOC_CONFIG_DATA` */
 
-insert  into `SUPPORT_DOC_CONFIG_DATA`(`ID`,`SUPPORT_DOC_CONFIG_ID`,`MODULE_ID`) values ('074ff724-36bc-4567-8867-02e5e1f956b6','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','a7d6a31e-bccc-400b-931e-72e9bc859cf9'),('08a82b92-06f8-4f33-a991-d26fdac3059d','fe2c2d7e-66de-406a-b887-1143023f8e72','0ef56c85-1b58-4996-976c-a0484d48ef80'),('0f445cb1-ab2d-4a3d-a385-b02070acb2c1','fe2c2d7e-66de-406a-b887-1143023f8e72','27757873-ed40-49f7-947b-48b432a1b062'),('1c975d90-e4b2-4e43-be2b-a37e91172e52','15990459-2ea4-413f-b1f7-29a138fd7a97','a0db7265-7b0f-49bc-9783-704af17de520'),('1f28e15f-9f1c-4b23-b2dd-ef8502e3d84c','15990459-2ea4-413f-b1f7-29a138fd7a97','27757873-ed40-49f7-947b-48b432a1b062'),('36ff864f-4fc2-4d29-91d0-43e1398c009c','15990459-2ea4-413f-b1f7-29a138fd7a97','0ef56c85-1b58-4996-976c-a0484d48ef80'),('3c220808-643d-496c-8f7a-ac18190365c2','fe2c2d7e-66de-406a-b887-1143023f8e72','c59b899a-90b5-45f5-97a1-1ddfaa7366d7'),('476e6832-7b11-44a0-91ed-f422fbe506d5','32423','fee08feb-a595-44c4-8196-7ef84bc3c640'),('47d1a26c-18e5-46b4-8594-e6ccff0eb063','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','0ef56c85-1b58-4996-976c-a0484d48ef80'),('4c8b43a2-2b55-4877-a875-6f517e1414ae','32423','a0db7265-7b0f-49bc-9783-704af17de520'),('5b627b5a-007d-4a99-9538-bfa4273b2739','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','c59b899a-90b5-45f5-97a1-1ddfaa7366d7'),('68840f9b-bbe9-4c71-bfd4-7e5bbc0138b3','32423','e5ccab36-4029-410f-992e-03d81453d02e'),('7d9c5815-e062-4991-8358-00a8a601cb36','15990459-2ea4-413f-b1f7-29a138fd7a97','2a1f626f-47db-409b-9f7b-6121c76ba4cf'),('8a96292a-e214-403d-9126-6b4433a1ecf9','15990459-2ea4-413f-b1f7-29a138fd7a97','c59b899a-90b5-45f5-97a1-1ddfaa7366d7'),('91042158-166a-4482-8787-d364d8a7f876','fe2c2d7e-66de-406a-b887-1143023f8e72','fee08feb-a595-44c4-8196-7ef84bc3c640'),('921f68f5-0ef7-46b4-a3e8-fcf352b90d8e','15990459-2ea4-413f-b1f7-29a138fd7a97','7e3a179d-41ab-4dca-a478-b939834f7c40'),('a5653699-268d-4acc-ba44-d74f7cace800','fe2c2d7e-66de-406a-b887-1143023f8e72','a0db7265-7b0f-49bc-9783-704af17de520'),('ae6a2286-f6a1-4beb-bafa-6c503bac4a38','15990459-2ea4-413f-b1f7-29a138fd7a97','a7d6a31e-bccc-400b-931e-72e9bc859cf9'),('afd7cc9d-10a9-4a4e-8972-a31fe962fbac','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','c10a9037-773e-41bb-a219-c70722545a0d'),('b2d50ea1-a656-4fd5-8029-0163c040b289','15990459-2ea4-413f-b1f7-29a138fd7a97','c10a9037-773e-41bb-a219-c70722545a0d'),('bc0ea868-7dde-46ea-a75f-ff7bd89a583e','fe2c2d7e-66de-406a-b887-1143023f8e72','e5ccab36-4029-410f-992e-03d81453d02e'),('c4cd940d-f22d-482b-9899-ffdd412789bf','15990459-2ea4-413f-b1f7-29a138fd7a97','e5ccab36-4029-410f-992e-03d81453d02e'),('d4539a3e-37a4-47a9-9ff1-d6e684ca0ed0','fe2c2d7e-66de-406a-b887-1143023f8e72','a7d6a31e-bccc-400b-931e-72e9bc859cf9'),('d70ac9e8-727b-46dd-a6a1-05511e3142e1','fe2c2d7e-66de-406a-b887-1143023f8e72','c10a9037-773e-41bb-a219-c70722545a0d'),('e30a3165-ddcc-4373-98cc-59632a70d31e','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','27757873-ed40-49f7-947b-48b432a1b062'),('e5e7f6e0-d362-41ad-9f07-29f91376a7d4','15990459-2ea4-413f-b1f7-29a138fd7a97','fee08feb-a595-44c4-8196-7ef84bc3c640');
+insert  into `SUPPORT_DOC_CONFIG_DATA`(`ID`,`SUPPORT_DOC_CONFIG_ID`,`MODULE_ID`) values ('2c3150bf-365b-4b55-a14a-bfdd49ca0feb','15990459-2ea4-413f-b1f7-29a138fd7a97','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('a8f6195b-bdab-4a01-bc79-664e1a8a7e8a','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('c9c835a7-1366-4462-8fa1-d52048410f7e','fe2c2d7e-66de-406a-b887-1143023f8e72','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('d51f7234-cc30-414e-9439-a8dbb411f176','b20dd58c-e5bb-469d-98c9-8711d6da1879','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('deb6a3d6-cf10-46f6-b91a-60d4e5c81d3f','32423','7180ca1c-20bf-46bd-91e1-32e301c80f35');
 
 /*Table structure for table `TEAM_CONFIG` */
 
@@ -549,7 +568,7 @@ CREATE TABLE `TEAM_CONFIG` (
 
 /*Data for the table `TEAM_CONFIG` */
 
-insert  into `TEAM_CONFIG`(`ID`,`TEAM_NAME`) values ('1111','United National Party ( UNP )'),('2222','United People\'s Freedom Alliance ( UPFA )'),('3333','Janatha Vimukthi Peramuna ( JVP )'),('4444','Jana Setha Peramuna ( JSP )');
+insert  into `TEAM_CONFIG`(`ID`,`TEAM_NAME`) values ('1111','United National Party ( UNP )'),('2222','United People\'s Freedom Alliance ( UPFA )'),('3333','Janatha Vimukthi Peramuna ( JVP )'),('4444','Jana Setha Peramuna ( JSP )'),('5555','Sri Lanka Muslim Congress ( SLMC )'),('6666','Sri Lanka People\'s Party ( SLPP )'),('7777','United Socialist Party ( USP )  '),('8888','United Lanka People\'s Party ( ULPP ) '),('9999','New Sinhala Heritage ( NSH )');
 
 /*Table structure for table `USER` */
 
