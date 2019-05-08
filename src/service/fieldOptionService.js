@@ -15,6 +15,22 @@ const getFieldOptions = async (fieldName) => {
 	if(fieldName === "candidate-supporting-docs"){
 		modules = await FieldOptionsRepo.fetchCandidateSupportingDocs();
 	}
+	if(fieldName === "electorates-divisions"){
+		modules = await FieldOptionsRepo.fetchElectorates();
+	}
+	if (!_.isEmpty(modules)) {
+		return modules;
+	} else {
+		throw new ApiError("Field is not found");
+	}
+};
+
+const getCallElectionFieldOptions = async (fieldName,moduleId) => {
+	let modules = [];
+	
+	if(fieldName === "electorates-divisions"){
+		modules = await FieldOptionsRepo.fetchElectorates(moduleId);
+	}
 	if (!_.isEmpty(modules)) {
 		return modules;
 	} else {
@@ -24,5 +40,6 @@ const getFieldOptions = async (fieldName) => {
 
 
 export default {
-	getFieldOptions
+	getFieldOptions,
+	getCallElectionFieldOptions
 }
