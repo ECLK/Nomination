@@ -15,11 +15,24 @@ const ALL_MODULE_SELECT_QUERY = `SELECT
                                   FROM ELECTION_MODULE EM LEFT JOIN ELECTION_MODULE_APPROVAL EMA
                                   ON EM.ID=EMA.MODULE_ID WHERE EMA.STATUS= :status ORDER BY EM.NAME`;
 const MODULE_SELECT_QUERY = `SELECT 
-                              ID AS MODULE_ID, 
-                              NAME AS MODULE_NAME,
-                              DIVISION_COMMON_NAME AS MODULE_DIVISION_COMMON_NAME,
-                              CREATED_BY AS MODULE_CREATED_BY
-                              FROM ELECTION_MODULE WHERE ID = :id`;
+                            em.ID AS MODULE_ID, 
+                            em.NAME AS MODULE_NAME,
+                            em.DIVISION_COMMON_NAME AS MODULE_DIVISION_COMMON_NAME,
+                            em.CREATED_BY AS MODULE_CREATED_BY,
+                            emcd.ELECTION_MODULE_CONFIG_ID AS MODULE_electionModuleConfigId,
+                            emcd.VALUE AS MODULE_value,
+                            dc.NAME AS MODULE_divisionName,
+                            dc.CODE AS MODULE_divisionCode,
+                            dc.NO_OF_CANDIDATES AS MODULE_noOfCandidates,
+                            sdcd.SUPPORT_DOC_CONFIG_ID AS MODULE_supportDocConfigId,
+                            ccd.CANDIDATE_CONFIG_ID AS MODULE_candidateConfigId,
+                            ecd.ELIGIBILITY_CONFIG_ID AS MODULE_eligibilityConfigId
+                            FROM ELECTION_MODULE em LEFT JOIN ELECTION_MODULE_CONFIG_DATA emcd ON em.ID=emcd.MODULE_ID
+                            LEFT JOIN DIVISION_CONFIG dc ON em.ID=dc.MODULE_ID
+                            LEFT JOIN SUPPORT_DOC_CONFIG_DATA sdcd ON em.ID=sdcd.MODULE_ID
+                            LEFT JOIN CANDIDATE_CONFIG_DATA ccd ON em.ID=ccd.MODULE_ID
+                            LEFT JOIN ELIGIBILITY_CONFIG_DATA ecd ON em.ID=ecd.MODULE_ID
+                            WHERE em.ID = :id`;
 const MODULE_INSERT_QUERY = `INSERT INTO ELECTION_MODULE (ID, NAME, DIVISION_COMMON_NAME, CREATED_BY, CREATED_AT, UPDATED_AT) 
                               VALUES (:id, :name,:divisionCommonName, :createdBy, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())`;
 const MODULE_APPROVE_QUERY = `INSERT INTO ELECTION_MODULE_APPROVAL (ID, STATUS, APPROVED_BY, APPROVED_AT, UPDATED_AT, MODULE_ID) 
@@ -48,7 +61,7 @@ const ELECTION_CONFIG_INSERT_BASE_QUERY = `INSERT INTO ELECTION_MODULE_CONFIG_DA
 const ELECTION_CONFIG_COLUMN_ORDER = ['id', 'value','electionModuleConfigId','moduleId'];
 
 const ELIGIBILITY_CONFIG_INSERT_BASE_QUERY = `INSERT INTO ELIGIBILITY_CONFIG_DATA (ID,ELIGIBILITY_CONFIG_ID,MODULE_ID) VALUES `
-const ELIGIBILITY_CONFIG_COLUMN_ORDER = ['id', 'eligibilityId','moduleId'];
+const ELIGIBILITY_CONFIG_COLUMN_ORDER = ['id', 'eligibilityConfigId','moduleId'];
 
 
 const CANDIDATE_CONFIG_DELETE_QUERY = `DELETE FROM CANDIDATE_CONFIG_DATA WHERE MODULE_ID = :moduleId`;
@@ -221,6 +234,7 @@ const saveDivisionConf = async (moduleId,data, transaction) => {
       type: DbConnection().QueryTypes.DELETE,
       transaction
     }).catch((error) => {
+      console.log(error);
       throw new DBError(error);
     });
   if( data instanceof Array && data.length > 0){
@@ -298,7 +312,6 @@ const saveEligibilityConfig = async (moduleId,data, transaction) => {
       type: DbConnection().QueryTypes.INSERT,
       transaction,
     }).catch((error) => {
-      console.log(error);
        throw new DBError(error);
      });
     }
@@ -310,6 +323,7 @@ const saveEligibilityConfig = async (moduleId,data, transaction) => {
  * @returns {Promise.<T>}
  */
 const updateElectionModule = (params,transaction) => {
+console.log("params",params);
 	return DbConnection()
 		.query(ELECTION_MODULE_UPDATE_QUERY,
 			{
@@ -317,6 +331,7 @@ const updateElectionModule = (params,transaction) => {
         type: DbConnection().QueryTypes.UPDATE,
         transaction,
 			}).catch((error) => {
+        console.log(error);
 				throw new DBError(error);
 			});
 };

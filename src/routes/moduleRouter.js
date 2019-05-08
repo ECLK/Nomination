@@ -100,7 +100,7 @@ export const initModuleRouter = (app) => {
 			handler: (req, res, next) => {
 			  return ModuleService.saveElectionModule(req)
 			  .then((result) => res.status(200).send(result))
-						  .catch(error => next(error));
+			  .catch(error => next(error));
 			},
 		},
 		// {
