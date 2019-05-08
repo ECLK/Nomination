@@ -36,13 +36,12 @@ const getModulesByStatus = async (req) => {
 	const modules = await ModuleRepo.fetchModuleSByStatus(status);
 	try {
 		if (!_.isEmpty(modules)) {
-			return ModuleManager.mapToModuleModel(modules);
+			return ModuleManager.mapToModuleModelList(modules);
 		} else {
 			return [];
 			// throw new ApiError("Module7 not found");
 		}
 	} catch (error) {
-		console.log(error);
 		throw new ServerError("server error");
 	}
 };
@@ -84,10 +83,8 @@ const saveElectionModule = async (req) => {
 	if(moduleId !== undefined){
 		const name = req.body.name;
 		const divisionCommonName = req.body.divisionCommonName;
-		const createdBy = req.body.createdBy;
-		const createdAt = req.body.createdAt;
-		const updatedAt = req.body.updatedAt;
-		const params = {'id':moduleId, "name":name, "divisionCommonName":divisionCommonName, "createdBy":createdBy, "createdAt":createdAt, "updatedAt":updatedAt }
+		const updatedAt = Date.parse(new Date());
+		const params = {'id':moduleId, "name":name, "divisionCommonName":divisionCommonName, "updatedAt":updatedAt }
 	await ModuleRepo.updateElectionModule(params,transaction);
 	}else{
 		moduleId = uuidv4();
@@ -95,8 +92,8 @@ const saveElectionModule = async (req) => {
 		const divisionCommonName = req.body.divisionCommonName;
 		// Following should be set from the server.
 		const createdBy = req.body.createdBy;
-		const createdAt = req.body.createdAt;
-		const updatedAt = req.body.updatedAt;
+		const createdAt = Date.parse(new Date());
+		const updatedAt = Date.parse(new Date());
 		let params = {'id':moduleId, "name":name, "divisionCommonName":divisionCommonName, "createdBy":createdBy, "createdAt":createdAt, "updatedAt":updatedAt }
 		await	ModuleRepo.insertElectionModule(params,transaction);
 		params = {'moduleId':moduleId, id: uuidv4(), "createdBy":createdBy}
