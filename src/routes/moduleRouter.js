@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { GET, POST, PUT } from 'HttpMethods';
-import { ModuleService, SupportDocService, CandidateService } from 'Service';
+import { GET, POST, PUT, DELETE } from 'HttpMethods';
+import { ModuleService, SupportDocService, CandidateService,ValidationService } from 'Service';
 import { createRoutes } from '../middleware/Router';
 import ModuleManager from '../manager/module/moduleManager';
 import { MODULE_EDIT_SCHEMA, GET_MODULE_BY_ID_SCHEMA } from './schema/moduleSchema';
@@ -9,6 +9,18 @@ const moduleRouter = createRoutes();
 
 export const initModuleRouter = (app) => {
 	moduleRouter(app, [
+		{
+			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/module/12222?max=123234567
+			method: DELETE,
+			path: '/modules/:moduleId',
+			schema: {},
+			handler: (req, res, next) => {
+				return ModuleService.deleteModuleByModuleId(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+
+			},
+		},
 		{
 			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/module/12222?max=123234567
 			method: GET,
@@ -98,10 +110,20 @@ export const initModuleRouter = (app) => {
 			method: PUT,
 			path: '/election-modules/:moduleId',
 			handler: (req, res, next) => {
+				console.log("asjjjj",req);
 			  return ModuleService.saveElectionModule(req)
 			  .then((result) => res.status(200).send(result))
 			  .catch(error => next(error));
 			},
+		},
+		{
+			method: GET,
+			path: '/modules/validations/:templateName',
+			handler: (req, res, next) => {
+				return ValidationService.validateTemplateByTemplateName(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			}
 		},
 		// {
 		// 	method: GET,

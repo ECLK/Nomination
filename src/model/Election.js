@@ -16,6 +16,7 @@ const Election = Record({
 	objectionEnd: Maybe(Number),
 	moduleName: Maybe(String),
 	approval_status: Maybe(String),
+	reviewNote: Maybe(String),
 	electionConfig: List(electionConfig),
 });
 

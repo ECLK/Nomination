@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { GET, POST, PUT } from 'HttpMethods';
+import { GET, POST, PUT, DELETE } from 'HttpMethods';
 import {ActiveElectionService} from 'Service';
 import {createRoutes} from '../middleware/Router';
 import ActiveElectionManager from '../manager/activeElection/activeElectionManager';
@@ -18,6 +18,18 @@ export const initActiveElectionRouter = (app) => {
       schema: GET_ACTIVE_ELECTION_BY_ID_SCHEMA,
       handler: (req, res, next) => {
         return ActiveElectionService.getActiveElectionByActiveElectionId(req)
+        .then((result) => res.status(200).send(result))
+        .catch(error => next(error));
+
+      },
+    },
+    {
+      // curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/activeElection/12222?max=123234567
+      method: GET,
+      path: '/activeElectionsData/:electionId',
+      schema: {},
+      handler: (req, res, next) => {
+        return ActiveElectionService.getActiveElectionsDataByElectionId(req)
         .then((result) => res.status(200).send(result))
         .catch(error => next(error));
 
@@ -49,6 +61,15 @@ export const initActiveElectionRouter = (app) => {
       path: '/activeElectionsData/:electionId',
       handler: (req, res, next) => {
         return ActiveElectionService.saveActiveElectionData(req)
+        .then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+      },
+    },
+    {
+      method: DELETE,
+      path: '/activeElectionsData/:electionId',
+      handler: (req, res, next) => {
+        return ActiveElectionService.deleteActiveElectionData(req)
         .then((result) => res.status(200).send(result))
 					.catch(error => next(error));
       },

@@ -50,6 +50,7 @@ const saveActiveElectionData = async (req) => {
   try {
   return executeTransaction(async (transaction) => {
     let electionId = req.params.electionId;
+    console.log("aaaaaaaaaaaaaaaaaaaaaa",electionId);
   if(electionId !== undefined){
     const name = req.body.name;
     const module_id = req.body.module_id;
@@ -57,6 +58,7 @@ const saveActiveElectionData = async (req) => {
     const created_at = req.body.created_at;
     const updated_at = req.body.updated_at;
     const activeElections = {'id':electionId, 'name':name, 'created_by':created_by, 'created_at':created_at, 'updated_at':updated_at, 'module_id':module_id};
+    console.log("activeElections",activeElections);
   await ActiveElectionRepo.updateActiveElections(activeElections,transaction);
   }else{
     electionId = uuidv4();
@@ -70,11 +72,32 @@ const saveActiveElectionData = async (req) => {
   }
   const id  = uuidv4();
   const pendingStatusData = {id:id,status:'PENDING',created_by: req.body.created_by,created_at:req.body.created_at,updated_at:req.body.updated_at,electionId:electionId};
-
+console.log("pendingStatusData",pendingStatusData);
       await ActiveElectionRepo.saveElectionTimeLine(electionId,req.body.timeLineData, transaction);
       const saveAllowedNominatonListData =  await saveAllowedNominatonList(req,electionId);
       await ActiveElectionRepo.saveAllowedNominations(electionId,saveAllowedNominatonListData, transaction);
       await ActiveElectionRepo.savePendingElectionStatus(pendingStatusData, transaction);
+    return electionId;
+  });
+}catch (e){
+  console.log(e);
+  throw new ServerError("server error");
+}
+};
+
+const deleteActiveElectionData = async (req) => {
+  try {
+  return executeTransaction(async (transaction) => {
+    let electionId = req.params.electionId;
+   
+      await ActiveElectionRepo.deleteElectionTimeLine(electionId, transaction);
+
+      await ActiveElectionRepo.deleteAllowedNominations(electionId, transaction);
+
+      await ActiveElectionRepo.deleteElectionApproval(electionId, transaction);
+
+      await ActiveElectionRepo.deleteElection(electionId, transaction);
+
     return true;
   });
 }catch (e){
@@ -98,10 +121,27 @@ const saveApproveElectionByElectionId = async (req) => {
   try {
     const updatedAt = req.body.updatedAt;
     const status = req.body.status;
+    const reviewNote = req.body.reviewNote;
     const electionId = req.params.electionId;
-      const electionData = {'updatedAt':updatedAt, 'status':status,'electionId':electionId};
+      const electionData = {'updatedAt':updatedAt, 'status':status,'electionId':electionId,'reviewNote':reviewNote};
       console.log("electionData",electionData);
       return await ActiveElectionRepo.updateElectionStatus( electionData );
+  }catch (error){
+    console.log(error);
+    throw new ServerError("Server error", HTTP_CODE_404);
+  }
+};
+
+//approve elections data by election id
+const getActiveElectionsDataByElectionId = async (req) => {
+  try {
+    const electionId = req.params.electionId;
+    const activeElectionsData = await ActiveElectionRepo.fetchElectionDataByElectionId( electionId );
+    if(!_.isEmpty(activeElectionsData)){
+      return ActiveElectionManager.mapToElectionModel(activeElectionsData);
+    }else {
+      return {}
+    }
   }catch (error){
     console.log(error);
     throw new ServerError("Server error", HTTP_CODE_404);
@@ -112,5 +152,7 @@ export default {
   getActiveElectionByActiveElectionId,
   updateActiveElectionByActiveElectionId,
   saveActiveElectionData,
-  saveApproveElectionByElectionId
+  saveApproveElectionByElectionId,
+  getActiveElectionsDataByElectionId,
+  deleteActiveElectionData
 }

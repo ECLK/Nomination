@@ -69,7 +69,8 @@ const SUPPORTING_DOC_DELETE_QUERY = `DELETE FROM SUPPORT_DOC_CONFIG_DATA WHERE M
 const DIVISION_CONFIG_DELETE_QUERY = `DELETE FROM DIVISION_CONFIG WHERE MODULE_ID = :moduleId`;
 const ELECTION_CONFIG_DELETE_QUERY = `DELETE FROM ELECTION_MODULE_CONFIG_DATA WHERE MODULE_ID = :moduleId`;
 const ELIGIBILITY_CONFIG_DELETE_QUERY = `DELETE FROM ELIGIBILITY_CONFIG_DATA WHERE MODULE_ID = :moduleId`;
-
+const ELECTION_MODULE_APPROVAL_DELETE_QUERY = `DELETE FROM ELECTION_MODULE_APPROVAL WHERE MODULE_ID = :moduleId`;
+const ELECTION_MODULE_DELETE_QUERY = `DELETE FROM ELECTION_MODULE WHERE ID = :moduleId`;
 
 
                                 
@@ -379,6 +380,96 @@ const UpdateElectionModule = (name, id) => {
             throw new DBError(error);
         });
 };
+
+//----- Start of Election module delete ---------
+const deleteCandidateConf = async (moduleId, transaction) => {
+  const params = {moduleId:moduleId};
+await  DbConnection()
+.query(CANDIDATE_CONFIG_DELETE_QUERY,
+  {
+    replacements: params,
+    type: DbConnection().QueryTypes.DELETE,
+    transaction
+  }).catch((error) => {
+    throw new DBError(error);
+  });
+};
+const deleteSupportDocConf = async (moduleId, transaction) => {
+  const params = {moduleId:moduleId};
+await  DbConnection()
+.query(SUPPORTING_DOC_DELETE_QUERY,
+  {
+    replacements: params,
+    type: DbConnection().QueryTypes.DELETE,
+    transaction
+  }).catch((error) => {
+    throw new DBError(error);
+  });
+};
+const deleteDivisionConf = async (moduleId, transaction) => {
+  const params = {moduleId:moduleId};
+await  DbConnection()
+.query(DIVISION_CONFIG_DELETE_QUERY,
+  {
+    replacements: params,
+    type: DbConnection().QueryTypes.DELETE,
+    transaction
+  }).catch((error) => {
+    throw new DBError(error);
+  });
+};
+const deleteElectionConf = async (moduleId, transaction) => {
+  const params = {moduleId:moduleId};
+await  DbConnection()
+.query(ELECTION_CONFIG_DELETE_QUERY,
+  {
+    replacements: params,
+    type: DbConnection().QueryTypes.DELETE,
+    transaction
+  }).catch((error) => {
+    throw new DBError(error);
+  });
+};
+const deleteEligibilityConf = async (moduleId, transaction) => {
+  const params = {moduleId:moduleId};
+await  DbConnection()
+.query(ELIGIBILITY_CONFIG_DELETE_QUERY,
+  {
+    replacements: params,
+    type: DbConnection().QueryTypes.DELETE,
+    transaction
+  }).catch((error) => {
+    throw new DBError(error);
+  });
+};
+const deleteElectionModuleApproval = async (moduleId, transaction) => {
+  const params = {moduleId:moduleId};
+await  DbConnection()
+.query(ELECTION_MODULE_APPROVAL_DELETE_QUERY,
+  {
+    replacements: params,
+    type: DbConnection().QueryTypes.DELETE,
+    transaction
+  }).catch((error) => {
+    throw new DBError(error);
+  });
+};
+const deleteElectionModule = async (moduleId, transaction) => {
+  const params = {moduleId:moduleId};
+await  DbConnection()
+.query(ELECTION_MODULE_DELETE_QUERY,
+  {
+    replacements: params,
+    type: DbConnection().QueryTypes.DELETE,
+    transaction
+  }).catch((error) => {
+    console.log(error);
+    throw new DBError(error);
+  });
+};
+//----- End of Election module delete ---------
+
+
 export default {
   fetchModuleById,
   insertModules,
@@ -390,5 +481,12 @@ export default {
   updateElectionModule,
   insertElectionModule,
   approveElectionModule,
-  saveEligibilityConfig
+  saveEligibilityConfig,
+  deleteCandidateConf,
+  deleteSupportDocConf,
+  deleteDivisionConf,
+  deleteElectionConf,
+  deleteEligibilityConf,
+  deleteElectionModuleApproval,
+  deleteElectionModule
 }

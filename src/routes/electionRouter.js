@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { GET , POST} from 'HttpMethods';
-import { ElectionService, NominationService } from 'Service';
+import { ElectionService, NominationService, ValidationService } from 'Service';
 import { createRoutes } from '../middleware/Router';
 import { GET_ELECTION_BY_ID_SCHEME } from './schema/electionSchema';
 
@@ -27,6 +27,17 @@ export const initElectionRouter = (app) => {
 			schema: {},
 			handler: (req, res, next) => {
 				return ElectionService.getElectionsByStatus(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			}
+		},
+		{
+			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/status/PENDING
+			method: GET,
+			path: '/elections/validations/:electionName',
+			schema: {},
+			handler: (req, res, next) => {
+				return ValidationService.validateElectionsByElectionName(req)
 					.then((result) => res.status(200).send(result))
 					.catch(error => next(error));
 			}
