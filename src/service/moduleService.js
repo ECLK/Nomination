@@ -112,14 +112,42 @@ const saveElectionModule = async (req) => {
     return true;
 	});
 }catch (e){
+	console.log(e);
 	throw new ServerError("server error");
 }
 };
 
+const deleteModuleByModuleId = async (req) => {
+	try {
+  return executeTransaction(async (transaction) => {
+		let moduleId = req.params.moduleId;
+	
+			await ModuleRepo.deleteCandidateConf(moduleId,transaction);
+		
+			await ModuleRepo.deleteSupportDocConf(moduleId, transaction);
+		
+			await ModuleRepo.deleteDivisionConf(moduleId, transaction);
+		
+			await ModuleRepo.deleteElectionConf(moduleId, transaction);
+
+			await ModuleRepo.deleteEligibilityConf(moduleId, transaction);
+
+			await ModuleRepo.deleteElectionModuleApproval(moduleId, transaction);
+
+			await ModuleRepo.deleteElectionModule(moduleId, transaction);
+
+	return true;
+	});
+}catch (e){
+	console.log(e);
+	throw new ServerError("server error");
+}
+};
 export default {
 	getModuleByModuleId,
 	updateModuleByModuleId,
 	getModulesByStatus,
 	validateModuleId,
-	saveElectionModule
+	saveElectionModule,
+	deleteModuleByModuleId
 }

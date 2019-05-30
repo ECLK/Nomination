@@ -12,6 +12,7 @@ import ActiveElectionService from './activeElectionService';
 import ElectionNominationService from './electionNominationService';
 import UploadService from './uploadService';
 import FieldOptionService from './fieldOptionService';
+import ValidationService from './validationService';
 
 export {
   UserService,
@@ -27,5 +28,6 @@ export {
   ActiveElectionService,
   ElectionNominationService,
   UploadService,
-  FieldOptionService
+  FieldOptionService,
+  ValidationService
 }

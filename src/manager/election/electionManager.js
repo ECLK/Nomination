@@ -7,7 +7,7 @@ const resultMaps = [
 	{
 		mapId: 'electionMap',
 		idProperty: 'id',
-		properties: ['id', 'name', 'module_id','nomination_start','nomination_end','objection_start','objection_end','module_name','approval_status'],
+		properties: ['id', 'name', 'module_id','nomination_start','nomination_end','objection_start','objection_end','module_name','approval_status','reviewNote'],
 		collections: [
 			{ name: 'config', mapId: 'configMap', columnPrefix: 'config_' }
 		]
@@ -42,6 +42,7 @@ const mapToElectionModelWithTimeline = (electionData) => {
 		objectionEnd: mappedElection[0].objection_end,
 		moduleName: mappedElection[0].module_name,
 		approval_status: mappedElection[0].approval_status,
+		reviewNote: mappedElection[0].reviewNote,
 		electionConfig: mappedElection[0].config,
 	});
 }

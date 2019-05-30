@@ -14,7 +14,8 @@ const ELECTION_WITH_TIMELINE_SELECT_QUERY = `SELECT * FROM (
 											ecd.VALUE AS config_value,
 											ecd.ELECTION_MODULE_CONFIG_ID AS config_key,
 											em.name AS  election_module_name,
-											ea.STATUS AS election_approval_status
+											ea.STATUS AS election_approval_status,
+											ea.REVIEW_NOTE AS election_reviewNote
 											FROM ELECTION e
 											LEFT JOIN ELECTION_TIMELINE et
 											ON e.ID=et.ELECTION_ID
@@ -53,7 +54,7 @@ const ELECTION_BY_STATUS_SELECT_QUERY = `SELECT
 										FROM
 										ELECTION E LEFT JOIN ELECTION_APPROVAL EA
 										ON E.ID=EA.ELECTION_ID
-										WHERE EA.STATUS=:status`;
+										WHERE EA.STATUS=:status OR EA.STATUS='APPROVE'  OR EA.STATUS='REJECT'`;
 										// WHERE EA.STATUS=:status OR EA.STATUS='APPROVE' OR EA.STATUS='REJECT'`;
 
 									
