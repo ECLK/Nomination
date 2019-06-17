@@ -40,7 +40,6 @@ const getCallElectionFieldOptions = async (fieldName,moduleId) => {
 };
 
 const getPermissionsByUserRole = async (headers) => {
-	let decoded = [];
 	let decoded = base64decode(headers); 
 	if (!_.isEmpty(decoded)) {
 		return decoded;
