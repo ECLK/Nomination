@@ -30,7 +30,6 @@ const resultMaps = [
 ];
 
 const mapToElectionModelWithTimeline = (electionData) => {
-	console.log("mappedElection",electionData);
 	const mappedElection = joinjs.map(electionData, resultMaps, 'electionMap', 'election_');
 	return Election({
 		id: mappedElection[0].id,
@@ -48,9 +47,7 @@ const mapToElectionModelWithTimeline = (electionData) => {
 }
 
 const mapToAllElection = (electionData) => {
-	console.log("electionData",electionData);
 	const mappedElection = joinjs.map(electionData, resultMaps, 'allElectionMap', 'election_');
-	console.log("mappedElection",mappedElection);
 
 	return _.reduce(mappedElection, (result, election) => {
         return result.push({
@@ -66,7 +63,6 @@ const mapToAllElection = (electionData) => {
 
 const mapToElectionWithStatus = (electionData) => {
 	const mappedElection = joinjs.map(electionData, resultMaps, 'electionWithStatus', 'election_');
-console.log("mappedElection",mappedElection);
 	return _.reduce(mappedElection, (result, election) => {
 		return result.push({
 			id: election.id,

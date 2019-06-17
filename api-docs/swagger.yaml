@@ -1,0 +1,566 @@
+swagger: '2.0'
+paths:
+  '/elections/{electionId}/teams/{teamId}/divisions':
+    get:
+      parameters:
+        - name: electionId
+          in: path
+          required: true
+          type: string
+        - name: teamId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/nominations/{nominationId}/candidates':
+    get:
+      parameters:
+        - name: nominationId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/nominations/{nominationId}/payments':
+    get:
+      parameters:
+        - name: nominationId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/elections/{electionId}':
+    get:
+      parameters:
+        - name: electionId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/nominations/{candidateId}/candidate/support-docs':
+    get:
+      parameters:
+        - name: candidateId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/nominations/{nominationId}/candidates/{candidateId}':
+    get:
+      parameters:
+        - name: nominationId
+          in: path
+          required: true
+          type: string
+        - name: candidateId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/nominations/{nominationId}/support-docs':
+    put:
+      parameters:
+        - name: nominationId
+          in: path
+          required: true
+          type: string
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/nominations/{paymentId}/payments':
+    put:
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          type: string
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /nominations/candidates:
+    post:
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /file-upload:
+    post:
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /nominations/candidate/support-docs:
+    post:
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /nominations/payments:
+    post:
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/candidates/{candidateId}':
+    put:
+      parameters:
+        - name: candidateId
+          in: path
+          required: true
+          type: string
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/nominations/{candidateId}/candidates':
+    delete:
+      parameters:
+        - name: candidateId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /elections:
+    get:
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/modules/{status}/all':
+    get:
+      parameters:
+        - name: status
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/modules/validations/{templateName}':
+    get:
+      parameters:
+        - name: templateName
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/field-options/{fieldName}':
+    get:
+      parameters:
+        - name: fieldName
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/modules/{moduleId}':
+    get:
+      parameters:
+        - name: moduleId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    delete:
+      parameters:
+        - name: moduleId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /election-modules:
+    post:
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/election-modules/{moduleId}':
+    put:
+      parameters:
+        - name: moduleId
+          in: path
+          required: true
+          type: string
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/elections/status/{status}':
+    get:
+      parameters:
+        - name: status
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/elections/{electionId}/payments':
+    get:
+      parameters:
+        - name: electionId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/activeElectionsData/{electionId}':
+    get:
+      parameters:
+        - name: electionId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    put:
+      parameters:
+        - name: electionId
+          in: path
+          required: true
+          type: string
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    delete:
+      parameters:
+        - name: electionId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/field-options/{fieldName}/{moduleId}':
+    get:
+      parameters:
+        - name: fieldName
+          in: path
+          required: true
+          type: string
+        - name: moduleId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /activeElectionsData:
+    post:
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/activeElections/{electionId}/approve-active-election':
+    post:
+      parameters:
+        - name: electionId
+          in: path
+          required: true
+          type: string
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/elections/{paymentId}/payments':
+    put:
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          type: string
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/elections/{paymentId}/paymentNote':
+    put:
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          type: string
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /teams:
+    get:
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/nominations/{electionId}/pending-nominations/{status}/team/{teamId}':
+    get:
+      parameters:
+        - name: electionId
+          in: path
+          required: true
+          type: string
+        - name: status
+          in: path
+          required: true
+          type: string
+        - name: teamId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/nominations/{nominationId}/approve-nomination':
+    post:
+      parameters:
+        - name: nominationId
+          in: path
+          required: true
+          type: string
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/elections/validations/{electionName}':
+    get:
+      parameters:
+        - name: electionName
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+info:
+  title: Nomination
+  version: '0.9'
+host: '172.20.0.1:8243'
+basePath: /nominations/0.9
+schemes:
+  - https
+  - http
+securityDefinitions:
+  default:
+    type: oauth2
+    authorizationUrl: 'https://172.20.0.1:8243/authorize'
+    flow: implicit
+    scopes: {}

@@ -43,10 +43,8 @@ const mapToActiveElectionModel = (activeElections) => {
 
 
 const mapToElectionModel = (activeElections) => {
-  console.log("var activeElections = ",activeElections);
   const mappedElections = joinjs.map(activeElections, resultMaps, 'electionMap', 'election_');
 
-  console.log("var mappedElections = ",mappedElections);
 // console.log("mappedElections",mappedElections);
   return CallElection({
     name: mappedElections[0].name,

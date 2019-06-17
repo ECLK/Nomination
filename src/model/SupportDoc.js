@@ -18,7 +18,14 @@ const CandidateSupportDoc =  Record({
   docCategory: String(),
 });
 
+const CandidateSupportDocData =  Record({
+  id: String(),
+  originalname: String(),
+  filename: String(),
+});
+
 export {
   SupportDoc,
   CandidateSupportDoc,
+  CandidateSupportDocData
 }

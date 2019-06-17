@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { bindMiddlewares } from './WSMiddleware';
 import configService from '../config/ConfigService';
+var jwtDecode = require('jwt-decode');
 
 let log4js = require('log4js');
 let logger = log4js.getLogger("app");
@@ -13,6 +14,15 @@ const app = express();
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Decode JWT Token
+app.use((req, res, next)=>{
+    let JWT = req.headers['x-jwt-assertion'];
+    var decoded = jwtDecode(JWT);
+    req.jwt = decoded;
+    next();
+})
+
 
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());

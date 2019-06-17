@@ -1,4 +1,4 @@
-import { SupportDoc, CandidateSupportDoc}  from 'Models';
+import { SupportDoc, CandidateSupportDoc,CandidateSupportDocData}  from 'Models';
 var joinjs = require('join-js').default;
 import {List} from 'typed-immutable';
 import _ from 'lodash';
@@ -14,7 +14,12 @@ const resultMaps = [
     mapId: 'candidateSupportDocMap',
     idProperty: 'ID',
     properties: ['KEY_NAME','DESCRIPTION','DOC_CATEGORY']
-  }
+  },
+  {
+		mapId: 'candidateSupportdocDataMap',
+		idProperty: 'id',
+		properties: ['originalname', 'filename']
+	}
 ];
 
 
@@ -47,7 +52,20 @@ const mapToCandidateSupportDocModel = (supportDocs) => {
   },List(CandidateSupportDoc)());
 };
 
+const mapToCandidateSupportDocDataModel = (supportDocs) => {
+  const mappedSupportDocs = joinjs.map(supportDocs, resultMaps, 'candidateSupportdocDataMap', 'SUPPORT_DOC_');
+
+  return _.reduce(mappedSupportDocs, function(result, supportDocs) {
+    return result.push({
+      id: supportDocs.id,
+      originalname: supportDocs.originalname,
+      filename: supportDocs.filename
+    });
+  },List(CandidateSupportDocData)());
+};
+
 export default {
   mapToSupportDocModel,
-  mapToCandidateSupportDocModel
+  mapToCandidateSupportDocModel,
+  mapToCandidateSupportDocDataModel
 };

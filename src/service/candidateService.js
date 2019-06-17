@@ -55,6 +55,7 @@ const getCandidateByNominationId = async (req) => {
  * @param {*} req 
  */
 const updateCandidateDataById = async (req) => {
+	console.log("kkkkkkkkkkkkkkkkkkkkk",req.body);
 	try {
 		const candidateData = req.body;
 		const candidateId = req.params.candidateId;
@@ -63,6 +64,7 @@ const updateCandidateDataById = async (req) => {
 			return await CandidateRepo.updateCandidate(candidate);
 		}
 	} catch (error) {
+		console.log(error);
 		throw new ServerError("server error", HTTP_CODE_404);
 	}
 }
