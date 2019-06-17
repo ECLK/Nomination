@@ -67,9 +67,10 @@ export const initNominationRouter = (app) => {
 		{
 			// curl -H "Content-Type: application/json" -X PUT -d '{ "fullName" : "W Clement Amila Fernando", "preferredName" : "Clement", "nic": "883202091V", "dateOfBirth": 1549490224, "gender": "MALE", "address": "55/11, 1ST Gemunu Lane, Subhuthipura, Battaramulla.", "occupation": "SSE", "electoralDivisionName": "Kotte", "electoralDivisionCode": "26", "counsilName": "counsil_name" }' http://localhost:9001/ec-election/candidates/1d986c33-0e3d-4e27-9ff3-a8b03118408c
 			method: PUT,
-			path: '/candidates/:candidateId',
+			path: 'candidates/:candidateId',
 			schema: SAVE_CANDIDATE_SCHEMA,
 			handler: (req, res, next) => {
+				console.log("uuuuuuuuuuuuuuuuuuuuuuuuuuu",req);
 				return CandidateService.updateCandidateDataById(req)
 					.then((result) => res.status(HTTP_CODE_200).send(result))
 					.catch(error => next(error));
@@ -115,6 +116,15 @@ export const initNominationRouter = (app) => {
 			},
 		},
 		{
+			method: GET,
+			path: '/nominations/:candidateId/candidate/support-docs',
+			handler: (req, res, next) => {
+				return SupportDocService.getsupportDocsByCandidateId(req)
+					.then((result) => res.status(HTTP_CODE_200).send(result))
+					.catch(error => next(error));
+			},
+		},
+		{
 			method: POST,
 			path: '/nominations/support-docs',
 			schema: SAVE_SUPPORT_DOC_SCHEMA,
@@ -127,7 +137,6 @@ export const initNominationRouter = (app) => {
 		{
 			method: POST,
 			path: '/nominations/candidate/support-docs',
-			schema: {},
 			handler: (req, res, next) => {
 				return SupportDocService.saveCandidateSupportDocsByCandidateId(req)
 					.then((result) => res.status(HTTP_CODE_201).send(result))

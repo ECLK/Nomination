@@ -13,7 +13,12 @@ const SUPPORT_DOC_BY_NOMINATION_SELECT_QUERY = `SELECT NS.ID AS SUPPORT_DOC_ID,
                                                 FROM NOMINATION_SUPPORT_DOC NS LEFT JOIN SUPPORT_DOC_CONFIG SDC
                                                 ON NS.SUPPORT_DOC_CONFIG_ID=SDC.ID
                                                 LEFT JOIN SUPPORT_DOC_CONFIG_DATA SDCD ON SDCD.SUPPORT_DOC_CONFIG_ID=SDC.ID
-                                                WHERE NS.NOMINATION_ID = :nominationId AND NS.STATUS<>"DELETE"`;
+												WHERE NS.NOMINATION_ID = :nominationId AND NS.STATUS<>"DELETE"`;
+const SUPPORT_DOC_BY_CANDIDATE_SELECT_QUERY = `SELECT 
+												SUPPORT_DOC_CONFIG_ID   AS SUPPORT_DOC_id,
+												ORIGINAL_NAME AS SUPPORT_DOC_originalname,
+												FILE_PATH AS SUPPORT_DOC_filename
+												FROM CANDIDATE_SUPPORT_DOC WHERE CANDIDATE_ID=:candidateId`;
 const SUPPORT_DOC_BY_MODULE_SELECT_QUERY = `SELECT 
                                             ID AS SUPPORT_DOC_ID,
                                             KEY_NAME AS SUPPORT_DOC_KEY_NAME,
@@ -47,13 +52,25 @@ const NOMINATION_STATUS_UPDATE_QUERY = `UPDATE NOMINATION
 const SUPPORT_DOC_COLUMN_ORDER = ['id', 'originalName','filePath', 'supportDocConfDataId', 'nominationId', 'status'];
 
 const CANDIDATE_SUPPORT_DOC_INSERT_BASE_QUERY = `INSERT INTO CANDIDATE_SUPPORT_DOC (ID,ORIGINAL_NAME,FILE_PATH,SUPPORT_DOC_CONFIG_ID, CANDIDATE_ID,NOMINATION_ID,STATUS) VALUES `
-const CANDIDATE_SUPPORT_DOC_COLUMN_ORDER = ['id', 'originalName','filePath', 'supportDocConfDataId', 'nominationId', 'candidateId','status'];
+const CANDIDATE_SUPPORT_DOC_COLUMN_ORDER = ['id', 'originalName','filePath', 'supportDocConfDataId', 'candidateId', 'nominationId','status'];
 
 
 const getSupportDocByNomination = (nominationId) => {
 	const params = { nominationId: nominationId };
 	return DbConnection()
 		.query(SUPPORT_DOC_BY_NOMINATION_SELECT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+			}).catch((error) => {
+				throw new DBError(error);
+			});
+}
+
+const getSupportDocByCandidate = (candidateId) => {
+	const params = { candidateId: candidateId };
+	return DbConnection()
+		.query(SUPPORT_DOC_BY_CANDIDATE_SELECT_QUERY,
 			{
 				replacements: params,
 				type: DbConnection().QueryTypes.SELECT,
@@ -98,6 +115,7 @@ const saveCandidateSupportDocs = (supportDocsData,transaction) => {
 			}).then((results) => {
 				return supportDocsData;
 			}).catch((error) => {
+				console.log(error);
 				throw new DBError(error);
 			});
 };
@@ -177,5 +195,6 @@ export default {
 	insertSupportDocConfigData,
 	updateNominationStatus,
 	saveCandidateSupportDocs,
-	updateCandidateSupportingDocs
+	updateCandidateSupportingDocs,
+	getSupportDocByCandidate
 }

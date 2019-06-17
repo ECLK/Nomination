@@ -2,6 +2,7 @@ import { ServerError, ApiError } from 'Errors';
 import FieldOptionsRepo from '../repository/fieldOptions';
 import { ModuleManager } from 'Managers';
 import _ from 'lodash';
+const { base64decode } = require('nodejs-base64');
 const uuidv4 = require('uuid/v4');
 
 
@@ -38,8 +39,19 @@ const getCallElectionFieldOptions = async (fieldName,moduleId) => {
 	}
 };
 
+const getPermissionsByUserRole = async (headers) => {
+	let decoded = [];
+	let decoded = base64decode(headers); 
+	if (!_.isEmpty(decoded)) {
+		return decoded;
+	} else {
+		throw new ApiError("not found");
+	}
+};
+
 
 export default {
 	getFieldOptions,
-	getCallElectionFieldOptions
+	getCallElectionFieldOptions,
+	getPermissionsByUserRole
 }

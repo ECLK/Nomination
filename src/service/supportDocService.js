@@ -25,6 +25,23 @@ const getsupportDocsByNominationId = async (req) => {
     
   };
 
+  //Get support documents for a particuler candidate
+const getsupportDocsByCandidateId = async (req) => {
+  try {
+    const candidateId = req.params.candidateId;
+    const supportDocs = await SupportDocRepo.getSupportDocByCandidate( candidateId );
+    if(!_.isEmpty(supportDocs)){
+      return SupportDocManager.mapToCandidateSupportDocDataModel(supportDocs)
+    }else {
+      throw new ApiError("Support Documents not found",HTTP_CODE_404);
+    }
+  }catch (e){
+    console.log(e);
+    throw new ServerError("server error");
+  }
+  
+};
+
   //Get support documents by category
 const getsupportDocsByCategory = async (req) => {
   try {
@@ -93,7 +110,7 @@ const saveCandidateSupportDocsByCandidateId = async (req) => {
     var supportdocs = []; //TODO: yujith, validate supportDocConfDataId and nominationId and filePath
        for (var {id: id, filename: filename, originalname: originalname} of supportDocsData) {
           const uuid = uuidv4();
-          supportdocs[i] = {'id':uuid, 'filePath':filename,'originalName':originalname,'supportDocConfDataId':id,'nominationId':nominationId, 'candidateId':nominationId,'status':'NEW'};
+          supportdocs[i] = {'id':uuid, 'filePath':filename,'originalName':originalname,'supportDocConfDataId':id,'nominationId':nominationId, 'candidateId':candidateId,'status':'NEW'};
          i++;
        }
     await SupportDocRepo.updateCandidateSupportingDocs( candidateId,transaction );
@@ -124,5 +141,6 @@ export default {
   saveSupportDocsByNominationId,
   updateSupportDocsByNominationId,
   getsupportDocsByCategory,
-  saveCandidateSupportDocsByCandidateId
+  saveCandidateSupportDocsByCandidateId,
+  getsupportDocsByCandidateId
 }

@@ -27,6 +27,16 @@ export const initFieldOptionsRouter = (app) => {
 			    .then((result) => res.status(200).send(result))
 				.catch(error => next(error));
 			},
+		},
+		{
+			method: GET,
+			path: '/permission',
+			handler: (req, res, next) => {
+				console.log(req.jwt);
+			    return FieldOptionService.getPermissionsByUserRole(headers)
+			    .then((result) => res.status(200).send(result))
+				.catch(error => next(error));
+			},
 		}
 	]);
 };
