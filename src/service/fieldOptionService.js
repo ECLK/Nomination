@@ -39,18 +39,18 @@ const getCallElectionFieldOptions = async (fieldName,moduleId) => {
 	}
 };
 
-const getPermissionsByUserRole = async (headers) => {
-	let decoded = base64decode(headers); 
-	if (!_.isEmpty(decoded)) {
-		return decoded;
-	} else {
-		throw new ApiError("not found");
-	}
-};
+// const getPermissionsByUserRole = async (headers) => {
+// 	let decoded = base64decode(headers); 
+// 	if (!_.isEmpty(decoded)) {
+// 		return decoded;
+// 	} else {
+// 		throw new ApiError("not found");
+// 	}
+// };
 
 
 export default {
 	getFieldOptions,
 	getCallElectionFieldOptions,
-	getPermissionsByUserRole
+	// getPermissionsByUserRole
 }
