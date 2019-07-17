@@ -33,7 +33,7 @@ export const initFieldOptionsRouter = (app) => {
 			path: '/permission',
 			handler: (req, res, next) => {
 				console.log(req.jwt);
-			    return FieldOptionService.getPermissionsByUserRole(headers)
+			    return FieldOptionService.getPermissionsByUserRole(req.headers)
 			    .then((result) => res.status(200).send(result))
 				.catch(error => next(error));
 			},
