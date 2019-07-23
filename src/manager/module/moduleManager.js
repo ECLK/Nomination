@@ -1,4 +1,4 @@
-import { Module,ModuleList }  from 'Models';
+import { Module,ModuleList,AllElectionTemplate }  from 'Models';
 var joinjs = require('join-js').default;
 import {List} from 'typed-immutable';
 import _ from 'lodash';
@@ -10,7 +10,7 @@ const resultMaps = [
   {
     mapId: 'moduleMap',
     idProperty: 'ID',
-    properties: ['NAME', 'DIVISION_COMMON_NAME', 'CREATED_BY', 'STATUS','LAST_MODIFIED'],
+    properties: ['NAME', 'DIVISION_COMMON_NAME', 'CREATED_BY', 'STATUS','LAST_MODIFIED','approval_status','reviewNote'],
     collections: [
         { name: 'election_config', mapId: 'electionConfigMap', columnPrefix: 'MODULE_' },
         { name: 'division_config', mapId: 'divisionConfigMap', columnPrefix: 'MODULE_' },
@@ -48,13 +48,22 @@ const resultMaps = [
     mapId: 'moduleMapList',
     idProperty: 'ID',
     properties: ['NAME', 'DIVISION_COMMON_NAME', 'CREATED_BY', 'STATUS','LAST_MODIFIED']
-}
+  },
+  {
+		mapId: 'allElectionTemplateMap',
+		idProperty: 'id',
+		properties: ['name', 'created_by', 'module_id', 'status','last_modified']
+	},
 ];
 
 
 
 const mapToModuleModel = (modules) => {
+  console.log("mappedModmodulesules",modules);
+
   const mappedModules = joinjs.map(modules, resultMaps, 'moduleMap', 'MODULE_');
+
+  console.log("mappedModules",mappedModules);
   return Module({
     id: mappedModules[0].ID,
       name: mappedModules[0].NAME,
@@ -67,6 +76,8 @@ const mapToModuleModel = (modules) => {
       divisionConfig:mappedModules[0].division_config,
       electionConfig:mappedModules[0].election_config,
       eligibilityCheckList:mappedModules[0].eligibilityCheckList,
+      approval_status:mappedModules[0].approval_status,
+      reviewNote:mappedModules[0].reviewNote,
   });
 };
 
@@ -106,8 +117,25 @@ const mapToCandidateConfigColumnNames = (modules) => {
         count=0;
     });
 };
+
+const mapToAllElectionTemplate = (templates) => {
+  console.log("mappedElectionTemplate",templates);
+
+	const mappedElectionTemplate = joinjs.map(templates, resultMaps, 'allElectionTemplateMap', 'module_');
+console.log("mappedEle",mappedElectionTemplate);
+	return _.reduce(mappedElectionTemplate, (result, election) => {
+        return result.push({
+            id: election.id,
+            name: election.name,
+            createdBy: election.created_by,
+            lastModified: election.last_modified,
+            status: election.status,
+        });
+    }, List(AllElectionTemplate)());
+}
 export default {
   mapToModuleModel,
   mapToCandidateConfigColumnNames,
-  mapToModuleModelList
+  mapToModuleModelList,
+  mapToAllElectionTemplate
 };

@@ -125,6 +125,25 @@ export const initModuleRouter = (app) => {
 					.catch(error => next(error));
 			}
 		},
+		{
+			method: GET,
+			path: '/election-modules',
+			schema: {},
+			handler: (req, res, next) => {
+				return ModuleService.getAllElectionTemplates(req)
+					.then( (result) => res.status(200).send(result))
+					.catch( error => next(error));
+			}
+		},
+		{
+			method: PUT,
+			path: '/election-modules/:moduleId/approve-election-templates',
+			handler: (req, res, next) => {
+				return ModuleService.ApproveElectionTemplateByModuleId(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			},
+		},
 		// {
 		// 	method: GET,
 		// 	path: '/election-modules/:moduleID',

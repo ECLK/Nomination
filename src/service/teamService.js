@@ -34,6 +34,7 @@ console.log("teams",teams);
       // throw new ApiError("Team not found",HTTP_CODE_404);
     }
   }catch (e){
+    console.log(e);
     throw new ServerError("server error");
   }
   

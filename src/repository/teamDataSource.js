@@ -1,5 +1,6 @@
-import { getNamespace } from 'continuation-local-storage';
+import {getNamespace} from 'continuation-local-storage';
 import Sequelize from 'sequelize';
+import configService from '../config/ConfigService';
 
 const session = getNamespace('api-session');
 Sequelize.cls = session;
@@ -15,7 +16,12 @@ class DataSourceFactory {
     if (enforcer !== singletonEnforcer) {
       throw new Error('Cannot construct singleton');
     }
-    this.dbConnection = new Sequelize('EC_TEAM', 'root', 'Admin@#321');
+
+    this.dbConnection = new Sequelize(configService.getConfig('TEAM_DB_NAME'),
+                                      configService.getConfig('DB_USER'),
+                                      configService.getConfig('DB_PASSWORD'),
+                                      { host: configService.getConfig('DB_HOST'),
+                                        port: configService.getConfig('DB_PORT')});
   }
 
   /**
@@ -30,10 +36,10 @@ class DataSourceFactory {
 
 }
 
-const DbConnection = () => {
+const DbConnectionTeam = () => {
   return DataSourceFactory.instance.dbConnection;
 };
 
 export {
-  DbConnection,
+  DbConnectionTeam,
 };

@@ -14,8 +14,18 @@ const getFieldOptions = async (fieldName) => {
 		modules = await FieldOptionsRepo.fetchCandidateConfig();
 	}
 	if(fieldName === "candidate-supporting-docs"){
-		modules = await FieldOptionsRepo.fetchCandidateSupportingDocs();
+		modules = await FieldOptionsRepo.fetchSupportingDocs('CANDIDATE');
 	}
+	if(fieldName === "nomination-supporting-docs"){
+		modules = await FieldOptionsRepo.fetchSupportingDocs('NOMINATION');
+	}
+	if(fieldName === "objection-supporting-docs"){
+		modules = await FieldOptionsRepo.fetchSupportingDocs('OBJECTION');
+	}
+	if(fieldName === "payment-supporting-docs"){
+		modules = await FieldOptionsRepo.fetchSupportingDocs('PAYMENT');
+	}
+	
 	if(fieldName === "electorates-divisions"){
 		modules = await FieldOptionsRepo.fetchElectorates();
 	}

@@ -68,9 +68,11 @@ const getDivisionsWithNomination = async (req) => {
         if (!_.isEmpty(divisions)) {
             return DivisionManager.mapToDivisionModelWithNominations(divisions);
         } else {
-            throw new ApiError("Divisions not found", DIVISION_NOT_FOUND_CODE);
+            return [];
+            // throw new ApiError("Divisions not found", DIVISION_NOT_FOUND_CODE);
         }
     } catch (error) {
+        console.log(error);
         throw new ServerError("Server Error", HTTP_CODE_404);
     }
 }

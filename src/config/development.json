@@ -1,6 +1,7 @@
 {
   "env-message": "App Started on Dev Environment.",
   "DB_NAME": "EC_NOMINATION",
+  "TEAM_DB_NAME": "ELECTION-TEAM",
   "DB_USER": "root",
   "DB_HOST": "127.0.0.1",
   "DB_PASSWORD": "Admin@#321",

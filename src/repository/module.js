@@ -26,17 +26,20 @@ const MODULE_SELECT_QUERY = `SELECT
                             dc.NO_OF_CANDIDATES AS MODULE_noOfCandidates,
                             sdcd.SUPPORT_DOC_CONFIG_ID AS MODULE_supportDocConfigId,
                             ccd.CANDIDATE_CONFIG_ID AS MODULE_candidateConfigId,
-                            ecd.ELIGIBILITY_CONFIG_ID AS MODULE_eligibilityConfigId
+                            ecd.ELIGIBILITY_CONFIG_ID AS MODULE_eligibilityConfigId,
+                            ema.STATUS AS MODULE_approval_status,
+                            ema.REVIEW_NOTE AS MODULE_reviewNote
                             FROM ELECTION_MODULE em LEFT JOIN ELECTION_MODULE_CONFIG_DATA emcd ON em.ID=emcd.MODULE_ID
                             LEFT JOIN DIVISION_CONFIG dc ON em.ID=dc.MODULE_ID
                             LEFT JOIN SUPPORT_DOC_CONFIG_DATA sdcd ON em.ID=sdcd.MODULE_ID
                             LEFT JOIN CANDIDATE_CONFIG_DATA ccd ON em.ID=ccd.MODULE_ID
                             LEFT JOIN ELIGIBILITY_CONFIG_DATA ecd ON em.ID=ecd.MODULE_ID
+                            LEFT JOIN ELECTION_MODULE_APPROVAL ema ON ema.MODULE_ID=em.ID
                             WHERE em.ID = :id`;
 const MODULE_INSERT_QUERY = `INSERT INTO ELECTION_MODULE (ID, NAME, DIVISION_COMMON_NAME, CREATED_BY, CREATED_AT, UPDATED_AT) 
                               VALUES (:id, :name,:divisionCommonName, :createdBy, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())`;
 const MODULE_APPROVE_QUERY = `INSERT INTO ELECTION_MODULE_APPROVAL (ID, STATUS, APPROVED_BY, APPROVED_AT, UPDATED_AT, MODULE_ID) 
-                              VALUES (:id, 'APPROVE', :createdBy, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), :moduleId)`;
+                              VALUES (:id, 'PENDING', :createdBy, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), :moduleId)`;
 const MODULE_INSERT_BASE_QUERY = `INSERT INTO ELECTION_MODULE VALUES `;
 const ColumnnamesFromCandidate_configTabel = `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'candidate_config'`;
 const MODULE_COLUMN_ORDER = ['ID', 'NAME'];
@@ -71,8 +74,22 @@ const ELECTION_CONFIG_DELETE_QUERY = `DELETE FROM ELECTION_MODULE_CONFIG_DATA WH
 const ELIGIBILITY_CONFIG_DELETE_QUERY = `DELETE FROM ELIGIBILITY_CONFIG_DATA WHERE MODULE_ID = :moduleId`;
 const ELECTION_MODULE_APPROVAL_DELETE_QUERY = `DELETE FROM ELECTION_MODULE_APPROVAL WHERE MODULE_ID = :moduleId`;
 const ELECTION_MODULE_DELETE_QUERY = `DELETE FROM ELECTION_MODULE WHERE ID = :moduleId`;
-
-
+const ALL_ELECTION_TEMPLATE_SELECT_QUERY = `SELECT
+                                            EM.ID AS module_id,
+                                            EM.NAME AS module_name,
+                                            EMA.STATUS AS module_status,
+                                            EM.CREATED_BY AS module_created_by,
+                                            EMA.UPDATED_AT AS module_last_modified
+                                            FROM
+                                            ELECTION_MODULE EM LEFT JOIN ELECTION_MODULE_APPROVAL EMA
+                                            ON EM.ID=EMA.MODULE_ID`;
+const TEMPLATE_STATUS_UPDATE_QUERY = `UPDATE ELECTION_MODULE_APPROVAL 
+                                            SET 
+                                            STATUS = :status,
+                                            UPDATED_AT = :updatedAt,
+                                            REVIEW_NOTE = :reviewNote
+                                            WHERE 
+                                            MODULE_ID = :moduleId`;
                                 
 const fetchModuleById = (moduleId) => {
     const params = {id: moduleId};
@@ -313,6 +330,7 @@ const saveEligibilityConfig = async (moduleId,data, transaction) => {
       type: DbConnection().QueryTypes.INSERT,
       transaction,
     }).catch((error) => {
+      console.log(error);
        throw new DBError(error);
      });
     }
@@ -469,6 +487,29 @@ await  DbConnection()
 };
 //----- End of Election module delete ---------
 
+const fetchAllElectionTemplates = () => {
+	return DbConnection()
+		.query(ALL_ELECTION_TEMPLATE_SELECT_QUERY, {
+			type: DbConnection().QueryTypes.SELECT,
+		}).catch( (error) => {
+			throw new DBError(error);
+		});
+}
+
+const updateTemplateStatus = (params) => {
+  console.log("params",params);
+	return DbConnection()
+		.query(TEMPLATE_STATUS_UPDATE_QUERY,
+			{
+				replacements: params,
+        type: DbConnection().QueryTypes.UPDATE,
+      }).then((responce) => {
+        return params;
+      })
+      .catch((error) => {
+				throw new DBError(error);
+			});
+};
 
 export default {
   fetchModuleById,
@@ -488,5 +529,7 @@ export default {
   deleteElectionConf,
   deleteEligibilityConf,
   deleteElectionModuleApproval,
-  deleteElectionModule
+  deleteElectionModule,
+  fetchAllElectionTemplates,
+  updateTemplateStatus
 }

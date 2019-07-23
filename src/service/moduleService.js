@@ -22,12 +22,17 @@ const updateModuleByModuleId = async (req) => {
 };
 
 const getModuleByModuleId = async (req) => {
-	const uid = req.params.moduleId;
+	try {
+		const uid = req.params.moduleId;
 	const modules = await ModuleRepo.fetchModuleById(uid);
 	if (!_.isEmpty(modules)) {
 		return ModuleManager.mapToModuleModel(modules);
 	} else {
 		throw new ApiError("Module not found");
+	}
+	} catch (error) {
+		console.log(error);
+		throw new ServerError("server error");
 	}
 };
 
@@ -80,12 +85,15 @@ const saveElectionModule = async (req) => {
 	try {
   return executeTransaction(async (transaction) => {
 		let moduleId = req.params.moduleId;
+
+		let param ={}
+		let params ={}
 	if(moduleId !== undefined){
 		const name = req.body.name;
 		const divisionCommonName = req.body.divisionCommonName;
 		const updatedAt = Date.parse(new Date());
-		const params = {'id':moduleId, "name":name, "divisionCommonName":divisionCommonName, "updatedAt":updatedAt }
-	await ModuleRepo.updateElectionModule(params,transaction);
+		 param = {'id':moduleId, "name":name, "divisionCommonName":divisionCommonName, "updatedAt":updatedAt }
+	await ModuleRepo.updateElectionModule(param,transaction);
 	}else{
 		moduleId = uuidv4();
 		const name = req.body.name;
@@ -94,8 +102,8 @@ const saveElectionModule = async (req) => {
 		const createdBy = req.body.createdBy;
 		const createdAt = Date.parse(new Date());
 		const updatedAt = Date.parse(new Date());
-		let params = {'id':moduleId, "name":name, "divisionCommonName":divisionCommonName, "createdBy":createdBy, "createdAt":createdAt, "updatedAt":updatedAt }
-		await	ModuleRepo.insertElectionModule(params,transaction);
+		 param = {'id':moduleId, "name":name, "divisionCommonName":divisionCommonName, "createdBy":createdBy, "createdAt":createdAt, "updatedAt":updatedAt }
+		await	ModuleRepo.insertElectionModule(param,transaction);
 		params = {'moduleId':moduleId, id: uuidv4(), "createdBy":createdBy}
 		await	ModuleRepo.approveElectionModule(params,transaction);	
 	}
@@ -108,8 +116,8 @@ const saveElectionModule = async (req) => {
 			await ModuleRepo.saveElectionConfig(moduleId,req.body.electionConfig, transaction);
 
 			await ModuleRepo.saveEligibilityConfig(moduleId,req.body.eligibilityCheckList, transaction);
-		
-    return true;
+
+    return param;
 	});
 }catch (e){
 	console.log(e);
@@ -143,11 +151,45 @@ const deleteModuleByModuleId = async (req) => {
 	throw new ServerError("server error");
 }
 };
+
+const getAllElectionTemplates = async () => {
+	console.log("dddddddddddddddddddddd");
+    try {
+        const templates = await ModuleRepo.fetchAllElectionTemplates();
+        if(!_.isEmpty(templates)){
+            return ModuleManager.mapToAllElectionTemplate(templates);
+        } else {
+            // throw new ApiError("No Election found");
+            return [];
+        }
+    } catch (error) {
+        throw new ServerError("Server error", HTTP_CODE_404);
+    }
+}
+
+//approve election template by template id
+const ApproveElectionTemplateByModuleId = async (req) => {
+	try {
+	  const updatedAt = req.body.updatedAt;
+	  const status = req.body.status;
+	  const reviewNote = req.body.reviewNote;
+	  const moduleId = req.params.moduleId;
+		const electionData = {'updatedAt':updatedAt, 'status':status,'moduleId':moduleId,'reviewNote':reviewNote};
+		const test = await ModuleRepo.updateTemplateStatus( electionData );
+		return test;
+	}catch (error){
+	  console.log(error);
+	  throw new ServerError("Server error", HTTP_CODE_404);
+	}
+  };
+
 export default {
 	getModuleByModuleId,
 	updateModuleByModuleId,
 	getModulesByStatus,
 	validateModuleId,
 	saveElectionModule,
-	deleteModuleByModuleId
+	deleteModuleByModuleId,
+	getAllElectionTemplates,
+	ApproveElectionTemplateByModuleId
 }

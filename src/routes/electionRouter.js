@@ -45,7 +45,7 @@ export const initElectionRouter = (app) => {
 		{
 			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/status/PENDING
 			method: GET,
-			path: '/elections/forDemo',
+			path: '/elections/forDemo/new',
 			schema: {},
 			handler: (req, res, next) => {
 				return ElectionService.getElectionIdForDemo(req)

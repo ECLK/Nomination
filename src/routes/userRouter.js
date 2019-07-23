@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { GET, POST } from 'HttpMethods';
+import { GET, POST,  PUT } from 'HttpMethods';
 import {UserService} from 'Service';
 import {createRoutes} from '../middleware/Router';
 import UserManager from '../manager/user/userManager';
@@ -24,11 +24,32 @@ export const initUserRouter = (app) => {
     {
       // curl -H "Content-Type: application/json" -X POST -d '{"id":176484, "name":"Surath"}' http://localhost:9001/ec-election/user
       method: POST,
-      path: '/user',
+      path: '/users',
       schema: USER_EDIT_SCHEMA,
       handler: (req, res, next) => {
         return UserService.updateUserByUserId(req)
         .then(() => res.status(200).send())
+        .catch(error => next(error));
+      },
+    },
+    {
+      // curl -H "Content-Type: application/json" -X POST -d '{"id":176484, "name":"Surath"}' http://localhost:9001/ec-election/user
+      method: PUT,
+      path: '/users/:userId',
+      // schema: USER_EDIT_SCHEMA,
+      // schema: {},
+      handler: (req, res, next) => {
+        return UserService.updateUserByUserId(req)
+        .then(() => res.status(200).send())
+        .catch(error => next(error));
+      },
+    },
+    {
+      method: GET,
+      path: '/users',
+      handler: (req, res, next) => {
+        return UserService.getAllUsers(req)
+        .then((result) => res.status(200).send(result))
         .catch(error => next(error));
       },
     }

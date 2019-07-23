@@ -1,4 +1,4 @@
-import {Record, List } from 'typed-immutable';
+import {Record, List,Maybe } from 'typed-immutable';
 
 const electionConfig = Record({
 	electionModuleConfigId: String(),
@@ -36,6 +36,8 @@ const eligibilityCheckList = Record({
     supportingDocuments: List(supportingDocuments),
     divisionConfig: List(divisionConfig),
     eligibilityCheckList: List(eligibilityCheckList),
+    approval_status:Maybe(String),
+    reviewNote:Maybe(String)
 });
 
  const ModuleList = Record({
@@ -48,7 +50,18 @@ const eligibilityCheckList = Record({
     lastModified: Number()
 });
 
+const AllElectionTemplate = Record({
+	id: String(),
+	name: String(),
+	createdBy: String(),
+	createdAt: Number(),
+	lastModified: Number(),
+	status: String(),
+	moduleId: String(),
+});
+
 export {
 	Module,
-	ModuleList,
+    ModuleList,
+    AllElectionTemplate
 }
