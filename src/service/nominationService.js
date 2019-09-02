@@ -119,11 +119,32 @@ const getNominationPaymentStatusByElectionId = async (req) => {
   }
 };
 
+//Get nomination data for nomination payment by nomination id
+const getNominationDataByNominationId = async (req) => {
+  try {
+    const nominationId = req.params.nominationId;
+    const keyName = req.params.keyName;
+
+    const params = {'nominationId':nominationId,'keyName':keyName }
+    const nominations = await NominationRepo.fetchNominationData( params );
+
+    if(!_.isEmpty(nominations)){
+      return nominations;
+    }else {
+      return null;
+    }
+  } catch (e){
+    console.log(e);
+    throw new ServerError("Server error", HTTP_CODE_404);
+  }
+};
+
 export default {
     getNominationByTeamId,
     getNominationByStatus,
     validateNominationId,
     getPendingNominationsByElectionId,
     saveApproveNominationByNominationId,
-    getNominationPaymentStatusByElectionId
+    getNominationPaymentStatusByElectionId,
+    getNominationDataByNominationId
 };

@@ -54,6 +54,16 @@ export const initDivisionRouter = (app) => {
 			},
 		},
 		{
+			method: GET,
+			path: '/elections/:electionId/teams/:teamId/nominations',
+			schema: {},
+			handler: (req, res, next) => {
+				return DivisionService.getDivisionsWithNomination(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			},
+		},
+		{
 			// curl -H "Content-Type: application/json" -X POST -d '[{"divisionCommonName":"Province", "divisionName":"Western", "divisionCode":"01", "noOfCandidates":20},{"divisionCommonName":"Province", "divisionName":"Nothern", "divisionCode":"04", "noOfCandidates":10}]' http://localhost:9001/ec-election/modules/27757873-ed40-49f7-947b-48b432a1b062/divisions
 			method: POST,
 			path: '/modules/:moduleId/divisions',

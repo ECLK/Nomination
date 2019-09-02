@@ -110,7 +110,6 @@ export const initModuleRouter = (app) => {
 			method: PUT,
 			path: '/election-modules/:moduleId',
 			handler: (req, res, next) => {
-				console.log("asjjjj",req);
 			  return ModuleService.saveElectionModule(req)
 			  .then((result) => res.status(200).send(result))
 			  .catch(error => next(error));

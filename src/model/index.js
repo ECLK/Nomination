@@ -2,7 +2,7 @@
 import { User } from './User';
 import { Team } from './Team';
 import { Candidate } from './Candidate';
-import { Payment , NominationPayment } from './Payment';
+import { Payment , NominationPayment,AllPayments } from './Payment';
 import { Election, AllElection, ElectionWithStatus } from './Election';
 import { Nomination } from './Nomination';
 import { Division, AllowedDivision } from './Division';
@@ -34,5 +34,6 @@ export {
   ModuleList,
   CallElection,
   CandidateSupportDocData,
-  AllElectionTemplate
+  AllElectionTemplate,
+  AllPayments
 };

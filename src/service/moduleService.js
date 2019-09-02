@@ -93,7 +93,9 @@ const saveElectionModule = async (req) => {
 		const divisionCommonName = req.body.divisionCommonName;
 		const updatedAt = Date.parse(new Date());
 		 param = {'id':moduleId, "name":name, "divisionCommonName":divisionCommonName, "updatedAt":updatedAt }
-	await ModuleRepo.updateElectionModule(param,transaction);
+		await ModuleRepo.updateElectionModule(param,transaction);
+		const approvalParams = {'updatedAt':updatedAt, 'status':'PENDING','moduleId':moduleId,'reviewNote':''};
+		 await ModuleRepo.updateTemplateStatus( approvalParams );
 	}else{
 		moduleId = uuidv4();
 		const name = req.body.name;

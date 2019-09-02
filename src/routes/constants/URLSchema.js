@@ -17,4 +17,5 @@ export const URL_SCHEMA = Joi.object().keys({
   category: Joi.string().max(20),
   electionName: Joi.string(),
   templateName: Joi.string(),
+  keyName: Joi.string(),
 });

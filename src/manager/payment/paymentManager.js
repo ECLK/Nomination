@@ -1,7 +1,9 @@
-import { Payment,NominationPayment } from 'Models';
+import { Payment,NominationPayment,AllPayments } from 'Models';
 var joinjs = require('join-js').default;
 import { List } from 'typed-immutable';
 import _ from 'lodash';
+import moment from 'moment';
+
 
 const resultMaps = [
 	{
@@ -12,16 +14,25 @@ const resultMaps = [
 	{
 		mapId: 'nominationPaymentMap',
 		idProperty: 'ID',
-		properties: ['DEPOSITOR', 'AMOUNT', 'DEPOSIT_DATE', 'FILE_PATH', 'STATUS', 'NOMINATION_ID', 'CREATED_BY', 'CREATED_AT', 'UPDATED_AT']
+		properties: ['DEPOSITOR', 'AMOUNT','SERIAL_NO', 'DEPOSIT_DATE', 'FILE_PATH', 'STATUS', 'NOMINATION_ID', 'CREATED_BY', 'CREATED_AT', 'UPDATED_AT','ELECTION_ID','TEAM_ID','NOTE']
+	},
+	{
+		mapId: 'allPaymentMap',
+		idProperty: 'id',
+		properties: ['depositor', 'amount','serial', 'deposit_date', 'nomination_id','team','division']
 	},
 ];
 
 const mapToNominationPaymentModel = (payments) => {
+	console.log("eeeeeeeeeeeee",payments);
 	const mappedPayments = joinjs.map(payments, resultMaps, 'nominationPaymentMap', 'PAYMENT_');
+	console.log("mappedPayments",mappedPayments);
+
 	if (!_.isEmpty(mappedPayments)) {
 		return NominationPayment({
 			id: mappedPayments[0].ID,
 			depositor: mappedPayments[0].DEPOSITOR,
+			serialNo: mappedPayments[0].SERIAL_NO,
 			depositAmount: mappedPayments[0].AMOUNT,
 			amount: mappedPayments[0].AMOUNT,
 			depositeDate: mappedPayments[0].DEPOSIT_DATE,
@@ -30,7 +41,10 @@ const mapToNominationPaymentModel = (payments) => {
 			nominationId: mappedPayments[0].NOMINATION_ID,
 			createdBy: mappedPayments[0].CREATED_BY,
 			createdAt: mappedPayments[0].CREATED_AT,
-			updatedAt: mappedPayments[0].UPDATED_AT
+			updatedAt: mappedPayments[0].UPDATED_AT,
+			election: mappedPayments[0].ELECTION_ID,
+			team_id: mappedPayments[0].TEAM_ID,
+			note:mappedPayments[0].NOTE,
 		});
 	}
 };
@@ -60,7 +74,26 @@ const mapToPaymentModel = (payments) => {
 	}
 }
 
+const mapToAllPaymentModel = (payments) => {
+	const mappedPayments = joinjs.map(payments, resultMaps, 'allPaymentMap', 'payment_');
+	if (!_.isEmpty(mappedPayments)) {
+		return _.reduce(mappedPayments, (result, payment) => {
+			return result.push({
+				payment_id: payment.id,
+				depositor: payment.depositor,
+				serial:payment.serial,
+				deposit_amount: payment.amount,
+				deposit_date: moment(new Date(payment.deposit_date)).format('YYYY-MM-DD'),
+				nomination_id: payment.nomination_id,
+				team_id: payment.team,
+				division: payment.division,
+				action:'true'
+			});
+		}, List(AllPayments)());
+	}
+}
 export default {
 	mapToPaymentModel,
-	mapToNominationPaymentModel
+	mapToNominationPaymentModel,
+	mapToAllPaymentModel
 };
