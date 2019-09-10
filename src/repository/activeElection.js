@@ -57,6 +57,8 @@ const ALL_ELECTION_DATA_SELECT_QUERY = `SELECT
                                         LEFT JOIN ELECTION_APPROVAL ea ON e.ID=ea.ELECTION_ID
                                         LEFT JOIN NOMINATION n ON e.ID=n.ELECTION_ID
                                         WHERE e.ID=:electionId`;
+                                        
+const ELECTORATES_BY_ELECTION_ID_SELECT_QUERY = `SELECT TEAM_ID AS election_team_id,DIVISION_CONFIG_ID AS election_division_id FROM NOMINATION WHERE ELECTION_ID=:id`;
 
 
                                       
@@ -372,6 +374,16 @@ const fetchElectionDataByElectionId = (electionId) => {
 			});
 };
 
+const fetchElectoratesByElectionId = (electionId) => {
+	const params = { id: electionId };
+	return DbConnection()
+		.query(ELECTORATES_BY_ELECTION_ID_SELECT_QUERY, {
+			replacements: params,
+			type: DbConnection().QueryTypes.SELECT,
+		}).catch((error) => {
+			throw new DBError(error);
+		});
+};
 
 export default {
   fetchActiveElectionById,
@@ -387,5 +399,6 @@ export default {
   deleteElectionTimeLine,
   deleteElectionApproval,
   deleteAllowedNominations,
-  deleteElection
+  deleteElection,
+  fetchElectoratesByElectionId
 }

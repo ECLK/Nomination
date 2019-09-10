@@ -1,5 +1,7 @@
-import { ActiveElection,CallElection }  from 'Models';
+import { ActiveElection,CallElection,electoratesData }  from 'Models';
 var joinjs = require('join-js').default;
+import {List} from 'typed-immutable';
+import _ from 'lodash';
 // join-js usage : https://www.npmjs.com/package/join-js
 
 const resultMaps = [
@@ -61,8 +63,19 @@ const mapToElectionModel = (activeElections) => {
   });
 };
 
+const mapToElectoratesModel = (electionData) => {
+	const mappedElection = joinjs.map(electionData, resultMaps, 'divisionMap', 'election_');
+
+	return _.reduce(mappedElection, (result, election) => {
+        return result.push({
+            team_id: election.team_id,
+            division_id: election.division_id
+        });
+    }, List(electoratesData)());
+}
 
 export default {
   mapToActiveElectionModel,
-  mapToElectionModel
+  mapToElectionModel,
+  mapToElectoratesModel
 };

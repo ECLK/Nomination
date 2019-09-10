@@ -9,7 +9,7 @@ import { Division, AllowedDivision } from './Division';
 import { SupportDoc,CandidateSupportDoc,CandidateSupportDocData } from './SupportDoc';
 import {Module,ModuleList,AllElectionTemplate} from './Module';
 import {Objection } from './Objection';
-import {ActiveElection,CallElection } from './ActiveElection';
+import {ActiveElection,CallElection,electoratesData } from './ActiveElection';
 import {ElectionNomination} from './ElectionNomination'
 
 
@@ -35,5 +35,6 @@ export {
   CallElection,
   CandidateSupportDocData,
   AllElectionTemplate,
-  AllPayments
+  AllPayments,
+  electoratesData
 };

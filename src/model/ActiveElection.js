@@ -20,6 +20,11 @@ const nominationAllowData = Record({
   division_id: String()
 });
 
+const electoratesData = Record({
+  team_id: String(),
+  division_id: String()
+});
+
 const CallElection = Record({
 	name: String(),
 	module_id: String(),
@@ -33,5 +38,6 @@ const CallElection = Record({
 
 export {
 	ActiveElection,
-	CallElection
+  CallElection,
+  electoratesData
 }

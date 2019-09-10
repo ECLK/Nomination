@@ -145,11 +145,30 @@ const getActiveElectionsDataByElectionId = async (req) => {
   }
 };
 
+/**
+ * Get electorates list by election id
+ * @param {*} req 
+ */
+const getElectoratesByElectionId = async (req) => {
+  try {
+      const electionId = req.params.electionId;
+      const electorates = await ActiveElectionRepo.fetchElectoratesByElectionId(electionId);
+      if (!_.isEmpty(divisions)) {
+          return ActiveElectionManager.mapToElectoratesModel(electorates);
+      } else {
+          throw new ApiError("Divisions not found", DIVISION_NOT_FOUND_CODE);
+      }
+  } catch (error) {
+      throw new ServerError("Server Error", HTTP_CODE_404);
+  }
+}
+
 export default {
   getActiveElectionByActiveElectionId,
   updateActiveElectionByActiveElectionId,
   saveActiveElectionData,
   saveApproveElectionByElectionId,
   getActiveElectionsDataByElectionId,
-  deleteActiveElectionData
+  deleteActiveElectionData,
+  getElectoratesByElectionId
 }
