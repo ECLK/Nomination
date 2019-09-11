@@ -153,7 +153,7 @@ const getElectoratesByElectionId = async (req) => {
   try {
       const electionId = req.params.electionId;
       const electorates = await ActiveElectionRepo.fetchElectoratesByElectionId(electionId);
-      if (!_.isEmpty(divisions)) {
+      if (!_.isEmpty(electorates)) {
           return ActiveElectionManager.mapToElectoratesModel(electorates);
       } else {
           throw new ApiError("Divisions not found", DIVISION_NOT_FOUND_CODE);
