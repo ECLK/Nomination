@@ -44,6 +44,16 @@ export const initActiveElectionRouter = (app) => {
 					.then((result) => res.status(200).send(result))
 					.catch(error => next(error));
 			},
+    },
+    {
+			method: GET,
+			path: '/activeElectionsData/:electionId/eligibility',
+			schema: {},
+			handler: (req, res, next) => {
+				return ActiveElectionService.getEligibilitiesByElectionId(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			},
 		},
     {
       // curl -H "Content-Type: application/json" -X POST -d '{"id":176484, "name":"Surath"}' http://localhost:9001/ec-election/activeElection

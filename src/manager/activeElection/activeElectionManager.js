@@ -28,6 +28,11 @@ const resultMaps = [
 		mapId: 'divisionMap',
 		idProperty: ['team_id','division_id'],
 		properties: ['team_id','division_id']
+  },
+  {
+		mapId: 'eligibilityMap',
+		idProperty: ['team_id','division_id'],
+		properties: ['team_id','division_id']
 	},
 ];
 
@@ -74,8 +79,20 @@ const mapToElectoratesModel = (electionData) => {
     }, List(electoratesData)());
 }
 
+const mapToEligibilitiesModel = (electionData) => {
+	const mappedElection = joinjs.map(electionData, resultMaps, 'eligibilityMap', 'election_');
+
+	return _.reduce(mappedElection, (result, election) => {
+        return result.push({
+            team_id: election.team_id,
+            division_id: election.division_id
+        });
+    }, List(electoratesData)());
+}
+
 export default {
   mapToActiveElectionModel,
   mapToElectionModel,
-  mapToElectoratesModel
+  mapToElectoratesModel,
+  mapToEligibilitiesModel
 };
