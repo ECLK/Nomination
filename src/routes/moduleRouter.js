@@ -143,6 +143,17 @@ export const initModuleRouter = (app) => {
 					.catch(error => next(error));
 			},
 		},
+		{
+			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/module/12222?max=123234567
+			method: GET,
+			path: '/modules/:moduleId/candidate-form-config',
+			schema: {},
+			handler: (req, res, next) => {
+				return ModuleService.getCandidateFormConfigByModuleId(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			},
+		},
 		// {
 		// 	method: GET,
 		// 	path: '/election-modules/:moduleID',

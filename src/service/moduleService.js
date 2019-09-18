@@ -185,6 +185,21 @@ const ApproveElectionTemplateByModuleId = async (req) => {
 	}
   };
 
+  const getCandidateFormConfigByModuleId = async (req) => {
+	try {
+		const uid = req.params.moduleId;
+	const modules = await ModuleRepo.fetchCandidateFormConfigById(uid);
+	if (!_.isEmpty(modules)) {
+		return ModuleManager.mapToCandidateConfigModel(modules);
+	} else {
+		throw new ApiError("Module not found");
+	}
+	} catch (error) {
+		console.log(error);
+		throw new ServerError("server error");
+	}
+};
+
 export default {
 	getModuleByModuleId,
 	updateModuleByModuleId,
@@ -193,5 +208,6 @@ export default {
 	saveElectionModule,
 	deleteModuleByModuleId,
 	getAllElectionTemplates,
-	ApproveElectionTemplateByModuleId
+	ApproveElectionTemplateByModuleId,
+	getCandidateFormConfigByModuleId
 }

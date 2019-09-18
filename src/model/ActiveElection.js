@@ -25,6 +25,11 @@ const electoratesData = Record({
   division_id: String()
 });
 
+const eligibilityData = Record({
+  eligibility_config_id: String(),
+  description: String()
+});
+
 const CallElection = Record({
 	name: String(),
 	module_id: String(),
@@ -39,5 +44,6 @@ const CallElection = Record({
 export {
 	ActiveElection,
   CallElection,
-  electoratesData
+  electoratesData,
+  eligibilityData
 }
