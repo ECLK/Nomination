@@ -40,6 +40,12 @@ const eligibilityCheckList = Record({
     reviewNote:Maybe(String)
 });
 
+const CandidateConfig = Record({
+    candidate_config_id: String(),
+    key_name: String(),
+    description: String()
+});
+
  const ModuleList = Record({
     id: String(),
     name: String(),
@@ -63,5 +69,6 @@ const AllElectionTemplate = Record({
 export {
 	Module,
     ModuleList,
-    AllElectionTemplate
+    AllElectionTemplate,
+    CandidateConfig
 }

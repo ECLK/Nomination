@@ -1,4 +1,4 @@
-import { ActiveElection,CallElection,electoratesData }  from 'Models';
+import { ActiveElection,CallElection,electoratesData,eligibilityData }  from 'Models';
 var joinjs = require('join-js').default;
 import {List} from 'typed-immutable';
 import _ from 'lodash';
@@ -31,8 +31,8 @@ const resultMaps = [
   },
   {
 		mapId: 'eligibilityMap',
-		idProperty: ['team_id','division_id'],
-		properties: ['team_id','division_id']
+		idProperty: ['eligibility_config_id','description'],
+		properties: ['eligibility_config_id','description']
 	},
 ];
 
@@ -80,14 +80,16 @@ const mapToElectoratesModel = (electionData) => {
 }
 
 const mapToEligibilitiesModel = (electionData) => {
+  console.log("electionDataelectionDataelectionData",electionData);
 	const mappedElection = joinjs.map(electionData, resultMaps, 'eligibilityMap', 'election_');
+  console.log("mappedElectionmappedElectionmappedElection",mappedElection);
 
 	return _.reduce(mappedElection, (result, election) => {
         return result.push({
-            team_id: election.team_id,
-            division_id: election.division_id
+            eligibility_config_id: election.eligibility_config_id,
+            description: election.description
         });
-    }, List(electoratesData)());
+    }, List(eligibilityData)());
 }
 
 export default {

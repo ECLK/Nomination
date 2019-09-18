@@ -90,6 +90,12 @@ const TEMPLATE_STATUS_UPDATE_QUERY = `UPDATE ELECTION_MODULE_APPROVAL
                                             REVIEW_NOTE = :reviewNote
                                             WHERE 
                                             MODULE_ID = :moduleId`;
+
+const CANDIDATE_CONFIG_SELECT_QUERY = `SELECT CC.ID AS candidate_config_id,
+                                        CC.KEY_NAME AS candidate_config_key_name,
+                                        CC.DESCRIPTION AS candidate_config_description
+                                         FROM CANDIDATE_CONFIG_DATA CAD LEFT JOIN CANDIDATE_CONFIG CC ON CAD.CANDIDATE_CONFIG_ID=CC.ID
+                                        WHERE CAD.MODULE_ID=:id`;
                                 
 const fetchModuleById = (moduleId) => {
     const params = {id: moduleId};
@@ -101,6 +107,18 @@ const fetchModuleById = (moduleId) => {
             }).catch((error) => {
             throw new DBError(error);
         });
+};
+
+const fetchCandidateFormConfigById = (moduleId) => {
+  const params = {id: moduleId};
+  return DbConnection()
+      .query(CANDIDATE_CONFIG_SELECT_QUERY,
+          {
+              replacements: params,
+              type: DbConnection().QueryTypes.SELECT,
+          }).catch((error) => {
+          throw new DBError(error);
+      });
 };
 
 
@@ -531,5 +549,6 @@ export default {
   deleteElectionModuleApproval,
   deleteElectionModule,
   fetchAllElectionTemplates,
-  updateTemplateStatus
+  updateTemplateStatus,
+  fetchCandidateFormConfigById
 }

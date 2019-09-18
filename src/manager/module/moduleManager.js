@@ -1,4 +1,4 @@
-import { Module,ModuleList,AllElectionTemplate }  from 'Models';
+import { Module,ModuleList,AllElectionTemplate,CandidateConfig }  from 'Models';
 var joinjs = require('join-js').default;
 import {List} from 'typed-immutable';
 import _ from 'lodash';
@@ -51,6 +51,11 @@ const resultMaps = [
   },
   {
 		mapId: 'allElectionTemplateMap',
+		idProperty: 'id',
+		properties: ['name', 'created_by', 'module_id', 'status','last_modified']
+  },
+  {
+		mapId: 'candidateConfigMap',
 		idProperty: 'id',
 		properties: ['name', 'created_by', 'module_id', 'status','last_modified']
 	},
@@ -133,9 +138,24 @@ console.log("mappedEle",mappedElectionTemplate);
         });
     }, List(AllElectionTemplate)());
 }
+
+const mapToCandidateConfigModel = (modules) => {
+  console.log("mappedModmodulesules",modules);
+
+  const mappedModules = joinjs.map(modules, resultMaps, 'candidateConfigMap', 'candidate_config_');
+
+  console.log("mappedModules",mappedModules);
+  return CandidateConfig({
+    candidate_config_id: mappedModules[0].id,
+      key_name: mappedModules[0].key_name,
+      description: mappedModules[0].description
+  });
+};
+
 export default {
   mapToModuleModel,
   mapToCandidateConfigColumnNames,
   mapToModuleModelList,
-  mapToAllElectionTemplate
+  mapToAllElectionTemplate,
+  mapToCandidateConfigModel
 };
