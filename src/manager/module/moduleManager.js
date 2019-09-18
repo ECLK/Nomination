@@ -139,18 +139,32 @@ console.log("mappedEle",mappedElectionTemplate);
     }, List(AllElectionTemplate)());
 }
 
-const mapToCandidateConfigModel = (modules) => {
-  console.log("mappedModmodulesules",modules);
+// const mapToCandidateConfigModel = (modules) => {
+//   console.log("mappedModmodulesules",modules);
 
-  const mappedModules = joinjs.map(modules, resultMaps, 'candidateConfigMap', 'candidate_config_');
+//   const mappedModules = joinjs.map(modules, resultMaps, 'candidateConfigMap', 'candidate_config_');
 
-  console.log("mappedModules",mappedModules);
-  return CandidateConfig({
-    candidate_config_id: mappedModules[0].id,
-      key_name: mappedModules[0].key_name,
-      description: mappedModules[0].description
-  });
-};
+//   console.log("mappedModules",mappedModules);
+//   return CandidateConfig({
+//     candidate_config_id: mappedModules[0].id,
+//       key_name: mappedModules[0].key_name,
+//       description: mappedModules[0].description
+//   });
+// };
+
+const mapToCandidateConfigModel = (templates) => {
+  console.log("mappedElectionTemplate",templates);
+
+	const mappedElectionTemplate = joinjs.map(templates, resultMaps, 'candidateConfigMap', 'candidate_config_');
+console.log("mappedEle",mappedElectionTemplate);
+	return _.reduce(mappedElectionTemplate, (result, election) => {
+        return result.push({
+          candidate_config_id: election.id,
+          key_name: election.key_name,
+          description: election.description
+        });
+    }, List(CandidateConfig)());
+}
 
 export default {
   mapToModuleModel,
