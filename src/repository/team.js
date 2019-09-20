@@ -19,7 +19,8 @@ WHERE t.ID = :team_id`;
 const ALL_TEAM_SELECT_QUERY = `SELECT 
 ID AS team_id,
 PARTY_NAME AS team_name,
-ABBREVIATION AS team_abbrevation
+ABBREVIATION AS team_abbrevation,
+PARTY_TYPE AS team_party_type
 FROM TEAM`;
 
 const fetchTeamById = (team_id) => {
