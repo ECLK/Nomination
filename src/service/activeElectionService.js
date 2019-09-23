@@ -50,7 +50,6 @@ const saveActiveElectionData = async (req) => {
   try {
   return executeTransaction(async (transaction) => {
     let electionId = req.params.electionId;
-    console.log("aaaaaaaaaaaaaaaaaaaaaa",electionId);
   if(electionId !== undefined){
     const name = req.body.name;
     const module_id = req.body.module_id;
@@ -58,7 +57,6 @@ const saveActiveElectionData = async (req) => {
     const created_at = req.body.created_at;
     const updated_at = req.body.updated_at;
     const activeElections = {'id':electionId, 'name':name, 'created_by':created_by, 'created_at':created_at, 'updated_at':updated_at, 'module_id':module_id};
-    console.log("activeElections",activeElections);
   await ActiveElectionRepo.updateActiveElections(activeElections,transaction);
   }else{
     electionId = uuidv4();
@@ -72,7 +70,6 @@ const saveActiveElectionData = async (req) => {
   }
   const id  = uuidv4();
   const pendingStatusData = {id:id,status:'PENDING',created_by: req.body.created_by,created_at:req.body.created_at,updated_at:req.body.updated_at,electionId:electionId};
-console.log("pendingStatusData",pendingStatusData);
       await ActiveElectionRepo.saveElectionTimeLine(electionId,req.body.timeLineData, transaction);
       const saveAllowedNominatonListData =  await saveAllowedNominatonList(req,electionId);
       await ActiveElectionRepo.saveAllowedNominations(electionId,saveAllowedNominatonListData, transaction);
@@ -140,7 +137,7 @@ const getActiveElectionsDataByElectionId = async (req) => {
     if(!_.isEmpty(activeElectionsData)){
       return ActiveElectionManager.mapToElectionModel(activeElectionsData);
     }else {
-      return {}
+      throw new ServerError("Server error", HTTP_CODE_404);
     }
   }catch (error){
     console.log(error);
@@ -148,11 +145,50 @@ const getActiveElectionsDataByElectionId = async (req) => {
   }
 };
 
+/**
+ * Get electorates list by election id
+ * @param {*} req 
+ */
+const getElectoratesByElectionId = async (req) => {
+  try {
+      const electionId = req.params.electionId;
+      const electorates = await ActiveElectionRepo.fetchElectoratesByElectionId(electionId);
+      if (!_.isEmpty(electorates)) {
+          return ActiveElectionManager.mapToElectoratesModel(electorates);
+      } else {
+          throw new ApiError("Divisions not found", DIVISION_NOT_FOUND_CODE);
+      }
+  } catch (error) {
+      throw new ServerError("Server Error", HTTP_CODE_404);
+  }
+}
+
+/**
+ * Get eligibilities list by election id
+ * @param {*} req 
+ */
+const getEligibilitiesByElectionId = async (req) => {
+  try {
+      const electionId = req.params.electionId;
+      const electorates = await ActiveElectionRepo.fetchEligibilitiesByElectionId(electionId);
+      if (!_.isEmpty(electorates)) {
+          return ActiveElectionManager.mapToEligibilitiesModel(electorates);
+      } else {
+          throw new ApiError("Divisions not found", DIVISION_NOT_FOUND_CODE);
+      }
+  } catch (error) {
+      throw new ServerError("Server Error", HTTP_CODE_404);
+  }
+}
+
+
 export default {
   getActiveElectionByActiveElectionId,
   updateActiveElectionByActiveElectionId,
   saveActiveElectionData,
   saveApproveElectionByElectionId,
   getActiveElectionsDataByElectionId,
-  deleteActiveElectionData
+  deleteActiveElectionData,
+  getElectoratesByElectionId,
+  getEligibilitiesByElectionId
 }

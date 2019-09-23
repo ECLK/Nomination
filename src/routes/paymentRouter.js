@@ -43,6 +43,40 @@ export const initPaymentRouter = (app) => {
                  	.catch(error => next(error));
 
             },
-        },
+		},
+		{
+			method: GET,
+			path: '/nomination-payments',
+			schema: {},
+			handler: (req, res, next) => {
+				return PaymentService.getAllPayments(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			},
+			
+		},
+		{
+			method: GET,
+			path: '/payment-serial',
+			schema: {},
+			handler: (req, res, next) => {
+				return PaymentService.getRealSerialNumber(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			},
+			
+		},
+		{
+			method: GET,
+			path: '/payments/:nominationId/validate',
+			schema: {},
+			handler: (req, res, next) => {
+				return PaymentService.validatePaymentId(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			},
+			
+		},
+		
 	]);
 };

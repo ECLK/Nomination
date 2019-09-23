@@ -1,4 +1,4 @@
-import { Module,ModuleList }  from 'Models';
+import { Module,ModuleList,AllElectionTemplate,CandidateConfig }  from 'Models';
 var joinjs = require('join-js').default;
 import {List} from 'typed-immutable';
 import _ from 'lodash';
@@ -10,7 +10,7 @@ const resultMaps = [
   {
     mapId: 'moduleMap',
     idProperty: 'ID',
-    properties: ['NAME', 'DIVISION_COMMON_NAME', 'CREATED_BY', 'STATUS','LAST_MODIFIED'],
+    properties: ['NAME', 'DIVISION_COMMON_NAME', 'CREATED_BY', 'STATUS','LAST_MODIFIED','approval_status','reviewNote'],
     collections: [
         { name: 'election_config', mapId: 'electionConfigMap', columnPrefix: 'MODULE_' },
         { name: 'division_config', mapId: 'divisionConfigMap', columnPrefix: 'MODULE_' },
@@ -48,13 +48,27 @@ const resultMaps = [
     mapId: 'moduleMapList',
     idProperty: 'ID',
     properties: ['NAME', 'DIVISION_COMMON_NAME', 'CREATED_BY', 'STATUS','LAST_MODIFIED']
-}
+  },
+  {
+		mapId: 'allElectionTemplateMap',
+		idProperty: 'id',
+		properties: ['name', 'created_by', 'module_id', 'status','last_modified']
+  },
+  {
+		mapId: 'SeparateCandidateConfigMap',
+		idProperty: 'id',
+		properties: ['key_name', 'description']
+	},
 ];
 
 
 
 const mapToModuleModel = (modules) => {
+  console.log("mappedModmodulesules",modules);
+
   const mappedModules = joinjs.map(modules, resultMaps, 'moduleMap', 'MODULE_');
+
+  console.log("mappedModules",mappedModules);
   return Module({
     id: mappedModules[0].ID,
       name: mappedModules[0].NAME,
@@ -67,6 +81,8 @@ const mapToModuleModel = (modules) => {
       divisionConfig:mappedModules[0].division_config,
       electionConfig:mappedModules[0].election_config,
       eligibilityCheckList:mappedModules[0].eligibilityCheckList,
+      approval_status:mappedModules[0].approval_status,
+      reviewNote:mappedModules[0].reviewNote,
   });
 };
 
@@ -106,8 +122,54 @@ const mapToCandidateConfigColumnNames = (modules) => {
         count=0;
     });
 };
+
+const mapToAllElectionTemplate = (templates) => {
+  console.log("mappedElectionTemplate",templates);
+
+	const mappedElectionTemplate = joinjs.map(templates, resultMaps, 'allElectionTemplateMap', 'module_');
+console.log("mappedEle",mappedElectionTemplate);
+	return _.reduce(mappedElectionTemplate, (result, election) => {
+        return result.push({
+            id: election.id,
+            name: election.name,
+            createdBy: election.created_by,
+            lastModified: election.last_modified,
+            status: election.status,
+        });
+    }, List(AllElectionTemplate)());
+}
+
+// const mapToCandidateConfigModel = (modules) => {
+//   console.log("mappedModmodulesules",modules);
+
+//   const mappedModules = joinjs.map(modules, resultMaps, 'candidateConfigMap', 'candidate_config_');
+
+//   console.log("mappedModules",mappedModules);
+//   return CandidateConfig({
+//     candidate_config_id: mappedModules[0].id,
+//       key_name: mappedModules[0].key_name,
+//       description: mappedModules[0].description
+//   });
+// };
+
+const mapToCandidateConfigModel = (templates) => {
+  console.log("mappedElectionTemplate",templates);
+
+	const mappedElectionTemplate = joinjs.map(templates, resultMaps, 'SeparateCandidateConfigMap', 'candidate_config_');
+console.log("mappedEle",mappedElectionTemplate);
+	return _.reduce(mappedElectionTemplate, (result, election) => {
+        return result.push({
+          candidate_config_id: election.id,
+          key_name: election.key_name,
+          description: election.description
+        });
+    }, List(CandidateConfig)());
+}
+
 export default {
   mapToModuleModel,
   mapToCandidateConfigColumnNames,
-  mapToModuleModelList
+  mapToModuleModelList,
+  mapToAllElectionTemplate,
+  mapToCandidateConfigModel
 };

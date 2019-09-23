@@ -1,5 +1,7 @@
-import { ActiveElection,CallElection }  from 'Models';
+import { ActiveElection,CallElection,electoratesData,eligibilityData }  from 'Models';
 var joinjs = require('join-js').default;
+import {List} from 'typed-immutable';
+import _ from 'lodash';
 // join-js usage : https://www.npmjs.com/package/join-js
 
 const resultMaps = [
@@ -26,6 +28,11 @@ const resultMaps = [
 		mapId: 'divisionMap',
 		idProperty: ['team_id','division_id'],
 		properties: ['team_id','division_id']
+  },
+  {
+		mapId: 'eligibilityMap',
+		idProperty: ['eligibility_config_id','description'],
+		properties: ['eligibility_config_id','description']
 	},
 ];
 
@@ -61,8 +68,33 @@ const mapToElectionModel = (activeElections) => {
   });
 };
 
+const mapToElectoratesModel = (electionData) => {
+	const mappedElection = joinjs.map(electionData, resultMaps, 'divisionMap', 'election_');
+
+	return _.reduce(mappedElection, (result, election) => {
+        return result.push({
+            team_id: election.team_id,
+            division_id: election.division_id
+        });
+    }, List(electoratesData)());
+}
+
+const mapToEligibilitiesModel = (electionData) => {
+  console.log("electionDataelectionDataelectionData",electionData);
+	const mappedElection = joinjs.map(electionData, resultMaps, 'eligibilityMap', 'election_');
+  console.log("mappedElectionmappedElectionmappedElection",mappedElection);
+
+	return _.reduce(mappedElection, (result, election) => {
+        return result.push({
+            eligibility_config_id: election.eligibility_config_id,
+            description: election.description
+        });
+    }, List(eligibilityData)());
+}
 
 export default {
   mapToActiveElectionModel,
-  mapToElectionModel
+  mapToElectionModel,
+  mapToElectoratesModel,
+  mapToEligibilitiesModel
 };

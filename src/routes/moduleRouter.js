@@ -110,7 +110,6 @@ export const initModuleRouter = (app) => {
 			method: PUT,
 			path: '/election-modules/:moduleId',
 			handler: (req, res, next) => {
-				console.log("asjjjj",req);
 			  return ModuleService.saveElectionModule(req)
 			  .then((result) => res.status(200).send(result))
 			  .catch(error => next(error));
@@ -124,6 +123,36 @@ export const initModuleRouter = (app) => {
 					.then((result) => res.status(200).send(result))
 					.catch(error => next(error));
 			}
+		},
+		{
+			method: GET,
+			path: '/election-modules',
+			schema: {},
+			handler: (req, res, next) => {
+				return ModuleService.getAllElectionTemplates(req)
+					.then( (result) => res.status(200).send(result))
+					.catch( error => next(error));
+			}
+		},
+		{
+			method: PUT,
+			path: '/election-modules/:moduleId/approve-election-templates',
+			handler: (req, res, next) => {
+				return ModuleService.ApproveElectionTemplateByModuleId(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			},
+		},
+		{
+			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/module/12222?max=123234567
+			method: GET,
+			path: '/modules/:moduleId/candidate-form-config',
+			schema: {},
+			handler: (req, res, next) => {
+				return ModuleService.getCandidateFormConfigByModuleId(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			},
 		},
 		// {
 		// 	method: GET,

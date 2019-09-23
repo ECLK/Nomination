@@ -6,7 +6,11 @@ const uuidv4 = require('uuid/v4');
 
 
 const CANDIDATE_CONFIG_QUERY = `SELECT id as 'key', DESCRIPTION as 'value' FROM CANDIDATE_CONFIG`;
-const CANDIDATE_SUPPORTING_DOCS_QUERY = `SELECT ID as 'key', KEY_NAME as 'value' FROM SUPPORT_DOC_CONFIG WHERE DOC_CATEGORY LIKE 'CANDIDATE' OR DOC_CATEGORY LIKE 'NOMINATION'  `;
+const SUPPORTING_DOCS_QUERY = `SELECT ID AS 'key', 
+                                        KEY_NAME AS 'value' ,
+                                        DOC_CATEGORY  AS  'doc_category',
+                                        CATEGORY AS 'category'
+                                        FROM SUPPORT_DOC_CONFIG WHERE DOC_CATEGORY= :category  `;
 const ELECTORATES_QUERY = `SELECT ID as 'id', NAME as 'name' FROM DIVISION_CONFIG WHERE MODULE_ID=:id  `;
 
 const fetchCandidateConfig = (moduleId) => {
@@ -21,10 +25,10 @@ const fetchCandidateConfig = (moduleId) => {
       });
 };
 
-const fetchCandidateSupportingDocs = (moduleId) => {
-  const params = {id: moduleId};
+const fetchSupportingDocs = (category) => {
+  const params = {category: category};
   return DbConnection()
-      .query(CANDIDATE_SUPPORTING_DOCS_QUERY,
+      .query(SUPPORTING_DOCS_QUERY,
           {
               replacements: params,
               type: DbConnection().QueryTypes.SELECT,
@@ -47,6 +51,6 @@ const fetchElectorates = (moduleId) => {
 
 export default {
   fetchCandidateConfig,
-  fetchCandidateSupportingDocs,
-  fetchElectorates
+  fetchSupportingDocs,
+  fetchElectorates,
 };

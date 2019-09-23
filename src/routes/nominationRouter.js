@@ -181,16 +181,34 @@ export const initNominationRouter = (app) => {
 					.catch(error => next(error));
 			},
 		},
-    {
-      method: POST,
-      path: '/file-upload',
-      handler: (req, res, next) => {
-        // console.log(req);
-        return UploadService.uploadFile(req)
-          .then((result) => res.status(HTTP_CODE_201).send(result))
-          .catch(error => next(error));
-      },
-    },
+		{
+		method: POST,
+		path: '/file-upload',
+		handler: (req, res, next) => {
+			// console.log(req);
+			return UploadService.uploadFile(req)
+			.then((result) => res.status(HTTP_CODE_201).send(result))
+			.catch(error => next(error));
+		},
+		},
+		{
+			method: GET,
+			path: '/nominations/:electionId/payment-status',
+			handler: (req, res, next) => {
+				return NominationService.getNominationPaymentStatusByElectionId(req)
+					.then((result) => res.status(HTTP_CODE_200).send(result))
+					.catch(error => next(error));
+			},
+		},
+		{
+			method: GET,
+			path: '/nominations/:nominationId/key-name/:keyName',
+			handler: (req, res, next) => {
+				return NominationService.getNominationDataByNominationId(req)
+					.then((result) => res.status(HTTP_CODE_200).send(result))
+					.catch(error => next(error));
+			},
+		},
 		// {
 		//   method: POST,
 		//   path: '/upload',

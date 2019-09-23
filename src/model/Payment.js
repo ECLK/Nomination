@@ -23,6 +23,7 @@ import {Record,Maybe} from 'typed-immutable';
 const NominationPayment =  Record({
   id: String(),
   depositor: String(),
+  serialNo: String(),
   depositAmount: Number(),
   amount: Number(),
   depositeDate: Number(),
@@ -31,10 +32,25 @@ const NominationPayment =  Record({
   nominationId: String(),
   createdBy: String(),
   createdAt: Number(),
-  updatedAt: Number()
+  updatedAt: Number(),
+  election: String(),
+  team_id: String(),
+  note: Maybe(String),
 });
 
+const AllPayments =  Record({
+  payment_id: String(),
+  depositor: String(),
+  serial: Maybe(String),
+  deposit_amount: Number(),
+  deposit_date: String(),
+  nomination_id: String(),
+  team_id: String(),
+  division: String(),
+  action:String()
+});
 export {
 	Payment,
-	NominationPayment
+  NominationPayment,
+  AllPayments
 }

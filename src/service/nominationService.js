@@ -100,12 +100,51 @@ const saveApproveNominationByNominationId = async (req) => {
       throw new ServerError("Server error", HTTP_CODE_404);
     }
   };
+//Get nomination payment status by electionId
+const getNominationPaymentStatusByElectionId = async (req) => {
+  try {
+    const electionId = req.params.electionId;
 
+    const params = {'electionId':electionId }
+    const nominations = await NominationRepo.fetchNominationPaymentStatus( params );
+
+    if(!_.isEmpty(nominations)){
+      return nominations[0].payment_status;
+    }else {
+      return null;
+    }
+  } catch (e){
+    console.log(e);
+    throw new ServerError("Server error", HTTP_CODE_404);
+  }
+};
+
+//Get nomination data for nomination payment by nomination id
+const getNominationDataByNominationId = async (req) => {
+  try {
+    const nominationId = req.params.nominationId;
+    const keyName = req.params.keyName;
+
+    const params = {'nominationId':nominationId,'keyName':keyName }
+    const nominations = await NominationRepo.fetchNominationData( params );
+
+    if(!_.isEmpty(nominations)){
+      return nominations;
+    }else {
+      return null;
+    }
+  } catch (e){
+    console.log(e);
+    throw new ServerError("Server error", HTTP_CODE_404);
+  }
+};
 
 export default {
     getNominationByTeamId,
     getNominationByStatus,
     validateNominationId,
     getPendingNominationsByElectionId,
-    saveApproveNominationByNominationId
+    saveApproveNominationByNominationId,
+    getNominationPaymentStatusByElectionId,
+    getNominationDataByNominationId
 };

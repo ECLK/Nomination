@@ -64,8 +64,31 @@ const PENDING_NOMINATION_SELECT_QUERY = `SELECT
 const NOMINATION_STATUS_INSERT_QUERY = `INSERT INTO NOMINATION_APPROVAL (ID, APPROVED_BY, APPROVED_AT, UPDATED_AT, STATUS, REVIEW_NOTE, NOMINATION_ID) 
                               					VALUES (:id, :createdBy,:createdAt, :updatedAt, :status, :reviewNote, :nominationId)`;
 const NOMINATION_APPROVE_DELETE_QUERY = `DELETE FROM NOMINATION_APPROVAL WHERE NOMINATION_ID = :nominationId AND STATUS='1ST-APPROVE' OR STATUS='REJECT' OR STATUS='2ND-APPROVE'`;
-
-
+const PAYMENT_STATUS_SELECT_QUERY = `SELECT 
+																			emcd.VALUE AS payment_status
+																			FROM ELECTION e 
+																			LEFT JOIN ELECTION_MODULE em ON em.ID=e.MODULE_ID
+																			LEFT JOIN ELECTION_MODULE_CONFIG_DATA emcd ON em.ID=emcd.MODULE_ID
+																			LEFT JOIN ELECTION_MODULE_CONFIG emc ON emc.ID=emcd.ELECTION_MODULE_CONFIG_ID
+																			WHERE e.ID=:electionId AND emc.KEY_NAME='pay allowed rpp'`;
+// uncomment this if something wrong with below code																			
+// const NOMINATION_DATA_SELECT_QUERY = `SELECT N.ID AS nomination_id ,DC.NO_OF_CANDIDATES AS noOfCandidates,DC.NAME AS division_name,DC.ID AS division_id
+// 																			FROM NOMINATION N 
+// 																			LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID=DC.ID
+// 																			WHERE 
+// 																			N.ID=:nominationId`;
+const NOMINATION_DATA_SELECT_QUERY = `SELECT N.ID AS nomination_id ,DC.NO_OF_CANDIDATES AS noOfCandidates,DC.NAME AS division_name,DC.ID AS division_id,EMCD.VALUE AS payPerCandidate
+																			FROM NOMINATION N 
+																			LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID=DC.ID 
+																			LEFT JOIN ELECTION E ON N.ELECTION_ID=E.ID
+																			LEFT JOIN ELECTION_MODULE EM ON E.MODULE_ID=EM.ID
+																			LEFT JOIN ELECTION_MODULE_CONFIG_DATA EMCD ON EM.ID=EMCD.MODULE_ID
+																			LEFT JOIN ELECTION_MODULE_CONFIG EMC  ON EMCD.ELECTION_MODULE_CONFIG_ID=EMC.ID
+																			WHERE 
+																			N.ID=:nominationId AND EMC.KEY_NAME=:keyName
+																			GROUP BY EM.ID`;																			
+																			
+																			
 const fetchNominationByTeam = (team_id, election_id) => {
 	const params = { team_id: team_id, election_id: election_id };
 	return DbConnection()
@@ -131,6 +154,31 @@ const fetchPendingNominationList = (params) => {
   
 }
 
+const fetchNominationPaymentStatus = (params) => {
+	
+		return DbConnection()
+    .query(PAYMENT_STATUS_SELECT_QUERY,
+      {
+        replacements: params,
+        type: DbConnection().QueryTypes.SELECT,
+      }).catch((error) => {
+        throw new DBError(error);
+			});	
+		}
+
+	const fetchNominationData = (params) => {
+
+		return DbConnection()
+		.query(NOMINATION_DATA_SELECT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+			}).catch((error) => {
+				throw new DBError(error);
+			});	
+		}
+		
+
 // const createNominationStatus = (nominationData) => {
 //   const params = nominationData;
 //   return DbConnection()
@@ -176,5 +224,7 @@ export default {
 	fetchNominationByStatus,
 	fetchNominationByNominationId,
 	fetchPendingNominationList,
-	createNominationStatus
+	createNominationStatus,
+	fetchNominationPaymentStatus,
+	fetchNominationData
 }

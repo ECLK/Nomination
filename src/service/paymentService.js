@@ -5,6 +5,7 @@ import PaymentRepo from '../repository/payment';
 import { PaymentManager } from 'Managers';
 import { NominationService } from 'Service';
 import { HTTP_CODE_404, HTTP_CODE_204 } from '../routes/constants/HttpCodes';
+import { executeTransaction } from '../repository/TransactionExecutor';
 const uuidv4 = require('uuid/v4');
 
 
@@ -51,11 +52,13 @@ const createPaymentByNominationId = async (req) => {
 		const createdAt = req.body.createdAt;
 		const createdBy = req.body.createdBy;
 		const amount = req.body.amount;
+		const serialNo = req.body.serialNo;
 		const filePath = req.body.filePath;
 		const status = req.body.status;
 		const nominationId = req.body.nominationId;
+		const realSerial = await getRealSerialNumber();
 		await NominationService.validateNominationId(nominationId);//TODO: yujith,re check this function
-		const paymentData = { 'id': id, 'depositor': depositor, 'depositDate': depositDateInt, 'amount': amount, 'updatedAt': updatedAt, 'createdAt': createdAt, 'createdBy': createdBy, 'filePath': filePath, 'nominationId': nominationId, 'status': status };
+		const paymentData = { 'id': id, 'depositor': depositor, 'depositDate': depositDateInt,'serialNo': realSerial, 'amount': amount, 'updatedAt': updatedAt, 'createdAt': createdAt, 'createdBy': createdBy, 'filePath': filePath, 'nominationId': nominationId, 'status': status };
 		return await PaymentRepo.createPayment(paymentData);
 	} catch (e) {
 		console.log(e);
@@ -72,8 +75,10 @@ const updatePaymentByNominationId = async (req) => {
     const filePath = req.body.filePath;
 		const paymentId = req.params.paymentId;
 		const updatedAt = req.body.updatedAt;
-    const nominationId = req.params.nominationId;
-    const paymentData = {'paymentId':paymentId,'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'updatedAt':updatedAt, 'nominationId':nominationId};
+		const nominationId = req.body.nominationId;
+		const note = req.body.note;
+		const paymentData = {'paymentId':paymentId,'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'updatedAt':updatedAt, 'nominationId':nominationId, 'note':note};
+		console.log("paymentDatapaymentDatapaymentData",paymentData);
     return await Payment.updatePaymentCommons(paymentData);
   }catch (e){
     console.log(e);
@@ -128,6 +133,88 @@ const savePaymentNoteBypaymentId = async (req) => {
 	}
 };
 
+const getAllPayments = async (req) => {
+	try {
+		const payments = await PaymentRepo.fetchAllPayments();
+		if (!_.isEmpty(payments)){
+			return PaymentManager.mapToAllPaymentModel(payments);
+		} else {
+			return [];
+		}
+	} catch (error) {
+		console.log(error);
+		throw new ServerError("Server error", HTTP_CODE_404);
+	}
+};
+
+//-------------Start of get payment serial-------------
+const getRealSerialNumber = async (req) => {
+	try {
+		return executeTransaction(async (transaction) => {
+		let form =  'nomination_payment';
+		const serialNo = await PaymentRepo.getSerialNumber(form,transaction);
+		const realSerial = await validateSerial(serialNo[0].START+serialNo[0].NUM,form,transaction);
+
+		if (!_.isEmpty(realSerial)){
+			return realSerial;
+		} else {
+			return '';
+		}
+	});
+	} catch (error) {
+		throw new ServerError("Server error", HTTP_CODE_404);
+	}
+};
+
+const validateSerial = async (serialNo,form,transaction) => {
+	try {
+		while(await checkSerial(serialNo,transaction)==false){
+			await PaymentRepo.updateSerial(form,transaction);
+			var res   =   await PaymentRepo.getSerialNumber(form,transaction);
+			var serialNo   = res[0].START+res[0].NUM;  
+		}
+
+		if (!_.isEmpty(serialNo)){
+			return serialNo;
+		} else {
+			return '';
+		}
+	} catch (error) {
+		throw new ServerError("Server error", HTTP_CODE_404);
+	}
+};
+
+const checkSerial = async (serialNo,transaction) => {
+	try {
+		const res    =  await PaymentRepo.getPaymentSerial(serialNo,transaction);
+
+	if(res.length >0){
+			return false;
+	}else{
+			return true;
+	}
+	} catch (error) {
+		throw new ServerError("Server error", HTTP_CODE_404);
+	}
+};
+
+
+
+//-------------End of get payment serial-------------
+
+//validate payment by nomination id
+const validatePaymentId = async (req) => {  
+    try {
+      const nominationId = req.params.nominationId;
+	  const payment = await PaymentRepo.fetchPaymentByPaymentId( nominationId );
+	  console.log("ssssssssssssssssss",payment);
+      return payment;
+    }catch (e){
+		console.log(e);
+      throw new ServerError("Server error", HTTP_CODE_404);
+    }
+  
+  };
 
 export default {
 	getPaymentByNominationId,
@@ -138,5 +225,8 @@ export default {
 	getAllPaidPayments,
 	getPaymentsByElectionId,
 	putPaymentsBypaymentId,
-	savePaymentNoteBypaymentId
+	savePaymentNoteBypaymentId,
+	getAllPayments,
+	getRealSerialNumber,
+	validatePaymentId
 }

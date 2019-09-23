@@ -16,12 +16,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Decode JWT Token (commented this for production buid until connect api manager )
-// app.use((req, res, next)=>{
-//     let JWT = req.headers['x-jwt-assertion'];
-//     var decoded = jwtDecode(JWT);
-//     req.jwt = decoded;
-//     next();
-// })
+app.use((req, res, next)=>{
+    let JWT = req.headers['x-jwt-assertion'];
+    var decoded = jwtDecode(JWT);
+    req.jwt = decoded;
+    next();
+})
 
 
 // enable CORS - Cross Origin Resource Sharing

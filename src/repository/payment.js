@@ -1,20 +1,27 @@
 import { DBError } from 'Errors';
+import _ from 'lodash';
 import { DbConnection } from './dataSource';
 
 
 
 const PAYMENT_SELECT_QUERY_BY_NOMINATION_ID = `SELECT 
-                                              ID AS PAYMENT_ID, 
-                                              DEPOSITOR AS PAYMENT_DEPOSITOR,
-                                              DEPOSIT_DATE AS PAYMENT_DEPOSIT_DATE,
-                                              AMOUNT AS PAYMENT_AMOUNT,
-                                              FILE_PATH AS PAYMENT_FILE_PATH,
-											  STATUS  AS  PAYMENT_STATUS,
-											  NOMINATION_ID AS PAYMENT_NOMINATION_ID,
-											  CREATED_BY AS PAYMENT_CREATED_BY,
-											  CREATED_AT AS PAYMENT_CREATED_AT,
-											  UPDATED_AT AS PAYMENT_UPDATED_AT
-                                              FROM PAYMENT WHERE NOMINATION_ID= :id`;
+												P.ID AS PAYMENT_ID, 
+												P.DEPOSITOR AS PAYMENT_DEPOSITOR,
+												P.SERIAL_NO AS PAYMENT_SERIAL_NO,
+												P.DEPOSIT_DATE AS PAYMENT_DEPOSIT_DATE,
+												P.AMOUNT AS PAYMENT_AMOUNT,
+												P.FILE_PATH AS PAYMENT_FILE_PATH,
+												P.STATUS  AS  PAYMENT_STATUS,
+												P.NOMINATION_ID AS PAYMENT_NOMINATION_ID,
+												P.CREATED_BY AS PAYMENT_CREATED_BY,
+												P.CREATED_AT AS PAYMENT_CREATED_AT,
+												P.UPDATED_AT AS PAYMENT_UPDATED_AT,
+												E.ID AS PAYMENT_ELECTION_ID,
+												N.TEAM_ID AS PAYMENT_TEAM_ID,
+												P.NOTE AS PAYMENT_NOTE
+												FROM PAYMENT P LEFT JOIN  NOMINATION N ON P.NOMINATION_ID =N.ID 
+												LEFT JOIN ELECTION E ON E.ID=N.ELECTION_ID
+												WHERE P.NOMINATION_ID= :id`;
 
 const fetchPaymentsByNominationId = (nominationId) => {
 	const params = { id: nominationId };
@@ -71,9 +78,9 @@ const sampleTransactionUpdateStatusByNominationId = (nomination_id, status, tran
 
 
 const PAYMENT_INSERT_QUERY = `INSERT INTO PAYMENT 
-  (ID, DEPOSITOR, DEPOSIT_DATE, AMOUNT, FILE_PATH, STATUS, CREATED_BY, CREATED_AT, UPDATED_AT, NOMINATION_ID) 
+  (ID, DEPOSITOR,SERIAL_NO, DEPOSIT_DATE, AMOUNT, FILE_PATH, STATUS, CREATED_BY, CREATED_AT, UPDATED_AT, NOMINATION_ID) 
 VALUES 
-  (:id, :depositor,:depositDate, :amount, :filePath, :status, :createdBy, :createdAt, :updatedAt , :nominationId)`;
+  (:id, :depositor,:serialNo,:depositDate, :amount, :filePath, :status, :createdBy, :createdAt, :updatedAt , :nominationId)`;
 
 const createPayment = (paymentData) => {
 	const params = paymentData;
@@ -85,6 +92,7 @@ const createPayment = (paymentData) => {
 			}).then((results) => {
 				return params;
 			}).catch((error) => {
+				console.log(error);
 				throw new DBError(error);
 			});
 };
@@ -94,12 +102,13 @@ const createPayment = (paymentData) => {
 
 const PAYMENT_UPDATE_QUERY = `UPDATE PAYMENT 
                               SET 
-                              DEPOSITOR = :depositor, DEPOSIT_DATE = :depositDate, AMOUNT = :amount, FILE_PATH = :filePath, UPDATED_AT = :updatedAt
+                              DEPOSITOR = :depositor, DEPOSIT_DATE = :depositDate, AMOUNT = :amount, FILE_PATH = :filePath, UPDATED_AT = :updatedAt, NOTE = :note, NOMINATION_ID = :nominationId
                               WHERE 
                               ID = :paymentId`;
 
 const updatePaymentCommons = (paymentData) => {
 	const params = paymentData;
+	console.log("updatePaymentCommonsupdatePaymentCommons",params);
 	return DbConnection()
 		.query(PAYMENT_UPDATE_QUERY,
 			{
@@ -140,6 +149,38 @@ const PAYMENTS_BY_ELECTION_ID_SELECT_QUERY = `SELECT
 											LEFT JOIN TEAM_CONFIG tc ON tc.ID=n.TEAM_ID
 											WHERE 
 											n.ELECTION_ID = :electionId AND emc.KEY_NAME='candidate payment'`;
+
+const ALL_PAYMENTS_SELECT_QUERY = `SELECT P.ID AS payment_id, 
+									P.DEPOSITOR AS payment_depositor ,
+									P.SERIAL_NO AS payment_serial,
+									P.DEPOSIT_DATE AS payment_deposit_date, 
+									P.AMOUNT AS payment_amount,
+									P.NOMINATION_ID AS payment_nomination_id,
+									DC.NAME AS payment_division,
+									N.TEAM_ID AS payment_team
+									FROM PAYMENT P LEFT JOIN NOMINATION N ON P.NOMINATION_ID=N.ID
+									LEFT JOIN DIVISION_CONFIG    DC  ON N.DIVISION_CONFIG_ID=DC.ID`;	
+
+const SERIAL_NO_BY_FORM_SELECT_QUERY = `SELECT * FROM PAYMENT_SERIAL WHERE FORM=:form`;
+
+const PAYMENT_BY_SERIAL_NO_SELECT_QUERY = `SELECT * FROM PAYMENT WHERE SERIAL_NO=:serial`;
+
+const SERIAL_NO_UPDATE_QUERY = `UPDATE PAYMENT_SERIAL SET NUM=NUM+1 WHERE FORM=:form`;
+
+const PAYMENT_BY_NOMINATION_ID_SELECT_QUERY = `SELECT * FROM PAYMENT WHERE NOMINATION_ID = :nominationId`;
+
+const PAYMENT_REVIEW_STATUS_UPDATE_QUERY = `UPDATE PAYMENT 
+											SET 
+											STATUS = :status
+											WHERE 
+											ID = :paymentId`;
+
+const PAYMENT_REVIEW_NOTE_UPDATE_QUERY = `UPDATE PAYMENT 
+											SET 
+											NOTE = :note
+											WHERE 
+											ID = :paymentId`;
+
 const fetchPaymentsByElectionId = (election_id) => {
 	const params = { electionId: election_id };
 	return DbConnection()
@@ -152,11 +193,61 @@ const fetchPaymentsByElectionId = (election_id) => {
 			});
 }
 
-const PAYMENT_REVIEW_STATUS_UPDATE_QUERY = `UPDATE PAYMENT 
-                              SET 
-                              STATUS = :status
-                              WHERE 
-                              ID = :paymentId`;
+const getSerialNumber = (form,transaction) => {
+	const params = { form: form };
+	return DbConnection()
+		.query(SERIAL_NO_BY_FORM_SELECT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+				transaction,
+			}).then((results) => {
+                return results;
+            }).catch((error) => {
+				throw new DBError(error);
+			});
+}
+
+const getPaymentSerial = (serialNo,transaction) => {
+	const params = { serial: serialNo };
+	return DbConnection()
+		.query(PAYMENT_BY_SERIAL_NO_SELECT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+				transaction,
+			}).then((results) => {
+                return results;
+            }).catch((error) => {
+				throw new DBError(error);
+			});
+}
+
+const updateSerial = (form,transaction) => {
+    const params = { 'form': form};
+    return DbConnection()
+        .query(SERIAL_NO_UPDATE_QUERY,
+            {
+                replacements: params,
+				type: DbConnection().QueryTypes.UPDATE,
+				transaction
+            }).then((results) => {
+                return params;
+            }).catch((error) => {
+                throw new DBError(error);
+            });
+};
+
+const fetchAllPayments = () => {
+	return DbConnection()
+		.query(ALL_PAYMENTS_SELECT_QUERY,
+			{
+				replacements: {},
+				type: DbConnection().QueryTypes.SELECT
+			}).catch((error) => {
+				throw new DBError(error);
+			});
+}
 
 const updatePaymentStatus = (paymentId,status) => {
     const params = { 'status': status, 'paymentId': paymentId};
@@ -171,12 +262,6 @@ const updatePaymentStatus = (paymentId,status) => {
                 throw new DBError(error);
             });
 };
-
-const PAYMENT_REVIEW_NOTE_UPDATE_QUERY = `UPDATE PAYMENT 
-                              SET 
-                              NOTE = :note
-                              WHERE 
-                              ID = :paymentId`;
 
 const updatePaymentNote = (paymentId,note) => {
     const params = { 'note': note, 'paymentId': paymentId};
@@ -193,13 +278,37 @@ const updatePaymentNote = (paymentId,note) => {
 };
 
 
+const fetchPaymentByPaymentId = (nominationId,transaction) => {
+	const params = { nominationId: nominationId };
+	return DbConnection()
+	  .query(PAYMENT_BY_NOMINATION_ID_SELECT_QUERY,
+		{
+		  replacements: params,
+				  type: DbConnection().QueryTypes.SELECT,
+				  transaction
+		}).then((results) => {
+			if(_.isEmpty(results)){
+				return true;
+			}else{
+				return false;
+			}
+		}).catch((error) => {
+		  throw new DBError(error);
+		});
+  };
+
 export default {
 	fetchPaymentsByNominationId,
 	updateStatusByNominationId,
 	createPayment,
 	updatePaymentCommons,
 	fetchPaymentsByElectionId,
-  sampleTransactionUpdateStatusByNominationId,
-  updatePaymentStatus,
-  updatePaymentNote
+	sampleTransactionUpdateStatusByNominationId,
+	updatePaymentStatus,
+	updatePaymentNote,
+	fetchAllPayments,
+	getSerialNumber,
+	getPaymentSerial,
+	updateSerial,
+	fetchPaymentByPaymentId
 }

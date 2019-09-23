@@ -1,5 +1,5 @@
 import { DBError } from 'Errors';
-// import { DbConnection } from './teamDataSource';
+import { DbConnectionTeam } from './teamDataSource';
 import { DbConnection } from './dataSource';
 
 
@@ -17,9 +17,11 @@ FROM TEAM t
 	LEFT JOIN CONTACT_NUMBER cn on t.ID = cn.TEAM_ID
 WHERE t.ID = :team_id`;
 const ALL_TEAM_SELECT_QUERY = `SELECT 
-ID as team_id,
-TEAM_NAME as team_name
-FROM TEAM_CONFIG`;
+ID AS team_id,
+PARTY_NAME AS team_name,
+ABBREVIATION AS team_abbrevation,
+PARTY_TYPE AS team_party_type
+FROM TEAM`;
 
 const fetchTeamById = (team_id) => {
     const params = { team_id: team_id };
@@ -34,11 +36,11 @@ const fetchTeamById = (team_id) => {
 };
 
 const fetchAllTeams = () => {
-    return DbConnection()
+    return DbConnectionTeam()
         .query(ALL_TEAM_SELECT_QUERY,
             {
                 replacements: {},
-                type: DbConnection().QueryTypes.SELECT,
+                type: DbConnectionTeam().QueryTypes.SELECT,
             }).then((response) => {
                 return response;
             })
