@@ -33,9 +33,9 @@ WORKDIR $USER_HOME/Nomination
 RUN cp /app/Nomination/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN touch /home/lsf/Nomination/.env
-RUN cp /app/Nomination/api-docs/ /home/lsf/Nomination/api-docs/
-RUN cp /app/Nomination/node_modules/ /home/lsf/Nomination/node_modules/
-RUN cp /app/Nomination/build/ /home/lsf/Nomination/build/
+RUN cp -r /app/Nomination/api-docs/ /home/lsf/Nomination/api-docs/
+RUN cp -r /app/Nomination/node_modules/ /home/lsf/Nomination/node_modules/
+RUN cp -r /app/Nomination/build/ /home/lsf/Nomination/build/
 RUN cp /app/Nomination/src/config/development.json /home/lsf/Nomination/prod.json 
 
 ENV APP_ID 'nomination-api'
