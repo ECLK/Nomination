@@ -1,5 +1,5 @@
 #FROM node:6.16.0-jessie AS build
-FROM node:8.15.1-jessie AS build
+FROM node:8.15.1-jessie
 
 RUN mkdir -p /app/Nomination
 ADD . /app/Nomination
@@ -30,13 +30,13 @@ RUN mkdir -p $USER_HOME/Nomination/build
 
 WORKDIR $USER_HOME/Nomination
 
-COPY --from=build /app/Nomination/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+RUN copy /app/Nomination/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN touch /home/lsf/Nomination/.env
-COPY --from=build /app/Nomination/api-docs/ /home/lsf/Nomination/api-docs/
-COPY --from=build /app/Nomination/node_modules/ /home/lsf/Nomination/node_modules/
-COPY --from=build /app/Nomination/build/ /home/lsf/Nomination/build/
-COPY --from=build /app/Nomination/src/config/development.json /home/lsf/Nomination/prod.json 
+RUN copy /app/Nomination/api-docs/ /home/lsf/Nomination/api-docs/
+RUN copy /app/Nomination/node_modules/ /home/lsf/Nomination/node_modules/
+RUN copy /app/Nomination/build/ /home/lsf/Nomination/build/
+RUN copy /app/Nomination/src/config/development.json /home/lsf/Nomination/prod.json 
 
 ENV APP_ID 'nomination-api'
 
