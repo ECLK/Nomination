@@ -9,7 +9,7 @@
     "npm": ">=3"
   },
   "scripts": {
-    "start": "NODE_ENV=development nodemon --exec 'babel-node ./src/index.js' --conf-path='./development.json' | bunyan",
+    "start": "NODE_ENV=development nodemon --exec 'babel-node ./src/index.js' --conf-path='./prod.json' | bunyan",
     "test:cmd": "./node_modules/.bin/_mocha --compilers js:babel-core/register --timeout 100000 --harmony --require babel-polyfill",
     "test": "npm run test:cmd  './src/test/**/*.@(js)' -w",
     "test:custom": "npm run test:cmd -- -w",
