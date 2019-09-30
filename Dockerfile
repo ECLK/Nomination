@@ -30,13 +30,13 @@ RUN mkdir -p $USER_HOME/Nomination/build
 
 WORKDIR $USER_HOME/Nomination
 
-RUN copy /app/Nomination/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+RUN cp /app/Nomination/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN touch /home/lsf/Nomination/.env
-RUN copy /app/Nomination/api-docs/ /home/lsf/Nomination/api-docs/
-RUN copy /app/Nomination/node_modules/ /home/lsf/Nomination/node_modules/
-RUN copy /app/Nomination/build/ /home/lsf/Nomination/build/
-RUN copy /app/Nomination/src/config/development.json /home/lsf/Nomination/prod.json 
+RUN cp /app/Nomination/api-docs/ /home/lsf/Nomination/api-docs/
+RUN cp /app/Nomination/node_modules/ /home/lsf/Nomination/node_modules/
+RUN cp /app/Nomination/build/ /home/lsf/Nomination/build/
+RUN cp /app/Nomination/src/config/development.json /home/lsf/Nomination/prod.json 
 
 ENV APP_ID 'nomination-api'
 
