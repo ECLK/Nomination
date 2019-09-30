@@ -1,5 +1,5 @@
 #FROM node:6.16.0-jessie AS build
-FROM node:8.15.1-jessie AS build
+FROM node:8.15.1-jessie
 # set user configurations
 ENV USER=builder
 ENV USER_HOME=/home/${USER}
@@ -10,7 +10,7 @@ WORKDIR $USER_HOME/Nomination
 RUN ./build.sh
 
 # FROM node:6.16.0-jessie
-FROM node:8.15.1-jessie
+# FROM node:8.15.1-jessie
 # set user configurations
 ENV USER=lsf
 ENV USER_ID=1001
@@ -33,13 +33,13 @@ RUN mkdir -p $USER_HOME/Nomination/build
 
 WORKDIR $USER_HOME/Nomination
 
-COPY --from=build /home/builder/Nomination/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY /home/builder/Nomination/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN touch /home/lsf/Nomination/.env
-COPY --from=build /home/builder/Nomination/api-docs/ /home/lsf/Nomination/api-docs/
-COPY --from=build /home/builder/Nomination/node_modules/ /home/lsf/Nomination/node_modules/
-COPY --from=build /home/builder/Nomination/build/ /home/lsf/Nomination/build/
-COPY --from=build /home/builder/Nomination/src/config/development.json /home/lsf/Nomination/prod.json 
+COPY /home/builder/Nomination/api-docs/ /home/lsf/Nomination/api-docs/
+COPY /home/builder/Nomination/node_modules/ /home/lsf/Nomination/node_modules/
+COPY /home/builder/Nomination/build/ /home/lsf/Nomination/build/
+COPY /home/builder/Nomination/src/config/development.json /home/lsf/Nomination/prod.json 
 
 ENV APP_ID 'nomination-api'
 
