@@ -1,5 +1,6 @@
 import { DBError } from 'Errors';
 import { DbConnection } from './dataSource';
+import { formatQueryToBulkInsert, formatDataToBulkInsert} from './sqlHelper';
 
 
 const CANDIDATE_BY_NOMINATION_SELECT_QUERY = `SELECT ID AS CANDIDATE_ID,
@@ -39,7 +40,11 @@ const NOMINATION_STATUS_UPDATE_QUERY = `UPDATE NOMINATION
                                 STATUS = "DRAFT"
                                 WHERE 
                                 ID = :nominationId`;						  
-							  
+
+const CANDIDATE_DELETE_QUERY = `DELETE FROM CANDIDATE_DATA WHERE NOMINATION_ID = :candidateId`;
+const CANDIDATE_DATA_INSERT_BASE_QUERY = `INSERT INTO CANDIDATE_DATA (ID,CANDIDATE_CONFIG_ID,VALUE,NOMINATION_ID) VALUES `
+const CANDIDATE_DATA_COLUMN_ORDER = ['id', 'candidateConfigId','value','nominationId'];
+															  
 
 const getCandidateListByNomination = (nomination_id) => {
 	const params = { nomination_id: nomination_id };
@@ -182,6 +187,44 @@ const updateNominationStatus = (nominationId,transaction) => {
 			});
 };
 
+/**
+ * save candidate data
+ * @returns {Promise.<T>}
+ */
+const saveCandidate = async (candidateId,nominationId,data, transaction) => {
+	const params = {candidateId:candidateId};
+	data = data.map((record) => {
+	  record.nominationId = nominationId;
+	  record.id = candidateId
+	  return record;
+  });
+	await  DbConnection()
+	.query(CANDIDATE_DELETE_QUERY,
+	  {
+		replacements: params,
+		type: DbConnection().QueryTypes.DELETE,
+		transaction
+	  }).catch((error) => {
+		throw new DBError(error);
+	  });
+	if( data instanceof Array && data.length > 0){
+		try {
+	return DbConnection()
+	.query(formatQueryToBulkInsert(CANDIDATE_DATA_INSERT_BASE_QUERY, data),
+	  {
+		replacements: formatDataToBulkInsert(data, CANDIDATE_DATA_COLUMN_ORDER),
+		type: DbConnection().QueryTypes.INSERT,
+		transaction,
+	  }).catch((error) => {
+		 throw new DBError(error);
+	   });
+		}catch (e){
+			console.log(e);
+		}
+	  }
+  };
+
+ 
 export default {
 	getCandidateListByNomination,
 	createCandidate,
@@ -191,5 +234,6 @@ export default {
 	getCandidateConfigByModuleId,
 	insertCandidateConfigByModuleId,
 	deleteCandidate,
-	updateNominationStatus
+	updateNominationStatus,
+	saveCandidate
 }
