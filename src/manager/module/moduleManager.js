@@ -55,9 +55,9 @@ const resultMaps = [
 		properties: ['name', 'created_by', 'module_id', 'status','last_modified']
   },
   {
-		mapId: 'candidateConfigMap',
+		mapId: 'candidateConfigMapData',
 		idProperty: 'id',
-		properties: ['name', 'created_by', 'module_id', 'status','last_modified']
+		properties: ['key_name', 'description', 'json_schema']
 	},
 ];
 
@@ -155,13 +155,14 @@ console.log("mappedEle",mappedElectionTemplate);
 const mapToCandidateConfigModel = (templates) => {
   console.log("mappedElectionTemplate",templates);
 
-	const mappedElectionTemplate = joinjs.map(templates, resultMaps, 'candidateConfigMap', 'candidate_config_');
-console.log("mappedEle",mappedElectionTemplate);
+	const mappedElectionTemplate = joinjs.map(templates, resultMaps, 'candidateConfigMapData', 'candidate_config_');
+console.log("mappedConf",mappedElectionTemplate);
 	return _.reduce(mappedElectionTemplate, (result, election) => {
         return result.push({
           candidate_config_id: election.id,
           key_name: election.key_name,
-          description: election.description
+          description: election.description,
+          json_schema: election.json_schema
         });
     }, List(CandidateConfig)());
 }

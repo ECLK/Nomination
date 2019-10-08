@@ -93,8 +93,9 @@ const TEMPLATE_STATUS_UPDATE_QUERY = `UPDATE ELECTION_MODULE_APPROVAL
 
 const CANDIDATE_CONFIG_SELECT_QUERY = `SELECT CC.ID AS candidate_config_id,
                                         CC.KEY_NAME AS candidate_config_key_name,
-                                        CC.DESCRIPTION AS candidate_config_description
-                                         FROM CANDIDATE_CONFIG_DATA CAD LEFT JOIN CANDIDATE_CONFIG CC ON CAD.CANDIDATE_CONFIG_ID=CC.ID
+                                        CC.DESCRIPTION AS candidate_config_description,
+                                        CC.JSON_SCHEMA AS candidate_config_json_schema
+                                        FROM CANDIDATE_CONFIG_DATA CAD LEFT JOIN CANDIDATE_CONFIG CC ON CAD.CANDIDATE_CONFIG_ID=CC.ID
                                         WHERE CAD.MODULE_ID=:id`;
                                 
 const fetchModuleById = (moduleId) => {
