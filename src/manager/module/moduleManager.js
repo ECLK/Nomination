@@ -57,7 +57,7 @@ const resultMaps = [
   {
 		mapId: 'SeparateCandidateConfigMap',
 		idProperty: 'id',
-		properties: ['key_name', 'description']
+		properties: ['key_name', 'description', 'json_schema']
 	},
 ];
 
@@ -156,12 +156,13 @@ const mapToCandidateConfigModel = (templates) => {
   console.log("mappedElectionTemplate",templates);
 
 	const mappedElectionTemplate = joinjs.map(templates, resultMaps, 'SeparateCandidateConfigMap', 'candidate_config_');
-console.log("mappedEle",mappedElectionTemplate);
+console.log("mappedConf",mappedElectionTemplate);
 	return _.reduce(mappedElectionTemplate, (result, election) => {
         return result.push({
           candidate_config_id: election.id,
           key_name: election.key_name,
-          description: election.description
+          description: election.description,
+          json_schema: election.json_schema
         });
     }, List(CandidateConfig)());
 }

@@ -43,7 +43,9 @@ const eligibilityCheckList = Record({
 const CandidateConfig = Record({
     candidate_config_id: String(),
     key_name: String(),
-    description: String()
+    description: String(),
+    json_schema: Maybe(String)
+
 });
 
  const ModuleList = Record({
