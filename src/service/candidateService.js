@@ -301,5 +301,6 @@ export default {
 	updateCandidateDataById,
 	saveCandidateConfig,
 	saveCandidateSupportDocConfigData,
-	deleteCandidateByCandidateId
+	deleteCandidateByCandidateId,
+	saveCandidateByNominationId_old
 }

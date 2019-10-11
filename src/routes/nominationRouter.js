@@ -47,7 +47,7 @@ export const initNominationRouter = (app) => {
 			method: POST,
 			path: '/nominations/candidates',
 			handler: (req, res, next) => {
-			  return CandidateService.saveCandidateByNominationId(req)
+			  return CandidateService.saveCandidateByNominationId_old(req)
 			  .then((result) => res.status(200).send(result))
 						  .catch(error => next(error));
 			},
