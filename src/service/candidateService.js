@@ -102,8 +102,8 @@ const isCandidateExists = async (candidateId) => {
 
 
 
-//Save candidate
-const saveCandidateByNominationId = async (req) => {
+//Save candidate by nomination id
+const saveCandidateByNominationId_old = async (req) => {
 	try {
 		return executeTransaction(async (transaction) => {
 		const id = uuidv4();
@@ -271,6 +271,28 @@ const saveCandidateSupportDocConfigData = async (req) => {
 }
 
 
+const saveCandidateByNominationId = async (req) => {
+	try {
+  return executeTransaction(async (transaction) => {
+		let candidateId = req.params.candidateId;
+	if(candidateId !== undefined){
+		await CandidateRepo.saveCandidate(candidateId,req.body.nominationId,req.body.candidateData, transaction);
+	}else{
+		candidateId = uuidv4();
+		await CandidateRepo.saveCandidate(candidateId,req.body.nominationId,req.body.candidateData, transaction);
+	}
+	await CandidateRepo.updateNominationStatus( req.body.nominationId,transaction );
+
+    return req.body.candidateData;
+	});
+}catch (e){
+	console.log(e);
+	throw new ServerError("server error");
+}
+};
+
+
+
 export default {
 	getCandidateListByNominationId,
 	saveCandidateByNominationId,
@@ -279,5 +301,6 @@ export default {
 	updateCandidateDataById,
 	saveCandidateConfig,
 	saveCandidateSupportDocConfigData,
-	deleteCandidateByCandidateId
+	deleteCandidateByCandidateId,
+	saveCandidateByNominationId_old
 }
