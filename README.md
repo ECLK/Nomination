@@ -21,7 +21,7 @@ There are 9 mager modules for this system. Which are listed down below
     8. Create Objection
     9. Approve Objection
 
->You can check out the further information [here](https://github.com/IgorAntun/node-chat/blob/master/LICENSE)
+>You can check out the further information [here](https://github.com/ECLK/Nomination.git/generalInfo.md)
 
 ## Technologies
 Project is created with:
