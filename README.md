@@ -1,11 +1,35 @@
 # System for Nominating Candidates for Elections
+> This system is responsible for creating an election, managing parties / independent groups and nominating elections.
 
-The nomination system is used to nominate candidates for an election. This system also covers the earlier step of registering a political party (which spans multiple elections) or an independent group for a particular election.
+## Table of contents
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Setup](#setup)
 
-Note that as of November 2018, the legally binding nomination process requires paper submission of nominations. This system helps a party or independent group prepare the nomination form and validate that the data is correct.
+## General info
+> The nomination system is used to nominate candidates for an election. This system helps a party or independent group to prepare the nomination form and validate that the data is correct.
+There are 9 mager modules for this system. Which are listed down below
 
 
-## Using the Nomination System (Work In Progress)
+    1. Create Election
+    2. Approve Election
+    3. Call Election
+    4. Approve Call Election
+    5. Create Nomination
+    6. Create Nomination Payment
+    7. Approve Nomination
+    8. Create Objection
+    9. Approve Objection
+
+>You can check out the further information [here](https://github.com/IgorAntun/node-chat/blob/master/LICENSE)
+
+## Technologies
+Project is created with:
+* Node.js version: 12.10.0
+* Mysql version: 5.7
+
+## Setup
+To run this project, install it locally using npm:
 
 ### How to use ?
 
