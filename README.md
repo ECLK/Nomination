@@ -27,6 +27,7 @@ There are 9 mager modules for this system. Which are listed down below
 Project is created with:
 * Node.js version: 12.10.0
 * Mysql version: 5.7
+* WSO2 API Manager 2.0.0
 
 ## Setup
 To run this project, install it locally using npm:
@@ -42,7 +43,9 @@ npm install
 ```
 
 ##### Setup DB
-
+```
+Find the DB dumps for Nomination DB and for the Team DB inside config/db folder
+```
 
 ##### Development mode
 
@@ -59,8 +62,6 @@ npm run build
 npm run start-prod
 ```
 
-Use de `.env` file to store your important information such as your server port, your password, 
+Use de `development.json` file inside DB folder to store your important information such as your server port, your password, 
 
-##### Swagger-ui test
 
-Use http://localhost:9001/docs
