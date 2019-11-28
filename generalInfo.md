@@ -22,5 +22,8 @@ and select electorates(allowing nominatios for parties) for the election.
 
 ### 5. Create Nomination
 
-> This module responsible for creating a nomination by registered political party member or independent group leader where he or she can add candidates(this form fields defined by create election template) for the particular nomination and submit candidate/nomination supporting documents (this documents defined by create election template) .
+> This module responsible for creating a nomination by registered political party member or independent group leader where he or she can add candidates(this form fields defined by create election template) for the particular nomination and submit candidate/nomination supporting documents (this documents defined by create election template). Also user can download the  form of nomination and the auth from this module.
 
+### 6. Create Nomination Payment
+
+> This module responsible for creating a payment for nomination by election commision officer where he or she can select particular nomination from the system and done the payment then generate payslip 
