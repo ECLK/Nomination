@@ -11,8 +11,8 @@
 There are 9 mager modules for this system. Which are listed down below
 
 
-    1. Create Election
-    2. Approve Election
+    1. Create Election Template
+    2. Approve Election Template
     3. Call Election
     4. Approve Call Election
     5. Create Nomination
