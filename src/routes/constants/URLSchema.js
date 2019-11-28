@@ -18,4 +18,5 @@ export const URL_SCHEMA = Joi.object().keys({
   electionName: Joi.string(),
   templateName: Joi.string(),
   keyName: Joi.string(),
+  sid: Joi.string(),
 });
