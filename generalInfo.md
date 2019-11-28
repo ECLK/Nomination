@@ -27,3 +27,15 @@ and select electorates(allowing nominatios for parties) for the election.
 ### 6. Create Nomination Payment
 
 > This module responsible for creating a payment for nomination by election commision officer where he or she can select particular nomination from the system and done the payment then generate payslip 
+
+### 7. Approve Nomination
+
+> This module responsible for approving or rejecting an submitted nomination by the higher authority of election commision 
+
+### 8. Create Objection
+
+> This module responsible for creating an objection agains oponent parties nominations by party members 
+
+### 9. Approve Objection
+
+> In this module higher authority of election commision will review the submitted objections by the party members and done approving or rejecting based on the nomination validity.
