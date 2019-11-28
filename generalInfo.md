@@ -6,12 +6,16 @@
 - Configure divisions related to particular election eg : for the presidential election division would be Sri Lanka
 - Election configurations eg : Add calculation types/Add an authority/Add nomination payment information/Add eligibility criteria etc.
 
-### 1. Approve Election Template
+### 2. Approve Election Template
 
 > This module responsible for approving or rejecting an election template by the higher authority of election commision 
 
-### 1. Call Election 
+### 3. Call Election 
 
 > This module responsible for calling an election (eg: Presidential 2019). Where user can assign an election template to a particular election and this election will inherit all the configuarations of that particular election template. Then
 user can define election related timelines(eg: nomination time line/payment timeline/objection timeline)
 and select electorates(allowing nominatios for parties) for the election.
+
+### 4. Approve Call Election 
+
+> This module responsible for approving or rejecting an called election by the higher authority of election commision 
