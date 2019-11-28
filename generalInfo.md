@@ -19,3 +19,8 @@ and select electorates(allowing nominatios for parties) for the election.
 ### 4. Approve Call Election 
 
 > This module responsible for approving or rejecting an called election by the higher authority of election commision 
+
+### 5. Create Nomination
+
+> This module responsible for creating a nomination by registered political party member or independent group leader where he or she can add candidates(this form fields defined by create election template) for the particular nomination and submit candidate/nomination supporting documents (this documents defined by create election template) .
+
