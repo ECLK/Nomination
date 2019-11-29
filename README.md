@@ -39,6 +39,14 @@ There are 9 mager modules for this system. Which are listed down below
 | Create Objection          | Create objection by party users and IG users  | OFC Add objection          |
 | Approve Objection          | Approve objections submitted by party users and IG users  | OFC Objection approve                     |
 
+### User management
+
+>User management involves defining and managing users, roles, and their access levels in a system. 
+
+Identity Manager - The Identity Manager is responsible for authenticating all users and for providing high level authorization information for particular applicaitions.
+
+API GW - The API Gateway is the entrypoint for all external accesses to the services that comprise the functionality of all elections systems. The API Gateway uses the Identity Manager for authentication and authorization prior to forwarding requests to the services.
+
 ## Nomination process
 
 >You can checkout following links to get a clear understanding 
@@ -51,8 +59,8 @@ There are 9 mager modules for this system. Which are listed down below
 Project is created with:
 * Node.js version: 12.10.0
 * Mysql version: 5.7
+* WSO2 Identity Server
 * WSO2 API Manager 2.0.0
-
 ## Setup
 
 ### How to use ?
