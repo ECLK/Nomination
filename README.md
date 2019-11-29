@@ -54,7 +54,6 @@ Project is created with:
 * WSO2 API Manager 2.0.0
 
 ## Setup
-To run this project, install it locally using npm:
 
 ### How to use ?
 
