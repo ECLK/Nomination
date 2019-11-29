@@ -5,6 +5,7 @@
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
+* [Database schema](#db-schema)
 
 ## General info
 > The nomination system is used to nominate candidates for an election. This system helps a party or independent group to prepare the nomination form and validate that the data is correct.
@@ -64,4 +65,6 @@ npm run start-prod
 
 Use de `development.json` file inside DB folder to store your important information such as your server port, your password, 
 
+## Database schema
 
+![Image of Yaktocat](https://github.com/ECLK/Nomination/blob/master/images/ec-nomination-erd_V2.7.0.png)
