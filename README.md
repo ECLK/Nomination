@@ -24,6 +24,20 @@ There are 9 mager modules for this system. Which are listed down below
 
 >You can check out the further information [here](https://github.com/ECLK/Nomination/blob/master/generalInfo.md)
 
+### EC-Nomination user roles  
+
+| Module | Module Description | User roles |
+| ---                 | ---                 | ---                  |
+| Create election template   | Create election template which is defined a particular election Eg : Presidential | OFC  Create election template   |
+| Approve election template  | Approve election template |  OFC Election template approve  |
+| Call election              | Call election Eg : Presidential 2019 | OFC Call election    |
+| Approve Call election      | Approve Call election  |  OFC Election approve           |
+| Create nomination         | Create nomination by party users and IG users  |  OFC Create nomination   |
+| Create nomination payment   | Create nomination by ec officers        |  OFC Nomination payment      |
+| Approve nomination          | Approve nominations submitted by party users and IG users     | OFC Nomination approve                |
+| Create Objection          | Create objection by party users and IG users  | OFC Add objection          |
+| Approve Objection          | Approve objections submitted by party users and IG users  | OFC Objection approve                     |
+
 ## Technologies
 Project is created with:
 * Node.js version: 12.10.0
