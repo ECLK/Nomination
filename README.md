@@ -3,6 +3,7 @@
 
 ## Table of contents
 * [General info](#general-info)
+* [Nomination process](#nomination-process)
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Database schema](#database-schema)
@@ -37,6 +38,14 @@ There are 9 mager modules for this system. Which are listed down below
 | Approve nomination          | Approve nominations submitted by party users and IG users     | OFC Nomination approve                |
 | Create Objection          | Create objection by party users and IG users  | OFC Add objection          |
 | Approve Objection          | Approve objections submitted by party users and IG users  | OFC Objection approve                     |
+
+## Nomination process
+
+>You can checkout following links to get a clear understanding 
+
+* Nomination Module: https://docs.google.com/document/d/1oTdU1fwYz48ZjTTnHdjFsDZuLtXvf_G5h3ezi53qk80/edit?usp=sharing
+* Process Document - Provincial Council : https://docs.google.com/document/d/1TvPzII1pG-wvmuWYDAvJL_PXi62AoJyyASea-XQSv0Q/edit
+* Eligibility Criteria: https://docs.google.com/document/d/1C6GorLj7UdRYOJOc8ERexpSWXRWTsrq-tLg6Uzrx4Mw/edit?usp=sharing
 
 ## Technologies
 Project is created with:
