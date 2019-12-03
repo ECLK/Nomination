@@ -97,11 +97,11 @@ Use de `development.json` file inside DB folder to store your important informat
 
 ## Database schema
 
-![Image of Yaktocat](https://github.com/ECLK/Nomination/blob/master/images/ec-nomination-erd_V2.7.0.png)
+![Image of Database schema](https://github.com/ECLK/Nomination/blob/master/images/ec-nomination-erd_V2.7.0.png)
 
 ## High level architecture
 
-![Image of Yaktocat](https://github.com/ECLK/Nomination/blob/master/images/high-level-architecture-nomination.jpg)
+![Image of High level architecture](https://github.com/ECLK/Nomination/blob/master/images/high-level-architecture-nomination.jpg)
 
 ## Credits
 
