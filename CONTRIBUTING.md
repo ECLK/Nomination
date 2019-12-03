@@ -12,5 +12,7 @@ Good pull requests, such as patches, improvements, and new features, are a fanta
 
 Please **ask first** if somebody else is already working on this or the core developers think your feature is in-scope. 
 
-## please come to lsf-elections@googlegroups.com; https://groups.google.com/forum/#!forum/lsf-elections.
+#### More info
+- lsf-elections@googlegroups.com
+- https://groups.google.com/forum/#!forum/lsf-elections
 
