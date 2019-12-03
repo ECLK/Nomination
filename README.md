@@ -74,13 +74,7 @@ Project is created with:
 npm install
 ```
 
-##### Setup DB
-```
-Find the DB dumps for Nomination DB and for the Team DB inside config/db folder
-```
-
 ##### Development mode
-
 
 ##### run the project
 ```
@@ -92,6 +86,11 @@ npm start
 ```
 npm run build
 npm run start-prod
+```
+
+##### Setup DB
+```
+Find the DB dumps for Nomination DB and for the Team DB inside config/db folder
 ```
 
 Use de `development.json` file inside DB folder to store your important information such as your server port, your password, 
