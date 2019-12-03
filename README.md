@@ -102,4 +102,4 @@ Use de `development.json` file inside DB folder to store your important informat
 
 ## High level architecture
 
-![Image of Yaktocat](https://github.com/ECLK/Nomination/blob/master/images/ec-nomination-erd_V2.7.0.png)
+![Image of Yaktocat](https://github.com/ECLK/Nomination/blob/master/images/high-level-architecture-nomination.jpg)
