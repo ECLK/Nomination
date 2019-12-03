@@ -102,3 +102,8 @@ Use de `development.json` file inside DB folder to store your important informat
 ## High level architecture
 
 ![Image of Yaktocat](https://github.com/ECLK/Nomination/blob/master/images/high-level-architecture-nomination.jpg)
+
+## Credits
+
+This project exists thanks to all the people who [contribute](CONTRIBUTING.md).<br>
+<a href="https://github.com/ECLK/Nomination/graphs/contributors"></a>
