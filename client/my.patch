@@ -1,0 +1,42 @@
+diff --git a/Dockerfile b/Dockerfile
+index 8854465..51bd9b2 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -4,7 +4,7 @@ ADD ./src /app/src
+ COPY package*.json /app/
+ COPY ./public /app/public
+ WORKDIR /app
+-RUN npm install
++RUN npm ci
+ RUN npm run build
+ 
+ FROM nginx:1.15
+diff --git a/src/config.js b/src/config.js
+index 188f754..953ed32 100644
+--- a/src/config.js
++++ b/src/config.js
+@@ -6,6 +6,8 @@ console.log("process.env",process.env);
+ // export const API_BASE_URL = 'http://localhost:8280/nominations/0.9';
+ export const API_BASE_URL = 'https://apim.ecdev.opensource.lk:8280/nominations/0.9';
+ export const PDF_GENARATION_SERVICE_URL = 'http://localhost:5000/';
++export const AUTH_BASE_URL = 'https://authnominations.ecdev.opensource.lk:3001/';
++
+ 
+ // var API_BASE_URL = "https://nominations.ecdev.opensource.lk/ec-election";
+ 
+diff --git a/src/setupProxy.js b/src/setupProxy.js
+index e40af4e..c5d985d 100644
+--- a/src/setupProxy.js
++++ b/src/setupProxy.js
+@@ -1,7 +1,8 @@
+ const proxy = require('http-proxy-middleware');
++import {AUTH_BASE_URL} from "./config.js";
+ 
+ module.exports = function(app) {
+-  app.use(proxy('/auth/callback', { target: 'http://localhost:3001/' }));
+-  app.use(proxy('/signin', { target: 'http://localhost:3001/' }));
++  app.use(proxy('/auth/callback', { target: AUTH_BASE_URL }));
++  app.use(proxy('/signin', { target: AUTH_BASE_URL }));
+   app.use(proxy('/create-pdf', { target: 'http://localhost:5000/' }));
+ };
+\ No newline at end of file
