@@ -7,6 +7,7 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Database schema](#database-schema)
+* [High level architecture](#high-level-architecture)
 
 ## General info
 > The nomination system is used to nominate candidates for an election. This system helps a party or independent group to prepare the nomination form and validate that the data is correct.
@@ -73,13 +74,7 @@ Project is created with:
 npm install
 ```
 
-##### Setup DB
-```
-Find the DB dumps for Nomination DB and for the Team DB inside config/db folder
-```
-
 ##### Development mode
-
 
 ##### run the project
 ```
@@ -93,8 +88,22 @@ npm run build
 npm run start-prod
 ```
 
+##### Setup DB
+```
+Find the DB dumps for Nomination DB and for the Team DB inside config/db folder
+```
+
 Use de `development.json` file inside DB folder to store your important information such as your server port, your password, 
 
 ## Database schema
 
 ![Image of Yaktocat](https://github.com/ECLK/Nomination/blob/master/images/ec-nomination-erd_V2.7.0.png)
+
+## High level architecture
+
+![Image of Yaktocat](https://github.com/ECLK/Nomination/blob/master/images/high-level-architecture-nomination.jpg)
+
+## Credits
+
+This project exists thanks to all the people who [contribute](CONTRIBUTING.md).<br>
+* Our valued <a href="https://github.com/ECLK/Nomination/graphs/contributors">contributors</a>
