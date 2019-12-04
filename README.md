@@ -6,6 +6,7 @@
 * [Nomination process](#nomination-process)
 * [Technologies](#technologies)
 * [Setup](#setup)
+* [Project Structure](#initial-project-structure)
 * [Database schema](#database-schema)
 * [High level architecture](#high-level-architecture)
 
