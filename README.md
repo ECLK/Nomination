@@ -175,7 +175,7 @@ npm start
 Find the DB dumps for Nomination DB and for the Team DB inside Nomination/server/src/config/db folder
 ```
 
-Use de `development.json` file inside DB folder to store your important information such as your server port, your password, 
+Use de `development.json` file inside DB folder to store your important information such as your server port, your password,etc 
 
 ## Database schema
 
