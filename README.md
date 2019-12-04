@@ -71,7 +71,7 @@ Nomination
 ├── README.md
 ├── CONTRIBUTING.MD
 ├── generalInfo.md
-├── .gitignore
+└── .gitignore
 ```
 ## client structure
 ```
@@ -87,8 +87,8 @@ client
 │   ├── favicon.ico
 │   ├── index.html
 │   ├── manifest.json
-│   ├── app
-│   │   ├── images
+│   └── app
+│       └── images
 └── src
     ├── ProtectedApp.jsx
     ├── App.js
@@ -123,6 +123,12 @@ server
 └── src
     ├── index.js
     ├── config
+    │   ├── ConfigService.js
+    │   ├── development.json
+    │   ├── log4js-config.json
+    │   └── db
+    │       ├── ELECTION_TEAM.sql
+    │       └── NOMINATION_DB_DUMP.sql
     ├── errors
     ├── manager
     ├── middleware
@@ -131,7 +137,7 @@ server
     ├── routes
     ├── service
     ├── test
-    ├── utils
+    └── utils
 ```
 ## Setup
 
@@ -141,41 +147,42 @@ server
 ```
 git clone https://github.com/YujithIsura/Nomination.git
 ```
+### Setup Client
 
 ##### install dependencies
-
 ```
+cd Nomination/client/
 npm install
 ```
-
-##### Development mode
-
 ##### run the project
 ```
 npm start
 ```
+### Setup Server
 
-##### Production mode
-
+##### install dependencies
 ```
-npm run build
-npm run start-prod
+cd Nomination/server/
+npm install
 ```
-
-##### Setup DB
+##### run the project
 ```
-Find the DB dumps for Nomination DB and for the Team DB inside config/db folder
+npm start
+```
+### Setup DB
+```
+Find the DB dumps for Nomination DB and for the Team DB inside Nomination/server/src/config/db folder
 ```
 
 Use de `development.json` file inside DB folder to store your important information such as your server port, your password, 
 
 ## Database schema
 
-![Image of Yaktocat](https://github.com/ECLK/Nomination/blob/master/images/ec-nomination-erd_V2.7.0.png)
+![Image of Database schema](https://github.com/ECLK/Nomination/blob/master/images/ec-nomination-erd_V2.7.0.png)
 
 ## High level architecture
 
-![Image of Yaktocat](https://github.com/ECLK/Nomination/blob/master/images/high-level-architecture-nomination.jpg)
+![Image of High level architecture](https://github.com/ECLK/Nomination/blob/master/images/high-level-architecture-nomination.jpg)
 
 ## Credits
 
