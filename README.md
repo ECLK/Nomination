@@ -62,6 +62,77 @@ Project is created with:
 * Mysql version: 5.7
 * WSO2 Identity Server
 * WSO2 API Manager 2.0.0
+
+## initial project structure
+```
+Nomination
+├── client
+├── server
+├── README.md
+├── CONTRIBUTING.MD
+├── generalInfo.md
+├── .gitignore
+```
+## client structure
+```
+client
+├── development.json
+├── Dockerfile
+├── Staging.Dockerfile
+├── package.json
+├── package-lock.json
+├── yarn.lock
+├── .gitignore
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── manifest.json
+│   ├── app
+│   │   ├── images
+└── src
+    ├── ProtectedApp.jsx
+    ├── App.js
+    ├── config.js
+    ├── serviceWorker.js
+    ├── index.js
+    ├── setupProxy.js
+    ├── withRoot.js
+    ├── assets
+    ├── components
+    ├── lib
+    ├── modules
+    ├── pages
+    ├── state
+    └── stories
+```
+## server structure
+```
+server
+├── .babelrc
+├── Dockerfile
+├── .eslintignore
+├── .env
+├── .eslintrc
+├── .gitignore
+├── build.sh
+├── supervisord.conf
+├── package.json
+├── api-docs
+├── images
+├── log
+└── src
+    ├── index.js
+    ├── config
+    ├── errors
+    ├── manager
+    ├── middleware
+    ├── model
+    ├── repository
+    ├── routes
+    ├── service
+    ├── test
+    ├── utils
+```
 ## Setup
 
 ### How to use ?
