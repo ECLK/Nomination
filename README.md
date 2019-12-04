@@ -67,6 +67,9 @@ Project is created with:
 ### How to use ?
 
 ##### Clone the project
+```
+git clone https://github.com/YujithIsura/Nomination.git
+```
 
 ##### install dependencies
 
