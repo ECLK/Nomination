@@ -185,7 +185,7 @@ Use de `development.json` file inside DB folder to store your important informat
 
 ![Image of High level architecture](https://github.com/ECLK/Nomination/blob/master/server/images/high-level-architecture-nomination.jpg)
 
-## Credits
+## Credits ✨
 
 This project exists thanks to all the people who [contribute](CONTRIBUTING.md).<br>
 * Our valued <a href="https://github.com/ECLK/Nomination/graphs/contributors">contributors</a>
