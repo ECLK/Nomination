@@ -42,8 +42,26 @@ const validateTemplateByTemplateName = async (req) => {
 	}
 };
 
+const validateElectionStatus = async (req) => {  
+    try {
+	  const electionId = req.params.electionId;
+	  // Since nomination payment has to be done first in nomination process 
+	  // we can assium election has been used if there are any payments for that election
+      const payments = await validationRepo.fetchPaymentsByElectionId( electionId );
+     console.log("paymentspaymentspaymentspaymentspayments",payments);
+      if(payments>0){
+        throw new ApiError("Election has been used", HTTP_CODE_204);
+      }
+      return payments;
+    }catch (e){
+      throw new ServerError("Server error", HTTP_CODE_404);
+    }
+  
+  };
+
 
 export default {
 	validateElectionsByElectionName,
-	validateTemplateByTemplateName
+	validateTemplateByTemplateName,
+	validateElectionStatus
 }

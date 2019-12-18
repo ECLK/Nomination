@@ -528,7 +528,7 @@ export const onChangeApprovalData = (electionApprovals) => {
     }
 }
   
-  export function onChangeApproval(electionId,status,reviewNote) {
+  export function onChangeApproval(electionId,status,reviewNote,electionName) {
     return function (dispatch) {
       let electionApprovals = {
         updatedAt: Date.parse(new Date()),
@@ -546,9 +546,10 @@ export const onChangeApprovalData = (electionApprovals) => {
       .then(response => {
          dispatch(onChangeApprovalData(response.data));
          dispatch(receiveApprovedElection(electionApprovals));
-
+         (electionApprovals.status === 'REJECT') ?
+         dispatch(openSnackbar({ message: electionName + ' has not been approved ' })) : dispatch(openSnackbar({ message: electionName + ' has been approved ' }));
       }).catch(err => {
-            console.log(err)
+            dispatch(openSnackbar({ message: err.response.data.message }));
       });
     };
   }
