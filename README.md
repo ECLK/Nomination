@@ -6,6 +6,7 @@
 * [Nomination process](#nomination-process)
 * [Technologies](#technologies)
 * [Setup](#setup)
+* [Project Structure](#initial-project-structure)
 * [Database schema](#database-schema)
 * [High level architecture](#high-level-architecture)
 
@@ -62,48 +63,129 @@ Project is created with:
 * Mysql version: 5.7
 * WSO2 Identity Server
 * WSO2 API Manager 2.0.0
+
+## initial project structure
+```
+Nomination
+├── client
+├── server
+├── README.md
+├── CONTRIBUTING.MD
+├── generalInfo.md
+└── .gitignore
+```
+## client structure
+```
+client
+├── development.json
+├── Dockerfile
+├── Staging.Dockerfile
+├── package.json
+├── package-lock.json
+├── yarn.lock
+├── .gitignore
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── manifest.json
+│   └── app
+│       └── images
+└── src
+    ├── ProtectedApp.jsx
+    ├── App.js
+    ├── config.js
+    ├── serviceWorker.js
+    ├── index.js
+    ├── setupProxy.js
+    ├── withRoot.js
+    ├── assets
+    ├── components
+    ├── lib
+    ├── modules
+    ├── pages
+    ├── state
+    └── stories
+```
+## server structure
+```
+server
+├── .babelrc
+├── Dockerfile
+├── .eslintignore
+├── .env
+├── .eslintrc
+├── .gitignore
+├── build.sh
+├── supervisord.conf
+├── package.json
+├── api-docs
+├── images
+├── log
+└── src
+    ├── index.js
+    ├── config
+    │   ├── ConfigService.js
+    │   ├── development.json
+    │   ├── log4js-config.json
+    │   └── db
+    │       ├── ELECTION_TEAM.sql
+    │       └── NOMINATION_DB_DUMP.sql
+    ├── errors
+    ├── manager
+    ├── middleware
+    ├── model
+    ├── repository
+    ├── routes
+    ├── service
+    ├── test
+    └── utils
+```
 ## Setup
 
 ### How to use ?
 
 ##### Clone the project
+```
+git clone https://github.com/ECLK/Nomination.git
+```
+### Setup Client
 
 ##### install dependencies
-
 ```
+cd Nomination/client/
 npm install
 ```
-
-##### Development mode
-
 ##### run the project
 ```
 npm start
 ```
+### Setup Server
 
-##### Production mode
+##### install dependencies
+```
+cd Nomination/server/
+npm install
+```
+##### run the project
+```
+npm start
+```
+### Setup DB
+```
+Find the DB dumps for Nomination DB and for the Team DB inside Nomination/server/src/config/db folder
+```
 
-```
-npm run build
-npm run start-prod
-```
-
-##### Setup DB
-```
-Find the DB dumps for Nomination DB and for the Team DB inside config/db folder
-```
-
-Use de `development.json` file inside DB folder to store your important information such as your server port, your password, 
+Use de `development.json` file inside DB folder to store your important information such as your server port, your password,etc 
 
 ## Database schema
 
-![Image of Yaktocat](https://github.com/ECLK/Nomination/blob/master/images/ec-nomination-erd_V2.7.0.png)
+![Image of Database schema](https://github.com/ECLK/Nomination/blob/master/server/images/ec-nomination-erd_V2.7.0.png)
 
 ## High level architecture
 
-![Image of Yaktocat](https://github.com/ECLK/Nomination/blob/master/images/high-level-architecture-nomination.jpg)
+![Image of High level architecture](https://github.com/ECLK/Nomination/blob/master/server/images/high-level-architecture-nomination.jpg)
 
-## Credits
+## Credits ✨
 
 This project exists thanks to all the people who [contribute](CONTRIBUTING.md).<br>
 * Our valued <a href="https://github.com/ECLK/Nomination/graphs/contributors">contributors</a>
