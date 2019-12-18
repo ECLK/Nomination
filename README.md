@@ -146,7 +146,7 @@ server
 
 ##### Clone the project
 ```
-git clone https://github.com/YujithIsura/Nomination.git
+git clone https://github.com/ECLK/Nomination.git
 ```
 ### Setup Client
 
