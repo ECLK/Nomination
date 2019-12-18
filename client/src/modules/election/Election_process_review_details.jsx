@@ -210,9 +210,7 @@ class Dashboard extends React.Component {
 
     changeElectionStatus = () => {
         const { onChangeApproval, openSnackbar, ElectionReviewData } = this.props;
-        (this.state.status === 'REJECT') ?
-            openSnackbar({ message: ElectionReviewData.name + ' has not been approved ' }) : openSnackbar({ message: ElectionReviewData.name + ' has been approved ' });
-        onChangeApproval(this.state.electionId, this.state.status, this.state.reviewNote);
+        onChangeApproval(this.state.electionId, this.state.status, this.state.reviewNote,ElectionReviewData.name);
         this.setState({ goToConfig: true });
     };
 

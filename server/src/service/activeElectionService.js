@@ -1,8 +1,10 @@
-import { ServerError , ApiError } from 'Errors';
+import { ServerError , ApiError,ValidationError } from 'Errors';
 import ActiveElectionRepo from '../repository/activeElection';
 import {ActiveElectionManager}  from 'Managers';
+import { ValidationService } from 'Service';
 import _ from 'lodash';
 import { executeTransaction } from '../repository/TransactionExecutor';
+import { HTTP_CODE_404, HTTP_CODE_204 ,HTTP_CODE_400} from '../routes/constants/HttpCodes';
 const uuidv4 = require('uuid/v4');
 
 
@@ -121,11 +123,16 @@ const saveApproveElectionByElectionId = async (req) => {
     const reviewNote = req.body.reviewNote;
     const electionId = req.params.electionId;
       const electionData = {'updatedAt':updatedAt, 'status':status,'electionId':electionId,'reviewNote':reviewNote};
-      console.log("electionData",electionData);
-      return await ActiveElectionRepo.updateElectionStatus( electionData );
+      const electionUsage = await ValidationService.validateElectionStatus(req);
+
+      if (electionUsage[0].COUNT===0) {
+        return await ActiveElectionRepo.updateElectionStatus( electionData );
+      } else {
+        throw new ValidationError("Election already used",HTTP_CODE_400);
+      }
   }catch (error){
     console.log(error);
-    throw new ServerError("Server error", HTTP_CODE_404);
+    throw new ValidationError("This election already in use",HTTP_CODE_400);
   }
 };
 
