@@ -18,6 +18,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import { getAllElections ,getElectionReviewData,getFieldOptions } from '../election/state/ElectionAction';
+import { getTeams } from '../nomination/state/NominationAction';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import moment from 'moment';
@@ -100,8 +101,14 @@ class Home extends React.Component {
     };
     
     componentWillMount() {
-        const { getAllElections  } = this.props;
+        const { getAllElections,getTeams  } = this.props;
         getAllElections();
+        // getTeams();
+    }
+    componentDidMount() {
+        const { getTeams  } = this.props;
+        // getAllElections();
+        getTeams();
     }
 
 
@@ -307,7 +314,8 @@ const mapStateToProps = ({ Election }) => {
 const mapActionsToProps = {
     getElectionReviewData,
     getAllElections,
-    getFieldOptions
+    getFieldOptions,
+    getTeams
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Home));

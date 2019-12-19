@@ -193,11 +193,15 @@ class Dashboard extends React.Component {
     componentDidMount() {
         const { allElectionModules, getAllElectionReviews, getElectionReviewData ,getFieldOptions,getElectoratesData,getEligibilityData,getTeams} = this.props;
         getAllElectionReviews();
-        getTeams();
         getElectionReviewData(this.props.match.params.electionId);
         getElectoratesData(this.props.match.params.electionId);
         getEligibilityData(this.props.match.params.electionId);
         getFieldOptions(this.props.match.params.moduleId);
+    }
+
+    componentWillMount(){
+        const {getTeams} = this.props;
+        getTeams();
     }
 
     handleDrawerOpen = () => {
