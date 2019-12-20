@@ -103,11 +103,9 @@ class Home extends React.Component {
     componentWillMount() {
         const { getAllElections,getTeams  } = this.props;
         getAllElections();
-        // getTeams();
     }
     componentDidMount() {
         const { getTeams  } = this.props;
-        // getAllElections();
         getTeams();
     }
 

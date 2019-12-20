@@ -233,7 +233,6 @@ class NominationReview extends React.Component {
   render() {
     const { classes, nominations, ApproveElections, partyList } = this.props;
     const { expandedPanelIndex } = this.state;
-
     let selectedElection = this.state.selectedElection;
     if (!selectedElection) {
       selectedElection = ApproveElections.length > 0 && ApproveElections[0].id;
@@ -243,6 +242,15 @@ class NominationReview extends React.Component {
     if (selectedParty !== 'All') {
       selectedParty = partyList.length > 0 && partyList[0].team_id;
     }
+
+    const nomination = nominations.map((record) => {
+      partyList.map((team)=>{
+        if(record.party===team.team_id){
+          record.party = team.team_name;
+        }
+      })
+      return record;
+    });
 
 
     const CandidateRow = (props) => {
@@ -267,7 +275,7 @@ class NominationReview extends React.Component {
       );
     };
 
-    const nominationElements = nominations.map((nomination, i) => (
+    const nominationElements = nomination.map((nomination, i) => (
       <ExpansionPanel expanded={expandedPanelIndex === i} onChange={this.togglePanel(i)}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Grid container classname={classes.panel_wrapper} spacing={16}>
