@@ -210,7 +210,6 @@ class NominationReview extends React.Component {
   onOpenModal2 = (nominationId, status) => {
     const {nominations} = this.props;
     const index = this.findApprovalIndex(nominationId);
-    
     this.setState({
       open2: true,
       nominationId: nominationId,
@@ -218,6 +217,7 @@ class NominationReview extends React.Component {
       reviewNote: (nominations[index].reviewNote) ? nominations[index].reviewNote : ''
     });
   };
+
   onCloseModal = () => {
     this.setState({ open: false });
   };
