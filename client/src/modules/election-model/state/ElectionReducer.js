@@ -54,14 +54,13 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 new_election_module: action.payload
             };
-        case RECIVE_PENDING_ELECTION_MODULE:
-            return {
-                ...state,
-                AllElectionTemplates: [
-                    ...state.AllElectionTemplates,
-                    action.payload
-                ]
-            };   
+        case RECIVE_PENDING_ELECTION_MODULE:  
+        const AllElectionsPrev = state.AllElectionTemplates;
+        const i = findApprovalIndex(AllElectionsPrev, action.payload.id);
+        return {
+            ...state,
+            AllElectionTemplates: update(state.AllElectionTemplates, {[i]: {status: {$set: action.payload.status}}})
+        }; 
         case GET_APPROVED_ELECTION_MODULE:
             return {
                 ...state,
