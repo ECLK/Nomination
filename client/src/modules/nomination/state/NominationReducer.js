@@ -95,7 +95,7 @@ export default function reducer(state = initialState, action) {
       const index = findApprovalIndex(nominations, action.payload.nominationId);
       return {
         ...state,
-        nominations: update(nominations, {[index]: {approval_status: {$set: action.payload.status}}})
+        nominations: update(nominations, {[index]: {approval_status: {$set: action.payload.status},reviewNote: {$set: action.payload.reviewNote}}})
       }
     case GET_NOMINATION_PAYMENTS:
       return {
