@@ -239,7 +239,7 @@ export const setUpdatedTemplateData = (val) => {
             moduleId: "",
             name: response.data.name,
             status: "PENDING"}
-         dispatch(setUpdatedTemplateData(response.data));
+        //  dispatch(setUpdatedTemplateData(response.data));
          dispatch({
             type: RECIVE_PENDING_ELECTION_MODULE,
             payload: electionNew
@@ -403,6 +403,7 @@ export const setGetTemplateData = (val) => {
 }
 
 export function getElectionTemplateData(moduleId) {
+    debugger;
     if(moduleId===undefined){
         return function (dispatch) {
             const new_election_module= { 
