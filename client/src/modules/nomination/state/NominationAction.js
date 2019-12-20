@@ -119,7 +119,6 @@ export function getTeams() {
       const partyList = response.data;
        dispatch(partyListLoaded(partyList));
     }).catch(err => {
-      debugger;
           console.log(err)
     });
   };

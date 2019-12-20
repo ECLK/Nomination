@@ -19,7 +19,7 @@ const NOMINATION_BY_STATUS_SELECT_QUERY =`SELECT
 const PENDING_NOMINATION_SELECT_QUERY_ALL = `SELECT 
 																				N.ID AS nomination_id,
 																				DC.NAME AS nomination_division_name,
-																				TC.TEAM_NAME AS nomination_party,
+																				N.TEAM_ID AS nomination_party,
 																				C.ID AS candidate_id,
 																				C.FULL_NAME AS candidate_name,
 																				C.NIC AS candidate_nic,
@@ -30,7 +30,6 @@ const PENDING_NOMINATION_SELECT_QUERY_ALL = `SELECT
 																				NA.STATUS AS nomination_approval_status,
 																				NA.REVIEW_NOTE AS nomination_review_note
 																				FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
-																				LEFT JOIN TEAM_CONFIG TC ON N.TEAM_ID = TC.ID
 																				LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 
 																				LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
 																				LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
@@ -41,7 +40,7 @@ const PENDING_NOMINATION_SELECT_QUERY_ALL = `SELECT
 const PENDING_NOMINATION_SELECT_QUERY = `SELECT 
 																				N.ID AS nomination_id,
 																				DC.NAME AS nomination_division_name,
-																				TC.TEAM_NAME AS nomination_party,
+																				N.TEAM_ID AS nomination_party,
 																				C.ID AS candidate_id,
 																				C.FULL_NAME AS candidate_name,
 																				C.NIC AS candidate_nic,
@@ -52,7 +51,6 @@ const PENDING_NOMINATION_SELECT_QUERY = `SELECT
 																				NA.STATUS AS nomination_approval_status,
 																				NA.REVIEW_NOTE AS nomination_review_note
 																				FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
-																				LEFT JOIN TEAM_CONFIG TC ON N.TEAM_ID = TC.ID
 																				LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 
 																				LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
 																				LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
