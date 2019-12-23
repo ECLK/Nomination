@@ -183,7 +183,8 @@ class Dashboard extends React.Component {
         candidateSupportingDocs:[],
         nominationSupportingDocs: [],
         objectionSupportingDocs: [],
-        paymentSupportingDocs: []
+        paymentSupportingDocs: [],
+        errorTextModule: ''
     };
 
 
@@ -207,8 +208,12 @@ class Dashboard extends React.Component {
 
     changeElectionStatus = () => {
         const {onChangeApproval,ElectionTemplateReviewData} = this.props;
-        onChangeApproval(this.state.moduleId, this.state.status, this.state.reviewNote,ElectionTemplateReviewData.name);
-        this.setState({goToConfig:true});
+        if (this.state.reviewNote === '' || this.state.reviewNote === undefined) {
+          this.setState({ errorTextModule: 'emptyField' });
+        } else {
+          onChangeApproval(this.state.moduleId, this.state.status, this.state.reviewNote,ElectionTemplateReviewData.name);
+          this.setState({ goToConfig: true });
+        }
       };
 
     onOpenModal = (moduleId, status) => {
@@ -228,6 +233,7 @@ class Dashboard extends React.Component {
       handleChange = name => event => {
         this.setState({
           [name]: event.target.value,
+          errorTextModule: ''
         });
       };
 
@@ -430,6 +436,8 @@ class Dashboard extends React.Component {
                     rowsMax="4"
                     value={this.state.reviewNote}
                     onChange={this.handleChange('reviewNote')}
+                    error={this.state.errorTextModule === "emptyField"}
+                    helperText={this.state.errorTextModule === "emptyField" ? 'This field is required!' : ' '}
                     className={classes.textField}
                     margin="normal"
                     variant="outlined"
