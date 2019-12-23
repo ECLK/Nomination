@@ -8,7 +8,7 @@ const ELECTION_NAME_VALIDATE_QUERY = `SELECT COUNT( * ) AS COUNT FROM ELECTION W
 const TEMPLATE_NAME_VALIDATE_QUERY = `SELECT COUNT( * ) AS COUNT FROM ELECTION_MODULE WHERE NAME = :templateName `;
 const ELECTION_STATUS_VALIDATE_QUERY = `SELECT COUNT(*) AS COUNT FROM PAYMENT P LEFT JOIN NOMINATION N ON P.NOMINATION_ID = N.ID
                                         WHERE N.ELECTION_ID = :electionId`;
-
+const TEMPLATE_STATUS_VALIDATE_QUERY = `SELECT COUNT(*) AS COUNT FROM ELECTION WHERE MODULE_ID = :moduleId`;
 
 const fetchElectionCount = (electionName) => {
   const params = {electionName: electionName};
@@ -47,9 +47,23 @@ return DbConnection()
     });
 };
 
+const fetchTemplatesByModuleId = (moduleId) => {
+    const params = {moduleId: moduleId};
+    return DbConnection()
+        .query(TEMPLATE_STATUS_VALIDATE_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.SELECT,
+            }).catch((error) => {
+                console.log(error);
+            throw new DBError(error);
+        });
+    };
+
 
 export default {
     fetchElectionCount,
     fetchTemplateCount,
-    fetchPaymentsByElectionId
+    fetchPaymentsByElectionId,
+    fetchTemplatesByModuleId
 };

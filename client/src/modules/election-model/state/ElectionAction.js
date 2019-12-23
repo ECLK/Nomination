@@ -609,7 +609,8 @@ export const onChangeApprovalData = (templateApprovals) => {
          dispatch(receiveApprovedElectionTemplates(templateApprovals));
          dispatch(openSnackbar({ message:(status==='APPROVE') ?  name + ' has been approved' :  name + ' has been rejected'}));
       }).catch(err => {
-            console.log(err)
+            console.log(err);
+            dispatch(openSnackbar({ message: err.response.data.message }));
       });
     };
   }

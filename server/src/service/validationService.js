@@ -56,12 +56,25 @@ const validateElectionStatus = async (req) => {
     }catch (e){
       throw new ServerError("Server error", HTTP_CODE_404);
     }
-  
   };
 
+  const validateElectionTemplateStatus = async (req) => {  
+    try {
+	  const moduleId = req.params.moduleId;
+      const res = await validationRepo.fetchTemplatesByModuleId( moduleId );
+     console.log("paymentspaymentspaymentspaymentspayments",res);
+      if(res>0){
+        throw new ApiError("Election template has been used", HTTP_CODE_204);
+      }
+      return res;
+    }catch (e){
+      throw new ServerError("Server error", HTTP_CODE_404);
+    }
+  };
 
 export default {
 	validateElectionsByElectionName,
 	validateTemplateByTemplateName,
-	validateElectionStatus
+	validateElectionStatus,
+	validateElectionTemplateStatus
 }

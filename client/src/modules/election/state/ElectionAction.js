@@ -466,13 +466,11 @@ export function getElectoratesData(id) {
             )
             .then(response => {
                 const getElectoratesData = response.data;
-                debugger;
                 dispatch(
                     electionElectoratesReviewDataLoaded(getElectoratesData)
                 );
             }).catch(err => {
                 const getElectoratesData = [];
-                debugger;
                 dispatch(
                     electionElectoratesReviewDataLoaded(getElectoratesData)
                 );
@@ -498,13 +496,11 @@ export function getEligibilityData(id) {
             )
             .then(response => {
                 const getEligibilityData = response.data;
-                debugger;
                 dispatch(
                     electionEligibilityDataLoaded(getEligibilityData)
                 );
             }).catch(err => {
                 const getEligibilityData = [];
-                debugger;
                 dispatch(
                     electionEligibilityDataLoaded(getEligibilityData)
                 );
