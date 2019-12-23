@@ -403,7 +403,6 @@ export const setGetTemplateData = (val) => {
 }
 
 export function getElectionTemplateData(moduleId) {
-    debugger;
     if(moduleId===undefined){
         return function (dispatch) {
             const new_election_module= { 
@@ -489,10 +488,6 @@ export function getElectionTemplateData(moduleId) {
 
     ],
     }
-    // return {
-    //     type: GET_ELECTION_TEMPLATE_DATA,
-    //     payload: allElectionModuleData
-    // }
     return function (dispatch) {
         const response = axios
             .get(

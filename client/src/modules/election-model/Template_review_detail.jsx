@@ -192,6 +192,10 @@ class Dashboard extends React.Component {
             this.setState(data);
         })
     }
+    componentWillMount(){
+      const {getElectionTemplateData} = this.props;
+      getElectionTemplateData(this.props.location.state.id);
+    }
 
     handleDrawerOpen = () => {
         this.setState({ open: true });
