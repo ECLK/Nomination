@@ -1,10 +1,11 @@
-import { ServerError, ApiError } from 'Errors';
+import { ServerError, ApiError, ValidationError } from 'Errors';
 import ModuleRepo from '../repository/module';
 import { ModuleManager } from 'Managers';
+import { ValidationService } from 'Service';
 import _ from 'lodash';
 const uuidv4 = require('uuid/v4');
 import { executeTransaction } from '../repository/TransactionExecutor';
-
+import { HTTP_CODE_404, HTTP_CODE_204 ,HTTP_CODE_400} from '../routes/constants/HttpCodes';
 // import ModuleTransactionService  from '../repository/moduleTransaction';
 
 
@@ -155,7 +156,6 @@ const deleteModuleByModuleId = async (req) => {
 };
 
 const getAllElectionTemplates = async () => {
-	console.log("dddddddddddddddddddddd");
     try {
         const templates = await ModuleRepo.fetchAllElectionTemplates();
         if(!_.isEmpty(templates)){
@@ -177,11 +177,15 @@ const ApproveElectionTemplateByModuleId = async (req) => {
 	  const reviewNote = req.body.reviewNote;
 	  const moduleId = req.params.moduleId;
 		const electionData = {'updatedAt':updatedAt, 'status':status,'moduleId':moduleId,'reviewNote':reviewNote};
-		const test = await ModuleRepo.updateTemplateStatus( electionData );
-		return test;
+		const templateUsage = await ValidationService.validateElectionTemplateStatus(req);
+		if (templateUsage[0].COUNT===0) {
+			return await ModuleRepo.updateTemplateStatus( electionData );
+		  } else {
+			throw new ValidationError("Election template already used",HTTP_CODE_400);
+		  }
 	}catch (error){
 	  console.log(error);
-	  throw new ServerError("Server error", HTTP_CODE_404);
+	  throw new ValidationError("This election template already in use",HTTP_CODE_400);
 	}
   };
 
