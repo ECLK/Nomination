@@ -214,8 +214,8 @@ class ElectionConfig extends React.Component {
         let calType='';
         let SecurityDepositRpp='';
         let SecurityDepositIg='';
-        let depositAmountRpp='';
-        let depositAmountIg='';
+        let depositAmountRpp=' ';
+        let depositAmountIg=' ';
         let Objections='';
         let CreateAlliance='';
         let showRpp='';
@@ -255,10 +255,10 @@ class ElectionConfig extends React.Component {
         if (!authority) {
             authority = this.props.authorities.length > 0 && this.props.authorities[0].authority_id;
         }
-        if (depositAmountRpp) {
+        if (depositAmountRpp &&  depositAmountRpp !== ' ') {
             showRpp = true;
         }
-        if (depositAmountIg) {
+        if (depositAmountIg &&  depositAmountIg !== ' ') {
             showIg = true;
         }
 
