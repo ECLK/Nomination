@@ -150,14 +150,13 @@ const updateCandidateSupportingDocs = (candidateId,transaction) => {
 			});
 };
 
-const updateNominationStatus = (nominationId,transaction) => {
+const updateNominationStatus = (nominationId) => {
 	const params = { nominationId: nominationId };
 	return DbConnection()
 		.query(NOMINATION_STATUS_UPDATE_QUERY,
 			{
 				replacements: params,
 				type: DbConnection().QueryTypes.UPDATE,
-				transaction
 			}).then((results) => {
 				return params;
 			}).catch((error) => {

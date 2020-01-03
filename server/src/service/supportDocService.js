@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { ServerError , ApiError } from 'Errors';
+import { ServerError , ApiError ,ValidationError} from 'Errors';
 import SupportDocRepo from '../repository/supportdoc';
+import { ValidationService } from 'Service';
 import {SupportDocManager}  from 'Managers'
-import {HTTP_CODE_404} from '../routes/constants/HttpCodes';
+import {HTTP_CODE_404,HTTP_CODE_400} from '../routes/constants/HttpCodes';
 import { executeTransaction } from '../repository/TransactionExecutor';
 const uuidv4 = require('uuid/v4');
 
@@ -72,11 +73,30 @@ const saveSupportDocsByNominationId = async (req,transaction) => {
          i++;
        }
     await SupportDocRepo.saveSupportDocs( supportdocs,transaction );
-    await SupportDocRepo.updateNominationStatus( nominationId,transaction );
+    // await SupportDocRepo.updateNominationStatus( nominationId,transaction );
     return true;
   }catch (e){
     console.log(e);
     throw new ServerError("server error");
+  }
+};
+
+//Update nomination status for a particuler nomination
+const updateNominationStatusByNominationId = async (req) => {
+  try {
+    var nominationId = req.params.nominationId;
+    
+    const nominationUsage = await ValidationService.validateNominationStatus(req);
+    console.log("nominationIdnominationIdnominationId",nominationUsage[0].COUNT);
+
+		if (nominationUsage[0].COUNT===0) {
+			return await SupportDocRepo.updateNominationStatus( nominationId );
+		  } else {
+			throw new ValidationError("Nomination has been already approved!",HTTP_CODE_400);
+		  }
+    
+  }catch (e){
+	  throw new ValidationError(e.message,HTTP_CODE_400);
   }
 };
 
@@ -142,5 +162,6 @@ export default {
   updateSupportDocsByNominationId,
   getsupportDocsByCategory,
   saveCandidateSupportDocsByCandidateId,
-  getsupportDocsByCandidateId
+  getsupportDocsByCandidateId,
+  updateNominationStatusByNominationId
 }

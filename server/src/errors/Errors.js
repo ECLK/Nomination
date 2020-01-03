@@ -2,6 +2,7 @@ import { inherits, inspect } from 'util';
 import { HTTP_CODE_400, HTTP_CODE_404, HTTP_CODE_500 } from 'HttpCodes';
 
 Error.extend = function (name, httpCode = HTTP_CODE_500) {
+
   const ErrorType = (function (message = '', code, additionalInfo, httpErrorCode) {
     if (!(this instanceof ErrorType)) {
       return new ErrorType(message, code, additionalInfo, httpErrorCode);
