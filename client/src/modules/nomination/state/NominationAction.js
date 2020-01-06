@@ -271,7 +271,7 @@ export const setNominationStatus = (nominationSuppertDocs) => {
 }
 
 
-  export function postNominationSupportDocs(nominationSuppertDocs,divisionId) {
+  export function postNominationSupportDocs(nominationSuppertDocs,divisionId,test="") {
     var nominationSuppertDocs = {
       nominationId:nominationSuppertDocs.nominationId,
       candidateSupportDocs:nominationSuppertDocs.supportdoc,
@@ -285,9 +285,14 @@ export const setNominationStatus = (nominationSuppertDocs) => {
             {...nominationSuppertDocs}
       )
       .then(response => {
+        if(test !== "next"){
         dispatch(openSnackbar({ message:`Saved as a draft`}));
+        }
          dispatch(setSupportDocData(response.data));
       }).catch(err => {
+        if(test !== "next"){
+        dispatch(openSnackbar({ message: err.response.data.message }));
+        }
             console.log(err)
       });
     };
@@ -696,7 +701,6 @@ export const createAndDownloadPdfNominationForm = function createAndDownloadPdfN
     occupation:occupation,
     partyName:partyName
   }
-debugger;
   firstAPI.post(`/create-pdf/${type}`,NominationData)
     .then(()=> firstAPI.get('fetch-pdf-presidential', { responseType: 'blob'}))
     .then((res) => {

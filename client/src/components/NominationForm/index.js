@@ -298,7 +298,7 @@ class NominationForm extends React.Component {
       activeStep,
     });
     if (activeStep === 2){
-      postNominationSupportDocs(this.state,divisionId);   
+      postNominationSupportDocs(this.state,divisionId,"next");   
     }
     if (activeStep === 0 ){
        if(candidateCount>NominationCandidates.length){
@@ -342,7 +342,7 @@ class NominationForm extends React.Component {
 
   handleSaveDraft = () => {
     const {divisionId,openSnackbar,postNominationSupportDocs}=this.props;
-    postNominationSupportDocs(this.state,divisionId);   
+    postNominationSupportDocs(this.state,divisionId,"draft");   
   };
   
   handleReset = () => {

@@ -72,12 +72,14 @@ const saveSupportDocsByNominationId = async (req,transaction) => {
           supportdocs[i] = {'id':uuid, 'filePath':filename,'originalName':originalname,'supportDocConfDataId':id,'status':"NEW", 'nominationId':nominationId};
          i++;
        }
-    await SupportDocRepo.saveSupportDocs( supportdocs,transaction );
-    // await SupportDocRepo.updateNominationStatus( nominationId,transaction );
-    return true;
+       if(supportdocs.length !== 0){
+        await SupportDocRepo.saveSupportDocs( supportdocs,transaction );
+        return true;
+       }else{
+        throw new ValidationError("Attachment unavailable!",HTTP_CODE_400);
+       }
   }catch (e){
-    console.log(e);
-    throw new ServerError("server error");
+    throw new ValidationError(e.message,HTTP_CODE_400);
   }
 };
 
@@ -85,16 +87,12 @@ const saveSupportDocsByNominationId = async (req,transaction) => {
 const updateNominationStatusByNominationId = async (req) => {
   try {
     var nominationId = req.params.nominationId;
-    
     const nominationUsage = await ValidationService.validateNominationStatus(req);
-    console.log("nominationIdnominationIdnominationId",nominationUsage[0].COUNT);
-
 		if (nominationUsage[0].COUNT===0) {
 			return await SupportDocRepo.updateNominationStatus( nominationId );
 		  } else {
 			throw new ValidationError("Nomination has been already approved!",HTTP_CODE_400);
 		  }
-    
   }catch (e){
 	  throw new ValidationError(e.message,HTTP_CODE_400);
   }
@@ -105,15 +103,21 @@ const updateSupportDocsByNominationId = async (req) => {
   try {
     return executeTransaction(async (transaction) => {
     const nominationId = req.params.nominationId;
-    const supportDoc = await SupportDocRepo.updateSupportDocs(nominationId,transaction);
-    if(!_.isEmpty(supportDoc)){
-      return saveSupportDocsByNominationId(req,transaction);
-    }else {
-      throw false;
-    }
+    const nominationUsage = await ValidationService.validateNominationStatus(req);
+		if (nominationUsage[0].COUNT===0) {
+      const supportDoc = await SupportDocRepo.updateSupportDocs(nominationId,transaction);
+      if(!_.isEmpty(supportDoc)){
+        return saveSupportDocsByNominationId(req,transaction);
+      }else {
+        throw false;
+      }
+		  } else {
+			throw new ValidationError("Nomination has been already approved!",HTTP_CODE_400);
+      }
+   
   });
   }catch (e){
-    throw new ServerError("server error");
+    throw new ValidationError(e.message,HTTP_CODE_400);
   }
 
 };
