@@ -246,6 +246,7 @@ export const setUpdatedTemplateData = (val) => {
         });
          dispatch(openSnackbar({ message: election.name + ' has been updated ' }));
       }).catch(err => {
+        dispatch(openSnackbar({ message: ' Something went wrong!' }));
             console.log(err)
       });
     };
@@ -367,6 +368,7 @@ export function deleteElectionModule(moduleId) {
                 dispatch(
                     deletedElectionModuleLoaded(moduleId)
                 );
+                dispatch(openSnackbar({ message: ' Something went wrong!' }));
                 console.log(err)
             });
     };

@@ -349,7 +349,6 @@ export const setNominationStatus = (nominationSuppertDocs) => {
 }
 
   export function updateNominationPayments(paymentId,nominationPayments,partyName,nominationName) {
-    debugger;
     return function (dispatch) {
           
       let nominationPayment = {
