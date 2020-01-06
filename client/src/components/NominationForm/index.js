@@ -284,7 +284,6 @@ class NominationForm extends React.Component {
 
   handleNext = () => {
     const {divisionId,openSnackbar,postNominationSupportDocs,candidateCount,NominationCandidates,updateNominationStatus}=this.props;
-    debugger;
     let activeStep;
 
     if (this.isLastStep() && !this.allStepsCompleted()) {
@@ -298,9 +297,8 @@ class NominationForm extends React.Component {
     this.setState({
       activeStep,
     });
-    debugger;
     if (activeStep === 2){
-      postNominationSupportDocs(this.state,divisionId);   
+      postNominationSupportDocs(this.state,divisionId,"next");   
     }
     if (activeStep === 0 ){
        if(candidateCount>NominationCandidates.length){
@@ -309,7 +307,6 @@ class NominationForm extends React.Component {
           openSnackbar({ message: 'You have been exceeded the maximum no of candidates for this nomination. Plese recheck candidate list' });
         }
         else{
-            openSnackbar({ message: 'The nomination form has been submitted successfully' });
             updateNominationStatus(this.state,divisionId);
             this.setState({
               goToHome: true
@@ -324,7 +321,6 @@ class NominationForm extends React.Component {
     }));
   };
   handleUploadView = sid => () => {
-    debugger;
     this.props.getUploadPath(sid);
   };
 
@@ -346,9 +342,7 @@ class NominationForm extends React.Component {
 
   handleSaveDraft = () => {
     const {divisionId,openSnackbar,postNominationSupportDocs}=this.props;
-    postNominationSupportDocs(this.state,divisionId);   
-    openSnackbar({ message: 'Saved as a draft' });
-
+    postNominationSupportDocs(this.state,divisionId,"draft");   
   };
   
   handleReset = () => {

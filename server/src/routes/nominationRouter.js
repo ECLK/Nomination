@@ -172,6 +172,15 @@ export const initNominationRouter = (app) => {
 			},
 		},
 		{
+			method: PUT,
+			path: '/nominations/:nominationId/update-nomination-status',
+			handler: (req, res, next) => {
+				return SupportDocService.updateNominationStatusByNominationId(req)
+					.then((result) => res.status(HTTP_CODE_201).send(result))
+					.catch(error => next(error));
+			},
+		},
+		{
 			method: POST,
 			path: '/upload',
 			handler: (req, res, next) => {

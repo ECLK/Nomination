@@ -271,7 +271,7 @@ export const setNominationStatus = (nominationSuppertDocs) => {
 }
 
 
-  export function postNominationSupportDocs(nominationSuppertDocs,divisionId) {
+  export function postNominationSupportDocs(nominationSuppertDocs,divisionId,test="") {
     var nominationSuppertDocs = {
       nominationId:nominationSuppertDocs.nominationId,
       candidateSupportDocs:nominationSuppertDocs.supportdoc,
@@ -285,8 +285,14 @@ export const setNominationStatus = (nominationSuppertDocs) => {
             {...nominationSuppertDocs}
       )
       .then(response => {
+        if(test !== "next"){
+        dispatch(openSnackbar({ message:`Saved as a draft`}));
+        }
          dispatch(setSupportDocData(response.data));
       }).catch(err => {
+        if(test !== "next"){
+        dispatch(openSnackbar({ message: err.response.data.message }));
+        }
             console.log(err)
       });
     };
@@ -305,10 +311,10 @@ export const setNominationStatus = (nominationSuppertDocs) => {
          `${API_BASE_URL}/nominations/${nominationSuppertDocs.nominationId}/update-nomination-status`,
        )
        .then(response => {
+          dispatch(openSnackbar({ message:`The nomination form has been submitted successfully`}));
           dispatch(setNominationStatus(nominationSuppertDocs));
-         debugger;
        }).catch(err => {
-             console.log(err)
+         dispatch(openSnackbar({ message: err.response.data.message }));
        });
      };
    }
@@ -319,9 +325,7 @@ export const setNominationStatus = (nominationSuppertDocs) => {
         payload: val
     }
 }
-  export function postCandidateSupportDocs(candidateSuppertDocs) {
-    debugger;
-     
+  export function postCandidateSupportDocs(candidateSuppertDocs) {     
      return function (dispatch) {
         
        const response = axios
@@ -376,7 +380,6 @@ export const setNominationStatus = (nominationSuppertDocs) => {
           serial:nominationPayments.serialNo,
           team_id:nominationPayments.party
         }
-        debugger;
          dispatch(setUpdatedPaymentData(updateNominationPayments));
          dispatch(openSnackbar({ message:`Payment has been updated for ${nominationName} by ${partyName}`}));
       }).catch(err => {
@@ -458,7 +461,6 @@ const nominationDataLoaded = (getNominationData) => {
 };
 
 export function getNominationData(nominationId,keyName) {
-debugger;
   return function (dispatch) {
     //change this keyName to candidate payment ig to get the ig candidate payment
    
@@ -600,10 +602,8 @@ export function getPaymentList() {
     )
     .then(response => {
       const paymentList = response.data;
-      debugger;
        dispatch(paymentListLoaded(paymentList));
     }).catch(err => {
-      debugger;
       const paymentList = [];
       dispatch(paymentListLoaded(paymentList));
           console.log(err)
@@ -627,10 +627,8 @@ export function getNominationPaymentSerialNumber() {
     )
     .then(response => {
       const paymentSerial = response.data;
-      debugger;
        dispatch(paymentSerialLoaded(paymentSerial));
     }).catch(err => {
-      debugger;
       const paymentSerial = '';
       dispatch(paymentSerialLoaded(paymentSerial));
           console.log(err)
@@ -655,10 +653,8 @@ export function validateNominationPayment(nominationId) {
     )
     .then(response => {
       const nominationValidation = response.data;
-      debugger;
        dispatch(nominationPaymentValidationLoaded(nominationValidation));
     }).catch(err => {
-      debugger;
       const nominationValidation = false;
       dispatch(nominationPaymentValidationLoaded(nominationValidation));
           console.log(err)
@@ -705,7 +701,6 @@ export const createAndDownloadPdfNominationForm = function createAndDownloadPdfN
     occupation:occupation,
     partyName:partyName
   }
-debugger;
   firstAPI.post(`/create-pdf/${type}`,NominationData)
     .then(()=> firstAPI.get('fetch-pdf-presidential', { responseType: 'blob'}))
     .then((res) => {
@@ -730,10 +725,8 @@ export function getUploadPath(sid) {
     )
     .then(response => {
       const OriginalPath = response.data;
-      debugger;
        dispatch(uploadePathLoaded(OriginalPath));
     }).catch(err => {
-      debugger;
       const OriginalPath = '';
       dispatch(uploadePathLoaded(OriginalPath));
           console.log(err)

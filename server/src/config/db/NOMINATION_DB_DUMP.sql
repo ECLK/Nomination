@@ -1,25 +1,29 @@
-/*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 8.0.13 : Database - EC_NOMINATION
-*********************************************************************
-*/
+CREATE DATABASE  IF NOT EXISTS `EC_NOMINATION` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+USE `EC_NOMINATION`;
+-- MySQL dump 10.13  Distrib 8.0.17, for macos10.14 (x86_64)
+--
+-- Host: localhost    Database: EC_NOMINATION
+-- ------------------------------------------------------
+-- Server version	5.7.28
 
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`EC_NOMINATION` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 
-USE `EC_NOMINATION`;
-
-/*Table structure for table `CANDIDATE` */
+--
+-- Table structure for table `CANDIDATE`
+--
 
 DROP TABLE IF EXISTS `CANDIDATE`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `CANDIDATE` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `FULL_NAME` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -35,32 +39,52 @@ CREATE TABLE `CANDIDATE` (
   `NOMINATION_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `NOMINATION_ID` (`NOMINATION_ID`),
-  CONSTRAINT `CANDIDATE_ibfk_1` FOREIGN KEY (`NOMINATION_ID`) REFERENCES `NOMINATION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `CANDIDATE_ibfk_1` FOREIGN KEY (`NOMINATION_ID`) REFERENCES `nomination` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `CANDIDATE` */
+--
+-- Dumping data for table `CANDIDATE`
+--
 
-insert  into `CANDIDATE`(`ID`,`FULL_NAME`,`PREFERRED_NAME`,`NIC`,`DATE_OF_BIRTH`,`GENDER`,`ADDRESS`,`OCCUPATION`,`ELECTORAL_DIVISION_NAME`,`ELECTORAL_DIVISION_CODE`,`COUNSIL_NAME`,`NOMINATION_ID`) values ('278db56c-9f38-4326-90dd-dbf4932ea5f7','yujith isura','ujith','912467908V',1560297600000,'MALE','colombo4','doc','kalutara','K01','council','9a8f14bf-7d3f-45a5-8f95-e66f0f5cf4f7'),('416fd168-3fa8-4d54-b6db-0449e4d16b45','yujith','isura','199234560',1563321600000,'MALE','colombo4','doc','kalutara','K01','council','77d3997d-daa9-4deb-a41a-c86acd5cfa93'),('83a875c4-5707-49d6-9655-46360c55f3c2','yujith','isura','923467902V',1557878400000,'MALE','Colombo4','Doc','kalutara','K01','council','11839545-3a20-40d0-b288-1736428cf3c0'),('aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','saman','sam','923456890V',1559692800000,'MALE','colombo4','doc','kalutara','K01','council','b6b74431-c3c7-4d12-96fc-504ec17d4ec4'),('b2eb1e10-080b-4748-943c-c8d639496813','yujith','isura','91246780V',1562716800000,'MALE','colombo4','se','kalutara','K01','council','ae88124c-770d-46ab-8e07-fddcccd8042e'),('ca9c1a30-f220-4afc-bfcd-ed346e1173ef','yujith','isura','923457890V',1560816000000,'MALE','d','doc','kalutara','K01','council','65b144a8-7bce-4ed0-9680-95e95237a87e');
+LOCK TABLES `CANDIDATE` WRITE;
+/*!40000 ALTER TABLE `CANDIDATE` DISABLE KEYS */;
+INSERT INTO `CANDIDATE` VALUES ('23a8b1a5-cab6-4c34-ae74-304156b90066','yujith','isura','923457890V',692409600000,'MALE','colombo3','se','kalutara','K01','council','fdada61e-844d-4492-8456-29c9cabd5059'),('2574a604-47e8-4396-bb59-c30c159047dd','Yujith','isura','19923456789V',692323200000,'MALE','No15,\nFinance wattha,ingiriya','se','kalutara','K01','council','87b3821f-1e7b-4925-83da-2808dd022a76'),('59fe1995-10a9-4cb1-a408-0ccbc9f12c5c','yujith','isura','19912870790',1577404800000,'MALE','colombo ','se','kalutara','K01','council','1caeee86-e183-4aed-aab4-a579f9aa2c86'),('9b796584-a0be-420a-9bb5-4a5ce3f5a9ef','yujith','isura','19923456789',689817600000,'MALE','No15,\nFinance wattha','se','kalutara','K01','council','45439c8d-a360-4d29-9cfe-226434727523');
+/*!40000 ALTER TABLE `CANDIDATE` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `CANDIDATE_CONFIG` */
+--
+-- Table structure for table `CANDIDATE_CONFIG`
+--
 
 DROP TABLE IF EXISTS `CANDIDATE_CONFIG`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `CANDIDATE_CONFIG` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `KEY_NAME` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `DESCRIPTION` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `CANDIDATE_CONFIG` */
+--
+-- Dumping data for table `CANDIDATE_CONFIG`
+--
 
-insert  into `CANDIDATE_CONFIG`(`ID`,`KEY_NAME`,`DESCRIPTION`) values ('1','FULL_NAME','Name Of Candidate (Full Name)'),('2','PREFERRED_NAME','Preferred Name'),('3','NIC','National Identity Card (NIC)'),('4','DATE_OF_BIRTH','Date of Birth'),('5','GENDER','Gender'),('6','ADDRESS','Address'),('7','OCCUPATION','Occupation');
+LOCK TABLES `CANDIDATE_CONFIG` WRITE;
+/*!40000 ALTER TABLE `CANDIDATE_CONFIG` DISABLE KEYS */;
+INSERT INTO `CANDIDATE_CONFIG` VALUES ('1','FULL_NAME','Name Of Candidate (Full Name)'),('2','PREFERRED_NAME','Preferred Name'),('3','NIC','National Identity Card (NIC)'),('4','DATE_OF_BIRTH','Date of Birth'),('5','GENDER','Gender'),('6','ADDRESS','Address'),('7','OCCUPATION','Occupation');
+/*!40000 ALTER TABLE `CANDIDATE_CONFIG` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `CANDIDATE_CONFIG_DATA` */
+--
+-- Table structure for table `CANDIDATE_CONFIG_DATA`
+--
 
 DROP TABLE IF EXISTS `CANDIDATE_CONFIG_DATA`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `CANDIDATE_CONFIG_DATA` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `MODULE_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -68,21 +92,56 @@ CREATE TABLE `CANDIDATE_CONFIG_DATA` (
   PRIMARY KEY (`ID`),
   KEY `MODULE_ID` (`MODULE_ID`),
   KEY `CANDIDATE_CONFIG_ID` (`CANDIDATE_CONFIG_ID`),
-  CONSTRAINT `CANDIDATE_CONFIG_DATA_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `ELECTION_MODULE` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `CANDIDATE_CONFIG_DATA_ibfk_2` FOREIGN KEY (`CANDIDATE_CONFIG_ID`) REFERENCES `CANDIDATE_CONFIG` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `CANDIDATE_CONFIG_DATA_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `election_module` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `CANDIDATE_CONFIG_DATA_ibfk_2` FOREIGN KEY (`CANDIDATE_CONFIG_ID`) REFERENCES `candidate_config` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `CANDIDATE_CONFIG_DATA` */
+--
+-- Dumping data for table `CANDIDATE_CONFIG_DATA`
+--
 
-insert  into `CANDIDATE_CONFIG_DATA`(`ID`,`MODULE_ID`,`CANDIDATE_CONFIG_ID`) values ('06dd1197-3d40-4054-a8ba-1a4079192745','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d','2'),('0d065f3d-c88f-4e73-9484-4d28de1faa7e','b9ff7f40-afaf-4140-8dc7-127d15978877','5'),('2077d5dd-ff00-478b-9d81-c20419d8324c','7180ca1c-20bf-46bd-91e1-32e301c80f35','1'),('396ac5e2-ce59-44da-8185-d56e64f7cc2f','b6c93150-f223-469d-bb49-6b54c3108541','1'),('3f5ba002-7d46-4564-ba34-6a9e4a17f5ba','b9ff7f40-afaf-4140-8dc7-127d15978877','1'),('3f9326dd-6d13-423f-b2f7-f289a34e3766','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d','1'),('44403e34-cc60-413f-a1e4-0fe023a32562','b9ff7f40-afaf-4140-8dc7-127d15978877','2'),('659f4e84-b6b8-42c1-8e40-d012a98f1df4','7180ca1c-20bf-46bd-91e1-32e301c80f35','2'),('7165a159-1e4c-46b7-8a25-07748ff9efee','7180ca1c-20bf-46bd-91e1-32e301c80f35','4'),('98170353-7ea6-46b0-bcc0-f12ac203de07','7180ca1c-20bf-46bd-91e1-32e301c80f35','5'),('9ba2fcd5-d203-4c63-b271-4a0bac8562ee','7180ca1c-20bf-46bd-91e1-32e301c80f35','6'),('c8d9ea5f-4066-493b-af4c-249c1ce1339e','b9ff7f40-afaf-4140-8dc7-127d15978877','3'),('d8a23632-b3f5-4208-bc16-3ac8e48953b5','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d','3'),('da017369-770d-4da6-bbb1-7abe278c1d34','7180ca1c-20bf-46bd-91e1-32e301c80f35','7'),('ebc1a22c-45ee-4be2-bc5e-ccdc02cff4c5','b6c93150-f223-469d-bb49-6b54c3108541','2'),('ed0a7006-7d88-4705-9356-a88b81a34cfe','7180ca1c-20bf-46bd-91e1-32e301c80f35','3');
+LOCK TABLES `CANDIDATE_CONFIG_DATA` WRITE;
+/*!40000 ALTER TABLE `CANDIDATE_CONFIG_DATA` DISABLE KEYS */;
+INSERT INTO `CANDIDATE_CONFIG_DATA` VALUES ('083ca8ca-fbc0-452b-86df-d0eaba2a6288','0531e799-deb4-47fd-be06-bc3527d67da9','1'),('1962d450-5b02-44ab-9c26-991cec9493c2','0a349bd9-27e4-46b1-b31e-5a862bf7aefd','7'),('23f32221-b7eb-4462-8e38-9d4926d5182c','632a9e4b-501b-4410-96a4-b2ca7c20286f','2'),('25813e02-558c-4bee-9f31-6be6c5bb5605','904ae2d4-3239-43ef-976c-97c046aecaaa','2'),('2a5e6b30-d3c6-427d-ae18-187077a39b7b','0531e799-deb4-47fd-be06-bc3527d67da9','3'),('45fe145d-a570-465a-9411-1f108386c390','0531e799-deb4-47fd-be06-bc3527d67da9','2'),('578df291-2d6a-429b-8c2f-bb6346771e34','0a349bd9-27e4-46b1-b31e-5a862bf7aefd','1'),('6703c5c9-6e8c-443e-a57c-c4ea03e478be','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a','6'),('6f3070db-8de6-49b0-a412-27e8e41f3eca','632a9e4b-501b-4410-96a4-b2ca7c20286f','4'),('6fb7a795-c3b3-4b50-9b53-e85f37186619','0a349bd9-27e4-46b1-b31e-5a862bf7aefd','2'),('718d7b1c-b41b-4701-b07e-d2c29811dd13','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a','1'),('77d4df1b-c9cb-4955-ae35-99ddcaf3b888','0531e799-deb4-47fd-be06-bc3527d67da9','6'),('84f49e55-b8bf-4bdd-ad8c-a15e1732016c','0a349bd9-27e4-46b1-b31e-5a862bf7aefd','5'),('8d0452f7-bfb6-436b-8b3d-e1d514b88c3a','c4468657-6084-4013-ab4a-3ed218bd652a','1'),('9c0c96b2-c91a-426f-86b1-8a362e2a2b55','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a','2'),('9ec6eddd-d5da-4483-90f2-0cca0978c66c','632a9e4b-501b-4410-96a4-b2ca7c20286f','5'),('a9312c0b-0417-4290-afe4-237c2dfc1ec7','0a349bd9-27e4-46b1-b31e-5a862bf7aefd','3'),('b3b79f42-2baf-4e23-a4f6-3943a5be41b8','904ae2d4-3239-43ef-976c-97c046aecaaa','3'),('b9b43265-2229-4047-81d3-6ca275c2d7b7','632a9e4b-501b-4410-96a4-b2ca7c20286f','1'),('bb33421a-c68c-4b97-84f3-19389d2f4b42','632a9e4b-501b-4410-96a4-b2ca7c20286f','6'),('c4e8690c-2a2a-416d-baad-6e855acceded','632a9e4b-501b-4410-96a4-b2ca7c20286f','7'),('e0c96df3-d387-4bfc-aed9-d2942b53d505','0a349bd9-27e4-46b1-b31e-5a862bf7aefd','4'),('eb6ae724-211c-4585-8adc-e0e2cb829526','904ae2d4-3239-43ef-976c-97c046aecaaa','1'),('ebc09ff1-add6-4240-98cf-1a83ea6bc8b5','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a','5'),('ef1de176-4323-4810-bf33-2475a206402c','0531e799-deb4-47fd-be06-bc3527d67da9','4'),('f435f5ea-183a-441f-80b3-8f0982051a3d','632a9e4b-501b-4410-96a4-b2ca7c20286f','3'),('f4561cde-f260-420c-988c-fb97d8658e2a','0a349bd9-27e4-46b1-b31e-5a862bf7aefd','6'),('fd4a26b0-927a-4a91-990a-26d916633fb9','0531e799-deb4-47fd-be06-bc3527d67da9','5');
+/*!40000 ALTER TABLE `CANDIDATE_CONFIG_DATA` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `CANDIDATE_SUPPORT_DOC` */
+--
+-- Table structure for table `CANDIDATE_DATA`
+--
+
+DROP TABLE IF EXISTS `CANDIDATE_DATA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CANDIDATE_DATA` (
+  `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `CANDIDATE_CONFIG_ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `VALUE` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `NOMINATION_ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  KEY `CANDIDATE_DATA_FK` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CANDIDATE_DATA`
+--
+
+LOCK TABLES `CANDIDATE_DATA` WRITE;
+/*!40000 ALTER TABLE `CANDIDATE_DATA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CANDIDATE_DATA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CANDIDATE_SUPPORT_DOC`
+--
 
 DROP TABLE IF EXISTS `CANDIDATE_SUPPORT_DOC`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `CANDIDATE_SUPPORT_DOC` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ORIGINAL_NAME` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ORIGINAL_NAME` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `FILE_PATH` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `SUPPORT_DOC_CONFIG_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `CANDIDATE_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -92,19 +151,29 @@ CREATE TABLE `CANDIDATE_SUPPORT_DOC` (
   KEY `SUPPORT_DOC_CONFIG_ID` (`SUPPORT_DOC_CONFIG_ID`),
   KEY `CANDIDATE_ID` (`CANDIDATE_ID`),
   KEY `NOMINATION_ID` (`NOMINATION_ID`),
-  CONSTRAINT `CANDIDATE_SUPPORT_DOC_ibfk_1` FOREIGN KEY (`SUPPORT_DOC_CONFIG_ID`) REFERENCES `SUPPORT_DOC_CONFIG` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `CANDIDATE_SUPPORT_DOC_ibfk_2` FOREIGN KEY (`CANDIDATE_ID`) REFERENCES `CANDIDATE` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `CANDIDATE_SUPPORT_DOC_ibfk_3` FOREIGN KEY (`NOMINATION_ID`) REFERENCES `NOMINATION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `CANDIDATE_SUPPORT_DOC_ibfk_1` FOREIGN KEY (`SUPPORT_DOC_CONFIG_ID`) REFERENCES `support_doc_config` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `CANDIDATE_SUPPORT_DOC_ibfk_2` FOREIGN KEY (`CANDIDATE_ID`) REFERENCES `candidate` (`ID`) ON UPDATE CASCADE,
+  CONSTRAINT `CANDIDATE_SUPPORT_DOC_ibfk_3` FOREIGN KEY (`NOMINATION_ID`) REFERENCES `nomination` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `CANDIDATE_SUPPORT_DOC` */
+--
+-- Dumping data for table `CANDIDATE_SUPPORT_DOC`
+--
 
-insert  into `CANDIDATE_SUPPORT_DOC`(`ID`,`ORIGINAL_NAME`,`FILE_PATH`,`SUPPORT_DOC_CONFIG_ID`,`CANDIDATE_ID`,`NOMINATION_ID`,`STATUS`) values ('0d5ee372-b1d2-416c-b9b8-081ec3e14d20','0_lWBID1VszAlY8Kpe.png','5d31e911d798ac7aa27076c44095e475','fe2c2d7e-66de-406a-b887-1143023f8e72','aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','DELETE'),('3dd901c7-f8e2-4113-8d76-93bfd20fe68f','0_lWBID1VszAlY8Kpe.png','31a1b4ca70e23b7569e9110ca35f7a7c','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','DELETE'),('49374d74-9077-4e85-876c-b59f9f682cf6','IMG-20181109-WA0002.jpg','33391b8afc5a900cb6b7116b629b6405','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','DELETE'),('63d778e8-1432-49c0-a764-68ef4916a9f4','0_lWBID1VszAlY8Kpe.png','5d31e911d798ac7aa27076c44095e475','fe2c2d7e-66de-406a-b887-1143023f8e72','aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','NEW'),('6963e972-b348-47c7-952b-077df0c62094','0_lWBID1VszAlY8Kpe.png','ba524b958938f27791c644a07ef7a841','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','DELETE'),('81b35edd-bfce-423a-b22a-efc9148e20bb','Cs37Q-4XgAAbQVM.jpg','81f5511f73200cb7c6a6ce5896611156','fe2c2d7e-66de-406a-b887-1143023f8e72','aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','DELETE'),('ab5d2f03-b790-4ef5-a254-e07043f21b52','0_lWBID1VszAlY8Kpe.png','cf8fae109ca29fee438066abfeba6c09','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','DELETE'),('ad7b2d41-bf0a-4030-8422-6f3d3e9b51a2','0_lWBID1VszAlY8Kpe.png','92bc5e14f403478d4d6feeb0363a9ec5','15990459-2ea4-413f-b1f7-29a138fd7a97','aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','DELETE'),('b9b53e70-1847-4bba-9e2a-c54f2218dcfb','nomination_schema_v2.5.png','cd7321224595f1d2ff6666f74364fe45','32423','aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','DELETE'),('ccad2cef-fa80-428b-997e-1c3d41cd6cb1','nomination_schema_v2.5.png','cd7321224595f1d2ff6666f74364fe45','32423','aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','NEW'),('ebf8305f-9126-4d4e-ba83-567b62d1a58f','nomination_schema_v2.5.png','40a07802608d0a444fc05d264c2e6a7d','32423','278db56c-9f38-4326-90dd-dbf4932ea5f7','9a8f14bf-7d3f-45a5-8f95-e66f0f5cf4f7','NEW'),('f0b4ab91-cac7-4628-945b-9f4d1b7f43d6','nomination_schema_v2.5.png','7a9c03537f58bbad314c6df5dd5a86ad','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','NEW'),('f73f87eb-8cf4-40e7-8e3d-0926717f1a43','0_lWBID1VszAlY8Kpe.png','92bc5e14f403478d4d6feeb0363a9ec5','15990459-2ea4-413f-b1f7-29a138fd7a97','aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','NEW'),('ffa2d18f-e37e-4492-9cb2-3f424d745f46','nomination_schema_v2.5.png','9e519ce021f3ec763c58ef9e7009e34a','fe2c2d7e-66de-406a-b887-1143023f8e72','aa539759-ac6a-4a88-9c1d-bef3ac83a2d0','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','NEW');
+LOCK TABLES `CANDIDATE_SUPPORT_DOC` WRITE;
+/*!40000 ALTER TABLE `CANDIDATE_SUPPORT_DOC` DISABLE KEYS */;
+INSERT INTO `CANDIDATE_SUPPORT_DOC` VALUES ('a9acb33f-7191-4bc2-a44e-3c3044797d35','high-level-architecture-nomination.png','104352242ca356a62fe9d73083267f7e','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','23a8b1a5-cab6-4c34-ae74-304156b90066','fdada61e-844d-4492-8456-29c9cabd5059','NEW');
+/*!40000 ALTER TABLE `CANDIDATE_SUPPORT_DOC` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `DIVISION_CONFIG` */
+--
+-- Table structure for table `DIVISION_CONFIG`
+--
 
 DROP TABLE IF EXISTS `DIVISION_CONFIG`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `DIVISION_CONFIG` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `NAME` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -113,33 +182,54 @@ CREATE TABLE `DIVISION_CONFIG` (
   `MODULE_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `MODULE_ID` (`MODULE_ID`),
-  CONSTRAINT `DIVISION_CONFIG_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `ELECTION_MODULE` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `DIVISION_CONFIG_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `election_module` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `DIVISION_CONFIG` */
+--
+-- Dumping data for table `DIVISION_CONFIG`
+--
 
-insert  into `DIVISION_CONFIG`(`ID`,`NAME`,`CODE`,`NO_OF_CANDIDATES`,`MODULE_ID`) values ('453de266-c19f-4a7b-9cd4-046f397e7606','test','01',1,'0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d'),('a3f81cb4-7fd9-4aa4-85d6-051fb2f0220d','Country','01',1,'b9ff7f40-afaf-4140-8dc7-127d15978877'),('a669f043-feaf-444d-853a-88d687e12df5','Uva','001',1,'7180ca1c-20bf-46bd-91e1-32e301c80f35'),('ad3a8acb-92ce-4209-9d7a-0fbdb8347755','h','h',4,'b6c93150-f223-469d-bb49-6b54c3108541'),('ae4c0dd8-6a20-4093-8953-c5ce6f9db37b','Western ','002',1,'7180ca1c-20bf-46bd-91e1-32e301c80f35'),('afdfd16f-b78a-4746-9fa8-0f1eb089efe1','Central ','003',65,'7180ca1c-20bf-46bd-91e1-32e301c80f35');
+LOCK TABLES `DIVISION_CONFIG` WRITE;
+/*!40000 ALTER TABLE `DIVISION_CONFIG` DISABLE KEYS */;
+INSERT INTO `DIVISION_CONFIG` VALUES ('5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1','Country','01',1,'904ae2d4-3239-43ef-976c-97c046aecaaa'),('6f390a4e-7695-4775-bc63-bca21b36eca7','Sri lanka','01',1,'0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('8915ff54-bc93-47fd-a011-7d250e371c66','Country','1',1,'a5ddccd2-7b5d-4feb-9d15-109fabdbab0a'),('bee486ca-d3b8-456e-8313-a8d8937d1616','sri lanka','01',1,'0531e799-deb4-47fd-be06-bc3527d67da9'),('e5ddf7b8-ff32-4564-9161-601a18176ca4','Sri Lanka','01',1,'632a9e4b-501b-4410-96a4-b2ca7c20286f'),('fbb31cc2-6941-481b-9061-ec62db2657eb','Country','1',1,'c4468657-6084-4013-ab4a-3ed218bd652a');
+/*!40000 ALTER TABLE `DIVISION_CONFIG` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `DIVISION_CONFIG_DATA` */
+--
+-- Table structure for table `DIVISION_CONFIG_DATA`
+--
 
 DROP TABLE IF EXISTS `DIVISION_CONFIG_DATA`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `DIVISION_CONFIG_DATA` (
   `ELECTION_ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `DIVISION_CONFIG_ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `SELECT_FLAG` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`ELECTION_ID`,`DIVISION_CONFIG_ID`),
   KEY `DIVISION_CONFIG_ID` (`DIVISION_CONFIG_ID`),
-  CONSTRAINT `DIVISION_CONFIG_DATA_ibfk_1` FOREIGN KEY (`ELECTION_ID`) REFERENCES `ELECTION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `DIVISION_CONFIG_DATA_ibfk_2` FOREIGN KEY (`DIVISION_CONFIG_ID`) REFERENCES `DIVISION_CONFIG` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `DIVISION_CONFIG_DATA_ibfk_1` FOREIGN KEY (`ELECTION_ID`) REFERENCES `election` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `DIVISION_CONFIG_DATA_ibfk_2` FOREIGN KEY (`DIVISION_CONFIG_ID`) REFERENCES `division_config` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `DIVISION_CONFIG_DATA` */
+--
+-- Dumping data for table `DIVISION_CONFIG_DATA`
+--
 
-/*Table structure for table `ELECTION` */
+LOCK TABLES `DIVISION_CONFIG_DATA` WRITE;
+/*!40000 ALTER TABLE `DIVISION_CONFIG_DATA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `DIVISION_CONFIG_DATA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ELECTION`
+--
 
 DROP TABLE IF EXISTS `ELECTION`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELECTION` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `NAME` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -149,17 +239,27 @@ CREATE TABLE `ELECTION` (
   `MODULE_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `MODULE_ID` (`MODULE_ID`),
-  CONSTRAINT `ELECTION_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `ELECTION_MODULE` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `ELECTION_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `election_module` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELECTION` */
+--
+-- Dumping data for table `ELECTION`
+--
 
-insert  into `ELECTION`(`ID`,`NAME`,`CREATED_BY`,`CREATED_AT`,`UPDATED_AT`,`MODULE_ID`) values ('24c9edee-f5a9-4570-a9ea-1b949851ea49','Provincial Council 2021','admin',1558500017000,1558500216000,'7180ca1c-20bf-46bd-91e1-32e301c80f35'),('44730642-9def-4535-85c0-9ea0b42bf1cd','Provincial test','admin',1560753615000,1560753615000,'7180ca1c-20bf-46bd-91e1-32e301c80f35'),('5b2697ff-9848-4c03-9c49-11d4c6ad63fb','wp Provinsial council2019','admin',1562213952000,1562213952000,'7180ca1c-20bf-46bd-91e1-32e301c80f35'),('5d1794f3-53e4-494b-a48f-fef4e97d0a86','Provincial Council 2020 new','admin',1557898425000,1558078496000,'7180ca1c-20bf-46bd-91e1-32e301c80f35'),('612cc919-2787-4595-993c-e2ca886aed10','pretest','admin',1563879555000,1563879555000,'b9ff7f40-afaf-4140-8dc7-127d15978877'),('79606446-c1fe-4151-9a68-8feee2f312e0','test7','admin',1558588476000,1558675296000,'7180ca1c-20bf-46bd-91e1-32e301c80f35'),('ced3d893-fc9e-40c5-be98-c19b768a7797','Provincial Council 2020','admin',1557318337000,1557318337000,'7180ca1c-20bf-46bd-91e1-32e301c80f35'),('d69fba61-9b69-499a-8d30-e24143f2a156','Provincial','admin',1561374834000,1561696265000,'7180ca1c-20bf-46bd-91e1-32e301c80f35'),('f2448efc-f1a4-4417-81ff-5ca11f216b54','Provincial Council 2019','admin',1557313005000,1560757272000,'7180ca1c-20bf-46bd-91e1-32e301c80f35');
+LOCK TABLES `ELECTION` WRITE;
+/*!40000 ALTER TABLE `ELECTION` DISABLE KEYS */;
+INSERT INTO `ELECTION` VALUES ('11384edf-00d8-40e3-8d31-ed40f6f290fb','Presidential 2021','admin',1575962638000,1575962638000,'0531e799-deb4-47fd-be06-bc3527d67da9'),('3a40e484-b236-4531-8efa-00e36de8c82e','test election1','admin',1576661894000,1576823962000,'904ae2d4-3239-43ef-976c-97c046aecaaa'),('4add46f4-17bd-4285-aea6-2d402c5d3853','Presidential 2023','admin',1576146167000,1576146167000,'632a9e4b-501b-4410-96a4-b2ca7c20286f'),('76172c1e-3db8-4b84-8fe3-ad31918e870b','PRE NEW','admin',1577945646000,1577945646000,'632a9e4b-501b-4410-96a4-b2ca7c20286f'),('7d9c17ce-522e-4ae2-bd69-24a692781790','Presidential 2020','admin',1575959411000,1575959411000,'0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('833135b8-e990-4aea-badf-1522b747473a','Presidential 2019','admin',1575888870000,1575888885000,'632a9e4b-501b-4410-96a4-b2ca7c20286f'),('c482b797-2298-4dc2-89a0-5629f34fe1be','pre testing1','admin',1577424942000,1577425044000,'632a9e4b-501b-4410-96a4-b2ca7c20286f');
+/*!40000 ALTER TABLE `ELECTION` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `ELECTION_APPROVAL` */
+--
+-- Table structure for table `ELECTION_APPROVAL`
+--
 
 DROP TABLE IF EXISTS `ELECTION_APPROVAL`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELECTION_APPROVAL` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `STATUS` enum('PENDING','APPROVE','REJECT') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -170,50 +270,81 @@ CREATE TABLE `ELECTION_APPROVAL` (
   `REVIEW_NOTE` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`ID`),
   KEY `ELECTION_ID` (`ELECTION_ID`),
-  CONSTRAINT `ELECTION_APPROVAL_ibfk_1` FOREIGN KEY (`ELECTION_ID`) REFERENCES `ELECTION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `ELECTION_APPROVAL_ibfk_1` FOREIGN KEY (`ELECTION_ID`) REFERENCES `election` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELECTION_APPROVAL` */
+--
+-- Dumping data for table `ELECTION_APPROVAL`
+--
 
-insert  into `ELECTION_APPROVAL`(`ID`,`STATUS`,`APPROVED_BY`,`APPROVED_AT`,`UPDATED_AT`,`ELECTION_ID`,`REVIEW_NOTE`) values ('0e4656c2-310d-4e5b-8204-444764b20332','APPROVE','admin',1557318337000,1558602414000,'ced3d893-fc9e-40c5-be98-c19b768a7797','d'),('33cf6228-a8f1-46ab-90f0-224f86dd327c','APPROVE','admin',1558078496000,1560754682000,'5d1794f3-53e4-494b-a48f-fef4e97d0a86','s'),('396fca88-672c-4fff-8889-9ce6d87e950c','APPROVE','admin',1562213952000,1562214226000,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb','done'),('45855454-ee83-4e30-a63d-f9fd2e1affa0','PENDING','admin',1558500216000,1558500216000,'24c9edee-f5a9-4570-a9ea-1b949851ea49',NULL),('4fda7070-75ea-4660-abbd-54cf099f06ac','APPROVE','admin',1560753615000,1560754175000,'44730642-9def-4535-85c0-9ea0b42bf1cd','a'),('7a567991-8309-4f04-b886-a757bb7a7417','PENDING','admin',1563879555000,1563879555000,'612cc919-2787-4595-993c-e2ca886aed10',NULL),('7b0ed2f9-320c-4ca6-ae46-93134189ae47','PENDING','admin',1558675296000,1558675296000,'79606446-c1fe-4151-9a68-8feee2f312e0',NULL),('9c9bf198-4123-4df7-837b-ae3da620046b','PENDING','admin',1560757272000,1560757272000,'f2448efc-f1a4-4417-81ff-5ca11f216b54',NULL),('cca29fe8-a098-4bde-a23b-98863237515a','PENDING','admin',1561696265000,1561696265000,'d69fba61-9b69-499a-8d30-e24143f2a156',NULL);
+LOCK TABLES `ELECTION_APPROVAL` WRITE;
+/*!40000 ALTER TABLE `ELECTION_APPROVAL` DISABLE KEYS */;
+INSERT INTO `ELECTION_APPROVAL` VALUES ('0bef5591-d70f-4e43-a04a-2c2614af85db','APPROVE','admin',1575888885000,1576649090000,'833135b8-e990-4aea-badf-1522b747473a',''),('11361b89-8872-4f19-a746-c5a741c5c877','APPROVE','admin',1577425044000,1577425214000,'c482b797-2298-4dc2-89a0-5629f34fe1be','s'),('20a079b6-b1bd-4b24-be8f-f5e7a1ca4e81','APPROVE','admin',1575962638000,1577336765000,'11384edf-00d8-40e3-8d31-ed40f6f290fb','d'),('4808777b-6a9b-480b-89eb-bb6a77ec6fde','APPROVE','admin',1575959411000,1575959540000,'7d9c17ce-522e-4ae2-bd69-24a692781790','done'),('b122b094-c4d8-45c4-a558-36b158866147','APPROVE','admin',1576146167000,1576146197000,'4add46f4-17bd-4285-aea6-2d402c5d3853','approved'),('bef2518f-766c-4dd5-b50c-55f24251d48c','PENDING','admin',1576823962000,1576823962000,'3a40e484-b236-4531-8efa-00e36de8c82e',NULL),('e5bd2924-122e-4179-baaf-043e32e52bf7','APPROVE','admin',1577945646000,1577945742000,'76172c1e-3db8-4b84-8fe3-ad31918e870b','done');
+/*!40000 ALTER TABLE `ELECTION_APPROVAL` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `ELECTION_CONFIG` */
+--
+-- Table structure for table `ELECTION_CONFIG`
+--
 
 DROP TABLE IF EXISTS `ELECTION_CONFIG`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELECTION_CONFIG` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `KEY_NAME` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `DESCRIPTION` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELECTION_CONFIG` */
+--
+-- Dumping data for table `ELECTION_CONFIG`
+--
 
-insert  into `ELECTION_CONFIG`(`ID`,`KEY_NAME`,`DESCRIPTION`) values ('1','candidate payment','payment pert candidate'),('2','weightageVoteBased','weightage vote'),('3','weightagePrefarenceBased','weightage prefarence');
+LOCK TABLES `ELECTION_CONFIG` WRITE;
+/*!40000 ALTER TABLE `ELECTION_CONFIG` DISABLE KEYS */;
+INSERT INTO `ELECTION_CONFIG` VALUES ('1','candidate payment','payment pert candidate'),('2','weightageVoteBased','weightage vote'),('3','weightagePrefarenceBased','weightage prefarence');
+/*!40000 ALTER TABLE `ELECTION_CONFIG` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `ELECTION_CONFIG_DATA` */
+--
+-- Table structure for table `ELECTION_CONFIG_DATA`
+--
 
 DROP TABLE IF EXISTS `ELECTION_CONFIG_DATA`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELECTION_CONFIG_DATA` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `VALUE` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ELECTION_CONFIG_ID` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ELECTION_ID` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ELECTION_CONFIG_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ELECTION_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `ELECTION_CONFIG_ID` (`ELECTION_CONFIG_ID`),
   KEY `ELECTION_ID` (`ELECTION_ID`),
-  CONSTRAINT `ELECTION_CONFIG_DATA_ibfk_1` FOREIGN KEY (`ELECTION_CONFIG_ID`) REFERENCES `ELECTION_CONFIG` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `ELECTION_CONFIG_DATA_ibfk_2` FOREIGN KEY (`ELECTION_ID`) REFERENCES `ELECTION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `ELECTION_CONFIG_DATA_ibfk_1` FOREIGN KEY (`ELECTION_CONFIG_ID`) REFERENCES `election_config` (`ID`) ON UPDATE CASCADE,
+  CONSTRAINT `ELECTION_CONFIG_DATA_ibfk_2` FOREIGN KEY (`ELECTION_ID`) REFERENCES `election` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELECTION_CONFIG_DATA` */
+--
+-- Dumping data for table `ELECTION_CONFIG_DATA`
+--
 
-/*Table structure for table `ELECTION_MODULE` */
+LOCK TABLES `ELECTION_CONFIG_DATA` WRITE;
+/*!40000 ALTER TABLE `ELECTION_CONFIG_DATA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ELECTION_CONFIG_DATA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ELECTION_MODULE`
+--
 
 DROP TABLE IF EXISTS `ELECTION_MODULE`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELECTION_MODULE` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `NAME` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -223,86 +354,137 @@ CREATE TABLE `ELECTION_MODULE` (
   `UPDATED_AT` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELECTION_MODULE` */
+--
+-- Dumping data for table `ELECTION_MODULE`
+--
 
-insert  into `ELECTION_MODULE`(`ID`,`NAME`,`DIVISION_COMMON_NAME`,`CREATED_BY`,`CREATED_AT`,`UPDATED_AT`) values ('0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d','test','test','admin',1563427153,1563427153),('7180ca1c-20bf-46bd-91e1-32e301c80f35','Provincial Council  ','Province','admin',1557308032,1557825420000),('b6c93150-f223-469d-bb49-6b54c3108541','test1','nh','admin',1563863805,1563877983000),('b9ff7f40-afaf-4140-8dc7-127d15978877','Presidential ','Country','admin',1562664722,1563167337000);
+LOCK TABLES `ELECTION_MODULE` WRITE;
+/*!40000 ALTER TABLE `ELECTION_MODULE` DISABLE KEYS */;
+INSERT INTO `ELECTION_MODULE` VALUES ('0531e799-deb4-47fd-be06-bc3527d67da9','Presidential3','Country','admin',1575962336,1575962336),('0a349bd9-27e4-46b1-b31e-5a862bf7aefd','Presidential2','Country','admin',1575959230,1575959230),('632a9e4b-501b-4410-96a4-b2ca7c20286f','Presidential','Country','admin',1575888063,1575888081000),('904ae2d4-3239-43ef-976c-97c046aecaaa','test1','Country','admin',1576647399,1576647399),('a5ddccd2-7b5d-4feb-9d15-109fabdbab0a','testing1','Country','admin',1576825835,1577422751000),('c4468657-6084-4013-ab4a-3ed218bd652a','test2','Country','admin',1576647515,1576647515);
+/*!40000 ALTER TABLE `ELECTION_MODULE` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `ELECTION_MODULE_APPROVAL` */
+--
+-- Table structure for table `ELECTION_MODULE_APPROVAL`
+--
 
 DROP TABLE IF EXISTS `ELECTION_MODULE_APPROVAL`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELECTION_MODULE_APPROVAL` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `STATUS` enum('PENDING','APPROVE','REJECT') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `APPROVED_BY` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `APPROVED_AT` bigint(20) DEFAULT NULL,
   `UPDATED_AT` bigint(20) DEFAULT NULL,
-  `REVIEW_NOTE` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `REVIEW_NOTE` text COLLATE utf8mb4_unicode_ci,
   `MODULE_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `MODULE_ID` (`MODULE_ID`),
-  CONSTRAINT `ELECTION_MODULE_APPROVAL_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `ELECTION_MODULE` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `ELECTION_MODULE_APPROVAL_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `election_module` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELECTION_MODULE_APPROVAL` */
+--
+-- Dumping data for table `ELECTION_MODULE_APPROVAL`
+--
 
-insert  into `ELECTION_MODULE_APPROVAL`(`ID`,`STATUS`,`APPROVED_BY`,`APPROVED_AT`,`UPDATED_AT`,`REVIEW_NOTE`,`MODULE_ID`) values ('01a970ee-ea32-4c82-8b76-aca880b298b4','APPROVE','admin',1563427153,1563430385000,'fgf','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d'),('0a8d41ef-b4d5-48e4-bd07-885d6985d535','APPROVE','admin',1562664722,1563426986000,'dd','b9ff7f40-afaf-4140-8dc7-127d15978877'),('1854cb5f-5e95-4a59-804f-de16494f03e4','PENDING','admin',1563863805,1563863805,NULL,'b6c93150-f223-469d-bb49-6b54c3108541'),('f5a232b1-a769-449d-baa6-b0fac654b075','REJECT','admin',1557308032,1563362813000,'s','7180ca1c-20bf-46bd-91e1-32e301c80f35');
+LOCK TABLES `ELECTION_MODULE_APPROVAL` WRITE;
+/*!40000 ALTER TABLE `ELECTION_MODULE_APPROVAL` DISABLE KEYS */;
+INSERT INTO `ELECTION_MODULE_APPROVAL` VALUES ('1ee3391b-41d9-43ab-8568-636ae7755b0c','APPROVE','admin',1575888063,1577082842000,'','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('57e29768-3659-4ca7-b4e2-642893f2c1b3','APPROVE','admin',1576647399,1576647424000,'','904ae2d4-3239-43ef-976c-97c046aecaaa'),('5c2eebf6-9ab0-4199-af48-be03c5949af5','APPROVE','admin',1576647515,1576647527000,'ss','c4468657-6084-4013-ab4a-3ed218bd652a'),('84b8bab0-f0e6-4579-a18f-16822d443a75','APPROVE','admin',1575959230,1576825657000,'','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('a46d9695-918e-4805-ae71-3907395cc477','APPROVE','admin',1575962336,1577080577000,'','0531e799-deb4-47fd-be06-bc3527d67da9'),('e7fd295e-c538-45c3-834e-04581996affb','PENDING','admin',1576825835,1577422751000,'','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a');
+/*!40000 ALTER TABLE `ELECTION_MODULE_APPROVAL` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `ELECTION_MODULE_CONFIG` */
+--
+-- Table structure for table `ELECTION_MODULE_CONFIG`
+--
 
 DROP TABLE IF EXISTS `ELECTION_MODULE_CONFIG`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELECTION_MODULE_CONFIG` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `KEY_NAME` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `DESCRIPTION` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELECTION_MODULE_CONFIG` */
+--
+-- Dumping data for table `ELECTION_MODULE_CONFIG`
+--
 
-insert  into `ELECTION_MODULE_CONFIG`(`ID`,`KEY_NAME`,`DESCRIPTION`) values ('123213','candidate payment','candidate payment amount'),('1243123','nomination submission by',NULL),('142343242343','create allayance',NULL),('15990459-2ea4-413f-b1f7-29a138fd7a97','cal type',NULL),('234433','weightagePrefarenceBased',NULL),('2345234234','authorityRemarks',NULL),('2353453','authority',NULL),('253454355','objection allowed',NULL),('324324','weightageVoteBased',NULL),('fe2c2d7e-66de-406a-b887-1143023f8e72','pay allowed',NULL),('ff4c6768-bdbe-4a16-b680-5fecb6b1f747','test',NULL);
+LOCK TABLES `ELECTION_MODULE_CONFIG` WRITE;
+/*!40000 ALTER TABLE `ELECTION_MODULE_CONFIG` DISABLE KEYS */;
+INSERT INTO `ELECTION_MODULE_CONFIG` VALUES ('123213','candidate payment rpp','candidate payment amount for rpp'),('1232132','candidate payment ig','candidate payment amount for ig'),('1243123','nomination submission by',NULL),('142343242343','create allayance',NULL),('15990459-2ea4-413f-b1f7-29a138fd7a97','cal type',NULL),('234433','weightagePrefarenceBased',NULL),('2345234234','authorityRemarks',NULL),('2353453','authority',NULL),('253454355','objection allowed',NULL),('324324','weightageVoteBased',NULL),('fe2c2d7e-66de-406a-b887-1143023f8e54','pay allowed ig','security deposit ig'),('fe2c2d7e-66de-406a-b887-1143023f8e72','pay allowed rpp','security deposit rpp'),('ff4c6768-bdbe-4a16-b680-5fecb6b1f747','test',NULL);
+/*!40000 ALTER TABLE `ELECTION_MODULE_CONFIG` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `ELECTION_MODULE_CONFIG_DATA` */
+--
+-- Table structure for table `ELECTION_MODULE_CONFIG_DATA`
+--
 
 DROP TABLE IF EXISTS `ELECTION_MODULE_CONFIG_DATA`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELECTION_MODULE_CONFIG_DATA` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `VALUE` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `VALUE` text COLLATE utf8mb4_unicode_ci,
   `ELECTION_MODULE_CONFIG_ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `MODULE_ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `MODULE_ID` (`MODULE_ID`),
   KEY `ELECTION_MODULE_CONFIG_ID` (`ELECTION_MODULE_CONFIG_ID`),
-  CONSTRAINT `ELECTION_MODULE_CONFIG_DATA_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `ELECTION_MODULE` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `ELECTION_MODULE_CONFIG_DATA_ibfk_2` FOREIGN KEY (`ELECTION_MODULE_CONFIG_ID`) REFERENCES `ELECTION_MODULE_CONFIG` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `ELECTION_MODULE_CONFIG_DATA_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `election_module` (`ID`) ON UPDATE CASCADE,
+  CONSTRAINT `ELECTION_MODULE_CONFIG_DATA_ibfk_2` FOREIGN KEY (`ELECTION_MODULE_CONFIG_ID`) REFERENCES `election_module_config` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELECTION_MODULE_CONFIG_DATA` */
+--
+-- Dumping data for table `ELECTION_MODULE_CONFIG_DATA`
+--
 
-insert  into `ELECTION_MODULE_CONFIG_DATA`(`ID`,`VALUE`,`ELECTION_MODULE_CONFIG_ID`,`MODULE_ID`) values ('038dae84-350c-4e4e-b99d-c401c6e69204','Allowed','253454355','b9ff7f40-afaf-4140-8dc7-127d15978877'),('0482f63d-6c3a-427f-9b1c-d29ba15cf419','Allowed','142343242343','b9ff7f40-afaf-4140-8dc7-127d15978877'),('13099db9-fd48-40c2-8beb-79c12bfc46fd','3000','123213','b9ff7f40-afaf-4140-8dc7-127d15978877'),('15ab739b-db7e-42dd-84cc-40825bbc608e','Independent Group Leader','1243123','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('1934508b-13f6-4c2f-9f2b-d400440fc3ca','pure_prefrence_based','15990459-2ea4-413f-b1f7-29a138fd7a97','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('1d805fd6-a98a-4616-8a87-a51f33276064','NotAllowed','142343242343','b6c93150-f223-469d-bb49-6b54c3108541'),('348790c9-7705-4f9b-a2de-d7a9ca5ef4e7','Yes','fe2c2d7e-66de-406a-b887-1143023f8e72','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('3a01986a-07b1-4d98-99b5-1a83b4c24f4a','Party Secretory','1243123','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d'),('3cb4293f-26fa-4cf2-90a9-0f8ecf8e4401','32d250c8-b6b0-4aa6-9b14-4817dbb268d9','2353453','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d'),('47fd32d6-21d3-4ae5-acb6-35967242ae1f','NotAllowed','142343242343','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d'),('4a3384de-a84e-4150-b8c3-81072641a5e5','a93b50c8-b6b0-4aa6-9b14-4817dbb268d9','2353453','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('5094dea6-e048-4e42-a63c-aeb0c292bc10','Independent Group Leader','1243123','b6c93150-f223-469d-bb49-6b54c3108541'),('56376440-06f0-44ff-8c1d-2c6131737b74','Yes','fe2c2d7e-66de-406a-b887-1143023f8e72','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d'),('64451257-11dc-4e4f-a93d-aeee88724c55','2000','123213','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('7096b235-b587-485b-b572-d9d304bd2933','Party Secretory','1243123','b9ff7f40-afaf-4140-8dc7-127d15978877'),('75723df2-1799-4049-a6ad-a2ca292e9755','done','2345234234','b6c93150-f223-469d-bb49-6b54c3108541'),('7de3516e-03f6-4cb9-aa2a-e36a6c40645d','pure_vote_based','15990459-2ea4-413f-b1f7-29a138fd7a97','b9ff7f40-afaf-4140-8dc7-127d15978877'),('90687a96-0671-4281-a032-bf4649401488','32d250c8-b6b0-4aa6-9b14-4817dbb268d9','2353453','b9ff7f40-afaf-4140-8dc7-127d15978877'),('9a4105ac-009b-487c-b4f7-26837d3d2edc','NotAllowed','142343242343','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('9aadc4f4-6ff7-4467-a907-77ff52e5098f','pure_prefrence_based','15990459-2ea4-413f-b1f7-29a138fd7a97','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d'),('a31672b5-c4bf-43fb-842d-c1b36afef577','No','fe2c2d7e-66de-406a-b887-1143023f8e72','b6c93150-f223-469d-bb49-6b54c3108541'),('a61b55e9-8896-4b9f-a64e-ec153d23b939','32d250c8-b6b0-4aa6-9b14-4817dbb268d9','2353453','b6c93150-f223-469d-bb49-6b54c3108541'),('bee0d932-430b-4b16-8166-21dd5e79cdde','NotAllowed','253454355','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d'),('cf35a6b2-9b58-4fab-9d4a-39edf8dab790','Yes','fe2c2d7e-66de-406a-b887-1143023f8e72','b9ff7f40-afaf-4140-8dc7-127d15978877'),('d292f3ce-2299-4828-9e03-e35ab25a3493','pure_vote_based','15990459-2ea4-413f-b1f7-29a138fd7a97','b6c93150-f223-469d-bb49-6b54c3108541'),('d74a6145-871c-4547-b4ae-10bfc38de2d4','2000','123213','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d'),('f2b87700-c7c3-4afd-b2bf-61f0dd8ee602','Allowed','253454355','7180ca1c-20bf-46bd-91e1-32e301c80f35');
+LOCK TABLES `ELECTION_MODULE_CONFIG_DATA` WRITE;
+/*!40000 ALTER TABLE `ELECTION_MODULE_CONFIG_DATA` DISABLE KEYS */;
+INSERT INTO `ELECTION_MODULE_CONFIG_DATA` VALUES ('038d7171-0d0f-4c9c-9520-55192f7cdb41','vote_and_prefrence','15990459-2ea4-413f-b1f7-29a138fd7a97','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('051fadac-b41e-46e3-9585-047d57a59fb8','No','fe2c2d7e-66de-406a-b887-1143023f8e72','904ae2d4-3239-43ef-976c-97c046aecaaa'),('06341a1e-eebb-4558-844b-e0c889c172a1','vote_and_prefrence','15990459-2ea4-413f-b1f7-29a138fd7a97','0531e799-deb4-47fd-be06-bc3527d67da9'),('08e98f15-ed04-4dc1-a243-669bc0e2a7d1','Yes','fe2c2d7e-66de-406a-b887-1143023f8e54','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('10de7586-9697-46ad-9e8a-527b8e67b140','Independent Group Leader','1243123','0531e799-deb4-47fd-be06-bc3527d67da9'),('111dbae5-2f16-43f6-a440-268c4875b1aa','No','fe2c2d7e-66de-406a-b887-1143023f8e72','c4468657-6084-4013-ab4a-3ed218bd652a'),('20eddbfd-d04d-4921-9b05-3ad90e19d655','50000','123213','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('216f548a-7e4b-4168-b4e9-8c92718cb409','75000','1232132','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('23b144fc-b5f2-4fef-a95d-c9f4f9a0bdbe','Allowed','253454355','0531e799-deb4-47fd-be06-bc3527d67da9'),('35945e9b-9b7f-4aa7-8dd2-5db2dcbbed18','75000','1232132','0531e799-deb4-47fd-be06-bc3527d67da9'),('3fefb7f1-5d44-441f-be3a-52ca11851ca4','NotAllowed','253454355','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a'),('4361a410-9e92-4e04-ade4-923cb7019200','Party Secretory','1243123','904ae2d4-3239-43ef-976c-97c046aecaaa'),('4a51ccd1-18e7-42a0-bb76-502257618655','Yes','fe2c2d7e-66de-406a-b887-1143023f8e54','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a'),('4d9c3af3-1f7a-455b-ad59-3eb540e14d90','Yes','fe2c2d7e-66de-406a-b887-1143023f8e72','0531e799-deb4-47fd-be06-bc3527d67da9'),('52861fb6-1688-43d0-a48c-2f596725ea6f','vote_and_prefrence','15990459-2ea4-413f-b1f7-29a138fd7a97','904ae2d4-3239-43ef-976c-97c046aecaaa'),('560789f3-9e28-4e86-9b8e-0526af6abcac','Party Secretory','1243123','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('5e9433ea-8487-4c04-9ef6-bf380ddef65f','Yes','fe2c2d7e-66de-406a-b887-1143023f8e54','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('6015bb44-570f-414c-b698-f729b9aef1e2','vote_and_prefrence','15990459-2ea4-413f-b1f7-29a138fd7a97','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('60cabed4-9f79-4a86-b92e-8b313b6f40c1','NotAllowed','142343242343','c4468657-6084-4013-ab4a-3ed218bd652a'),('6767aa04-ae87-459b-8a40-453000eb59c6','Yes','fe2c2d7e-66de-406a-b887-1143023f8e54','0531e799-deb4-47fd-be06-bc3527d67da9'),('707ed21a-8d2b-4176-a1e6-612230034a48','No','fe2c2d7e-66de-406a-b887-1143023f8e54','c4468657-6084-4013-ab4a-3ed218bd652a'),('74ebe5c9-35b3-42cf-9a8d-9889639001a2','Independent Group Leader','1243123','904ae2d4-3239-43ef-976c-97c046aecaaa'),('7b76e7e1-9aef-4182-840b-78dc9a90bf59','Independent Group Leader','1243123','c4468657-6084-4013-ab4a-3ed218bd652a'),('80fdc829-2d14-4658-8cf0-b208fd81e0e9','50000','123213','0531e799-deb4-47fd-be06-bc3527d67da9'),('86885696-9f4f-4d5c-b5c5-69d85fcca189','Allowed','142343242343','0531e799-deb4-47fd-be06-bc3527d67da9'),('8ee6f279-a705-4b9e-907c-8e73214aa07a','Allowed','253454355','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('936de440-249c-4679-aa70-36a5465cad7a','NotAllowed','253454355','904ae2d4-3239-43ef-976c-97c046aecaaa'),('988650da-deba-4b14-a128-215941c29bdc','Party Secretory','1243123','0531e799-deb4-47fd-be06-bc3527d67da9'),('9c8d2f94-f496-4403-b567-dacb966e5c42','Allowed','142343242343','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('a16befa0-cf3a-4a34-beed-f3b2139211b7','No','fe2c2d7e-66de-406a-b887-1143023f8e72','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a'),('a16c4f08-a49f-4d07-9706-30ef199318cf','Independent Group Leader','1243123','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a'),('a283e9cf-4e68-463d-918b-3f38aae37e72','75000','1232132','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a'),('aa41ef41-a83f-41a1-bce0-1a4d2e685be5','vote_and_prefrence','15990459-2ea4-413f-b1f7-29a138fd7a97','c4468657-6084-4013-ab4a-3ed218bd652a'),('b3f22034-de10-4f1d-91ab-cca02db47ff1','pure_prefrence_based','15990459-2ea4-413f-b1f7-29a138fd7a97','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a'),('b6706f06-c180-470d-8a40-0fc273e6c3f9','Independent Group Leader','1243123','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('b9564087-bb4b-42c8-b625-b15a82062cc9','NotAllowed','142343242343','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a'),('c42571ef-fdef-4d7e-8f65-c6cc4409799d','Yes','fe2c2d7e-66de-406a-b887-1143023f8e72','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('c4810bfa-ae1c-498d-b48f-ba77c4d068c8','NotAllowed','142343242343','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('c6602939-27a1-442b-8055-0070ee44908e','Party Secretory','1243123','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('dec9367c-fa18-4637-993a-e15d7b76fa89','Yes','fe2c2d7e-66de-406a-b887-1143023f8e72','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('e6aa1e8d-f944-4525-b44d-a814603746f0','75000','1232132','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('ea3b4f15-215b-4e10-ba9a-11d94e164a43','NotAllowed','142343242343','904ae2d4-3239-43ef-976c-97c046aecaaa'),('eb29b9fe-8756-4ebb-840a-a5b4fa1bed90','No','fe2c2d7e-66de-406a-b887-1143023f8e54','904ae2d4-3239-43ef-976c-97c046aecaaa'),('eed5d4b4-cdd1-49f5-b995-a4435af4947b','Allowed','253454355','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('f017c373-2836-45c3-bf8d-5244d4790291','NotAllowed','253454355','c4468657-6084-4013-ab4a-3ed218bd652a'),('ff59c0a6-5a77-43cb-879d-99c8a0461593','50000','123213','632a9e4b-501b-4410-96a4-b2ca7c20286f');
+/*!40000 ALTER TABLE `ELECTION_MODULE_CONFIG_DATA` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `ELECTION_TEAM` */
+--
+-- Table structure for table `ELECTION_TEAM`
+--
 
 DROP TABLE IF EXISTS `ELECTION_TEAM`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELECTION_TEAM` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `TEAM_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ELECTION_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `ELECTION_ID` (`ELECTION_ID`),
-  CONSTRAINT `ELECTION_TEAM_ibfk_1` FOREIGN KEY (`ELECTION_ID`) REFERENCES `ELECTION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `ELECTION_TEAM_ibfk_1` FOREIGN KEY (`ELECTION_ID`) REFERENCES `election` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELECTION_TEAM` */
+--
+-- Dumping data for table `ELECTION_TEAM`
+--
 
-/*Table structure for table `ELECTION_TIMELINE` */
+LOCK TABLES `ELECTION_TEAM` WRITE;
+/*!40000 ALTER TABLE `ELECTION_TEAM` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ELECTION_TEAM` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ELECTION_TIMELINE`
+--
 
 DROP TABLE IF EXISTS `ELECTION_TIMELINE`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELECTION_TIMELINE` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `NOMINATION_START` bigint(20) DEFAULT NULL,
@@ -312,86 +494,137 @@ CREATE TABLE `ELECTION_TIMELINE` (
   `ELECTION_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `ELECTION_ID` (`ELECTION_ID`),
-  CONSTRAINT `ELECTION_TIMELINE_ibfk_1` FOREIGN KEY (`ELECTION_ID`) REFERENCES `ELECTION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `ELECTION_TIMELINE_ibfk_1` FOREIGN KEY (`ELECTION_ID`) REFERENCES `election` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELECTION_TIMELINE` */
+--
+-- Dumping data for table `ELECTION_TIMELINE`
+--
 
-insert  into `ELECTION_TIMELINE`(`ID`,`NOMINATION_START`,`NOMINATION_END`,`OBJECTION_START`,`OBJECTION_END`,`ELECTION_ID`) values ('341bdd33-a7d8-488d-adc2-256e7d45fdb7',1557340200000,1557685800000,1557772200000,1558895400000,'ced3d893-fc9e-40c5-be98-c19b768a7797'),('41c719af-2ae7-4c6a-a32a-aa6b2f196c4e',1557253800000,1557685800000,1557772200000,1558290600000,'f2448efc-f1a4-4417-81ff-5ca11f216b54'),('73d0ce8e-0cfd-4501-a5e0-988a60bf1513',1559335380000,1559631660000,1560330060000,1561581780000,'44730642-9def-4535-85c0-9ea0b42bf1cd'),('7429f965-06e3-4520-8a1b-77782e837d5c',1562697000000,1562826600000,1563129000000,1563993000000,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb'),('7ff07d96-f795-417b-8d0f-616a04053977',1562137260000,1562752260000,1563346860000,1563951660000,'612cc919-2787-4595-993c-e2ca886aed10'),('91228742-e3e3-4ede-852a-ee93a8121e45',1556653860000,1557298860000,1557730860000,1559124660000,'79606446-c1fe-4151-9a68-8feee2f312e0'),('aa8eadff-6b20-41cb-a90a-68d3c0c887df',1556649000000,1557558060000,1557687660000,1558465260000,'24c9edee-f5a9-4570-a9ea-1b949851ea49'),('d2bb1aa4-c1b5-4187-a0b4-0849b8414a3d',1559803320000,1559889780000,1560199380000,1560927660000,'d69fba61-9b69-499a-8d30-e24143f2a156'),('f0a6eb90-2484-462b-9dc3-7400db210b2e',1546387200000,1547078400000,1547942400000,1548806400000,'5d1794f3-53e4-494b-a48f-fef4e97d0a86');
+LOCK TABLES `ELECTION_TIMELINE` WRITE;
+/*!40000 ALTER TABLE `ELECTION_TIMELINE` DISABLE KEYS */;
+INSERT INTO `ELECTION_TIMELINE` VALUES ('2a18cf4d-f123-4701-8776-de155770ca61',1577424900000,1577602860000,1577648520000,1577775660000,'c482b797-2298-4dc2-89a0-5629f34fe1be'),('61b34801-fc36-4f65-a891-128e9d461c9f',1575961260000,1576096980000,1576393260000,1577170860000,'11384edf-00d8-40e3-8d31-ed40f6f290fb'),('699d78e6-c7fc-496a-94e5-4bf249604ecb',1575959100000,1576134060000,1576911660000,1577343660000,'7d9c17ce-522e-4ae2-bd69-24a692781790'),('70954513-eb5b-4671-9e7b-94973e903172',1577944860000,1578121260000,1578294060000,1579244460000,'76172c1e-3db8-4b84-8fe3-ad31918e870b'),('9f6569cc-3798-463c-9643-b6883ac9fddf',1576832640000,1576919040000,1577178240000,1577351040000,'3a40e484-b236-4531-8efa-00e36de8c82e'),('aecfe087-3947-483d-a5ca-fec0ee660b7d',1575874860000,1576134060000,1576269780000,1576479660000,'833135b8-e990-4aea-badf-1522b747473a'),('ee3477b3-0dea-4dc4-b4b6-614f4482e6a1',1576141440000,1576273320000,1576566060000,1577343660000,'4add46f4-17bd-4285-aea6-2d402c5d3853');
+/*!40000 ALTER TABLE `ELECTION_TIMELINE` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `ELECTION_TIMELINE_CONFIG` */
+--
+-- Table structure for table `ELECTION_TIMELINE_CONFIG`
+--
 
 DROP TABLE IF EXISTS `ELECTION_TIMELINE_CONFIG`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELECTION_TIMELINE_CONFIG` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `KEY_NAME` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `DESCRIPTION` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELECTION_TIMELINE_CONFIG` */
+--
+-- Dumping data for table `ELECTION_TIMELINE_CONFIG`
+--
 
-insert  into `ELECTION_TIMELINE_CONFIG`(`ID`,`KEY_NAME`,`DESCRIPTION`) values ('0f62755e-9784-4046-9804-8d4deed36f2a','nomination_start_date','Start date of Nomination in UNIX TIMESTAMP'),('64ae3e95-591a-4bf9-8a5b-10803e0eca82','objection_end_date','End date of Objection in UNIX TIMESTAMP'),('675ec08b-2937-4222-94a6-0143a94763f1','objection_start_date','Start date of Objection in UNIX TIMESTAMP'),('c06a789c-405c-4e7a-8df2-66766284589b','nomination_end_date','End date of Nomination in UNIX TIMESTAMP');
+LOCK TABLES `ELECTION_TIMELINE_CONFIG` WRITE;
+/*!40000 ALTER TABLE `ELECTION_TIMELINE_CONFIG` DISABLE KEYS */;
+INSERT INTO `ELECTION_TIMELINE_CONFIG` VALUES ('0f62755e-9784-4046-9804-8d4deed36f2a','nomination_start_date','Start date of Nomination in UNIX TIMESTAMP'),('64ae3e95-591a-4bf9-8a5b-10803e0eca82','objection_end_date','End date of Objection in UNIX TIMESTAMP'),('675ec08b-2937-4222-94a6-0143a94763f1','objection_start_date','Start date of Objection in UNIX TIMESTAMP'),('c06a789c-405c-4e7a-8df2-66766284589b','nomination_end_date','End date of Nomination in UNIX TIMESTAMP');
+/*!40000 ALTER TABLE `ELECTION_TIMELINE_CONFIG` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `ELECTION_TIMELINE_CONFIG_DATA` */
+--
+-- Table structure for table `ELECTION_TIMELINE_CONFIG_DATA`
+--
 
 DROP TABLE IF EXISTS `ELECTION_TIMELINE_CONFIG_DATA`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELECTION_TIMELINE_CONFIG_DATA` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ELECTION_TIMELINE_CONFIG_ID` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ELECTION_ID` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ELECTION_TIMELINE_CONFIG_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ELECTION_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `VALUE` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `ELECTION_TIMELINE_CONFIG_ID` (`ELECTION_TIMELINE_CONFIG_ID`),
   KEY `ELECTION_ID` (`ELECTION_ID`),
-  CONSTRAINT `ELECTION_TIMELINE_CONFIG_DATA_ibfk_1` FOREIGN KEY (`ELECTION_TIMELINE_CONFIG_ID`) REFERENCES `ELECTION_TIMELINE_CONFIG` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `ELECTION_TIMELINE_CONFIG_DATA_ibfk_2` FOREIGN KEY (`ELECTION_ID`) REFERENCES `ELECTION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `ELECTION_TIMELINE_CONFIG_DATA_ibfk_1` FOREIGN KEY (`ELECTION_TIMELINE_CONFIG_ID`) REFERENCES `election_timeline_config` (`ID`) ON UPDATE CASCADE,
+  CONSTRAINT `ELECTION_TIMELINE_CONFIG_DATA_ibfk_2` FOREIGN KEY (`ELECTION_ID`) REFERENCES `election` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELECTION_TIMELINE_CONFIG_DATA` */
+--
+-- Dumping data for table `ELECTION_TIMELINE_CONFIG_DATA`
+--
 
-/*Table structure for table `ELIGIBILITY_CONFIG` */
+LOCK TABLES `ELECTION_TIMELINE_CONFIG_DATA` WRITE;
+/*!40000 ALTER TABLE `ELECTION_TIMELINE_CONFIG_DATA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ELECTION_TIMELINE_CONFIG_DATA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ELIGIBILITY_CONFIG`
+--
 
 DROP TABLE IF EXISTS `ELIGIBILITY_CONFIG`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELIGIBILITY_CONFIG` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `DESCRIPTION` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELIGIBILITY_CONFIG` */
+--
+-- Dumping data for table `ELIGIBILITY_CONFIG`
+--
 
-insert  into `ELIGIBILITY_CONFIG`(`ID`,`DESCRIPTION`) values ('1','Minimum age 35 years'),('2','Does not serve as a Judicial Officer'),('3','Does not serve as as the Commissioner-General'),('4','Does not serve as the Auditor-General'),('5','Does not serve as a Judicial Officer'),('6','Is not standing nominated as a candidate for election by more than one recognized political party or independent group in respect of any electoral district');
+LOCK TABLES `ELIGIBILITY_CONFIG` WRITE;
+/*!40000 ALTER TABLE `ELIGIBILITY_CONFIG` DISABLE KEYS */;
+INSERT INTO `ELIGIBILITY_CONFIG` VALUES ('1','Minimum age 35 years'),('2','Does not serve as a Judicial Officer'),('3','Does not serve as as the Commissioner-General'),('4','Does not serve as the Auditor-General'),('5','Does not serve as a Judicial Officer'),('6','Is not standing nominated as a candidate for election by more than one recognized political party or independent group in respect of any electoral district');
+/*!40000 ALTER TABLE `ELIGIBILITY_CONFIG` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `ELIGIBILITY_CONFIG_DATA` */
+--
+-- Table structure for table `ELIGIBILITY_CONFIG_DATA`
+--
 
 DROP TABLE IF EXISTS `ELIGIBILITY_CONFIG_DATA`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ELIGIBILITY_CONFIG_DATA` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ELIGIBILITY_CONFIG_ID` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ELIGIBILITY_CONFIG_ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `MODULE_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `MODULE_ID` (`MODULE_ID`),
   KEY `ELIGIBILITY_CONFIG_DATA_ibfk_2` (`ELIGIBILITY_CONFIG_ID`),
-  CONSTRAINT `ELIGIBILITY_CONFIG_DATA_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `ELECTION_MODULE` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `ELIGIBILITY_CONFIG_DATA_ibfk_2` FOREIGN KEY (`ELIGIBILITY_CONFIG_ID`) REFERENCES `ELIGIBILITY_CONFIG` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `ELIGIBILITY_CONFIG_DATA_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `election_module` (`ID`) ON UPDATE CASCADE,
+  CONSTRAINT `ELIGIBILITY_CONFIG_DATA_ibfk_2` FOREIGN KEY (`ELIGIBILITY_CONFIG_ID`) REFERENCES `eligibility_config` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `ELIGIBILITY_CONFIG_DATA` */
+--
+-- Dumping data for table `ELIGIBILITY_CONFIG_DATA`
+--
 
-insert  into `ELIGIBILITY_CONFIG_DATA`(`ID`,`ELIGIBILITY_CONFIG_ID`,`MODULE_ID`) values ('3a4d5e1a-305e-46e7-95a8-e9d7a33d9d8c','5','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('52e5afa8-5c7c-4c51-8a0c-ee4c248bb682','2','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d'),('6cc16b16-3be5-45e6-ae53-93f62d40be66','1','b6c93150-f223-469d-bb49-6b54c3108541'),('6db0c1e1-beeb-479b-bbd0-dd51abd2cf38','4','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('97da5c89-8995-48e4-b7f2-4a9e51d9d88c','2','b9ff7f40-afaf-4140-8dc7-127d15978877'),('b47a1d20-a99f-4a9d-a273-e50660ff3228','3','b9ff7f40-afaf-4140-8dc7-127d15978877'),('b93d8440-2391-4259-a91f-1d538ac21e8e','1','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('ea561cd3-0b4f-4760-bea5-ccf52318ed93','1','b9ff7f40-afaf-4140-8dc7-127d15978877'),('f96aa9b9-b4a9-46e2-8fcf-e0817e7203f3','1','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d');
+LOCK TABLES `ELIGIBILITY_CONFIG_DATA` WRITE;
+/*!40000 ALTER TABLE `ELIGIBILITY_CONFIG_DATA` DISABLE KEYS */;
+INSERT INTO `ELIGIBILITY_CONFIG_DATA` VALUES ('19c7a4ab-0e1b-4ad1-9660-1b8bdb9e7faa','3','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('250fe6bd-5d7f-41ed-9aab-a2e7133f399d','1','0531e799-deb4-47fd-be06-bc3527d67da9'),('5d8a1b8f-22ab-4a20-91e9-412e5754aefa','2','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('5d96a878-83fc-4553-9921-a687edf1d52c','6','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('6353efea-b674-4937-9f88-b255a42d875b','1','904ae2d4-3239-43ef-976c-97c046aecaaa'),('692d3f6f-028f-4b5f-b06d-0d286c08eb68','2','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a'),('6b94baa6-078e-4fac-85b4-7f1f171cc6ae','2','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('8d073665-894e-4762-b13f-b1f63d56e49a','4','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('983681f1-fb11-4b86-a5bc-4a2feafecb3c','5','0531e799-deb4-47fd-be06-bc3527d67da9'),('9851b280-e1b2-4205-9d59-a6368c1da218','4','0531e799-deb4-47fd-be06-bc3527d67da9'),('a8e92da4-aab6-4643-b53c-cc112986ef80','5','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('ab41f635-377b-466a-bf66-a90579e1a06e','1','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('b3843dbe-2249-4f1c-8d56-3677dee7dd99','5','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('c6ab75e8-eb55-4904-a992-0dc7211398bb','1','c4468657-6084-4013-ab4a-3ed218bd652a'),('d1d5bea4-d56b-4679-adbd-7656fd444345','2','0531e799-deb4-47fd-be06-bc3527d67da9'),('d59781ce-32ec-4202-a474-bf0f47b69c75','3','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('d6585a14-116f-468e-b393-640929525e00','1','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a'),('e77bf439-a339-4c67-86f1-167b17d77659','3','0531e799-deb4-47fd-be06-bc3527d67da9'),('ec0c83cd-8398-40ea-a44c-a600696e17b3','6','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('ee26d2dd-d0f2-4d5d-858f-5cd9fce20826','1','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('f5d0c93b-f3bb-47cf-8d74-6f9f8361f1e2','4','0a349bd9-27e4-46b1-b31e-5a862bf7aefd');
+/*!40000 ALTER TABLE `ELIGIBILITY_CONFIG_DATA` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `NOMINATION` */
+--
+-- Table structure for table `NOMINATION`
+--
 
 DROP TABLE IF EXISTS `NOMINATION`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `NOMINATION` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `STATUS` enum('DRAFT','SUBMIT','NEW') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `STATUS` enum('DRAFT','SUBMIT','NEW') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `TEAM_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `CREATED_BY` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `CREATED_AT` bigint(20) DEFAULT NULL,
@@ -402,19 +635,28 @@ CREATE TABLE `NOMINATION` (
   KEY `ELECTION_ID` (`ELECTION_ID`),
   KEY `DIVISION_CONFIG_ID` (`DIVISION_CONFIG_ID`),
   KEY `TEAM_ID` (`TEAM_ID`),
-  CONSTRAINT `NOMINATION_ibfk_1` FOREIGN KEY (`ELECTION_ID`) REFERENCES `ELECTION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `NOMINATION_ibfk_2` FOREIGN KEY (`DIVISION_CONFIG_ID`) REFERENCES `DIVISION_CONFIG` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `NOMINATION_ibfk_3` FOREIGN KEY (`TEAM_ID`) REFERENCES `TEAM_CONFIG` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `NOMINATION_ibfk_1` FOREIGN KEY (`ELECTION_ID`) REFERENCES `election` (`ID`) ON UPDATE CASCADE,
+  CONSTRAINT `NOMINATION_ibfk_2` FOREIGN KEY (`DIVISION_CONFIG_ID`) REFERENCES `division_config` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `NOMINATION` */
+--
+-- Dumping data for table `NOMINATION`
+--
 
-insert  into `NOMINATION`(`ID`,`STATUS`,`TEAM_ID`,`CREATED_BY`,`CREATED_AT`,`UPDATED_AT`,`ELECTION_ID`,`DIVISION_CONFIG_ID`) values ('0044c0a8-372d-4d1d-b4ca-2975b376abc0','NEW','2222','123',123,123,'5d1794f3-53e4-494b-a48f-fef4e97d0a86','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('031bf90d-3b3f-4a59-bd20-2d5134d57884','NEW','4444','123',123,123,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('053abe31-4eb0-4e21-bdb8-e4c42bdefa7e','NEW','3333','123',123,123,'5d1794f3-53e4-494b-a48f-fef4e97d0a86','a669f043-feaf-444d-853a-88d687e12df5'),('054433e2-254c-4e2d-91c1-22fbf0ad251c','NEW','3333','123',123,123,'44730642-9def-4535-85c0-9ea0b42bf1cd','a669f043-feaf-444d-853a-88d687e12df5'),('05b2a034-02d1-4f9a-bc91-1ac646e22a58','NEW','2222','123',123,123,'d69fba61-9b69-499a-8d30-e24143f2a156','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('08d59e4c-97a6-4f44-a230-697308349bf0','NEW','2222','123',123,123,'44730642-9def-4535-85c0-9ea0b42bf1cd','a669f043-feaf-444d-853a-88d687e12df5'),('11839545-3a20-40d0-b288-1736428cf3c0','SUBMIT','1111','123',123,123,'5d1794f3-53e4-494b-a48f-fef4e97d0a86','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('13410ecd-3b28-4c0e-9b12-793c46613cde','NEW','4444','123',123,123,'79606446-c1fe-4151-9a68-8feee2f312e0','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('15d76c67-87c7-47a8-b133-dd83207e4ef4','NEW','3333','123',123,123,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb','a669f043-feaf-444d-853a-88d687e12df5'),('19321e6d-f704-44e0-89e3-23441a0852d4','NEW','4444','123',123,123,'d69fba61-9b69-499a-8d30-e24143f2a156','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('1edb25ff-9da7-44f7-8089-1e1af7e23313','NEW','4444','123',123,123,'79606446-c1fe-4151-9a68-8feee2f312e0','a669f043-feaf-444d-853a-88d687e12df5'),('20eeb348-556b-4f70-a5be-5e4fc40392bd','NEW','1111','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('21692756-e430-4408-839b-af332e909ce3','NEW','1111','123',123,123,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('2ba50f00-3789-4fd3-86bb-19cfd5af7b78','NEW','4444','123',123,123,'44730642-9def-4535-85c0-9ea0b42bf1cd','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('2cdf737d-dd51-4533-aa89-67b579801267','NEW','3333','123',123,123,'5d1794f3-53e4-494b-a48f-fef4e97d0a86','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('2e01205e-509b-41ae-aad8-df8bc4b6c67e','NEW','1111','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','a669f043-feaf-444d-853a-88d687e12df5'),('2eb3e5d3-9664-4b78-8b61-2c03f72e46a8','NEW','3333','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('30c5e664-38fb-4006-9079-ab79c04cb501','NEW','4444','123',123,123,'d69fba61-9b69-499a-8d30-e24143f2a156','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('31c1a638-6074-40ea-aec2-0b3227a0c731','NEW','2222','123',123,123,'612cc919-2787-4595-993c-e2ca886aed10','a3f81cb4-7fd9-4aa4-85d6-051fb2f0220d'),('361ddb1f-bf60-466f-94bc-160a73de2fbe','NEW','3333','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('3ea8c7d9-cf9f-4046-9be5-9977db6185f1','NEW','2222','123',123,123,'79606446-c1fe-4151-9a68-8feee2f312e0','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('407edacc-ceae-4fc8-82d5-3fe6f1a4993b','NEW','4444','123',123,123,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb','a669f043-feaf-444d-853a-88d687e12df5'),('416f75dc-cf72-44d9-8209-7af64892e9a1','NEW','4444','123',123,123,'44730642-9def-4535-85c0-9ea0b42bf1cd','a669f043-feaf-444d-853a-88d687e12df5'),('42594ccd-5fda-4544-aa79-642541ceb72c','NEW','4444','123',123,123,'612cc919-2787-4595-993c-e2ca886aed10','a3f81cb4-7fd9-4aa4-85d6-051fb2f0220d'),('4a74858a-d152-416b-bae4-9cdb6122f385','NEW','2222','123',123,123,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb','a669f043-feaf-444d-853a-88d687e12df5'),('52178558-bca2-4034-8110-00dec2a45a05','NEW','4444','123',123,123,'5d1794f3-53e4-494b-a48f-fef4e97d0a86','a669f043-feaf-444d-853a-88d687e12df5'),('545f66e1-d359-4f1e-a679-4913068ce1f2','NEW','2222','123',123,123,'5d1794f3-53e4-494b-a48f-fef4e97d0a86','a669f043-feaf-444d-853a-88d687e12df5'),('56d99af4-b716-4e3e-885d-5b38326b833f','NEW','1111','123',123,123,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb','a669f043-feaf-444d-853a-88d687e12df5'),('5983fe58-c930-426f-aa4d-8f565d0487b0','NEW','3333','123',123,123,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('5b97822b-467d-448b-9bec-a29579c04c3e','NEW','3333','123',123,123,'d69fba61-9b69-499a-8d30-e24143f2a156','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('5c481060-d067-4c48-a709-18c8d27efd4f','NEW','4444','123',123,123,'5d1794f3-53e4-494b-a48f-fef4e97d0a86','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('5d37420d-b46b-47d4-b0c8-25815f5c6c22','NEW','3333','123',123,123,'79606446-c1fe-4151-9a68-8feee2f312e0','a669f043-feaf-444d-853a-88d687e12df5'),('64cea020-acd0-49c9-a0cc-9944e1b363ff','NEW','4444','123',123,123,'5d1794f3-53e4-494b-a48f-fef4e97d0a86','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('65b144a8-7bce-4ed0-9680-95e95237a87e','SUBMIT','1111','123',123,123,'44730642-9def-4535-85c0-9ea0b42bf1cd','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('663e3ccf-faab-4ef2-9f0e-19b3a6d738bf','NEW','2222','123',123,123,'24c9edee-f5a9-4570-a9ea-1b949851ea49','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('6844ba82-02c9-4046-b826-f8684169b710','NEW','2222','123',123,123,'79606446-c1fe-4151-9a68-8feee2f312e0','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('68de3a43-0110-4b3b-8fa8-67bbb3eaa29c','NEW','4444','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','a669f043-feaf-444d-853a-88d687e12df5'),('68f86d95-5601-4ee8-893f-cf5737e6feb6','NEW','2222','123',123,123,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('6c0c2e83-70da-4868-8ffe-51644cf0f2ba','NEW','2222','123',123,123,'79606446-c1fe-4151-9a68-8feee2f312e0','a669f043-feaf-444d-853a-88d687e12df5'),('719e53ed-860d-49a9-8228-25209e1ce867','NEW','4444','123',123,123,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('77d3997d-daa9-4deb-a41a-c86acd5cfa93','DRAFT','1111','123',123,123,'d69fba61-9b69-499a-8d30-e24143f2a156','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('7d599325-c22f-40e9-8671-a0dbb2ed0147','NEW','1111','123',123,123,'d69fba61-9b69-499a-8d30-e24143f2a156','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('8121868e-90ff-4f8a-b628-5f058b346336','NEW','3333','123',123,123,'44730642-9def-4535-85c0-9ea0b42bf1cd','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('816f5048-a95e-40bc-8ecc-0a777e7c7195','NEW','1111','123',123,123,'612cc919-2787-4595-993c-e2ca886aed10','a3f81cb4-7fd9-4aa4-85d6-051fb2f0220d'),('825e072a-854c-43c8-8260-92ee7d630d49','NEW','1111','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('84069d6a-b102-4de6-8942-554ddb5e6852','NEW','2222','123',123,123,'d69fba61-9b69-499a-8d30-e24143f2a156','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('886bee44-fd4f-403b-8545-cdfcaee90e6d','NEW','4444','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('8a5f2bc7-f44c-44da-ad56-ea81dfcb0d30','NEW','3333','123',123,123,'d69fba61-9b69-499a-8d30-e24143f2a156','a669f043-feaf-444d-853a-88d687e12df5'),('8f88af49-62f7-448a-9c6c-78b6765b9ba9','NEW','1111','123',123,123,'44730642-9def-4535-85c0-9ea0b42bf1cd','a669f043-feaf-444d-853a-88d687e12df5'),('94efa412-8b2a-4a99-94a9-426d3fd3e54a','NEW','2222','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('9a8f14bf-7d3f-45a5-8f95-e66f0f5cf4f7','DRAFT','1111','123',123,123,'79606446-c1fe-4151-9a68-8feee2f312e0','a669f043-feaf-444d-853a-88d687e12df5'),('9d5b0d77-1e92-40ee-a5e9-64d247a79282','NEW','3333','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','a669f043-feaf-444d-853a-88d687e12df5'),('9ea14b77-afc7-4f04-96f1-c008a5981599','NEW','1111','123',123,123,'5d1794f3-53e4-494b-a48f-fef4e97d0a86','a669f043-feaf-444d-853a-88d687e12df5'),('a96b5323-e2bf-4146-92dd-ee7cb47f8442','NEW','2222','123',123,123,'24c9edee-f5a9-4570-a9ea-1b949851ea49','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('ac004e58-d5b9-4b7b-a263-1a9b38a334ca','NEW','2222','123',123,123,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('ae88124c-770d-46ab-8e07-fddcccd8042e','SUBMIT','1111','123',123,123,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('ae99aba9-48ce-4f41-bb27-810a743062fd','NEW','1111','123',123,123,'44730642-9def-4535-85c0-9ea0b42bf1cd','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('b6b74431-c3c7-4d12-96fc-504ec17d4ec4','SUBMIT','1111','123',123,123,'79606446-c1fe-4151-9a68-8feee2f312e0','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('b7508adf-9ba3-4563-9fc9-4c8ef286b308','NEW','1111','123',123,123,'d69fba61-9b69-499a-8d30-e24143f2a156','a669f043-feaf-444d-853a-88d687e12df5'),('bcf0c267-784c-4186-8ee7-b2835045d754','NEW','4444','123',123,123,'24c9edee-f5a9-4570-a9ea-1b949851ea49','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('c03df3e1-c357-4eb9-b542-6f2f0875348f','NEW','3333','123',123,123,'44730642-9def-4535-85c0-9ea0b42bf1cd','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('c7754c94-35de-4094-b7f1-f1141777227c','NEW','3333','123',123,123,'612cc919-2787-4595-993c-e2ca886aed10','a3f81cb4-7fd9-4aa4-85d6-051fb2f0220d'),('cb99616c-6be3-40af-856a-7f01aa7480ae','NEW','3333','123',123,123,'5d1794f3-53e4-494b-a48f-fef4e97d0a86','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('ce638c88-8cda-4551-b1e9-5089e28568fe','NEW','4444','123',123,123,'79606446-c1fe-4151-9a68-8feee2f312e0','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('cec3b759-9f73-41ec-8e95-2a13abaa4b33','NEW','2222','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('d17dd506-97ca-4fca-911c-5939a7c0090e','NEW','2222','123',123,123,'5d1794f3-53e4-494b-a48f-fef4e97d0a86','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('d50c4266-1593-4ce1-baef-aaa1673c2d3c','NEW','4444','123',123,123,'24c9edee-f5a9-4570-a9ea-1b949851ea49','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('d6448ac0-545e-453a-983d-ac4ac8fe9e33','NEW','3333','123',123,123,'24c9edee-f5a9-4570-a9ea-1b949851ea49','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('d9024733-8002-42e9-9ebe-5d072c246683','NEW','2222','123',123,123,'44730642-9def-4535-85c0-9ea0b42bf1cd','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('db87fffe-7bba-4316-a966-838d770c0963','NEW','1111','123',123,123,'79606446-c1fe-4151-9a68-8feee2f312e0','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('de000754-15bc-4b26-9dde-ff5ec58a6634','NEW','2222','123',123,123,'44730642-9def-4535-85c0-9ea0b42bf1cd','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('de6654df-a2f5-4cd4-ba5a-3e1cf973ed72','NEW','4444','123',123,123,'d69fba61-9b69-499a-8d30-e24143f2a156','a669f043-feaf-444d-853a-88d687e12df5'),('e182da8b-8805-471c-a063-3501850f41e6','NEW','1111','123',123,123,'5d1794f3-53e4-494b-a48f-fef4e97d0a86','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('e49fe18b-420c-49a0-8701-1aa2bf663dba','NEW','3333','123',123,123,'5b2697ff-9848-4c03-9c49-11d4c6ad63fb','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('e6031a35-85d3-4890-ba2b-2f406bb7e994','NEW','3333','123',123,123,'d69fba61-9b69-499a-8d30-e24143f2a156','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('e61e1e3c-63ae-4871-ac65-33f762b6b81d','NEW','3333','123',123,123,'79606446-c1fe-4151-9a68-8feee2f312e0','ae4c0dd8-6a20-4093-8953-c5ce6f9db37b'),('e890e0cf-606c-4dbe-a350-793bbf4b2cec','NEW','3333','123',123,123,'79606446-c1fe-4151-9a68-8feee2f312e0','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('f1bc47b6-35cf-4f7b-bf60-93799a2b9173','NEW','4444','123',123,123,'44730642-9def-4535-85c0-9ea0b42bf1cd','afdfd16f-b78a-4746-9fa8-0f1eb089efe1'),('f6b25f0d-172c-4182-b3f6-05db938a119d','NEW','2222','123',123,123,'d69fba61-9b69-499a-8d30-e24143f2a156','a669f043-feaf-444d-853a-88d687e12df5'),('f92fe885-c781-42c5-8199-b1f5e2cd287a','NEW','4444','123',123,123,'f2448efc-f1a4-4417-81ff-5ca11f216b54','afdfd16f-b78a-4746-9fa8-0f1eb089efe1');
+LOCK TABLES `NOMINATION` WRITE;
+/*!40000 ALTER TABLE `NOMINATION` DISABLE KEYS */;
+INSERT INTO `NOMINATION` VALUES ('0010ad9e-848f-46bf-b8fe-b4f0e6e4094c','NEW','22','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('009e02ba-25e8-4cae-ac0b-4c6be7b7c3b2','NEW','33','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('01052bfc-e197-4f95-9eab-9db9b7ebc2b9','NEW','14','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('044f1580-b9d5-4460-a1db-0240edcc72b9','NEW','17','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('058a8b3c-1d4c-4f1c-86f0-4c0db637c483','NEW','23','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('0654b82f-e5eb-42fe-b35e-4b00c4d50d34','NEW','13','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('082d88a7-9d3b-43f3-b54f-a3991f0f7353','NEW','28','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('0a4b0476-dfae-4ca9-bf44-3793eab6e0e2','NEW','4','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('0b347819-5808-4847-9802-fc880dbe7b15','NEW','25','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('0ddead04-7e21-4cd1-a5d9-a6e82ee9d492','NEW','22','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('0e82e23d-81a4-4e4a-ab53-1a7afd3a9645','NEW','11','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('10179f15-89a5-41a9-9e9f-c229a0a9008c','NEW','36','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('1186c0e1-9ca7-4975-9a2e-886c9179819b','NEW','36','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('127b6e04-baad-4184-9eeb-578239698c74','NEW','6','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('12aa303d-4823-4533-b8a9-4e9e9c2a5b52','NEW','33','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('12f64483-ee72-46b2-b231-372c725f17d8','NEW','34','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('13154b65-1313-4723-8b61-7fa8e04425d5','NEW','36','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('132aa23d-0912-400a-a724-3547d6b65466','NEW','20','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('142939b9-cc3b-4b5c-9ed2-2f872993f017','NEW','12','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('15fa77e2-13cd-4f6b-a4af-a29a9b2fe377','NEW','5','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('1661a690-8843-40f7-b4b8-bb78504bfba9','NEW','5','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('18a32ebb-c00b-4b91-a6ad-1eca4f128426','NEW','7','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('1a4e7c8a-9fee-4ed0-a28a-336c3c34c576','NEW','36','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('1bdd5e64-a0cb-4096-bef5-e922bea44bba','NEW','26','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('1caeee86-e183-4aed-aab4-a579f9aa2c86','SUBMIT','1','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('1cafe8f2-7358-48da-8063-754390f45de4','NEW','19','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('1e78ffb2-55aa-4fe7-9153-0e023413e6cf','NEW','26','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('20ece445-3c81-4a8e-a76d-409ff62ea34d','NEW','18','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('22324031-2e75-48d3-8fb5-fad7f6586940','NEW','24','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('22a13e5e-505b-4671-b7cd-1b061d482ee6','NEW','17','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('2406da04-7cef-4047-a2b0-622cd7cdb6f8','NEW','13','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('24505896-e0d1-4b3f-b0f5-6ca20fe3e8d7','NEW','34','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('25b6c4ca-4bcd-45c0-9155-55107e270808','NEW','5','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('2601a376-4d69-4eaf-a6f7-990ff67897cb','NEW','3','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('27284601-2ea9-4734-9efe-4f3ce50e5cb2','NEW','2','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('27c3a297-647c-4e66-b102-7ca9449653c0','NEW','37','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('28c2c3c1-c839-41d2-9349-8ab2788bad5d','NEW','30','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('28ff3172-ff1f-4ef7-85be-9b80a9dea487','NEW','33','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('29d36ee7-cd9f-4c12-ae10-a1ac2cf5ec79','NEW','33','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('2a144635-250e-4f33-a5ca-a1c7d7c872a3','NEW','2','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('2b424a37-13dc-475a-90fe-b498e81dfaf7','NEW','35','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('2b5ab41e-d753-46de-8d21-a8d29705221f','NEW','19','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('2c8c91d5-f796-4927-8398-0bfaa5992712','NEW','20','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('2ccd059b-6ea5-4a10-96a8-7591e383e1c0','NEW','1','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('2e371d12-e841-4d4d-b007-2190df718ab8','NEW','4','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('333a3d2e-b716-4894-8191-01269c5f5772','NEW','31','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('355e081c-9a1f-4782-b040-de54e1779d8b','NEW','25','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('35e6d880-5188-41a1-aae2-6bdfc28b2fa4','NEW','39','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('370c241d-5f15-491f-bf12-309974baac35','NEW','26','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('390698bb-8fad-40ae-a1a3-1b13268b1604','NEW','33','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('3a7975c4-4e34-4caa-8644-bb754ffeca17','NEW','19','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('3aaca558-4f93-4015-8bb5-98702b8247ea','NEW','29','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('3bb7421f-2ac6-48d5-9330-1622554251b8','NEW','23','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('3c048c1d-fea6-438a-9cc8-d597e765b063','NEW','27','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('3c97a0cf-5566-450b-83e0-f8801d41b983','NEW','31','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('3d7abc70-002f-4367-b0a9-74cf34c3d083','NEW','35','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('3ec101cd-a465-4a16-9117-7a923f3d69c6','NEW','26','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('3f369e2c-b630-4991-af25-75f3f6637fea','NEW','16','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('4075cc9f-5e77-41e3-9b04-d9e9e8234d7d','NEW','29','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('409bd539-b269-44e4-bfe9-3d543236f3e0','NEW','18','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('4148c992-979a-4ff4-b81b-2d2dcaf8546f','NEW','3','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('41af96fd-d01c-431f-b3c6-7922b7da6e91','NEW','13','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('42d438d1-27f2-44f1-9d3d-aab4ade9a3c8','NEW','3','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('4317bd78-07e2-430a-94df-36b0977c87ac','NEW','21','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('43a105e7-efdc-438c-a441-65be777d8b46','NEW','30','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('44294e85-e8a2-41a1-85d7-d8db4bb9e793','NEW','11','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('444a8210-2186-4eeb-8470-eb0beb1257ec','NEW','34','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('45439c8d-a360-4d29-9cfe-226434727523','SUBMIT','1','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('46c3afa4-9992-4fbf-a5df-4c099bc87f93','NEW','8','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('4781557f-b901-4203-8217-054c50031c07','NEW','37','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('47a173bb-d4c6-4af4-af60-afe9412682bd','NEW','8','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('489a283f-9b43-4b78-9579-ee77fe5a25d7','NEW','14','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('48ad9776-e391-4754-92bc-fbacf01b36b3','NEW','5','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('493462a4-8e95-4137-bc7f-094e0ed71d78','NEW','35','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('49fe2edf-890e-4092-a6c7-009ad5e11890','NEW','18','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('4ace6a99-d2d8-4a77-bbac-bfa3f15f1a0a','NEW','31','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('4b03dc17-217b-4196-9520-ee47a28bb9c9','NEW','14','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('4bc0f3df-d384-4e09-9bbc-867229e74717','NEW','27','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('4ca89460-9110-4b95-90b9-de6118c207ec','NEW','12','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('4d850156-89e9-44f4-9e58-005bfea8662c','NEW','40','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('4f1a57d9-0fa0-4c46-87e0-faff448b55a5','NEW','28','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('50a621c5-7a0a-4598-baa0-a7ec4a2bf5b5','NEW','24','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('5291cc68-08f1-458b-9135-deebb9163e3e','NEW','37','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('5307b999-37b9-4ce3-806a-cad29fa22a25','NEW','2','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('5416b769-51cf-4ac3-86ef-6b42b703212f','NEW','40','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('544b2e59-2785-46ca-a84b-9106f7280a89','NEW','18','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('54624055-6023-43c4-aaf2-3f0690f42fc9','NEW','35','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('56d8fb1c-fa02-4772-93e2-d2b9c7c8e987','NEW','25','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('5743f0be-aace-4d20-9fdf-d517855ea4a7','NEW','22','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('583a1e79-fc30-4db4-bab2-c60f8d0537db','NEW','8','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('58b36fa0-591c-425a-a838-dc92132491f1','NEW','8','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('58fcc43f-c314-4ecb-86a5-a19db4e0c391','NEW','3','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('5ad0bfb0-4f1e-4b99-a887-5d25fd9f8312','NEW','18','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('5b77c6bc-5632-4da6-bc2a-cc9bf7dc8aa6','NEW','2','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('5bd1d05b-7c1a-4bb1-aa38-5f869c694a10','NEW','20','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('5ca485d6-33e6-41f0-af41-cd90d1abeaf7','NEW','29','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('5d2e3e5d-8722-43d1-a6d1-8a599a6c9dee','NEW','9','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('5de2b9fa-85da-468f-ade2-cc751b7f5abf','NEW','12','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('5e624e89-f94f-416b-bf96-f13728e4116e','NEW','9','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('5e764bbd-01a1-426f-9bf0-f97c298ce844','NEW','5','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('5f28454b-3870-4136-91b8-2d98c5619c58','NEW','37','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('605f797f-0a3d-4608-a31a-a9dc66575b74','NEW','9','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('611b9fcb-8a28-42f3-a31a-53358b260ee1','NEW','15','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('6129124f-6f05-4cff-bef8-b8eb0b541ba3','NEW','14','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('61670f0e-5781-49a9-b500-804d7378d234','NEW','40','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('620976a1-a3f2-4c7f-97c0-e9a40b97722e','NEW','35','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('63ffe3f0-4bf0-4031-bc1d-ae20d5600a07','NEW','39','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('647b2711-aff3-4893-9959-efe6516e3570','NEW','12','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('647ec9eb-1282-4d66-a838-1be0966b6872','NEW','28','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('649cce49-882a-4b14-a98b-1bd168b67001','NEW','17','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('66d7ddb5-c439-4a27-a5d6-1263d342f64e','NEW','19','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('6966aad7-57dc-4de1-9e98-25d5dd66f143','NEW','13','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('69930d5a-e521-4a44-b00f-4392d047f187','NEW','10','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('6a56c1c4-aa33-4430-bc67-822966a7807d','NEW','38','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('6b0fdb8a-439d-497e-84f5-2ef6451bcde9','NEW','8','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('6c4e28e8-cabd-47e9-bfb2-1ee0f02f26de','NEW','1','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('6cfde3f9-d4b6-46b2-bbf5-211c5b0f23b0','NEW','23','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('6d48f6c8-baa0-483f-9c1a-51ef71c9dbd2','NEW','24','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('6de409dc-da77-40a2-85f0-fe1ee6809d5e','NEW','25','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('6df3ea97-3c35-4a15-bf26-ac71aea438be','NEW','6','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('6faae08e-d4b8-4462-abab-00f7ba47e4e4','NEW','21','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('70243f1c-803b-4aea-8013-d3c29ed59e0f','NEW','30','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('7244a2bd-e598-4325-a6f4-9130bb4e9c58','NEW','12','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('72aa5b5b-2bf8-440d-b0af-7bfac33fb41b','NEW','16','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('73063ef3-7773-46e5-adab-08fa36a60bfc','NEW','13','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('7569ecfa-dfe8-4234-bd4b-5d86127db465','NEW','16','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('759fedaf-7f32-44a9-8eb7-48755538c7cf','NEW','21','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('7630171e-c534-426f-85de-4a68f4fb65aa','NEW','23','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('7670926a-0443-44eb-9ec5-db53d622fdaf','NEW','24','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('76d0b09e-9df7-4a4b-9656-84b8b8cb9052','NEW','37','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('7711c90a-97a2-4939-a97b-ca3380cd9781','NEW','11','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('77a95c9f-0a7d-4a9a-ba4e-6bdeda57f13a','NEW','2','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('7823819f-f21e-48ca-8c35-20bf78a56221','NEW','3','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('7a682890-1c75-4067-bcb3-03880c102ca4','NEW','40','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('7a7bd738-035a-44e9-91c3-64aaf6a6896f','NEW','13','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('7b07c40a-484c-4048-9e47-f493900c77d8','NEW','35','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('7b1998d3-4778-44b7-bb64-ee27a62b00f1','NEW','32','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('7b4e6bd5-cab6-4fc4-87ec-c33ccd8bd3a0','NEW','19','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('7b6c7dd1-3203-4231-883d-57f631764445','NEW','13','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('7c6e56aa-1198-4661-a78b-142cad5374fb','NEW','33','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('7cc87a66-32f5-40f7-bb37-145825a52016','NEW','22','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('7cc9b00b-1093-48aa-8cac-6d8d57318610','NEW','15','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('7d387b2d-7f97-46ec-815a-4231258f5d98','NEW','7','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('7ed9bf2f-8091-4a54-b5f1-fe8580837c3f','NEW','10','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('80c3aa2b-1db6-4e47-ae8e-6c29d9654980','NEW','32','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('80dcef07-4422-4ac8-ae58-524d10f61500','NEW','31','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('8139caeb-968a-48d5-b92c-99b92753058e','NEW','23','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('8232cc63-b559-4213-ac61-fd93d9b744e5','NEW','23','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('82f296c5-7bda-440b-8271-41ff75452258','NEW','17','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('8439bcb9-78f6-45ce-9d90-34761654d67a','NEW','16','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('850237d4-1c41-4596-9482-5152297d7f56','NEW','29','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('85376c51-66b1-405c-b62a-2c537e4001b2','NEW','28','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('86d61f90-f950-402f-87b3-742fea25d0bd','NEW','9','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('87b3821f-1e7b-4925-83da-2808dd022a76','SUBMIT','1','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('87b8c682-d52f-4e13-91ec-c9ba1cd925ab','NEW','7','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('87eb237b-dcad-4b5b-be26-14d2bc0ae749','NEW','11','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('8813801e-2618-4d5a-9ebc-41b1d9296389','NEW','17','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('88424318-42c3-44ff-b572-a1fb096c76ec','NEW','21','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('890e6922-815a-4960-8ae8-929b2cd1f862','NEW','32','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('8a814f12-1e3b-40f6-a375-648efcb7d87b','NEW','24','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('8c4c4964-8376-4a3d-a975-943690aa104a','NEW','34','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('8cad8ea3-1731-4a22-a082-e09e0fe840b4','NEW','9','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('8de8fbed-7634-4c4d-bbbe-357ca150e862','NEW','22','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('8e5a4fc5-6c14-4304-a549-d79db7d73b46','NEW','39','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('8e93dbb6-8432-43d3-b2ef-ba153d1b2475','NEW','38','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('8ec4edbb-70da-424a-9635-24d133def5a6','NEW','36','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('8f6c1a70-baf3-410b-aa72-e1c656264ca3','NEW','20','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('90489cc4-1f7a-4dff-9af7-206eae7318d9','NEW','6','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('90ce88e2-7f85-416e-bae3-af9d356dfe9e','NEW','26','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('91517a6a-a6ab-4610-a8bd-c0b67022423e','NEW','28','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('9267f8da-ef82-428f-b50a-53e94ccfdc7a','NEW','32','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('932b9d10-66cb-42ea-84f7-853ee3e7fd04','NEW','27','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('95552a2f-b71b-42f7-b0be-de5176eda014','NEW','2','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('967ad4a2-b608-4200-9eec-e80dd8890bb3','NEW','37','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('99ebee05-e789-4f05-a0f0-9ee6a62a143a','NEW','30','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('9ca5ade7-43ff-405e-ab73-a94ddd54ccb4','NEW','16','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('9dfe641f-5d39-43b3-86d6-918f5352e10d','NEW','10','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('a076c32f-b8e4-435a-af71-fef24ff02764','NEW','5','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('a0842136-1d55-4841-9e02-385abbf71cf1','NEW','22','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('a0a49be1-1aa9-4f40-a32d-7711b9734f4c','NEW','15','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('a0c01354-7ca7-4b9e-a44e-e47a5f4149ba','NEW','40','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('a18c094b-f844-4598-a77c-d7fdc30514d4','NEW','10','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('a19cb588-6a65-470c-918c-915b3e374f80','NEW','1','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('a1ebc349-eb65-4d70-8c45-1c6b4f50d544','NEW','39','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('a3c9350f-4f20-40c7-a0ae-34c20188e401','NEW','26','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('a43fa2a0-a7b8-40c6-b38e-f68f0508e396','NEW','25','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('a55dba03-2bbd-4b72-b2c1-7ebc706837a8','NEW','8','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('a59bb41d-da66-4aab-b06d-001d901d0ecb','NEW','7','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('a601f687-301d-4df1-8548-2f105f1071a2','NEW','21','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('a61e4e79-7e38-4c59-ab4f-ee6cc2ba3134','NEW','19','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('a7357f20-6dce-4d12-a4c8-9829fa3587d3','NEW','39','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('a80afd15-c83e-47e9-831e-68b89a88673f','NEW','38','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('aa64704c-d9e3-4f80-8188-1eccb30c3def','NEW','6','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('aa6d53e8-92c0-47fe-8c0b-5d72949a763e','NEW','27','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('aab73805-858f-456d-a9bc-85944b8100c5','NEW','11','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('ab17c18c-887b-4f65-ad6e-5f95397611a5','NEW','15','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('ab32bd84-b3e0-48de-9e1c-95e6415d190c','NEW','39','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('ab443876-0555-489a-adf2-30a709b6c28f','NEW','6','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('ac5a40d7-e393-4353-a0e2-bca3db042070','NEW','31','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('ae089edd-59d8-4f51-acc1-9a742bbaf49c','NEW','32','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('af73e935-3138-4451-9104-74b5fad89fdd','NEW','11','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('afa987ba-b413-4e85-9d8d-d32044090c44','NEW','29','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('b085fc77-609c-4b27-bd7a-e198303c2161','NEW','36','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('b0d98e1a-e74a-4a33-99cf-5cddd338fa3e','NEW','3','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('b3b54eeb-5080-48c4-82f5-783eebd82b99','NEW','15','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('b5d3da97-96b3-4328-a764-ebb950eabbdd','NEW','6','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('b866e78e-6499-4cec-a944-4078f610385e','NEW','12','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('b89b9152-9623-4dbe-8448-28e69b964fc8','NEW','11','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('baaeaa80-c480-4dee-98a0-e232c159e14d','NEW','3','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('bb7d7088-c28c-49d2-b1c7-dbf64cbb388d','NEW','17','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('bd3c3c02-65ef-44d4-9f51-c8fa5ac7c779','NEW','14','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('be4b84f3-7aa7-4cb8-9e58-609538b13274','NEW','16','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('bfa9c9fa-4175-441e-8364-52da0adb508c','NEW','34','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('c050f2c6-4ffb-41cc-a901-d09d5e0b3c36','NEW','20','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('c0f7d296-159a-42db-a034-f305c222ca43','NEW','27','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('c28915f7-d7ef-4392-9a3b-5a7f5714ae4e','NEW','8','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('c4fadb18-2722-480f-8dbd-1e1e2899e0dd','NEW','10','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('c4fdd01d-d911-45dd-8fee-d40f1effedc7','NEW','38','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('c5ed5a61-c411-4014-88cb-c049923b9ae6','NEW','31','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('c7950815-83d8-4655-93d5-39780d6fbdf8','NEW','14','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('c7c3a854-df55-488b-8b2d-d5dc5c7bfcaa','NEW','40','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('c97987e2-603f-4233-a822-7fdf357e82a6','NEW','28','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('cacb7f3c-de03-4339-91f8-a9f213aab974','NEW','29','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('cb8cd3a0-87d9-482c-81f3-5b39e3e2436c','NEW','9','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('cd8cf553-93d2-43bb-9e36-2aa726dff1fa','NEW','20','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('d012bbc5-9506-47e7-80f3-ae99866f1863','NEW','4','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('d0f5b066-281f-4dd9-9d6a-243f98cca679','NEW','25','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('d17553ae-0968-465c-b653-9db26fc632e8','NEW','25','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('d1b8be3d-6e2f-45e0-82fb-e73d63a0d25d','NEW','37','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('d22e1fcb-4ccc-4879-a03a-31130c81bb54','NEW','29','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('d2b480aa-f2e9-40c1-9075-42ea8ea4ab95','NEW','38','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('d2d1cce2-f2b0-45d1-8b2e-83ec34bc81f3','NEW','15','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('d335f22e-a57e-4fe4-ac05-490762e619b8','NEW','38','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('d49cf65a-c076-4b8c-87c1-36c44ffb9c39','NEW','2','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('d6a6f012-93fb-4f3f-9158-0f4c03e487fe','NEW','4','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('d83865a8-e0ff-49c5-915a-c351dec59141','NEW','19','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('d8a56b22-5f0f-4b19-a54f-1199d8ae9d88','NEW','7','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('d9224209-0f67-4b1c-8f4f-be68c27a3d64','NEW','32','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('d9d6fd9a-11ae-47e6-93ed-cd10989aa2bf','NEW','15','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('db45e7e5-d1f7-404b-b7d9-a642c8342fe9','NEW','31','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('dd3e632b-c5fe-4b20-9749-7850794b4587','NEW','6','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('def2bc8e-347d-491f-84f4-ee6631886741','NEW','27','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('df2c59a9-55c8-4503-ba2b-4faf64c4977b','NEW','22','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('e25d54ae-7073-4a9e-b912-eb875444600a','NEW','36','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('e53bc39a-0294-4672-9144-079992d3940b','NEW','7','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('e5cde94d-705a-453b-97b9-fb42c04a2e71','NEW','16','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('e5d2e1e6-5135-438b-90c0-841daff11f83','NEW','10','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('e7f4fd8a-e8df-44a1-85fc-392d4f12908e','NEW','14','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('e8875bba-cb7e-439b-8ee2-1f81dc3f0809','NEW','26','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('ea097cf1-7e17-498e-87e0-1942deb6e6ce','NEW','18','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('ea24863e-6438-41ae-ac8e-23a968632384','NEW','4','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('eb464b99-1420-4e12-9066-cb102ef0632c','NEW','5','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('eda937b2-3919-4765-a827-69769ecefc39','NEW','20','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('edaecfce-365c-42e4-9668-c3ce56ecfef0','NEW','21','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('edf5b5b1-d0fe-4803-b667-64d1b383316d','NEW','9','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('ee4f90d4-323a-4a7c-a4c5-da95b68c6abf','NEW','27','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('eea5d5fa-56fe-4cac-b3d0-8e8fc8775cf8','NEW','35','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('ef3e56f9-c1dd-4025-a287-5982f96b804f','NEW','21','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('f08f578e-5c7e-4f0a-ace4-e051ca6d4ef1','NEW','10','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('f0c3d3d4-6aa1-413c-9bc3-78f686841e3f','NEW','24','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('f1dc7b4c-842f-40ee-8712-142ae476d03e','NEW','28','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('f2a20a8f-422b-4b0a-90ca-78293f85f4a2','NEW','7','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('f37a72d0-6e40-4a49-a85c-22f77894ba45','NEW','40','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('f4595a41-30d4-4d2a-90a3-e78684f01f06','NEW','38','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('f4f57691-d4ee-46e7-8200-8ae57705c1bb','NEW','30','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('f581fd39-3fd6-49a7-8278-f80721a7f031','NEW','30','123',123,123,'11384edf-00d8-40e3-8d31-ed40f6f290fb','bee486ca-d3b8-456e-8313-a8d8937d1616'),('f6bc0359-fdbb-438c-a6ea-0607093251e7','NEW','18','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('f83b7a0b-f74a-4ffa-a543-95526cdd2526','NEW','34','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('f84500a5-c2f9-4345-a3c9-62137b03c943','NEW','39','123',123,123,'76172c1e-3db8-4b84-8fe3-ad31918e870b','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('f8562110-a391-4949-971a-26dea4b3bc19','NEW','33','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('faa99774-ce8a-43a4-884b-8b35cea191e3','NEW','4','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('fb8ae4fb-b758-4e47-a57c-f3727d6a614f','NEW','4','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('fc98edfd-17e6-483b-96f6-4adf73933252','NEW','32','123',123,123,'c482b797-2298-4dc2-89a0-5629f34fe1be','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('fca3a1e0-2a43-4331-9686-41fe7a82bfcc','NEW','17','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('fdada61e-844d-4492-8456-29c9cabd5059','SUBMIT','1','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('fdcfbdf3-4290-45fe-ab1c-463ef4caef09','NEW','12','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('fde1fb22-8107-4a2a-99e5-6c7ad8be9899','NEW','24','123',123,123,'7d9c17ce-522e-4ae2-bd69-24a692781790','6f390a4e-7695-4775-bc63-bca21b36eca7'),('fe9cde6f-c835-4ad0-a723-82018c25c080','NEW','30','123',123,123,'3a40e484-b236-4531-8efa-00e36de8c82e','5ba6aa8f-8a74-4812-8a4c-2c9ae3f750c1'),('fecb30d7-107c-434b-a84a-f9749938f578','NEW','23','123',123,123,'4add46f4-17bd-4285-aea6-2d402c5d3853','e5ddf7b8-ff32-4564-9161-601a18176ca4'),('ff8964f8-f81e-4acb-b541-6ad54ea96694','NEW','34','123',123,123,'833135b8-e990-4aea-badf-1522b747473a','e5ddf7b8-ff32-4564-9161-601a18176ca4');
+/*!40000 ALTER TABLE `NOMINATION` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `NOMINATION_APPROVAL` */
+--
+-- Table structure for table `NOMINATION_APPROVAL`
+--
 
 DROP TABLE IF EXISTS `NOMINATION_APPROVAL`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `NOMINATION_APPROVAL` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `APPROVED_BY` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -425,17 +667,27 @@ CREATE TABLE `NOMINATION_APPROVAL` (
   `NOMINATION_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `NOMINATION_ID` (`NOMINATION_ID`),
-  CONSTRAINT `NOMINATION_APPROVAL_ibfk_1` FOREIGN KEY (`NOMINATION_ID`) REFERENCES `NOMINATION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `NOMINATION_APPROVAL_ibfk_1` FOREIGN KEY (`NOMINATION_ID`) REFERENCES `nomination` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `NOMINATION_APPROVAL` */
+--
+-- Dumping data for table `NOMINATION_APPROVAL`
+--
 
-insert  into `NOMINATION_APPROVAL`(`ID`,`APPROVED_BY`,`APPROVED_AT`,`UPDATED_AT`,`STATUS`,`REVIEW_NOTE`,`NOMINATION_ID`) values ('2b2f9a5a-03f4-488d-ae15-686cdb36777c','admin',1560756724000,1560756724000,'1ST-APPROVE','done','65b144a8-7bce-4ed0-9680-95e95237a87e');
+LOCK TABLES `NOMINATION_APPROVAL` WRITE;
+/*!40000 ALTER TABLE `NOMINATION_APPROVAL` DISABLE KEYS */;
+INSERT INTO `NOMINATION_APPROVAL` VALUES ('0c3147aa-be0c-413f-889a-3bfb59381ce6','admin',1577946416000,1577946416000,'1ST-APPROVE','ss','45439c8d-a360-4d29-9cfe-226434727523'),('75353d78-f952-4d71-92ca-f27443301a3e','admin',1577427723000,1577427723000,'1ST-APPROVE','a','1caeee86-e183-4aed-aab4-a579f9aa2c86'),('8e3d866f-4cba-43c9-b0b0-f9d69153d0d6','admin',1576822410000,1576822410000,'1ST-APPROVE','tt','87b3821f-1e7b-4925-83da-2808dd022a76'),('ca74008f-d432-45cf-a1ef-46de03d978c3','admin',1577424159000,1577424159000,'1ST-APPROVE','a','fdada61e-844d-4492-8456-29c9cabd5059');
+/*!40000 ALTER TABLE `NOMINATION_APPROVAL` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `NOMINATION_SUPPORT_DOC` */
+--
+-- Table structure for table `NOMINATION_SUPPORT_DOC`
+--
 
 DROP TABLE IF EXISTS `NOMINATION_SUPPORT_DOC`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `NOMINATION_SUPPORT_DOC` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ORIGINAL_NAME` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -446,18 +698,28 @@ CREATE TABLE `NOMINATION_SUPPORT_DOC` (
   PRIMARY KEY (`ID`),
   KEY `SUPPORT_DOC_CONFIG_ID` (`SUPPORT_DOC_CONFIG_ID`),
   KEY `NOMINATION_ID` (`NOMINATION_ID`),
-  CONSTRAINT `NOMINATION_SUPPORT_DOC_ibfk_1` FOREIGN KEY (`SUPPORT_DOC_CONFIG_ID`) REFERENCES `SUPPORT_DOC_CONFIG` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `NOMINATION_SUPPORT_DOC_ibfk_2` FOREIGN KEY (`NOMINATION_ID`) REFERENCES `NOMINATION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `NOMINATION_SUPPORT_DOC_ibfk_1` FOREIGN KEY (`SUPPORT_DOC_CONFIG_ID`) REFERENCES `support_doc_config` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `NOMINATION_SUPPORT_DOC_ibfk_2` FOREIGN KEY (`NOMINATION_ID`) REFERENCES `nomination` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `NOMINATION_SUPPORT_DOC` */
+--
+-- Dumping data for table `NOMINATION_SUPPORT_DOC`
+--
 
-insert  into `NOMINATION_SUPPORT_DOC`(`ID`,`ORIGINAL_NAME`,`FILE_PATH`,`SUPPORT_DOC_CONFIG_ID`,`NOMINATION_ID`,`STATUS`) values ('10f9a695-08f7-4ae2-b50c-cca7817b168c','IMG-20181109-WA0002.jpg','00bb1b515f9a24ec3266ca1bdb7867e9','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','NEW'),('1469d76a-2342-41a2-85d0-9de8ad99e961','0_lWBID1VszAlY8Kpe.png','e78555b96dfbe0acd543f1eb26fe8fb5','31232','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','NEW'),('613d5b60-50f1-4b12-bc93-a5989f74c7e8','nomination_schema_v2.5.png','f70e83d1d39a60e0eb585e6f09ec2f29','31232','11839545-3a20-40d0-b288-1736428cf3c0','NEW'),('7ec538a7-1b92-4cc4-84fc-811a3b10055c','nomination_schema_v2.5.png','7ed0c145869d2d8000a5c47861f0f367','31232','ae88124c-770d-46ab-8e07-fddcccd8042e','NEW'),('98022362-0d04-4407-8828-2ae4069a8af0','nomination_schema_v2.5.png','52e8f0912dffb6204162e127704a9e22','31232','65b144a8-7bce-4ed0-9680-95e95237a87e','NEW'),('9da3a435-ff14-40f8-b3a7-2ce170e1f71a','IMG-20181109-WA0002.jpg','00bb1b515f9a24ec3266ca1bdb7867e9','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','b6b74431-c3c7-4d12-96fc-504ec17d4ec4','DELETE');
+LOCK TABLES `NOMINATION_SUPPORT_DOC` WRITE;
+/*!40000 ALTER TABLE `NOMINATION_SUPPORT_DOC` DISABLE KEYS */;
+INSERT INTO `NOMINATION_SUPPORT_DOC` VALUES ('12338dd5-a273-40e6-a159-517d9ef1d614','x-directory-nfs-server.jpg','1bc1e9210c521d7a6da57456c42b1126','b20dd58c-e5bb-469d-98c9-8711d6da1879','1caeee86-e183-4aed-aab4-a579f9aa2c86','DELETE'),('3e682b5d-20d2-4e1d-94b0-e792f03f04dc','high-level-architecture-nomination.png','96f9bc3c5b90017e5babc0974bc95dfb','31232','87b3821f-1e7b-4925-83da-2808dd022a76','NEW'),('674f22f4-d6bf-412a-8a50-597458878007','x-directory-nfs-server.jpg','f5c875d35e2311f9ff6fafbd2b1f16f9','31232','1caeee86-e183-4aed-aab4-a579f9aa2c86','DELETE'),('b49a396e-a2db-4349-97f4-7e51dad37f0f','x-directory-nfs-server.jpg','f5c875d35e2311f9ff6fafbd2b1f16f9','31232','1caeee86-e183-4aed-aab4-a579f9aa2c86','DELETE'),('c3d76b78-b778-4e15-b2e7-9fdfe0fbbde3','high-level-architecture-nomination.png','bb5374383b46db4e081c961e39a02085','31232','fdada61e-844d-4492-8456-29c9cabd5059','NEW'),('e4f6d09d-f534-4725-90da-f47a72785f19','x-directory-nfs-server.jpg','51685de193497c10e00e884454cae7b7','31232','1caeee86-e183-4aed-aab4-a579f9aa2c86','NEW'),('fd129b31-ea29-4e30-be21-13ddadac805c','high-level-architecture-nomination.png','96f9bc3c5b90017e5babc0974bc95dfb','31232','87b3821f-1e7b-4925-83da-2808dd022a76','DELETE');
+/*!40000 ALTER TABLE `NOMINATION_SUPPORT_DOC` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `OBJECTION` */
+--
+-- Table structure for table `OBJECTION`
+--
 
 DROP TABLE IF EXISTS `OBJECTION`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `OBJECTION` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `DESCRIPTION` text COLLATE utf8mb4_unicode_ci,
@@ -467,15 +729,26 @@ CREATE TABLE `OBJECTION` (
   `NOMINATION_ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `NOMINATION_ID` (`NOMINATION_ID`),
-  CONSTRAINT `OBJECTION_ibfk_1` FOREIGN KEY (`NOMINATION_ID`) REFERENCES `NOMINATION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `OBJECTION_ibfk_1` FOREIGN KEY (`NOMINATION_ID`) REFERENCES `nomination` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `OBJECTION` */
+--
+-- Dumping data for table `OBJECTION`
+--
 
-/*Table structure for table `OBJECTION_REVIEW` */
+LOCK TABLES `OBJECTION` WRITE;
+/*!40000 ALTER TABLE `OBJECTION` DISABLE KEYS */;
+/*!40000 ALTER TABLE `OBJECTION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `OBJECTION_REVIEW`
+--
 
 DROP TABLE IF EXISTS `OBJECTION_REVIEW`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `OBJECTION_REVIEW` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `CREATED_BY` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -485,15 +758,26 @@ CREATE TABLE `OBJECTION_REVIEW` (
   `STATUS` enum('APPROVED','REJECTED') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `OBJECTION_ID` (`OBJECTION_ID`),
-  CONSTRAINT `OBJECTION_REVIEW_ibfk_1` FOREIGN KEY (`OBJECTION_ID`) REFERENCES `OBJECTION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `OBJECTION_REVIEW_ibfk_1` FOREIGN KEY (`OBJECTION_ID`) REFERENCES `objection` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `OBJECTION_REVIEW` */
+--
+-- Dumping data for table `OBJECTION_REVIEW`
+--
 
-/*Table structure for table `OBJECTION_SUPPORT_DOC` */
+LOCK TABLES `OBJECTION_REVIEW` WRITE;
+/*!40000 ALTER TABLE `OBJECTION_REVIEW` DISABLE KEYS */;
+/*!40000 ALTER TABLE `OBJECTION_REVIEW` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `OBJECTION_SUPPORT_DOC`
+--
 
 DROP TABLE IF EXISTS `OBJECTION_SUPPORT_DOC`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `OBJECTION_SUPPORT_DOC` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `FILE_PATH` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -502,18 +786,30 @@ CREATE TABLE `OBJECTION_SUPPORT_DOC` (
   PRIMARY KEY (`ID`),
   KEY `SUPPORT_DOC_CONFIG_ID` (`SUPPORT_DOC_CONFIG_ID`),
   KEY `OBJECTION_ID` (`OBJECTION_ID`),
-  CONSTRAINT `OBJECTION_SUPPORT_DOC_ibfk_1` FOREIGN KEY (`SUPPORT_DOC_CONFIG_ID`) REFERENCES `SUPPORT_DOC_CONFIG` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `OBJECTION_SUPPORT_DOC_ibfk_2` FOREIGN KEY (`OBJECTION_ID`) REFERENCES `OBJECTION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `OBJECTION_SUPPORT_DOC_ibfk_1` FOREIGN KEY (`SUPPORT_DOC_CONFIG_ID`) REFERENCES `support_doc_config` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `OBJECTION_SUPPORT_DOC_ibfk_2` FOREIGN KEY (`OBJECTION_ID`) REFERENCES `objection` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `OBJECTION_SUPPORT_DOC` */
+--
+-- Dumping data for table `OBJECTION_SUPPORT_DOC`
+--
 
-/*Table structure for table `PAYMENT` */
+LOCK TABLES `OBJECTION_SUPPORT_DOC` WRITE;
+/*!40000 ALTER TABLE `OBJECTION_SUPPORT_DOC` DISABLE KEYS */;
+/*!40000 ALTER TABLE `OBJECTION_SUPPORT_DOC` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PAYMENT`
+--
 
 DROP TABLE IF EXISTS `PAYMENT`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `PAYMENT` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `SERIAL_NO` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `DEPOSITOR` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `DEPOSIT_DATE` bigint(20) DEFAULT NULL,
   `AMOUNT` decimal(13,4) DEFAULT NULL,
@@ -526,34 +822,80 @@ CREATE TABLE `PAYMENT` (
   `NOTE` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`ID`),
   KEY `NOMINATION_ID` (`NOMINATION_ID`),
-  CONSTRAINT `PAYMENT_ibfk_1` FOREIGN KEY (`NOMINATION_ID`) REFERENCES `NOMINATION` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `PAYMENT_ibfk_1` FOREIGN KEY (`NOMINATION_ID`) REFERENCES `nomination` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `PAYMENT` */
+--
+-- Dumping data for table `PAYMENT`
+--
 
-insert  into `PAYMENT`(`ID`,`DEPOSITOR`,`DEPOSIT_DATE`,`AMOUNT`,`FILE_PATH`,`STATUS`,`CREATED_BY`,`CREATED_AT`,`UPDATED_AT`,`NOMINATION_ID`,`NOTE`) values ('02eaf8a4-a657-4374-a1a6-c14e5ea2d775','dddd',0,2000.0000,'upload','PENDING','dddd',1560151802000,1560152097000,'9a8f14bf-7d3f-45a5-8f95-e66f0f5cf4f7',NULL),('0deaff75-afae-4319-a7b8-8c16f88adaab','clem',1562025600000,2000.0000,'upload','PENDING','clem',1562215459000,1562216486000,'ae88124c-770d-46ab-8e07-fddcccd8042e',NULL),('48095eb9-583d-43ff-9e72-719d740ad1bc','dddd',0,2000.0000,'upload','PENDING','dddd',1560151701000,1560151701000,'9a8f14bf-7d3f-45a5-8f95-e66f0f5cf4f7',NULL),('6fca2357-2ff0-4e11-8e36-5274a3145702','errtd',1547683200000,2000.0000,'upload','PENDING','ed',1560152420000,1560746766000,'b6b74431-c3c7-4d12-96fc-504ec17d4ec4',NULL),('7cf3dae6-6c9f-4e02-8935-2449f79a4d47','kasun',1560297600000,2000.0000,'upload','APPROVE','kasun',1560753732000,1560852278000,'65b144a8-7bce-4ed0-9680-95e95237a87e','ss'),('7dc2268c-aa15-4ff8-a7e7-3335bbbdf590','dddd',0,2000.0000,'upload','PENDING','dddd',1560151854000,1560151854000,'9a8f14bf-7d3f-45a5-8f95-e66f0f5cf4f7',NULL),('85cffe60-2705-4ae9-b8c8-3ab27b6af694','',0,2000.0000,'upload','PENDING','',1558411859000,1558411859000,'11839545-3a20-40d0-b288-1736428cf3c0',NULL),('99555795-eefb-452f-9c6c-22b6d28b1a72','ed',0,2000.0000,'upload','PENDING','ed',1560152399000,1560152399000,'b6b74431-c3c7-4d12-96fc-504ec17d4ec4',NULL);
+LOCK TABLES `PAYMENT` WRITE;
+/*!40000 ALTER TABLE `PAYMENT` DISABLE KEYS */;
+INSERT INTO `PAYMENT` VALUES ('03c482d3-98df-48ec-965e-457dde05511c','00006','kamal',1575936000000,75000.0000,'upload','APPROVE','kamal',1575954233000,1575954233000,'f08f578e-5c7e-4f0a-ace4-e051ca6d4ef1',NULL),('58e57abd-ccaa-4924-9c5b-5f523a1e6c9d','00007','kamal',1575936000000,75000.0000,'upload','APPROVE','kamal',1575960343000,1575960343000,'7ed9bf2f-8091-4a54-b5f1-fe8580837c3f',NULL),('e44aedd3-03f9-452e-acd9-e26728619b28','00008','kasun',1576108800000,50000.0000,'upload','APPROVE','kasun',1576146341000,1576146341000,'8de8fbed-7634-4c4d-bbbe-357ca150e862',NULL);
+/*!40000 ALTER TABLE `PAYMENT` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `SUPPORT_DOC_CONFIG` */
+--
+-- Table structure for table `PAYMENT_SERIAL`
+--
+
+DROP TABLE IF EXISTS `PAYMENT_SERIAL`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PAYMENT_SERIAL` (
+  `ID` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `FORM` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `NUM` int(5) unsigned zerofill DEFAULT '00001',
+  `START` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `DESCRIPTION` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PAYMENT_SERIAL`
+--
+
+LOCK TABLES `PAYMENT_SERIAL` WRITE;
+/*!40000 ALTER TABLE `PAYMENT_SERIAL` DISABLE KEYS */;
+INSERT INTO `PAYMENT_SERIAL` VALUES ('1','nomination_payment',00009,'','nomination security deposit');
+/*!40000 ALTER TABLE `PAYMENT_SERIAL` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SUPPORT_DOC_CONFIG`
+--
 
 DROP TABLE IF EXISTS `SUPPORT_DOC_CONFIG`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `SUPPORT_DOC_CONFIG` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `KEY_NAME` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `DESCRIPTION` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `DOC_CATEGORY` enum('NOMINATION','CANDIDATE','OBJECTION','PAYMENT') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `CATEGORY` enum('SECURITY DEPOSIT','IDENTITY','REPRESENTATION','FINANCIAL','OTHER') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `DOC_CATEGORY` enum('NOMINATION','CANDIDATE','OBJECTION','PAYMENT') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `CATEGORY` enum('SECURITY DEPOSIT','IDENTITY','REPRESENTATION','FINANCIAL','OTHER') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `SUPPORT_DOC_CONFIG` */
+--
+-- Dumping data for table `SUPPORT_DOC_CONFIG`
+--
 
-insert  into `SUPPORT_DOC_CONFIG`(`ID`,`KEY_NAME`,`DESCRIPTION`,`DOC_CATEGORY`,`CATEGORY`) values ('15990459-2ea4-413f-b1f7-29a138fd7a97','Affidavit','Affidavit','CANDIDATE','REPRESENTATION'),('31232','Scan of Security Deposit Payment Slip','nomination pay slip','PAYMENT','SECURITY DEPOSIT'),('32423','Declaration of Asset & Liabilities Form','ss','CANDIDATE','REPRESENTATION'),('3fac66f2-302c-4d27-b9ae-1d004037a9ba','Declaration of Female Representation','Declaration form that denotes the precentage of female representation for the nomination','NOMINATION','REPRESENTATION'),('59f4d9df-006b-4d7c-82dc-736041e97f37','Objection Support Document','Submit any type of document related to objection','OBJECTION','REPRESENTATION'),('b20dd58c-e5bb-469d-98c9-8711d6da1879','Completed & Signed Nomination Form','Completed & Signed Nomination Form','NOMINATION','OTHER'),('fe2c2d7e-66de-406a-b887-1143023f8e72','National Identity Card (NIC)','National Identity Card (NIC)','CANDIDATE','IDENTITY'),('ff4c6768-bdbe-4a16-b680-5fecb6b1f747','Birth Certificate','Birth Certificate','CANDIDATE','IDENTITY');
+LOCK TABLES `SUPPORT_DOC_CONFIG` WRITE;
+/*!40000 ALTER TABLE `SUPPORT_DOC_CONFIG` DISABLE KEYS */;
+INSERT INTO `SUPPORT_DOC_CONFIG` VALUES ('15990459-2ea4-413f-b1f7-29a138fd7a97','Affidavit','Affidavit','CANDIDATE','REPRESENTATION'),('31232','Scan of Security Deposit Payment Slip','nomination pay slip','PAYMENT','SECURITY DEPOSIT'),('32423','Declaration of Asset & Liabilities Form','ss','CANDIDATE','REPRESENTATION'),('3fac66f2-302c-4d27-b9ae-1d004037a9ba','Declaration of Female Representation','Declaration form that denotes the precentage of female representation for the nomination','NOMINATION','REPRESENTATION'),('59f4d9df-006b-4d7c-82dc-736041e97f37','Objection Support Document','Submit any type of document related to objection','OBJECTION','REPRESENTATION'),('b20dd58c-e5bb-469d-98c9-8711d6da1879','Completed & Signed Nomination Form','Completed & Signed Nomination Form','NOMINATION','OTHER'),('fe2c2d7e-66de-406a-b887-1143023f8e72','National Identity Card (NIC)','National Identity Card (NIC)','CANDIDATE','IDENTITY'),('ff4c6768-bdbe-4a16-b680-5fecb6b1f747','Birth Certificate','Birth Certificate','CANDIDATE','IDENTITY');
+/*!40000 ALTER TABLE `SUPPORT_DOC_CONFIG` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `SUPPORT_DOC_CONFIG_DATA` */
+--
+-- Table structure for table `SUPPORT_DOC_CONFIG_DATA`
+--
 
 DROP TABLE IF EXISTS `SUPPORT_DOC_CONFIG_DATA`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `SUPPORT_DOC_CONFIG_DATA` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `SUPPORT_DOC_CONFIG_ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -561,32 +903,52 @@ CREATE TABLE `SUPPORT_DOC_CONFIG_DATA` (
   PRIMARY KEY (`ID`),
   KEY `MODULE_ID` (`MODULE_ID`),
   KEY `SUPPORT_DOC_CONFIG_ID` (`SUPPORT_DOC_CONFIG_ID`),
-  CONSTRAINT `SUPPORT_DOC_CONFIG_DATA_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `ELECTION_MODULE` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `SUPPORT_DOC_CONFIG_DATA_ibfk_2` FOREIGN KEY (`SUPPORT_DOC_CONFIG_ID`) REFERENCES `SUPPORT_DOC_CONFIG` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `SUPPORT_DOC_CONFIG_DATA_ibfk_1` FOREIGN KEY (`MODULE_ID`) REFERENCES `election_module` (`ID`) ON UPDATE CASCADE,
+  CONSTRAINT `SUPPORT_DOC_CONFIG_DATA_ibfk_2` FOREIGN KEY (`SUPPORT_DOC_CONFIG_ID`) REFERENCES `support_doc_config` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `SUPPORT_DOC_CONFIG_DATA` */
+--
+-- Dumping data for table `SUPPORT_DOC_CONFIG_DATA`
+--
 
-insert  into `SUPPORT_DOC_CONFIG_DATA`(`ID`,`SUPPORT_DOC_CONFIG_ID`,`MODULE_ID`) values ('1a6bddd3-4988-4b69-8652-894f32c8a942','3fac66f2-302c-4d27-b9ae-1d004037a9ba','b6c93150-f223-469d-bb49-6b54c3108541'),('1db7eac4-d241-4d22-90c7-325a84f18464','15990459-2ea4-413f-b1f7-29a138fd7a97','b9ff7f40-afaf-4140-8dc7-127d15978877'),('1f497f2e-6067-43d7-8129-525d80e7879d','fe2c2d7e-66de-406a-b887-1143023f8e72','b6c93150-f223-469d-bb49-6b54c3108541'),('29e4bcf1-121f-4466-b923-fec9094d294b','32423','b9ff7f40-afaf-4140-8dc7-127d15978877'),('647b14f3-967b-4216-a0f0-1115da1d80b7','32423','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d'),('66e83f5c-476e-41a5-ab90-52d6019a517b','fe2c2d7e-66de-406a-b887-1143023f8e72','b9ff7f40-afaf-4140-8dc7-127d15978877'),('863868ba-4810-4321-8edc-e608660703f8','32423','b6c93150-f223-469d-bb49-6b54c3108541'),('a3e91675-588a-46fa-ae1a-64a153739c77','fe2c2d7e-66de-406a-b887-1143023f8e72','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('c5576e92-d390-40cd-9384-9168947e4b63','59f4d9df-006b-4d7c-82dc-736041e97f37','b6c93150-f223-469d-bb49-6b54c3108541'),('c7c4dd22-7796-4814-ad2d-fdf78c351ac8','15990459-2ea4-413f-b1f7-29a138fd7a97','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('d5e773de-9a81-4a61-a9d7-5bb70c82cc24','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','7180ca1c-20bf-46bd-91e1-32e301c80f35'),('f657df79-f0bb-4b4c-ae57-ae7a5ed758c2','15990459-2ea4-413f-b1f7-29a138fd7a97','0426ca24-caa1-4eee-b2a7-a4d8e57bbd5d');
+LOCK TABLES `SUPPORT_DOC_CONFIG_DATA` WRITE;
+/*!40000 ALTER TABLE `SUPPORT_DOC_CONFIG_DATA` DISABLE KEYS */;
+INSERT INTO `SUPPORT_DOC_CONFIG_DATA` VALUES ('0ac44fee-fb1d-4da1-a739-396994788513','59f4d9df-006b-4d7c-82dc-736041e97f37','0531e799-deb4-47fd-be06-bc3527d67da9'),('1719a251-160b-4c4e-a068-2045f86b25b8','3fac66f2-302c-4d27-b9ae-1d004037a9ba','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('4524ae49-a945-404b-9fd9-afca566879f3','59f4d9df-006b-4d7c-82dc-736041e97f37','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('4b4f18c9-4e62-4de8-adfb-dc4159c2dc83','fe2c2d7e-66de-406a-b887-1143023f8e72','904ae2d4-3239-43ef-976c-97c046aecaaa'),('56db127b-6f28-4cf0-b5e4-0caf087a38f6','15990459-2ea4-413f-b1f7-29a138fd7a97','0531e799-deb4-47fd-be06-bc3527d67da9'),('656549d6-4bd9-4829-b5e9-118490d925b4','3fac66f2-302c-4d27-b9ae-1d004037a9ba','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('67580a08-eb64-409b-8d0f-d47c72cfaf6a','fe2c2d7e-66de-406a-b887-1143023f8e72','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('6b37177d-c8f8-4175-8e6a-6948836f79ad','31232','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('73324fb2-68bb-4fd1-b667-1c7b25508f0f','32423','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('79db168c-d275-4967-b8f6-f9a5361027b1','fe2c2d7e-66de-406a-b887-1143023f8e72','a5ddccd2-7b5d-4feb-9d15-109fabdbab0a'),('7d78004e-ed2f-471b-88ed-3baccdcb491c','15990459-2ea4-413f-b1f7-29a138fd7a97','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('8afde3f3-fba8-46db-bec0-2848f026b0b5','3fac66f2-302c-4d27-b9ae-1d004037a9ba','0531e799-deb4-47fd-be06-bc3527d67da9'),('8d731bfd-7285-42d9-a2a8-969d15125099','ff4c6768-bdbe-4a16-b680-5fecb6b1f747','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('9085258b-d265-43fa-9100-ee0a3a9d5598','fe2c2d7e-66de-406a-b887-1143023f8e72','0531e799-deb4-47fd-be06-bc3527d67da9'),('9ce2691a-47e5-4b48-933e-53c1ad67c375','31232','0531e799-deb4-47fd-be06-bc3527d67da9'),('b97f9243-c818-4983-81d4-e0fc3f81dccd','59f4d9df-006b-4d7c-82dc-736041e97f37','0a349bd9-27e4-46b1-b31e-5a862bf7aefd'),('c5000165-da28-46df-814d-f8c9da082ba7','fe2c2d7e-66de-406a-b887-1143023f8e72','c4468657-6084-4013-ab4a-3ed218bd652a'),('d58134ab-6b50-44e4-b046-b51f7b20c679','fe2c2d7e-66de-406a-b887-1143023f8e72','632a9e4b-501b-4410-96a4-b2ca7c20286f'),('e1a5c5fe-86cd-4829-8e26-d36f73e1708e','b20dd58c-e5bb-469d-98c9-8711d6da1879','0531e799-deb4-47fd-be06-bc3527d67da9');
+/*!40000 ALTER TABLE `SUPPORT_DOC_CONFIG_DATA` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `TEAM_CONFIG` */
+--
+-- Table structure for table `TEAM_CONFIG`
+--
 
 DROP TABLE IF EXISTS `TEAM_CONFIG`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `TEAM_CONFIG` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `TEAM_NAME` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `TEAM_CONFIG` */
+--
+-- Dumping data for table `TEAM_CONFIG`
+--
 
-insert  into `TEAM_CONFIG`(`ID`,`TEAM_NAME`) values ('1111','United National Party ( UNP )'),('2222','United People\'s Freedom Alliance ( UPFA )'),('3333','Janatha Vimukthi Peramuna ( JVP )'),('4444','Jana Setha Peramuna ( JSP )'),('5555','Sri Lanka Muslim Congress ( SLMC )'),('6666','Sri Lanka People\'s Party ( SLPP )'),('7777','United Socialist Party ( USP )  '),('8888','United Lanka People\'s Party ( ULPP ) '),('9999','New Sinhala Heritage ( NSH )');
+LOCK TABLES `TEAM_CONFIG` WRITE;
+/*!40000 ALTER TABLE `TEAM_CONFIG` DISABLE KEYS */;
+INSERT INTO `TEAM_CONFIG` VALUES ('1111','United National Party ( UNP )'),('2222','United People\'s Freedom Alliance ( UPFA )'),('3333','Janatha Vimukthi Peramuna ( JVP )'),('4444','Jana Setha Peramuna ( JSP )'),('5555','Sri Lanka Muslim Congress ( SLMC )'),('6666','Sri Lanka People\'s Party ( SLPP )'),('7777','United Socialist Party ( USP )  '),('8888','United Lanka People\'s Party ( ULPP ) '),('9999','New Sinhala Heritage ( NSH )');
+/*!40000 ALTER TABLE `TEAM_CONFIG` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `USER` */
+--
+-- Table structure for table `USER`
+--
 
 DROP TABLE IF EXISTS `USER`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `USER` (
   `ID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `NAME` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -594,12 +956,25 @@ CREATE TABLE `USER` (
   `EMAIL` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `USER` */
+--
+-- Dumping data for table `USER`
+--
 
-insert  into `USER`(`ID`,`NAME`,`TEAM_ID`,`EMAIL`) values ('123','CLEMENT','2222',NULL),('234','yujith','3333','sk'),('345','dinuka','3333',NULL);
+LOCK TABLES `USER` WRITE;
+/*!40000 ALTER TABLE `USER` DISABLE KEYS */;
+INSERT INTO `USER` VALUES ('123','CLEMENT','2222',NULL),('234','yujith','3333','sk'),('345','dinuka','3333',NULL);
+/*!40000 ALTER TABLE `USER` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-01-03 15:41:52
