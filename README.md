@@ -177,6 +177,58 @@ Find the DB dumps for Nomination DB and for the Team DB inside Nomination/server
 
 Use de `development.json` file inside DB folder to store your important information such as your server port, your password,etc 
 
+### Setup WSO2 API Manager
+
+##### install prerequisites
+```
+Download and install JDK (AdoptOpenJDK 8, CorrettoJDK 8, OpenJDK 8, or Oracle JDK 1.8.*). and set the JAVA_HOME environment variable.
+
+```
+##### Clone the project
+```
+git clone https://github.com/ECLK/APIM.git
+```
+##### start wso2 apim
+```
+Start WSO2 API Manager by going to the <APIM>/bin directory using the command-line and then executing wso2server.bat (for Windows) or wso2server.sh (for Linux.)
+
+```
+All the configuarations has been made to connect with the app, If you want to find more information please click <a href="https://docs.wso2.com/display/AM260/Introduction">here</a>
+
+### Setup Auth app
+
+##### Clone the project
+```
+git clone https://github.com/ECLK/auth-app.git
+
+```
+##### install dependencies
+```
+cd auth-app
+npm install
+```
+##### run the project
+```
+npm start
+```
+
+### Setup PDF Service
+
+##### Clone the project
+```
+git clone https://github.com/ECLK/pdf-service.git
+```
+
+##### install dependencies
+```
+cd pdf-service
+npm install
+```
+##### run the project
+```
+node index.js
+```
+
 ## Database schema
 
 ![Image of Database schema](https://github.com/ECLK/Nomination/blob/master/server/images/ec-nomination-erd_V2.7.0.png)
