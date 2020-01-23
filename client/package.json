@@ -30,7 +30,7 @@
     "react-datetime": "^2.16.3",
     "react-dom": "latest",
     "react-dropzone": "^8.0.3",
-    "react-jss": "latest",
+    "react-jss": "8.6.1",
     "react-loadable": "latest",
     "react-moment": "^0.8.4",
     "react-number-format": "^4.0.6",
