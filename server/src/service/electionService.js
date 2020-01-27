@@ -33,6 +33,7 @@ const insertTest = async (req) => {
         console.log(req);
         //return ElectionRepo.createTest(modules);// db table not there ----------------
     }catch (e){
+        console.log("jjksjdkfskfk",e);
         throw new ServerError("server error");
     }
 };
@@ -77,6 +78,7 @@ const getAllElections = async () => {
             return [];
         }
     } catch (error) {
+        console.log("errorerrorerror",error);
         throw new ServerError("Server error", HTTP_CODE_404);
     }
 }

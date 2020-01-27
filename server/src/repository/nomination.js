@@ -177,45 +177,30 @@ const fetchNominationPaymentStatus = (params) => {
 		}
 		
 
-// const createNominationStatus = (nominationData) => {
-//   const params = nominationData;
-//   return DbConnection()
-//     .query(NOMINATION_STATUS_INSERT_QUERY,
-//       {
-//         replacements: params,
-//         type: DbConnection().QueryTypes.INSERT,
-//       }).then((results) => {
-//        return params ;
-//       }).catch((error) => {
-//         throw new DBError(error);
-//       });
-// };
-
-const createNominationStatus = async (nominationId, nominationData, transaction) => {
-  const params = {nominationId:nominationId};
-await  DbConnection()
-.query(NOMINATION_APPROVE_DELETE_QUERY,
-  {
-    replacements: params,
-    type: DbConnection().QueryTypes.DELETE,
-    transaction
-  }).catch((error) => {
-    console.log(error);
-    throw new DBError(error);
-  });
-  return DbConnection()
+	const createNominationStatus = async (nominationId, nominationData, transaction) => {
+	const params = {nominationId:nominationId};
+	await  DbConnection()
+	.query(NOMINATION_APPROVE_DELETE_QUERY,
+	{
+	replacements: params,
+	type: DbConnection().QueryTypes.DELETE,
+	transaction
+	}).catch((error) => {
+	console.log(error);
+	throw new DBError(error);
+	});
+	return DbConnection()
 	.query(NOMINATION_STATUS_INSERT_QUERY,
-		{
-			replacements: nominationData,
-			type: DbConnection().QueryTypes.INSERT,
-			transaction
-		}).then((results) => {
-		 return nominationData ;
-		}).catch((error) => {
-			throw new DBError(error);
-		});
-  
-};
+	{
+		replacements: nominationData,
+		type: DbConnection().QueryTypes.INSERT,
+		transaction
+	}).then((results) => {
+		return nominationData ;
+	}).catch((error) => {
+		throw new DBError(error);
+	});
+	};
 
 export default {
 	fetchNominationByTeam,

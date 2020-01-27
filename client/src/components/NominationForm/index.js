@@ -18,7 +18,6 @@ import DoneOutline from '@material-ui/icons/DoneOutline';
 import CloseIcon from '@material-ui/icons/Cancel';
 import { Redirect } from 'react-router-dom';
 import {API_BASE_URL} from "../../config.js";
-import Axios from 'axios';
 import axios from "axios";
 
 
@@ -95,7 +94,7 @@ class NominationForm extends React.Component {
 
   componentDidMount(){
     
-    Axios.get(`elections/${sessionStorage.getItem('election_id')}`)
+    axios.get(`elections/${sessionStorage.getItem('election_id')}`)
     .then(res => {
         const election = res.data;
         this.setState({ election });

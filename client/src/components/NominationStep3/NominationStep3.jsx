@@ -98,7 +98,6 @@ class TextFields extends React.Component {
         const { nominationListForPayment,NominationCandidates,partyList } = this.props;
 
         var goNext = true;
-        debugger;
         if (this.state.nominationFormCategory === null || this.state.nominationFormCategory === "") {
             this.setState({ errorTextNominationFormCategory: 'emptyField' });
             goNext = false;

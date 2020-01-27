@@ -54,7 +54,15 @@ const SUPPORT_DOC_COLUMN_ORDER = ['id', 'originalName','filePath', 'supportDocCo
 const CANDIDATE_SUPPORT_DOC_INSERT_BASE_QUERY = `INSERT INTO CANDIDATE_SUPPORT_DOC (ID,ORIGINAL_NAME,FILE_PATH,SUPPORT_DOC_CONFIG_ID, CANDIDATE_ID,NOMINATION_ID,STATUS) VALUES `
 const CANDIDATE_SUPPORT_DOC_COLUMN_ORDER = ['id', 'originalName','filePath', 'supportDocConfDataId', 'candidateId', 'nominationId','status'];
 
-
+const PAYMENT_SUPPORT_DOC_INSERT_QUERY = `INSERT INTO PAYMENT_SUPPORT_DOC (ID,ORIGINAL_NAME,FILE_PATH,PAYMENT_ID,STATUS) VALUES
+										   (:id, :originalName,:filePath, :paymentId, :status)`;
+										   
+const PAYMENT_SUPPORT_DOC_STATUS_UPDATE_QUERY = `UPDATE PAYMENT_SUPPORT_DOC 
+										   SET 
+										   STATUS = "DELETE"
+										   WHERE 
+										   ID = :paymentSdocId`;
+										   
 const getSupportDocByNomination = (nominationId) => {
 	const params = { nominationId: nominationId };
 	return DbConnection()
@@ -185,6 +193,50 @@ const insertSupportDocConfigData = (configs) => {
 		});
 }
 
+const savePaymentSupportDocs = (supportDocsData,transaction) => {
+	const params = supportDocsData;
+	return DbConnection()
+		.query(PAYMENT_SUPPORT_DOC_INSERT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.INSERT,
+				transaction
+			}).then((results) => {
+				return params;
+			}).catch((error) => {
+				console.log(error);
+				throw new DBError(error);
+			});
+};
+
+const updatePaymentSupportDocs = async (paymentSdocId,supportDocsData,transaction) => {
+	const params = {paymentSdocId:paymentSdocId};
+	if(paymentSdocId){
+		await  DbConnection()
+		.query(PAYMENT_SUPPORT_DOC_STATUS_UPDATE_QUERY,
+		  {
+			replacements: params,
+			type: DbConnection().QueryTypes.UPDATE,
+			transaction
+		  }).catch((error) => {
+			throw new DBError(error);
+		  });
+	}
+	
+	return DbConnection()
+		.query(PAYMENT_SUPPORT_DOC_INSERT_QUERY,
+			{
+				replacements: supportDocsData,
+				type: DbConnection().QueryTypes.INSERT,
+				transaction
+			}).then((results) => {
+				return params;
+			}).catch((error) => {
+				console.log(error);
+				throw new DBError(error);
+			});
+};
+
 
 export default {
 	getSupportDocByNomination,
@@ -195,5 +247,7 @@ export default {
 	updateNominationStatus,
 	saveCandidateSupportDocs,
 	updateCandidateSupportingDocs,
-	getSupportDocByCandidate
+	getSupportDocByCandidate,
+	savePaymentSupportDocs,
+	updatePaymentSupportDocs
 }

@@ -69,7 +69,6 @@ export function getNominationPayments(customProps) {
     )
     .then(response => {
       const getNominationPayments = response.data;
-      debugger;
        dispatch(nominationPaymentLoaded(getNominationPayments));
     }).catch(err => {
           console.log(err)
@@ -188,15 +187,6 @@ export function onChangeApproval(nominations,id,status,reviewNote) {
   };
 }
 
-// export const handleChangePayment = (paymentState) => {
-//   debugger;
-//   return {
-//     type: HANDLE_CHANGE_PAYMENT,
-//     payload: paymentState,
-//   }
-// };
-
-
 export const handleChangePayment = (name) => event => {
   this.setState({
     [name]:event.target.value,
@@ -217,7 +207,6 @@ export const setData = (val) => {
 }
 
 export function postNominationPayments(candidatePayments,serialNo,division,party) {
-  debugger;
     return function (dispatch) {
 
         let nominationPayments = {
@@ -230,7 +219,9 @@ export function postNominationPayments(candidatePayments,serialNo,division,party
             createdBy:candidatePayments.depositor,//TODO: yujith,change this to session user after session user created
             createdAt:Date.parse(new Date()),
             updatedAt:Date.parse(new Date()),
-            nominationId: candidatePayments.nomination
+            nominationId: candidatePayments.nomination,
+            fileName:candidatePayments.filename,
+            originalname:candidatePayments.currentSdocId
         };
       const response = axios
       .post(
@@ -360,7 +351,10 @@ export const setNominationStatus = (nominationSuppertDocs) => {
           status: "APPROVE",
           updatedAt:Date.parse(new Date()),
           nominationId: nominationPayments.nomination,
-          note:nominationPayments.note
+          note:nominationPayments.note,
+          fileName:nominationPayments.filename,
+          originalname:nominationPayments.currentSdocId,
+          paymentSdocId:nominationPayments.paymentSdocId,
       };
       const response = axios
       .put(
@@ -377,11 +371,15 @@ export const setNominationStatus = (nominationSuppertDocs) => {
           nomination_id:nominationPayments.nomination,
           payment_id:response.data.paymentId,
           serial:nominationPayments.serialNo,
-          team_id:nominationPayments.party
+          team_id:nominationPayments.party,
+          currentSdocId:nominationPayments.currentSdocId,
+          filename:nominationPayments.filename,
+          paymentSdocId:response.data.paymentSdocId
         }
          dispatch(setUpdatedPaymentData(updateNominationPayments));
          dispatch(openSnackbar({ message:`Payment has been updated for ${nominationName} by ${partyName}`}));
       }).catch(err => {
+        dispatch(openSnackbar({ message: err.response.data.message.message }));
             console.log(err)
       });
     };
@@ -643,7 +641,6 @@ const nominationPaymentValidationLoaded = (nominationValidation) => {
 };
 
 export function validateNominationPayment(nominationId) {
-  debugger;
   return function (dispatch) {
      
     const response = axios
@@ -683,7 +680,6 @@ export const createAndDownloadPdfNominationForm = function createAndDownloadPdfN
       partyName=partyList[j].team_name;
     }
 }
-  debugger;
   var candidateName="";
   var address="";
   var occupation="";

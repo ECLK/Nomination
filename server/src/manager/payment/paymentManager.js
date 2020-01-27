@@ -14,7 +14,7 @@ const resultMaps = [
 	{
 		mapId: 'nominationPaymentMap',
 		idProperty: 'ID',
-		properties: ['DEPOSITOR', 'AMOUNT','SERIAL_NO', 'DEPOSIT_DATE', 'FILE_PATH', 'STATUS', 'NOMINATION_ID', 'CREATED_BY', 'CREATED_AT', 'UPDATED_AT','ELECTION_ID','TEAM_ID','NOTE']
+		properties: ['DEPOSITOR', 'AMOUNT','SERIAL_NO', 'DEPOSIT_DATE', 'FILE_PATH', 'STATUS', 'NOMINATION_ID', 'CREATED_BY', 'CREATED_AT', 'UPDATED_AT','ELECTION_ID','TEAM_ID','NOTE','SDOC_ORIGINAL_NAME','SDOC_FILE_PATH','SDOC_ID']
 	},
 	{
 		mapId: 'allPaymentMap',
@@ -24,9 +24,7 @@ const resultMaps = [
 ];
 
 const mapToNominationPaymentModel = (payments) => {
-	console.log("eeeeeeeeeeeee",payments);
 	const mappedPayments = joinjs.map(payments, resultMaps, 'nominationPaymentMap', 'PAYMENT_');
-	console.log("mappedPayments",mappedPayments);
 
 	if (!_.isEmpty(mappedPayments)) {
 		return NominationPayment({
@@ -45,6 +43,9 @@ const mapToNominationPaymentModel = (payments) => {
 			election: mappedPayments[0].ELECTION_ID,
 			team_id: mappedPayments[0].TEAM_ID,
 			note:mappedPayments[0].NOTE,
+			originalName:mappedPayments[0].SDOC_ORIGINAL_NAME,
+			fileName:mappedPayments[0].SDOC_FILE_PATH,
+			paymentSdocId:mappedPayments[0].SDOC_ID,
 		});
 	}
 };
