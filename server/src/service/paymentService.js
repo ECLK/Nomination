@@ -3,7 +3,7 @@ import { ServerError, ApiError } from 'Errors';
 import Payment from '../repository/payment';
 import PaymentRepo from '../repository/payment';
 import { PaymentManager } from 'Managers';
-import { NominationService } from 'Service';
+import { NominationService,SupportDocService } from 'Service';
 import { HTTP_CODE_404, HTTP_CODE_204 } from '../routes/constants/HttpCodes';
 import { executeTransaction } from '../repository/TransactionExecutor';
 const uuidv4 = require('uuid/v4');
@@ -42,6 +42,7 @@ const updatePaymentStatusByNominationId = async (req) => {
 //Save payment details for a particular nomination
 const createPaymentByNominationId = async (req) => {
 	try {
+		return executeTransaction(async (transaction) => {
 		const id = uuidv4();
 		const depositor = req.body.depositor;
 		var depositDate = req.body.depositDate;
@@ -54,14 +55,19 @@ const createPaymentByNominationId = async (req) => {
 		const amount = req.body.amount;
 		const serialNo = req.body.serialNo;
 		const filePath = req.body.filePath;
-		const status = req.body.status;
+		const status = req.body.status
 		const nominationId = req.body.nominationId;
+		const filename = req.body.fileName;
+    	const originalname = req.body.originalname;
 		const realSerial = await getRealSerialNumber();
 		await NominationService.validateNominationId(nominationId);//TODO: yujith,re check this function
 		const paymentData = { 'id': id, 'depositor': depositor, 'depositDate': depositDateInt,'serialNo': realSerial, 'amount': amount, 'updatedAt': updatedAt, 'createdAt': createdAt, 'createdBy': createdBy, 'filePath': filePath, 'nominationId': nominationId, 'status': status };
-		return await PaymentRepo.createPayment(paymentData);
+		const supportDocData = {'filePath': filename, 'nominationId': nominationId,'originalName':originalname,'id':id  };
+		await PaymentRepo.createPayment(paymentData,transaction);
+		await SupportDocService.saveSupportDocsByPaymentId(supportDocData,transaction);
+		return paymentData;
+	});
 	} catch (e) {
-		console.log(e);
 		throw new ServerError("server error");
 	}
 };
@@ -69,6 +75,7 @@ const createPaymentByNominationId = async (req) => {
 //Update payment details for a particular nomination
 const updatePaymentByNominationId = async (req) => {
   try {
+	return executeTransaction(async (transaction) => {
     const depositor = req.body.depositor;
     const depositDate = req.body.depositDate;
     const amount = req.body.amount;
@@ -77,11 +84,16 @@ const updatePaymentByNominationId = async (req) => {
 		const updatedAt = req.body.updatedAt;
 		const nominationId = req.body.nominationId;
 		const note = req.body.note;
+		const filename = req.body.fileName;
+		const originalname = req.body.originalname;
+		const paymentSdocId = req.body.paymentSdocId;
 		const paymentData = {'paymentId':paymentId,'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'updatedAt':updatedAt, 'nominationId':nominationId, 'note':note};
-		console.log("paymentDatapaymentDatapaymentData",paymentData);
-    return await Payment.updatePaymentCommons(paymentData);
+		const supportDocData = {'filePath': filename, 'nominationId': nominationId,'originalName':originalname,'id':paymentId ,'paymentSdocId':paymentSdocId };
+	await Payment.updatePaymentCommons(paymentData,transaction);
+	const sdocdata = await SupportDocService.updateSupportDocsByPaymentId(supportDocData,transaction);
+	return paymentData;
+	});
   }catch (e){
-    console.log(e);
     throw new ServerError("server error");
   }
 

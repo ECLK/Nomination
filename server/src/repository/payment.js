@@ -4,8 +4,8 @@ import { DbConnection } from './dataSource';
 
 
 
-const PAYMENT_SELECT_QUERY_BY_NOMINATION_ID = `SELECT 
-												P.ID AS PAYMENT_ID, 
+const PAYMENT_SELECT_QUERY_BY_NOMINATION_ID = `SELECT
+												P.ID AS PAYMENT_ID,
 												P.DEPOSITOR AS PAYMENT_DEPOSITOR,
 												P.SERIAL_NO AS PAYMENT_SERIAL_NO,
 												P.DEPOSIT_DATE AS PAYMENT_DEPOSIT_DATE,
@@ -18,9 +18,13 @@ const PAYMENT_SELECT_QUERY_BY_NOMINATION_ID = `SELECT
 												P.UPDATED_AT AS PAYMENT_UPDATED_AT,
 												E.ID AS PAYMENT_ELECTION_ID,
 												N.TEAM_ID AS PAYMENT_TEAM_ID,
-												P.NOTE AS PAYMENT_NOTE
-												FROM PAYMENT P LEFT JOIN  NOMINATION N ON P.NOMINATION_ID =N.ID 
+												P.NOTE AS PAYMENT_NOTE,
+												PSD.ORIGINAL_NAME AS PAYMENT_SDOC_ORIGINAL_NAME,
+												PSD.FILE_PATH AS PAYMENT_SDOC_FILE_PATH,
+												PSD.ID AS PAYMENT_SDOC_ID
+												FROM PAYMENT P LEFT JOIN  NOMINATION N ON P.NOMINATION_ID =N.ID
 												LEFT JOIN ELECTION E ON E.ID=N.ELECTION_ID
+												LEFT JOIN PAYMENT_SUPPORT_DOC PSD ON P.ID = PSD.PAYMENT_ID
 												WHERE P.NOMINATION_ID= :id`;
 
 const fetchPaymentsByNominationId = (nominationId) => {
@@ -43,7 +47,6 @@ const PAYMENT_STATUS_UPDATE_QUERY = `UPDATE payment SET status = :status WHERE n
 
 const updateStatusByNominationId = (nomination_id, status) => {
 	const params = { nomination_id: nomination_id, status: status };
-	console.log(params);
 	return DbConnection()
 		.query(PAYMENT_STATUS_UPDATE_QUERY,
 			{
@@ -82,13 +85,14 @@ const PAYMENT_INSERT_QUERY = `INSERT INTO PAYMENT
 VALUES 
   (:id, :depositor,:serialNo,:depositDate, :amount, :filePath, :status, :createdBy, :createdAt, :updatedAt , :nominationId)`;
 
-const createPayment = (paymentData) => {
+const createPayment = (paymentData,transaction) => {
 	const params = paymentData;
 	return DbConnection()
 		.query(PAYMENT_INSERT_QUERY,
 			{
 				replacements: params,
 				type: DbConnection().QueryTypes.INSERT,
+				transaction
 			}).then((results) => {
 				return params;
 			}).catch((error) => {
@@ -106,14 +110,14 @@ const PAYMENT_UPDATE_QUERY = `UPDATE PAYMENT
                               WHERE 
                               ID = :paymentId`;
 
-const updatePaymentCommons = (paymentData) => {
+const updatePaymentCommons = (paymentData,transaction) => {
 	const params = paymentData;
-	console.log("updatePaymentCommonsupdatePaymentCommons",params);
 	return DbConnection()
 		.query(PAYMENT_UPDATE_QUERY,
 			{
 				replacements: params,
 				type: DbConnection().QueryTypes.UPDATE,
+				transaction
 			}).then((results) => {
 				return params;
 			}).catch((error) => {

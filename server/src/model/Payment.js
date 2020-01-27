@@ -36,6 +36,9 @@ const NominationPayment =  Record({
   election: String(),
   team_id: String(),
   note: Maybe(String),
+  originalName: Maybe(String),
+  fileName: Maybe(String),
+  paymentSdocId: Maybe(String),
 });
 
 const AllPayments =  Record({

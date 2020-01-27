@@ -14,7 +14,8 @@ import { handleChangePayment,
         getNominationData, 
         postNominationPayments, 
         validateNominationPayment,
-        createAndDownloadPdf } from '../../modules/nomination/state/NominationAction';
+        createAndDownloadPdf,
+        getUploadPath } from '../../modules/nomination/state/NominationAction';
 import { connect } from 'react-redux';
 import CustomAutocompleteParty from '../AutocompleteParty';
 import CustomAutocompleteElection from '../AutocompleteElection';
@@ -27,8 +28,13 @@ import DownloadIcon from '@material-ui/icons/CloudDownload';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
+import DoneOutline from '@material-ui/icons/DoneOutline';
+import CloseIcon from '@material-ui/icons/Cancel';
+import FileUpload from "../common/FileUpload";
+import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
-
+import {API_BASE_URL} from "../../config.js";
+import axios from "axios";
 
 const styles = theme => ({
     container: {
@@ -116,6 +122,8 @@ class NominationPayments extends React.Component {
 
     constructor(props) {
         super(props)
+        const { allowedTypes, allowedSize, multiple } = props;
+
         this.state = {
             open: true,
             depositor: '',
@@ -134,7 +142,15 @@ class NominationPayments extends React.Component {
             errorTextPartyType:'',
             division:'',
             partyName:'',
-            partyType:''
+            partyType:'',
+            filename:'',
+            paySlip:'',
+            status:'',
+            supportdoc:[],
+            allowedTypes,
+            allowedSize,
+            multiple,
+            currentSdocId:''
         }
     }
 
@@ -145,7 +161,6 @@ class NominationPayments extends React.Component {
     }
 
     handleChange = (name) => event => {
-        debugger;
         if (name === 'depositor') {
             this.setState({ errorTextDepositor: '' });
         }
@@ -161,9 +176,7 @@ class NominationPayments extends React.Component {
         this.setState({
             [name]: event.value,
         });
-        debugger;
         if (name === 'nomination') {
-            debugger;
             this.props.validateNominationPayment(event.value);
             this.setState({ errorTextNominationPaymentValidation: '',errorTextNomination: '',division:event.label });
         }
@@ -182,7 +195,6 @@ class NominationPayments extends React.Component {
         } else if (this.state.party && name === 'election') {
             this.props.getNominationListForPayment(event.value, this.state.party)
         }
-debugger;
         if (this.state.nomination && this.state.election && this.state.party && name==='partyType') {
             this.props.getNominationData(this.state.nomination,event.target.value);
         }
@@ -218,7 +230,6 @@ debugger;
     handleSubmit = (e) => {
         const { postNominationPayments, serialNo, onCloseModal, nominationPaymentValidation,nominationListForPayment } = this.props;
         var goNext = true;
-        debugger;
         e.preventDefault();
 
         if (nominationPaymentValidation === false) {
@@ -262,7 +273,6 @@ debugger;
                  division =nominationListForPayment[j].name;
             }
         }
-debugger;
         if (goNext) {
                 postNominationPayments(this.state, serialNo,division,this.state.party);
                 createAndDownloadPdf(this.state);
@@ -270,10 +280,102 @@ debugger;
         }
     };
 
+    handleUploadView = sid => () => {
+        this.props.getUploadPath(sid);
+      };
+    
+    showFlagToStyle = (flag) => (
+    {display: flag ? "" : "none"}
+    );
+
+    onSelectFiles = evt => {
+        evt.preventDefault();
+        evt.stopPropagation();
+    
+        this.setState({
+          status: evt.type,
+        });
+    
+        // Fetch files
+        const { files } = evt.target;
+        this.uploadFiles(files);
+      };
+
+      uploadFiles = files => {
+        let error = false;
+        const errorMessages = [];
+    
+        const data = {
+          error: null,
+          files
+        }; 
+    
+        const { allowedTypes, allowedSize } = this.state;
+    
+        if (files && files.length > 0) {
+          for (let i = 0; i < files.length; i += 1) {
+            const file = files[i];
+    
+            // Validate file type
+            if (allowedTypes && allowedTypes.length > 0) {
+              if (!allowedTypes.includes(file.type)) {
+                error = true;
+                errorMessages.push("Invalid file type(s)");
+              }
+            }
+    
+            // Validate fileSize
+            if (allowedSize && allowedSize > 0) {
+              if (file.size / 1048576 > allowedSize) {
+                error = true;
+                errorMessages.push("Invalid file size(s)");
+              }
+            }
+          }
+        }
+    
+        if (error) {
+          data.error = errorMessages;
+          data.files = null;
+          this.reset();
+        } else {
+          const formData = new FormData();
+          this.setState({status: "uploading", progress: 0});
+          formData.append("file", data.files[0]);
+          axios.post(`${API_BASE_URL}/file-upload`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+    
+            onUploadProgress: (progressEvent) => {
+              let percentCompleted = (progressEvent.loaded * 100) / progressEvent.total;
+              this.setState(
+                {progress: percentCompleted}
+              );
+              console.log(percentCompleted);
+            }
+    
+    
+          }).then((response) => {
+    
+           
+          
+            const obj = {'filename':response.data.filename, 'originalname':response.data.originalname};
+            
+            this.setState(
+              {
+                status: "uploaded",
+                currentSdocId: response.data.originalname,
+                filename:response.data.filename
+              }
+            );
+          });
+        }
+      };
+
     render() {
         const { classes, depositor, NominationPayments, onCloseModal, partyList, serialNo, approveElections, nominationListForPayment, nominationData } = this.props;
         const { numberformat,errorTextPartyType } = this.state;
-        debugger;
         const { errorTextItems } = this.props;
         const payPerCandidate = (nominationData.length) ? nominationData[0].payPerCandidate : '';
         const candidateCount = (nominationData.length) ? nominationData[0].noOfCandidates : '';
@@ -294,6 +396,15 @@ debugger;
             value: suggestion.nomination[0].id,
             label: suggestion.name,
         }));
+
+        const doneElement = (<div className={classes.done} style={this.showFlagToStyle(this.state.status === "uploading")}>
+        <DoneOutline  color="secondary"/>
+        {/* <a download={"filename"} href={"ok"}>filename</a> */}
+        </div>);
+        const closeElement = (<div  className={classes.done} style={this.showFlagToStyle(this.state.status === "uploaded")}>
+        <CloseIcon ref={this.state.currentSdocId}  color="red"/>
+        {/* <a download={"filename"} href={"ok"}>filename</a> */}
+        </div>);
 
         return (
             <form className={classes.container} onSubmit={this.handleSubmit} noValidate autoComplete="off">
@@ -377,7 +488,36 @@ debugger;
                             margin="normal"
                         />
                     </Grid>
-
+                    <Grid container item lg={3}>
+                        
+                   
+                    <Grid container item lg={6}>
+                    {
+            
+            this.state.status === "uploaded" ? <div className={classes.done} >
+            <DoneOutline style={{marginTop:30,marginLeft:-20}} onClick={this.handleUploadView(this.state.filename)}  color="secondary"/>
+            {/* <img src={`http://localhost:9001/src/uploads/${sdoc.filename}`} style={{maxWidth: 60,margin:25}} className="img-fluid" alt="logo" /> */}
+            </div> : ' '
+    
+        }
+                    <span>
+                    <Typography style={{color:"rgba(0, 0, 0, 0.54)",fontSize:12}} variant="subtitle1" >Attach Pay Slip</Typography>
+                    <span ><FileUpload  value={this.state.paySlip} doneElement={doneElement} onSelectFiles={this.onSelectFiles} /></span>
+                    </span>
+                    </Grid>
+                    <Grid style={{marginTop:30,marginLeft:-10}}container item lg={4}>
+                    {
+                        this.state.status === "uploaded"  ? 
+                        <Typography variant="caption" gutterBottom>
+                        {this.state.currentSdocId}<div  className={classes.done}>
+                        <CloseIcon   color="red"/>
+                        </div>
+                    </Typography>
+                        : 'No file attached'
+                    } 
+                    </Grid>
+                    </Grid>
+                    
                 </Grid>
                 <Grid style={{ marginLeft: 12 }} container spacing={2} xs={12}>
                     <Grid container item lg={3}>
@@ -420,7 +560,14 @@ debugger;
                             }}
                         />
                     </Grid>
-                    <Grid container spacing={12}>
+                   
+                </Grid>
+
+                <Grid style={{ marginLeft: 12 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>
+                <Grid container item lg={3}>
+               
+                    </Grid>
+                <Grid container spacing={12}>
                         <Grid style={{ textAlign: 'right', marginRight: '25px' }} className={classes.label} item lg={12}>
                             <br /><br />
                             <Button style={{ marginRight: '15px' }} variant="contained" onClick={onCloseModal} value="Submit&New" color="primary" className={classes.submit}>
@@ -463,7 +610,8 @@ const mapActionsToProps = {
     getNominationListForPayment,
     getNominationData,
     postNominationPayments,
-    validateNominationPayment
+    validateNominationPayment,
+    getUploadPath
 };
 
 

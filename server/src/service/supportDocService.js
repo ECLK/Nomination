@@ -160,6 +160,48 @@ const validateSupportDocId = async (req) => {
 
 };
 
+//Save support documents for a particuler nomination
+const saveSupportDocsByPaymentId = async (req,transaction) => {
+  try {
+    const filename = req.filePath;
+    const paymentId = req.id;
+    const originalname = req.originalName;
+     //TODO: yujith, validate  and paymentId and filePath
+          const uuid = uuidv4();
+         const supportdocs = {'id':uuid,'originalName':originalname, 'filePath':filename, 'paymentId':paymentId,'status':"NEW"};
+       if(supportdocs !== 0 || supportdocs !== null){
+        await SupportDocRepo.savePaymentSupportDocs( supportdocs,transaction );
+        return true;
+       }else{     
+        throw new ValidationError("Attachment unavailable!",HTTP_CODE_400);
+       }
+  }catch (e){
+    throw e;
+    throw new ValidationError(e.message,HTTP_CODE_400);
+  }
+};
+
+//Save support documents for a particuler nomination
+const updateSupportDocsByPaymentId = async (req,transaction) => {
+  try {
+    const filename = req.filePath;
+    const paymentId = req.id;
+    const originalname = req.originalName;
+    const paymentSdocId = req.paymentSdocId;
+     //TODO: yujith, validate  and paymentId and filePath
+          const uuid = uuidv4();
+         const supportdocs = {'id':uuid,'originalName':originalname, 'filePath':filename, 'paymentId':paymentId,'status':"NEW"};
+       if(supportdocs !== 0 || supportdocs !== null){
+        await SupportDocRepo.updatePaymentSupportDocs( paymentSdocId,supportdocs,transaction );
+        return true;
+       }else{     
+        throw new ValidationError("Attachment unavailable!",HTTP_CODE_400);
+       }
+  }catch (e){
+    throw new ValidationError(e.message,HTTP_CODE_400);
+  }
+};
+
 export default {
   getsupportDocsByNominationId,
   saveSupportDocsByNominationId,
@@ -167,5 +209,7 @@ export default {
   getsupportDocsByCategory,
   saveCandidateSupportDocsByCandidateId,
   getsupportDocsByCandidateId,
-  updateNominationStatusByNominationId
+  updateNominationStatusByNominationId,
+  saveSupportDocsByPaymentId,
+  updateSupportDocsByPaymentId
 }
