@@ -12,7 +12,11 @@ const timeLineData = Record({
   nominationStart: Maybe(Number),
   nominationEnd: Maybe(Number),
   objectionStart: Maybe(Number),
-  objectionEnd: Maybe(Number)
+  objectionEnd: Maybe(Number),
+  paymentStart: Maybe(Number),
+  paymentEnd: Maybe(Number),
+  approvalStart: Maybe(Number),
+  approvalEnd: Maybe(Number)
 });
 
 const nominationAllowData = Record({

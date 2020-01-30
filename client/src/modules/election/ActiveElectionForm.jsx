@@ -111,6 +111,10 @@ class ActiveElectionForm extends React.Component {
       nominationEnd: Date.parse(newDate),
       objectionStart: Date.parse(newDate),
       objectionEnd: Date.parse(newDate),
+      paymentStart: Date.parse(newDate),
+      paymentEnd: Date.parse(newDate),
+      approvalStart: Date.parse(newDate),
+      approvalEnd: Date.parse(newDate),
       electionName: CallElectionData.electionName,
       electionModule: CallElectionData.electionModule,
       values: '',
@@ -121,6 +125,10 @@ class ActiveElectionForm extends React.Component {
       errorTextNominationEnd: '',
       errorTextObjectionStart: '',
       errorTextObjectionEnd: '',
+      errorTextPaymentStart: '',
+      errorTextPaymentEnd: '',
+      errorTextApprovalStart: '',
+      errorTextApprovalEnd: '',
       goNext: false,
       errorTextElectorates: ''
     };
@@ -152,21 +160,58 @@ class ActiveElectionForm extends React.Component {
       this.setState({ errorTextObjectionEnd: 'emptyField' });
       goNext = false;
     }
+    if (CallElectionData.timeLineData.paymentStart === '' || isNaN(CallElectionData.timeLineData.paymentStart)) {
+      this.setState({ errorTextPaymentStart: 'emptyField' });
+      goNext = false;
+    }
+    if (CallElectionData.timeLineData.paymentEnd === '' || isNaN(CallElectionData.timeLineData.paymentEnd)) {
+      this.setState({ errorTextPaymentEnd: 'emptyField' });
+      goNext = false;
+    }
+    if (CallElectionData.timeLineData.approvalStart === '' || isNaN(CallElectionData.timeLineData.approvalStart)) {
+      this.setState({ errorTextApprovalStart: 'emptyField' });
+      goNext = false;
+    }
+    if (CallElectionData.timeLineData.approvalEnd === '' || isNaN(CallElectionData.timeLineData.approvalEnd)) {
+      this.setState({ errorTextApprovalEnd: 'emptyField' });
+      goNext = false;
+    }
+
     var nominationStart = moment(CallElectionData.timeLineData.nominationStart).format("YYYY-MM-DD");
     var nominationEnd = moment(CallElectionData.timeLineData.nominationEnd).format("YYYY-MM-DD");
     var objectionStart = moment(CallElectionData.timeLineData.objectionStart).format("YYYY-MM-DD");
     var objectionEnd = moment(CallElectionData.timeLineData.objectionEnd).format("YYYY-MM-DD");
+    var paymentStart = moment(CallElectionData.timeLineData.paymentStart).format("YYYY-MM-DD");
+    var paymentEnd = moment(CallElectionData.timeLineData.paymentEnd).format("YYYY-MM-DD");
+    var approvalStart = moment(CallElectionData.timeLineData.approvalStart).format("YYYY-MM-DD");
+    var approvalEnd = moment(CallElectionData.timeLineData.approvalEnd).format("YYYY-MM-DD");
 
     if (moment(nominationEnd).isBefore(nominationStart)) {
       this.setState({ errorTextNominationEnd: 'emptyField2' });
       goNext = false;
     }
-    if (moment(objectionStart).isBefore(nominationEnd)) {
+    if (moment(objectionStart).isBefore(paymentEnd)) {
       this.setState({ errorTextObjectionStart: 'emptyField2' });
       goNext = false;
     }
     if (moment(objectionEnd).isBefore(objectionStart)) {
       this.setState({ errorTextObjectionEnd: 'emptyField2' });
+      goNext = false;
+    }
+    if (moment(paymentStart).isBefore(nominationStart)) {
+      this.setState({ errorTextPaymentStart: 'emptyField2' });
+      goNext = false;
+    }
+    if (moment(paymentEnd).isBefore(paymentStart)) {
+      this.setState({ errorTextPaymentEnd: 'emptyField2' });
+      goNext = false;
+    }
+    if (moment(approvalEnd).isBefore(approvalStart)) {
+      this.setState({ errorTextApprovalEnd: 'emptyField2' });
+      goNext = false;
+    }
+    if (moment(approvalStart).isBefore(objectionEnd)) {
+      this.setState({ errorTextApprovalStart: 'emptyField2' });
       goNext = false;
     }
 
@@ -186,6 +231,22 @@ class ActiveElectionForm extends React.Component {
       goNext = false;
     }
     if (moment(objectionEnd).isBefore(TodayFormated) && CallElectionData.status !== 'APPROVE') {
+      this.setState({ errorTextObjectionEnd: 'emptyField2' });
+      goNext = false;
+    }
+    if (moment(paymentStart).isBefore(TodayFormated) && CallElectionData.status !== 'APPROVE') {
+      this.setState({ errorTextObjectionStart: 'emptyField2' });
+      goNext = false;
+    }
+    if (moment(paymentEnd).isBefore(TodayFormated) && CallElectionData.status !== 'APPROVE') {
+      this.setState({ errorTextObjectionEnd: 'emptyField2' });
+      goNext = false;
+    }
+    if (moment(approvalStart).isBefore(TodayFormated) && CallElectionData.status !== 'APPROVE') {
+      this.setState({ errorTextObjectionStart: 'emptyField2' });
+      goNext = false;
+    }
+    if (moment(approvalEnd).isBefore(TodayFormated) && CallElectionData.status !== 'APPROVE') {
       this.setState({ errorTextObjectionEnd: 'emptyField2' });
       goNext = false;
     }
@@ -271,6 +332,22 @@ class ActiveElectionForm extends React.Component {
       newElectionModule.timeLineData["objectionEnd"] = Date.parse(value)
       this.setState({ errorTextObjectionEnd: '' });
     }
+    if ("paymentStart" == name) {
+      newElectionModule.timeLineData["paymentStart"] = Date.parse(value)
+      this.setState({ errorTextPaymentStart: '' });
+    }
+    if ("paymentEnd" == name) {
+      newElectionModule.timeLineData["paymentEnd"] = Date.parse(value)
+      this.setState({ errorTextPaymentEnd: '' });
+    }
+    if ("approvalStart" == name) {
+      newElectionModule.timeLineData["approvalStart"] = Date.parse(value)
+      this.setState({ errorTextApprovalStart: '' });
+    }
+    if ("approvalEnd" == name) {
+      newElectionModule.timeLineData["approvalEnd"] = Date.parse(value)
+      this.setState({ errorTextApprovalEnd: '' });
+    }
     this.setState({ errorTextElectorates: '' });
     handleChangeElectionData(newElectionModule)
   };
@@ -285,8 +362,8 @@ class ActiveElectionForm extends React.Component {
 
   getStepContent(step, values) {
     const { CallElectionData } = this.props;
-    const { errorTextNominationStart, errorTextNominationEnd, errorTextObjectionStart, errorTextObjectionEnd } = this.state;
-    const errorTextItems = { errorTextNominationStart, errorTextNominationEnd, errorTextObjectionStart, errorTextObjectionEnd }
+    const { errorTextNominationStart, errorTextNominationEnd, errorTextObjectionStart, errorTextObjectionEnd, errorTextPaymentStart, errorTextPaymentEnd, errorTextApprovalStart, errorTextApprovalEnd } = this.state;
+    const errorTextItems = { errorTextNominationStart, errorTextNominationEnd, errorTextObjectionStart, errorTextObjectionEnd, errorTextPaymentStart, errorTextPaymentEnd, errorTextApprovalStart, errorTextApprovalEnd }
 
     switch (step) {
       case 0:
@@ -312,8 +389,8 @@ class ActiveElectionForm extends React.Component {
     const { classes } = this.props;
     const steps = getSteps();
     const { activeStep } = this.state;
-    const { nominationStart, nominationEnd, objectionStart, objectionEnd, depositAmount, WeightageVote, WeightagePrefarence, columnHeaders } = this.state;
-    const values = { nominationStart, nominationEnd, objectionStart, objectionEnd, depositAmount, WeightageVote, WeightagePrefarence, columnHeaders }
+    const { nominationStart, nominationEnd, objectionStart, objectionEnd, paymentStart, paymentEnd, approvalStart, approvalEnd, depositAmount, WeightageVote, WeightagePrefarence, columnHeaders } = this.state;
+    const values = { nominationStart, nominationEnd, objectionStart, objectionEnd, paymentStart, paymentEnd, approvalStart, approvalEnd, depositAmount, WeightageVote, WeightagePrefarence, columnHeaders }
 
     return (
       <div className={classes.root}>

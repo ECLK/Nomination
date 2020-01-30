@@ -22,7 +22,7 @@ const resultMaps = [
   {
 		mapId: 'timeLineMap',
 		idProperty: 'electionId',
-		properties: ['nominationStart','nominationEnd','objectionStart','objectionEnd']
+		properties: ['nominationStart','nominationEnd','objectionStart','objectionEnd','paymentStart','paymentEnd','approvalStart','approvalEnd']
   },
   {
 		mapId: 'divisionMap',

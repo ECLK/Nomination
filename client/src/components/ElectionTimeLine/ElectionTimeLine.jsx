@@ -107,6 +107,57 @@ class CheckboxesGroup extends React.Component {
                   />
                 </Grid>
                 </Grid>
+                <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
+            <FormLabel className={classes.legend} component="legend">Nomination Security Deposit Period</FormLabel>
+            </Grid>
+              <Grid  container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
+              <Grid item lg={3}>
+                  <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Deposit Start</Typography>
+                </Grid>
+                <Grid item lg={3}>
+                  <TextField
+                    id="datetime-local"
+                    type="datetime-local"
+                    defaultValue={values.paymentStart}
+                    className={classes.textField}
+                    name="paymentStart"
+                    value={moment(new Date((CallElectionData.timeLineData) ? CallElectionData.timeLineData.paymentStart : '')).format("YYYY-MM-DDTHH:mm")}
+                    onChange={handleChange('paymentStart')}
+                    helperText={errorTextItems.errorTextPaymentStart === "emptyField" ? 'This field is required!' : errorTextItems.errorTextPaymentStart === "emptyField2" ? 'This is not a valid date!' : ''}
+                    error={errorTextItems.errorTextPaymentStart}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      min: TodayFormated
+                    }}
+                  />
+                  </Grid>
+                  </Grid>
+                <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
+                  <Grid item lg={3}>
+                  <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Deposit End</Typography>
+                </Grid>
+                <Grid item lg={3}>
+                  <TextField
+                    id="datetime-local"
+                    type="datetime-local"
+                    defaultValue={values.paymentEnd}
+                    className={classes.textField}
+                    name="paymentEnd"
+                    value={moment(new Date((CallElectionData.timeLineData) ? CallElectionData.timeLineData.paymentEnd : '')).format("YYYY-MM-DDTHH:mm")}
+                    onChange={handleChange('paymentEnd')}
+                    helperText={errorTextItems.errorTextPaymentEnd === "emptyField" ? 'This field is required!' : errorTextItems.errorTextPaymentEnd === "emptyField2" ? 'This is not a valid date!' : ''}
+                    error={errorTextItems.errorTextPaymentEnd}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      min: TodayFormated
+                    }}
+                  />
+                  </Grid>
+                  </Grid>
               <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
             <FormLabel className={classes.legend} component="legend">Objection Period</FormLabel>
             </Grid>
@@ -151,6 +202,58 @@ class CheckboxesGroup extends React.Component {
                     error={errorTextItems.errorTextObjectionEnd}
                     InputLabelProps={{
                       shrink: true,
+                    }}
+                    inputProps={{
+                      min: TodayFormated
+                    }}
+                  />
+                  </Grid>
+                  </Grid>
+                  
+                  <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
+            <FormLabel className={classes.legend} component="legend">Nomination Approval Period</FormLabel>
+            </Grid>
+              <Grid  container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
+              <Grid item lg={3}>
+                  <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Approve Start</Typography>
+                </Grid>
+                <Grid item lg={3}>
+                  <TextField
+                    id="datetime-local"
+                    type="datetime-local"
+                    defaultValue={values.approvalStart}
+                    className={classes.textField}
+                    name="approvalStart"
+                    value={moment(new Date((CallElectionData.timeLineData) ? CallElectionData.timeLineData.approvalStart : '')).format("YYYY-MM-DDTHH:mm")}
+                    onChange={handleChange('approvalStart')}
+                    helperText={errorTextItems.errorTextApprovalStart === "emptyField" ? 'This field is required!' : errorTextItems.errorTextApprovalStart === "emptyField2" ? 'This is not a valid date!' : ''}
+                    error={errorTextItems.errorTextApprovalStart}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      min: TodayFormated
+                    }}
+                  />
+                  </Grid>
+                  </Grid>
+                <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
+                  <Grid item lg={3}>
+                  <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Approve End</Typography>
+                </Grid>
+                <Grid item lg={3}>
+                  <TextField
+                    id="datetime-local"
+                    type="datetime-local"
+                    defaultValue={values.approvalEnd}
+                    className={classes.textField}
+                    name="approvalEnd"
+                    value={moment(new Date((CallElectionData.timeLineData) ? CallElectionData.timeLineData.approvalEnd : '')).format("YYYY-MM-DDTHH:mm")}
+                    onChange={handleChange('approvalEnd')}
+                    helperText={errorTextItems.errorTextApprovalEnd === "emptyField" ? 'This field is required!' : errorTextItems.errorTextApprovalEnd === "emptyField2" ? 'This is not a valid date!' : ''}
+                    error={errorTextItems.errorTextApprovalEnd}
+                    InputLabelProps={{
+                      shrink: true,   
                     }}
                     inputProps={{
                       min: TodayFormated
