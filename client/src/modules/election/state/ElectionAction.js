@@ -286,6 +286,10 @@ export function postCallElectionData(CallElectionData, electionData) {
                 nominationEnd: CallElectionData.timeLineData.nominationEnd,
                 objectionStart: CallElectionData.timeLineData.objectionStart,
                 objectionEnd: CallElectionData.timeLineData.objectionEnd,
+                paymentStart: CallElectionData.timeLineData.paymentStart,
+                paymentEnd: CallElectionData.timeLineData.paymentEnd,
+                approvalStart: CallElectionData.timeLineData.approvalStart,
+                approvalEnd: CallElectionData.timeLineData.approvalEnd,
                 electionId: electionData.election_id,
             },
         "nominationAllowData": CallElectionData.rowData
@@ -344,6 +348,10 @@ export function editCallElectionData(CallElectionData, electionId) {
                     nominationEnd: CallElectionData.timeLineData.nominationEnd,
                     objectionStart: CallElectionData.timeLineData.objectionStart,
                     objectionEnd: CallElectionData.timeLineData.objectionEnd,
+                    paymentStart: CallElectionData.timeLineData.paymentStart,
+                    paymentEnd: CallElectionData.timeLineData.paymentEnd,
+                    approvalStart: CallElectionData.timeLineData.approvalStart,
+                    approvalEnd: CallElectionData.timeLineData.approvalEnd,
                     electionId: electionId,
                 },
             "nominationAllowData": CallElectionData.rowData

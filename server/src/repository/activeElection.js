@@ -35,8 +35,8 @@ const ALLOW_NOMINATION_DELETE_QUERY = `DELETE FROM NOMINATION WHERE ELECTION_ID 
 const ELECTION_DELETE_QUERY = `DELETE FROM ELECTION WHERE ID = :electionId`;
 const ELECTION_APPROVAL_DELETE_QUERY = `DELETE FROM ELECTION_APPROVAL WHERE ELECTION_ID = :electionId`;
 
-const ACTIVE_ELECTION_TIMELINE_INSERT_QUERY = `INSERT INTO ELECTION_TIMELINE (ID, NOMINATION_START, NOMINATION_END, OBJECTION_START, OBJECTION_END, ELECTION_ID) 
-                                      VALUES (:id, :nomination_start,:nomination_end, :objection_start, :objection_end, :electionId)`;
+const ACTIVE_ELECTION_TIMELINE_INSERT_QUERY = `INSERT INTO ELECTION_TIMELINE (ID, NOMINATION_START, NOMINATION_END, OBJECTION_START, OBJECTION_END, PAYMENT_START, PAYMENT_END, APPROVAL_START, APPROVAL_END, ELECTION_ID) 
+                                      VALUES (:id, :nomination_start,:nomination_end, :objection_start, :objection_end, :payment_start,:payment_end, :approval_start, :approval_end, :electionId)`;
 
 const ALL_ELECTION_DATA_SELECT_QUERY = `SELECT 
                                         e.ID AS election_electionId,
@@ -50,6 +50,10 @@ const ALL_ELECTION_DATA_SELECT_QUERY = `SELECT
                                         et.NOMINATION_END AS election_nominationEnd,
                                         et.OBJECTION_START AS election_objectionStart,
                                         et.OBJECTION_END AS election_objectionEnd,
+                                        et.PAYMENT_START AS election_paymentStart,
+                                        et.PAYMENT_END AS election_paymentEnd,
+                                        et.APPROVAL_START AS election_approvalStart,
+                                        et.APPROVAL_END AS election_approvalEnd,
                                         n.TEAM_ID AS election_team_id,
                                         n.DIVISION_CONFIG_ID AS election_division_id
                                         FROM ELECTION e 
@@ -106,7 +110,7 @@ const saveElectionTimeLine = async (electionId, data, transaction) => {
 try{
 
   const id = uuidv4();
-  data = { id: id, nomination_start : data.nominationStart, nomination_end: data.nominationEnd, objection_start : data.objectionStart, objection_end: data.objectionEnd, electionId: electionId};
+  data = { id: id, nomination_start : data.nominationStart, nomination_end: data.nominationEnd, objection_start : data.objectionStart, objection_end: data.objectionEnd, payment_start : data.paymentStart, payment_end: data.paymentEnd, approval_start : data.approvalStart, approval_end: data.approvalEnd, electionId: electionId};
   console.log("data",data);
 }catch(e){
   console.log(e);
