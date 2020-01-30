@@ -7,7 +7,7 @@ const resultMaps = [
 	{
 		mapId: 'electionMap',
 		idProperty: 'id',
-		properties: ['id', 'name', 'module_id','nomination_start','nomination_end','objection_start','objection_end','module_name','approval_status','reviewNote'],
+		properties: ['id', 'name', 'module_id','nomination_start','nomination_end','objection_start','objection_end','payment_start','payment_end','approval_start','approval_end','module_name','approval_status','reviewNote'],
 		collections: [
 			{ name: 'config', mapId: 'configMap', columnPrefix: 'config_' }
 		]
@@ -31,6 +31,7 @@ const resultMaps = [
 
 const mapToElectionModelWithTimeline = (electionData) => {
 	const mappedElection = joinjs.map(electionData, resultMaps, 'electionMap', 'election_');
+
 	return Election({
 		id: mappedElection[0].id,
 		name: mappedElection[0].name,
@@ -39,6 +40,10 @@ const mapToElectionModelWithTimeline = (electionData) => {
 		nominationEnd: mappedElection[0].nomination_end,
 		objectionStart: mappedElection[0].objection_start,
 		objectionEnd: mappedElection[0].objection_end,
+		paymentStart: mappedElection[0].payment_start,
+		paymentEnd: mappedElection[0].payment_end,
+		approvalStart: mappedElection[0].approval_start,
+		approvalEnd: mappedElection[0].approval_end,
 		moduleName: mappedElection[0].module_name,
 		approval_status: mappedElection[0].approval_status,
 		reviewNote: mappedElection[0].reviewNote,

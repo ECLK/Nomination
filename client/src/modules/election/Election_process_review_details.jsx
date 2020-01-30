@@ -134,6 +134,9 @@ const styles = theme => ({
     red_button: {
         color: "firebrick",
     },
+    timeline: {
+        marginBottom: theme.spacing.unit,
+    },
 });
 
 function Transition(props) {
@@ -418,8 +421,8 @@ class Dashboard extends React.Component {
                                 <br />
                                 <Typography className={classes.text_a} component="p"><b>Timeline</b></Typography>
                                 <br />
-                                <Grid container spacing={24}>
-                                    <Grid item xs={3} sm={6}>
+                                <Grid container spacing={13}>
+                                    <Grid  className={classes.timeline} item xs={6} sm={6}>
                                         <Grid container spacing={24}>
                                             <Grid item xs={3} sm={4}>
                                                 <Typography variant="subtitle2" component="p">Nomination Start Date</Typography>
@@ -429,9 +432,9 @@ class Dashboard extends React.Component {
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={3} sm={6}>
+                                    <Grid className={classes.timeline} item xs={6} sm={6}>
                                         <Grid container spacing={24}>
-                                            <Grid item xs={3} sm={4}>
+                                            <Grid item xs={3} sm={5}>
                                                 <Typography variant="subtitle2" component="p">Objection Start Date</Typography>
                                             </Grid>
                                             <Grid item xs={3} sm={6}>
@@ -439,9 +442,7 @@ class Dashboard extends React.Component {
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                </Grid>
-                                <Grid container spacing={24}>
-                                    <Grid item xs={3} sm={6}>
+                                    <Grid  style={{marginBottom:20}} item xs={6} sm={6}>
                                         <Grid container spacing={24}>
                                             <Grid item xs={3} sm={4}>
                                                 <Typography variant="subtitle2" className={classes.text_b} component="p"> Nomination End Date</Typography>
@@ -451,13 +452,53 @@ class Dashboard extends React.Component {
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid className={classes.timeline} item xs={6} sm={6}>
                                         <Grid container spacing={24}>
-                                            <Grid item xs={3} sm={4}>
+                                            <Grid item xs={3} sm={5}>
                                                 <Typography variant="subtitle2" className={classes.text_b} component="p">Objection End Date </Typography>
                                             </Grid>
                                             <Grid item xs={3} sm={6}>
                                                 <Typography gutterBottom>{moment(ElectionReviewData.objectionEnd).format('DD MMM YYYY hh:mm a')}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid className={classes.timeline} item xs={6} sm={6}>
+                                        <Grid container spacing={24}>
+                                            <Grid item xs={3} sm={4}>
+                                                <Typography variant="subtitle2" component="p">Security Deposit Start Date</Typography>
+                                            </Grid>
+                                            <Grid item xs={3} sm={6}>
+                                                <Typography gutterBottom>{moment(ElectionReviewData.paymentStart).format('DD MMM YYYY hh:mm a')}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid className={classes.timeline} item xs={6} sm={6}>
+                                        <Grid container spacing={24}>
+                                            <Grid item xs={3} sm={5}>
+                                                <Typography variant="subtitle2" component="p">Nomination Approval Start Date</Typography>
+                                            </Grid>
+                                            <Grid item xs={3} sm={6}>
+                                                <Typography gutterBottom>{moment(ElectionReviewData.approvalStart).format('DD MMM YYYY hh:mm a')}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid className={classes.timeline} item xs={6} sm={6}>
+                                        <Grid container spacing={24}>
+                                            <Grid item xs={3} sm={4}>
+                                                <Typography variant="subtitle2" className={classes.text_b} component="p"> Security Deposit End Date</Typography>
+                                            </Grid>
+                                            <Grid item xs={3} sm={6}>
+                                                <Typography gutterBottom>{moment(ElectionReviewData.paymentEnd).format('DD MMM YYYY hh:mm a')}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid className={classes.timeline} item xs={6} sm={6}>
+                                        <Grid container spacing={24}>
+                                            <Grid item xs={3} sm={5}>
+                                                <Typography variant="subtitle2" className={classes.text_b} component="p">Nomination Approval End Date </Typography>
+                                            </Grid>
+                                            <Grid item xs={3} sm={6}>
+                                                <Typography gutterBottom>{moment(ElectionReviewData.approvalEnd).format('DD MMM YYYY hh:mm a')}</Typography>
                                             </Grid>
                                         </Grid>
                                     </Grid>
