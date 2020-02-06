@@ -57,7 +57,7 @@ const resultMaps = [
   {
 		mapId: 'SeparateCandidateConfigMap',
 		idProperty: 'id',
-		properties: ['key_name', 'description']
+		properties: ['key_name', 'description', 'json_schema']
 	},
 ];
 
@@ -151,7 +151,8 @@ const mapToCandidateConfigModel = (templates) => {
         return result.push({
           candidate_config_id: election.id,
           key_name: election.key_name,
-          description: election.description
+          description: election.description,
+          json_schema: election.json_schema
         });
     }, List(CandidateConfig)());
 }
