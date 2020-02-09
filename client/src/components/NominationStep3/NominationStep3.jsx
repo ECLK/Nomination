@@ -9,7 +9,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
-import { createAndDownloadPdfNominationForm } from '../../modules/nomination/state/NominationAction';
+import { createAndDownloadPdfNominationForm, createAndDownloadPdfFormUsingTemplate } from '../../modules/nomination/state/NominationAction';
 import ProgressButton from "../ProgressButton";
 import DoneOutline from '@material-ui/icons/DoneOutline';
 import CloseIcon from '@material-ui/icons/Cancel';
@@ -102,12 +102,16 @@ class TextFields extends React.Component {
             this.setState({ errorTextNominationFormCategory: 'emptyField' });
             goNext = false;
         }
-        if(this.state.nominationFormCategory==='presidential'){
-        this.setState({
-          success: false,
-          loading:true
-      });
-    }
+        if(
+          this.state.nominationFormCategory === 'presidential' ||
+          this.state.nominationFormCategory === 'parliamentary_nomination' ||
+          this.state.nominationFormCategory === 'affirmation'
+        ) {
+            this.setState({
+              success: false,
+              loading:true
+            });
+        }
         if (goNext) {
           if(this.state.nominationFormCategory==='presidential'){
             createAndDownloadPdfNominationForm(this.state.nominationFormCategory,NominationCandidates,partyList);
@@ -117,7 +121,22 @@ class TextFields extends React.Component {
                 loading:false
             });
             }, 4000);
-            
+          } else if (this.state.nominationFormCategory === 'parliamentary_nomination') {
+            createAndDownloadPdfFormUsingTemplate(this.state.nominationFormCategory, NominationCandidates, partyList);
+              setTimeout(() => {
+                this.setState({
+                  success: true,
+                  loading:false
+              });
+            }, 4000);
+          } else if (this.state.nominationFormCategory === 'affirmation') {
+            createAndDownloadPdfFormUsingTemplate(this.state.nominationFormCategory, NominationCandidates, partyList);
+              setTimeout(() => {
+                this.setState({
+                  success: true,
+                  loading:false
+              });
+            }, 4000);
           }
         }
       }
@@ -222,7 +241,12 @@ class TextFields extends React.Component {
                             <option  value='presidential'>
                                     Presidential Election
                             </option>
-                            
+                            <option  value='parliamentary_nomination'>
+                                    Parliamentary Nomination
+                            </option>
+                            <option  value='affirmation'>
+                                    Affirmation
+                            </option>
                         </TextField>
                         </Grid>
                         <Grid style={{marginTop:'7.5px',marginLeft:'-4%'}} item xs="3">
