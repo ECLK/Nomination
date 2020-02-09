@@ -26,7 +26,7 @@ const NominationPayment =  Record({
   serialNo: String(),
   depositAmount: Number(),
   amount: Number(),
-  depositeDate: Number(),
+  depositeDate: String(),
   uploadedFilePath: String(),
   status: String(),
   nominationId: String(),

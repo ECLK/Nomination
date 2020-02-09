@@ -30,6 +30,7 @@ import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import DoneOutline from '@material-ui/icons/DoneOutline';
 import CloseIcon from '@material-ui/icons/Cancel';
+import AttachFile from '@material-ui/icons/AttachFile';
 import FileUpload from "../common/FileUpload";
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
@@ -45,7 +46,7 @@ const styles = theme => ({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        width: 200,
+        width: 220,
     },
     dense: {
         marginTop: 19,
@@ -381,6 +382,7 @@ class NominationPayments extends React.Component {
         const candidateCount = (nominationData.length) ? nominationData[0].noOfCandidates : '';
         let today = new Date();
         var TodayFormated = moment(today).format("YYYY-MM-DD");
+        var TodayFormatedWithTime = moment(today).format("YYYY-MM-DDTHH:mm");
         const suggestions = partyList.map(suggestion => ({
             value: suggestion.team_id,
             label: suggestion.team_name + " (" + suggestion.team_abbrevation + ")",
@@ -471,7 +473,7 @@ class NominationPayments extends React.Component {
                             helperText={this.state.errorTextDepositor === "emptyField" ? 'This field is required!' : ''}
                         />
                     </Grid>
-                    <Grid container item lg={3}>
+                    {/* <Grid container item lg={3}>
                         <TextField
                             error={this.state.errorTextDepositedDate}
                             id="date"
@@ -487,7 +489,30 @@ class NominationPayments extends React.Component {
                             InputProps={{ inputProps: { max: TodayFormated } }}
                             margin="normal"
                         />
-                    </Grid>
+                    </Grid> */}
+
+                    <Grid container item lg={3}>
+                  <TextField
+                    id="datetime-local"
+                    type="datetime-local"
+                    label="Deposited Date"
+                    className={classes.textField}
+                    // name="nominationEnd"
+                    value={moment(new Date((this.state.depositeDate) ? this.state.depositeDate : '')).format("YYYY-MM-DDTHH:mm")}
+                    onChange={this.handleChange('depositeDate')}
+                    helperText={this.state.errorTextDepositedDate === "emptyField" ? 'This field is required!' : ''}
+                    error={this.state.errorTextDepositedDate}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      max: TodayFormatedWithTime
+                    }}
+                    margin="normal"
+                  />
+                </Grid>                   
+
+
                     <Grid container item lg={3}>
                         
                    
@@ -510,7 +535,7 @@ class NominationPayments extends React.Component {
                         this.state.status === "uploaded"  ? 
                         <Typography variant="caption" gutterBottom>
                         {this.state.currentSdocId}<div  className={classes.done}>
-                        <CloseIcon   color="red"/>
+                        <AttachFile   color="red"/>
                         </div>
                     </Typography>
                         : 'No file attached'
