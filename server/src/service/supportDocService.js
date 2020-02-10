@@ -202,6 +202,23 @@ const updateSupportDocsByPaymentId = async (req,transaction) => {
   }
 };
 
+
+//Get support documents for a particular payment
+const getSupportDocsByPaymentId = async (req) => {
+    try {
+        const paymentId = req.params.paymentId;
+        const supportDocs = await SupportDocRepo.getSupportDocByPayment(paymentId);
+        if(!_.isEmpty(supportDocs)){
+            return supportDocs
+        }else {
+            throw new ApiError("Support Documents not found",HTTP_CODE_404);
+        }
+    }catch (e){
+        throw new ServerError("server error");
+    }
+
+};
+
 export default {
   getsupportDocsByNominationId,
   saveSupportDocsByNominationId,
@@ -211,5 +228,6 @@ export default {
   getsupportDocsByCandidateId,
   updateNominationStatusByNominationId,
   saveSupportDocsByPaymentId,
-  updateSupportDocsByPaymentId
+  updateSupportDocsByPaymentId,
+    getSupportDocsByPaymentId
 }

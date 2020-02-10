@@ -12,6 +12,7 @@
     "axios": "^0.19.0",
     "classnames": "^2.2.6",
     "clsx": "^1.0.4",
+    "downloadjs": "^1.4.7",
     "file-saver": "^2.0.2",
     "formik": "^1.5.1",
     "http-proxy-middleware": "^0.19.1",
