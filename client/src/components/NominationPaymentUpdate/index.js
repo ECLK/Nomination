@@ -35,6 +35,7 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import {API_BASE_URL} from "../../config.js";
 import {saveAs} from 'file-saver';
+import download from 'downloadjs';
 
 
 const styles = theme => ({
@@ -353,7 +354,12 @@ class NominationPayments extends React.Component {
     };
     
     handleUploadView = sid => () => {
-      this.props.getUploadPath(sid);
+        axios.get(`${API_BASE_URL}/payments/${this.state.paymentId}/download`, {responseType: 'blob'}, {
+            }).then((response) => {
+            download(new Blob([response.data]), this.state.currentSdocId, response.headers['content-type']);
+        }).catch(err => {
+            console.log(err)
+        });
     };
   
   showFlagToStyle = (flag) => (
@@ -551,7 +557,7 @@ class NominationPayments extends React.Component {
                     {
             
             this.state.status === "uploaded" ? <div className={classes.done} >
-            <DoneOutline style={{marginTop:30,marginLeft:-20}} onClick={this.handleUploadView(this.state.filename)}  color="secondary"/>
+            <DoneOutline style={{marginTop:30,marginLeft:-20}} color="secondary"/>
             {/* <img src={`http://localhost:9001/src/uploads/${sdoc.filename}`} style={{maxWidth: 60,margin:25}} className="img-fluid" alt="logo" /> */}
             </div> : ' '
     
@@ -564,7 +570,7 @@ class NominationPayments extends React.Component {
                     <Grid style={{marginTop:30,marginLeft:-10}}container item lg={4}>
                     {
                         this.state.status === "uploaded"  ? 
-                        <Typography variant="caption" gutterBottom>
+                        <Typography style={{cursor: 'pointer'}} onClick={this.handleUploadView()} variant="caption" gutterBottom>
                         {this.state.currentSdocId}<div  className={classes.done}>
                         <CloseIcon   color="red"/>
                         </div>

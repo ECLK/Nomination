@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { GET, POST,PUT  } from 'HttpMethods';
-import { PaymentService } from 'Service';
+import { PaymentService, SupportDocService } from 'Service';
 import { createRoutes } from '../middleware/Router';
 
 const paymentRouter = createRoutes();
@@ -76,6 +76,17 @@ export const initPaymentRouter = (app) => {
 					.catch(error => next(error));
 			},
 			
+		},
+		{
+			method: GET,
+			path: '/payments/:paymentId/download',
+			schema: {},
+			handler: (req, res, next) => {
+				return SupportDocService.getSupportDocsByPaymentId(req)
+					.then((result) => res.download('./src/uploads/'+ result[0]['SUPPORT_DOC_filename']))
+					.catch(error => next(error));
+			},
+
 		},
 		
 	]);
