@@ -77,9 +77,7 @@ class CustomizedTable extends React.Component {
 
     render() {
         const { classes, CandidateList,paymentList,partyList } = this.props;
-        debugger;
         const rows = CandidateList;
-        console.log("CandidateList", CandidateList);
 
         const columns = [
             {
@@ -182,7 +180,6 @@ class CustomizedTable extends React.Component {
                 obj.action
             ]
         });
-        debugger;
         // let data = userList.map(x => Object.values(x));
 
         // const data = outputData;

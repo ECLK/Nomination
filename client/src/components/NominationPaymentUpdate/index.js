@@ -15,7 +15,8 @@ import { getNominationListForPayment,
         getApproveElections,
         updateNominationPayments,
         validateNominationPayment,
-        createAndDownloadPdf } from '../../modules/nomination/state/NominationAction';
+        createAndDownloadPdf,
+        getUploadPath } from '../../modules/nomination/state/NominationAction';
 import { connect } from 'react-redux';
 import CustomAutocompleteParty from '../AutocompleteParty';
 import CustomAutocompleteElection from '../AutocompleteElection';
@@ -29,6 +30,7 @@ import DownloadIcon from '@material-ui/icons/CloudDownload';
 import clsx from 'clsx';
 import axios from 'axios';
 import DoneOutline from '@material-ui/icons/DoneOutline';
+import AttachFile from '@material-ui/icons/AttachFile';
 import CloseIcon from '@material-ui/icons/Cancel';
 import FileUpload from "../common/FileUpload";
 import Typography from '@material-ui/core/Typography';
@@ -305,7 +307,7 @@ class NominationPayments extends React.Component {
           if(NominationPayments.originalName){
             this.setState({status:'uploaded'});   
           }
-          this.setState({depositeDate:moment(new Date(NominationPayments.depositeDate)).format('YYYY-MM-DD')});
+          this.setState({depositeDate:NominationPayments.depositeDate});
     
         }
       }
@@ -361,6 +363,7 @@ class NominationPayments extends React.Component {
             console.log(err)
         });
     };
+    
   
   showFlagToStyle = (flag) => (
   {display: flag ? "" : "none"}
@@ -458,7 +461,8 @@ class NominationPayments extends React.Component {
         const payPerCandidate = (nominationData.length) ? nominationData[0].payPerCandidate :  '';
         const candidateCount = (nominationData.length) ? nominationData[0].noOfCandidates :  '';
         let today = new Date();
-        var TodayFormated = moment(today).format("YYYY-MM-DD");
+        var TodayFormatedWithTime = moment(today).format("YYYY-MM-DDTHH:mm");
+     
         const suggestions = partyList.map(suggestion => ({
             value: suggestion.team_id,
             label: suggestion.team_name+" ("+suggestion.team_abbrevation+")",
@@ -535,20 +539,23 @@ class NominationPayments extends React.Component {
                     </Grid>
                     <Grid  container  item lg={3}>
                         <TextField
-                            error={this.state.errorTextDepositedDate}
-                            id="date"
-                            label="Deposited Date"
-                            type="date"
-                            value={this.state.depositeDate}
-                            onChange={this.handleChange('depositeDate')}
-                            className={classes.textField}
-                            helperText={this.state.errorTextDepositedDate === "emptyField" ? 'This field is required!' : ''}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            InputProps={{ inputProps: { max: TodayFormated } }}
-                            margin="normal"
-                        /> 
+                    id="datetime-local"
+                    type="datetime-local"
+                    label="Deposited Date"
+                    className={classes.textField}
+                    // name="nominationEnd"
+                    value={this.state.depositeDate}
+                    onChange={this.handleChange('depositeDate')}
+                    helperText={this.state.errorTextDepositedDate === "emptyField" ? 'This field is required!' : ''}
+                    error={this.state.errorTextDepositedDate}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      max: TodayFormatedWithTime
+                    }}
+                    margin="normal"
+                  />
                     </Grid>
                     <Grid container item lg={3}>
                         
@@ -572,7 +579,7 @@ class NominationPayments extends React.Component {
                         this.state.status === "uploaded"  ? 
                         <Typography style={{cursor: 'pointer'}} onClick={this.handleUploadView()} variant="caption" gutterBottom>
                         {this.state.currentSdocId}<div  className={classes.done}>
-                        <CloseIcon   color="red"/>
+                        <AttachFile  onClick={this.handleUploadView(this.state.filename)} color="red"/>
                         </div>
                     </Typography>
                         : 'No file attached'
@@ -687,7 +694,8 @@ const mapStateToProps = ({Nomination}) => {
     getTeams,
     getApproveElections,
     updateNominationPayments,
-    validateNominationPayment
+    validateNominationPayment,
+    getUploadPath
   };
   
  

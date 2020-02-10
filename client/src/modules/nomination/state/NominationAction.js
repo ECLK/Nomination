@@ -704,6 +704,49 @@ export const createAndDownloadPdfNominationForm = function createAndDownloadPdfN
     })
 }
 
+export const createAndDownloadPdfFormUsingTemplate = function createAndDownloadPdfFormUsingTemplate(type, Data, partyList) {
+  var partyName = "";
+  for (var j = 0; j < partyList.length; j++) {
+    if (sessionStorage.getItem("party_id") === partyList[j].team_id) {
+      partyName = partyList[j].team_name;
+    }
+  }
+
+  const nominationData = {
+    partyName: partyName,
+    candidateData: Data
+  };
+
+  let templateData = {
+    "margin.top": "0.5",
+    "margin.right": "1",
+    "margin.bottom": "0.5",
+    "margin.left": "1.5",
+    "format": 'Legal'
+  };
+
+  switch (type) {
+    case 'parliamentary_nomination':
+      templateData['file'] = {"template": "parliamentary_nomination_form.js"}
+      break;
+    case 'affirmation':
+      templateData['file'] = {"template": "affirmation_form.js"}
+      break;
+    default:
+      return;
+  }
+
+  templateData['file']['nominationData'] = nominationData;
+
+  firstAPI.post(`/generate`, templateData)
+    .then((res) => firstAPI.get(res.data.url, { responseType: 'blob' }))
+    .then((res) => {
+      console.log(res);
+      const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      saveAs(pdfBlob, type + '.pdf');
+    })
+}
+
 const uploadePathLoaded = (OriginalPath) => {
   return {
     type: ORIGINAL_UPLOAD_PATH_LOADED,

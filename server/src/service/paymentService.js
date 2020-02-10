@@ -48,7 +48,9 @@ const createPaymentByNominationId = async (req) => {
 		var depositDate = req.body.depositDate;
 		// var depositDateInt = Date.parse(depositDate);
 		var myDate = new Date(depositDate);
+
 		var depositDateInt = myDate.getTime();
+
 		const updatedAt = req.body.updatedAt;
 		const createdAt = req.body.createdAt;
 		const createdBy = req.body.createdBy;
