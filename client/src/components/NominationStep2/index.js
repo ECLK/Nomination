@@ -390,6 +390,8 @@ class NominationPayments extends React.Component {
         var paymentStart = moment(electionTimeline.paymentStart).format("YYYY-MM-DDTHH:mm");
         var paymentEnd = moment(electionTimeline.paymentEnd).format("YYYY-MM-DDTHH:mm");
 
+        
+        var errorMessage = "Security deposit time should be within " + moment(electionTimeline.paymentStart).format("DD MMM YYYY hh:mm a")  + " and " + moment(electionTimeline.paymentEnd).format("DD MMM YYYY hh:mm a");
         var errorTextPayment = false;
         if (moment(paymentStart).isBefore(TodayFormatedWithTime)) {
             errorTextPayment = true;
@@ -609,14 +611,14 @@ class NominationPayments extends React.Component {
                
                     </Grid>
                 <Grid container spacing={12}>
-                <Grid style={{ textAlign: 'right', marginRight: '25px' }} className={classes.label} item lg={12}>
-                { errorTextPayment ? <SummeryView
-                variant={"warning"}
-                className={classes.margin}
-                message={"Payment timeline is not met!"}
-                style={{marginBottom:'10px'}}
-                /> : " "}
-                </Grid>
+                        <Grid style={{ textAlign: 'right', marginRight: '25px' }} className={classes.label} item lg={12}>
+                        { errorTextPayment ? <SummeryView
+                        variant={"warning"}
+                        className={classes.margin}
+                        message={errorMessage}
+                        style={{marginBottom:'10px'}}
+                        /> : " "}
+                        </Grid>
                         <Grid style={{ textAlign: 'right', marginRight: '25px' }} className={classes.label} item lg={12}>
                             <br /><br />
                             <Button style={{ marginRight: '15px' }} variant="contained" onClick={onCloseModal} value="Submit&New" color="primary" className={classes.submit}>

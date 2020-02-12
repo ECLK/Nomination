@@ -17,6 +17,7 @@ import { getNominationListForPayment,
         validateNominationPayment,
         createAndDownloadPdf,
         getUploadPath } from '../../modules/nomination/state/NominationAction';
+import {getElectionTimeLine} from '../../modules/election/state/ElectionAction';
 import { connect } from 'react-redux';
 import CustomAutocompleteParty from '../AutocompleteParty';
 import CustomAutocompleteElection from '../AutocompleteElection';
@@ -37,6 +38,7 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import {API_BASE_URL} from "../../config.js";
 import {saveAs} from 'file-saver';
+import SummeryView from '../SummeryView';
 import download from 'downloadjs';
 
 
@@ -194,6 +196,7 @@ class NominationPayments extends React.Component {
        if(this.state.election && name==='party'){
         this.props.getNominationListForPayment(this.state.election,event.value);
        }else if(this.state.party && name==='election'){
+        this.props.getElectionTimeLine(event.value);
         this.props.getNominationListForPayment(event.value,this.state.party)
        }
        if (name === 'partyType') {
@@ -455,14 +458,26 @@ class NominationPayments extends React.Component {
     };
 
     render() {
-        const {classes, depositor,NominationPayments,onCloseModal,partyList,serialNo,approveElections,nominationListForPayment,nominationData} = this.props;
+        const {classes, depositor,NominationPayments,onCloseModal,partyList,serialNo,approveElections,nominationListForPayment,nominationData,electionTimeline} = this.props;
         const {  numberformat } = this.state;
         // const {errorTextItems} = this.props;
         const payPerCandidate = (nominationData.length) ? nominationData[0].payPerCandidate :  '';
         const candidateCount = (nominationData.length) ? nominationData[0].noOfCandidates :  '';
         let today = new Date();
         var TodayFormatedWithTime = moment(today).format("YYYY-MM-DDTHH:mm");
-     
+        var paymentStart = moment(electionTimeline.paymentStart).format("YYYY-MM-DDTHH:mm");
+        var paymentEnd = moment(electionTimeline.paymentEnd).format("YYYY-MM-DDTHH:mm");
+
+        
+        var errorMessage = "Security deposit time should be within " + moment(electionTimeline.paymentStart).format("DD MMM YYYY hh:mm a")  + " and " + moment(electionTimeline.paymentEnd).format("DD MMM YYYY hh:mm a");
+        var errorTextPayment = false;
+        if (moment(paymentStart).isBefore(TodayFormatedWithTime)) {
+            errorTextPayment = true;
+          }
+        if (moment(TodayFormatedWithTime).isBefore(paymentEnd)) {
+            errorTextPayment = true;
+          }
+
         const suggestions = partyList.map(suggestion => ({
             value: suggestion.team_id,
             label: suggestion.team_name+" ("+suggestion.team_abbrevation+")",
@@ -652,10 +667,18 @@ class NominationPayments extends React.Component {
                     
                     <Grid style={{textAlign:'right',marginRight:'25px'}} className={classes.label}  item lg={12}>
                     <br /><br />
+                    <Grid style={{ textAlign: 'right', marginRight: '25px' }} className={classes.label} item lg={12}>
+                        { errorTextPayment ? <SummeryView
+                        variant={"warning"}
+                        className={classes.margin}
+                        message={errorMessage}
+                        style={{marginBottom:'10px'}}
+                        /> : " "}
+                        </Grid>
                         <Button style={{marginRight:'15px'}} variant="contained"  onClick={onCloseModal} value="Submit&New" color="primary" className={classes.submit}>
                             Cancel
                         </Button>
-                        <Button style={{marginRight:'15px'}} variant="contained"  type="submit" value="Submit&Clouse" color="default" className={classes.submit}>
+                        <Button disabled={errorTextPayment} style={{marginRight:'15px'}} variant="contained"  type="submit" value="Submit&Clouse" color="default" className={classes.submit}>
                             Update
                         </Button>
                         <Button variant="contained" onClick = { this.handlePdfGenarationButton } style={{padding:7}} size="small"    type="submit" value="Submit&DownloadPdf" color="secondary" className={classes.button}>
@@ -674,16 +697,18 @@ NominationPayments.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = ({Nomination}) => {
+const mapStateToProps = ({Nomination,Election}) => {
     const nominationData = Nomination.nominationData;
     const NominationPayments = Nomination.getNominationPayments;
     const nominationListForPayment = Nomination.nominationListForPayment;
     const partyList = Nomination.partyList;
     const approveElections = Nomination.approveElections;
+    const electionTimeline = Election.ElectionTimeLineData;
+
     const nominationPaymentValidation = Nomination.nominationPaymentValidation;
 
 
-    return {nominationListForPayment,nominationData,NominationPayments,partyList,approveElections,nominationPaymentValidation};
+    return {nominationListForPayment,nominationData,NominationPayments,partyList,approveElections,nominationPaymentValidation,electionTimeline};
   };
 
   const mapActionsToProps = {
@@ -695,7 +720,8 @@ const mapStateToProps = ({Nomination}) => {
     getApproveElections,
     updateNominationPayments,
     validateNominationPayment,
-    getUploadPath
+    getUploadPath,
+    getElectionTimeLine
   };
   
  
