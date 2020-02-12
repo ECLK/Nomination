@@ -15,7 +15,7 @@ import Chip from '@material-ui/core/Chip';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { getNominationList } from '../../modules/nomination/state/NominationAction';
-
+import SummeryView from '../SummeryView';
 
 
 const styles = theme => ({
@@ -53,7 +53,10 @@ const styles = theme => ({
 	expansion: {
         backgroundColor: '#c4e200',
         width: "100%"
-    },
+	},
+	margin: {
+		marginTop: theme.spacing.unit * 2,
+	  },
 	});
 
 	class ControlledExpansionPanels extends React.Component {
@@ -143,17 +146,34 @@ debugger;
 													label={nomination.status === 'SUBMIT' ? 'SUBMITTED' : nomination.status === 'NEW' ? 'NEW' : 'DRAFT'}
 												/>
 												</Typography>
+												{ !nomination.paymentStatus ?
+												<ListItem className={classes.listItem} key={index}>
+													<Typography style={{color:'red',marginTop:20}}>Security deposit hasn't been paid,Please make the payment to proceed!</Typography>
+										{/* <SummeryView
+										variant={"info"}
+										className={classes.margin}
+										message={"Please make the payment to proceed!"}
+										style={{marginBottom:'10px'}}
+										/> */}
+										</ListItem> : ' '
+											}
 												<div>
 												{
-
+													
 										division.nomination.length < 1 &&
 										<Button variant="contained" color="primary" onClick={() => this.redirectToTarget(nomination.id)} className={classes.button} >Create</Button>
 									}
 									{
+										
 										division.nomination.length > 0 &&
+										<div>
+										{nomination.paymentStatus ? 
 										<Link style={{ textDecoration: 'none' }} to={{ pathname: "nomination", state: { id: nomination.id,status: nomination.status,divisionId: division.id,division: division.name,candidateCount:division.noOfCandidates }}}  >
-										<Button variant="contained" color="primary"  className={classes.button} >{nomination.status === 'SUBMIT' ? 'VIEW' : nomination.status === 'NEW' ? 'CREATE' : 'EDIT'}</Button>
-										</Link>
+										<Button  variant="contained" color="primary"  className={classes.button} >{nomination.status === 'SUBMIT' ? 'VIEW' : nomination.status === 'NEW' ? 'CREATE' : 'EDIT'}</Button>
+										</Link> : 
+										<Button disabled={true} variant="contained" color="primary"  className={classes.button} >{nomination.status === 'SUBMIT' ? 'VIEW' : nomination.status === 'NEW' ? 'CREATE' : 'EDIT'}</Button>
+										}
+										</div>
 									}
 									</div>
 											</ListItem>
@@ -178,12 +198,13 @@ ControlledExpansionPanels.propTypes = {
 const mapStateToProps = ({Nomination}) => {
 	const {getNominationList} = Nomination;
 	const division = Nomination.nominationList;
+	const nominationPaymentValidation = Nomination.nominationPaymentValidation;
 	
-	return {division,getNominationList};
+	return {division,getNominationList,nominationPaymentValidation};
   };
   
   const mapActionsToProps = {
-	getNominationList,
+	getNominationList
   };
 
   export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(ControlledExpansionPanels));
