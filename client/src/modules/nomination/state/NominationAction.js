@@ -722,15 +722,12 @@ export const createAndDownloadPdfFormUsingTemplate = function createAndDownloadP
     "margin.right": "1",
     "margin.bottom": "0.5",
     "margin.left": "1.5",
-    "format": 'Legal'
+    "format": 'A3'
   };
 
   switch (type) {
     case 'parliamentary_nomination':
       templateData['file'] = {"template": "parliamentary_nomination_form.js"}
-      break;
-    case 'affirmation':
-      templateData['file'] = {"template": "affirmation_form.js"}
       break;
     default:
       return;
@@ -741,7 +738,6 @@ export const createAndDownloadPdfFormUsingTemplate = function createAndDownloadP
   firstAPI.post(`/generate`, templateData)
     .then((res) => firstAPI.get(res.data.url, { responseType: 'blob' }))
     .then((res) => {
-      console.log(res);
       const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
       saveAs(pdfBlob, type + '.pdf');
     })
