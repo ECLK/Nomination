@@ -118,9 +118,11 @@ N.ELECTION_ID AS division_election_id,
 N.TEAM_ID AS division_team_id,
 N.ID AS nomination_id,
 N.STATUS AS nomination_status,
+P.STATUS AS nomination_paymentStatus,
 COUNT(C.ID) AS division_current_candidate_count
 FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID=DC.ID
 LEFT JOIN CANDIDATE C ON N.ID=C.NOMINATION_ID
+LEFT JOIN PAYMENT P ON N.ID=P.NOMINATION_ID
 WHERE N.ELECTION_ID=:election_id  AND N.TEAM_ID=:team_id GROUP BY N.ID`;
 
 const fetchDivisionsWithNomination = (electionId, teamId) => {

@@ -20,7 +20,7 @@ const resultMaps = [
     {
         mapId: 'nominationMap',
         idProperty: 'id',
-        properties: [ 'status']
+        properties: [ 'status','paymentStatus']
     },
     
 ]
@@ -37,15 +37,17 @@ const mapToDivisionModel = (divisionData) => {
             moduleId: division.module_id,
             electionId: division.election_id,
             configId: division.config_id,
-            status: division.status,
+            status: division.status
         });
     }, List(Division)());
 };
 
 
 const mapToDivisionModelWithNominations = (divisionDataWithNomination) => {
-    const mappedAllowedDivisions = joinjs.map(divisionDataWithNomination, resultMaps, 'allowedDivisionMap', 'division_');
+    console.log("divisionDataWithNomination",divisionDataWithNomination);
 
+    const mappedAllowedDivisions = joinjs.map(divisionDataWithNomination, resultMaps, 'allowedDivisionMap', 'division_');
+console.log("mappedAllowedDivisions",mappedAllowedDivisions);
     return _.reduce(mappedAllowedDivisions, (result, division) => {
         return result.push({
             id: division.id,

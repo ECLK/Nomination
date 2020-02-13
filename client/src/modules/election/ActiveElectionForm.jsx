@@ -177,14 +177,14 @@ class ActiveElectionForm extends React.Component {
       goNext = false;
     }
 
-    var nominationStart = moment(CallElectionData.timeLineData.nominationStart).format("YYYY-MM-DD");
-    var nominationEnd = moment(CallElectionData.timeLineData.nominationEnd).format("YYYY-MM-DD");
-    var objectionStart = moment(CallElectionData.timeLineData.objectionStart).format("YYYY-MM-DD");
-    var objectionEnd = moment(CallElectionData.timeLineData.objectionEnd).format("YYYY-MM-DD");
-    var paymentStart = moment(CallElectionData.timeLineData.paymentStart).format("YYYY-MM-DD");
-    var paymentEnd = moment(CallElectionData.timeLineData.paymentEnd).format("YYYY-MM-DD");
-    var approvalStart = moment(CallElectionData.timeLineData.approvalStart).format("YYYY-MM-DD");
-    var approvalEnd = moment(CallElectionData.timeLineData.approvalEnd).format("YYYY-MM-DD");
+    var nominationStart = moment(CallElectionData.timeLineData.nominationStart).format("YYYY-MM-DDTHH:mm");
+    var nominationEnd = moment(CallElectionData.timeLineData.nominationEnd).format("YYYY-MM-DDTHH:mm");
+    var objectionStart = moment(CallElectionData.timeLineData.objectionStart).format("YYYY-MM-DDTHH:mm");
+    var objectionEnd = moment(CallElectionData.timeLineData.objectionEnd).format("YYYY-MM-DDTHH:mm");
+    var paymentStart = moment(CallElectionData.timeLineData.paymentStart).format("YYYY-MM-DDTHH:mm");
+    var paymentEnd = moment(CallElectionData.timeLineData.paymentEnd).format("YYYY-MM-DDTHH:mm");
+    var approvalStart = moment(CallElectionData.timeLineData.approvalStart).format("YYYY-MM-DDTHH:mm");
+    var approvalEnd = moment(CallElectionData.timeLineData.approvalEnd).format("YYYY-MM-DDTHH:mm");
 
     if (moment(nominationEnd).isBefore(nominationStart)) {
       this.setState({ errorTextNominationEnd: 'emptyField2' });
@@ -216,7 +216,7 @@ class ActiveElectionForm extends React.Component {
     }
 
     let today = new Date();
-    var TodayFormated = moment(today).format("YYYY-MM-DD");
+    var TodayFormated = moment(today).format("YYYY-MM-DDTHH:mm");
 
     if (moment(nominationStart).isBefore(TodayFormated) && CallElectionData.status !== 'APPROVE') {
       this.setState({ errorTextNominationStart: 'emptyField2' });

@@ -159,6 +159,20 @@ npm install
 ```
 npm start
 ```
+#### Server now runs at http://localhost:3000/.
+
+### Loging credentials 
+EC Admin
+```
+User Name: EC-admin
+Passowrd : admin
+```
+Party User
+```
+User Name: RPP-user
+Passowrd : rppuser
+```
+
 ### Setup Server
 
 ##### install dependencies
@@ -170,6 +184,8 @@ npm install
 ```
 npm start
 ```
+#### Server now runs at http://localhost:9001/.
+
 ### Setup DB
 ```
 Find the DB dumps for Nomination DB and for the Team DB inside Nomination/server/src/config/db folder
@@ -211,6 +227,7 @@ npm install
 ```
 npm start
 ```
+#### Server now runs at http://localhost:3001/.
 
 ### Setup PDF Service
 
@@ -228,6 +245,7 @@ npm install
 ```
 node index.js
 ```
+#### Server now runs at http://localhost:5000/.
 
 ## Database schema
 

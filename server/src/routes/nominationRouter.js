@@ -225,7 +225,7 @@ export const initNominationRouter = (app) => {
 				// console.log(req);
 				var downloadSid = req.params.sid;
 				console.log("downloadSid",downloadSid);
-				return UploadService.getDownloadFilePath(downloadSid)
+				return UploadService.getDownloadFilePath(downloadSid,res)
 				.then((result) => res.status(HTTP_CODE_201).send(result))
 				.catch(error => next(error));
 			},

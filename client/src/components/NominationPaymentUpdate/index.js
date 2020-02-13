@@ -15,7 +15,9 @@ import { getNominationListForPayment,
         getApproveElections,
         updateNominationPayments,
         validateNominationPayment,
-        createAndDownloadPdf } from '../../modules/nomination/state/NominationAction';
+        createAndDownloadPdf,
+        getUploadPath } from '../../modules/nomination/state/NominationAction';
+import {getElectionTimeLine} from '../../modules/election/state/ElectionAction';
 import { connect } from 'react-redux';
 import CustomAutocompleteParty from '../AutocompleteParty';
 import CustomAutocompleteElection from '../AutocompleteElection';
@@ -29,12 +31,15 @@ import DownloadIcon from '@material-ui/icons/CloudDownload';
 import clsx from 'clsx';
 import axios from 'axios';
 import DoneOutline from '@material-ui/icons/DoneOutline';
+import AttachFile from '@material-ui/icons/AttachFile';
 import CloseIcon from '@material-ui/icons/Cancel';
 import FileUpload from "../common/FileUpload";
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import {API_BASE_URL} from "../../config.js";
 import {saveAs} from 'file-saver';
+import SummeryView from '../SummeryView';
+import download from 'downloadjs';
 
 
 const styles = theme => ({
@@ -191,6 +196,7 @@ class NominationPayments extends React.Component {
        if(this.state.election && name==='party'){
         this.props.getNominationListForPayment(this.state.election,event.value);
        }else if(this.state.party && name==='election'){
+        this.props.getElectionTimeLine(event.value);
         this.props.getNominationListForPayment(event.value,this.state.party)
        }
        if (name === 'partyType') {
@@ -304,7 +310,7 @@ class NominationPayments extends React.Component {
           if(NominationPayments.originalName){
             this.setState({status:'uploaded'});   
           }
-          this.setState({depositeDate:moment(new Date(NominationPayments.depositeDate)).format('YYYY-MM-DD')});
+          this.setState({depositeDate:NominationPayments.depositeDate});
     
         }
       }
@@ -353,8 +359,14 @@ class NominationPayments extends React.Component {
     };
     
     handleUploadView = sid => () => {
-      this.props.getUploadPath(sid);
+        axios.get(`${API_BASE_URL}/payments/${this.state.paymentId}/download`, {responseType: 'blob'}, {
+            }).then((response) => {
+            download(new Blob([response.data]), this.state.currentSdocId, response.headers['content-type']);
+        }).catch(err => {
+            console.log(err)
+        });
     };
+    
   
   showFlagToStyle = (flag) => (
   {display: flag ? "" : "none"}
@@ -446,13 +458,26 @@ class NominationPayments extends React.Component {
     };
 
     render() {
-        const {classes, depositor,NominationPayments,onCloseModal,partyList,serialNo,approveElections,nominationListForPayment,nominationData} = this.props;
+        const {classes, depositor,NominationPayments,onCloseModal,partyList,serialNo,approveElections,nominationListForPayment,nominationData,electionTimeline} = this.props;
         const {  numberformat } = this.state;
         // const {errorTextItems} = this.props;
         const payPerCandidate = (nominationData.length) ? nominationData[0].payPerCandidate :  '';
         const candidateCount = (nominationData.length) ? nominationData[0].noOfCandidates :  '';
         let today = new Date();
-        var TodayFormated = moment(today).format("YYYY-MM-DD");
+        var TodayFormatedWithTime = moment(today).format("YYYY-MM-DDTHH:mm");
+        var paymentStart = moment(electionTimeline.paymentStart).format("YYYY-MM-DDTHH:mm");
+        var paymentEnd = moment(electionTimeline.paymentEnd).format("YYYY-MM-DDTHH:mm");
+
+        
+        var errorMessage = "Security deposit time should be within " + moment(electionTimeline.paymentStart).format("DD MMM YYYY hh:mm a")  + " and " + moment(electionTimeline.paymentEnd).format("DD MMM YYYY hh:mm a");
+        var errorTextPayment = false;
+        if (moment(paymentStart).isBefore(TodayFormatedWithTime)) {
+            errorTextPayment = true;
+          }
+        if (moment(TodayFormatedWithTime).isBefore(paymentEnd)) {
+            errorTextPayment = true;
+          }
+
         const suggestions = partyList.map(suggestion => ({
             value: suggestion.team_id,
             label: suggestion.team_name+" ("+suggestion.team_abbrevation+")",
@@ -529,20 +554,23 @@ class NominationPayments extends React.Component {
                     </Grid>
                     <Grid  container  item lg={3}>
                         <TextField
-                            error={this.state.errorTextDepositedDate}
-                            id="date"
-                            label="Deposited Date"
-                            type="date"
-                            value={this.state.depositeDate}
-                            onChange={this.handleChange('depositeDate')}
-                            className={classes.textField}
-                            helperText={this.state.errorTextDepositedDate === "emptyField" ? 'This field is required!' : ''}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            InputProps={{ inputProps: { max: TodayFormated } }}
-                            margin="normal"
-                        /> 
+                    id="datetime-local"
+                    type="datetime-local"
+                    label="Deposited Date"
+                    className={classes.textField}
+                    // name="nominationEnd"
+                    value={this.state.depositeDate}
+                    onChange={this.handleChange('depositeDate')}
+                    helperText={this.state.errorTextDepositedDate === "emptyField" ? 'This field is required!' : ''}
+                    error={this.state.errorTextDepositedDate}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      max: TodayFormatedWithTime
+                    }}
+                    margin="normal"
+                  />
                     </Grid>
                     <Grid container item lg={3}>
                         
@@ -551,7 +579,7 @@ class NominationPayments extends React.Component {
                     {
             
             this.state.status === "uploaded" ? <div className={classes.done} >
-            <DoneOutline style={{marginTop:30,marginLeft:-20}} onClick={this.handleUploadView(this.state.filename)}  color="secondary"/>
+            <DoneOutline style={{marginTop:30,marginLeft:-20}} color="secondary"/>
             {/* <img src={`http://localhost:9001/src/uploads/${sdoc.filename}`} style={{maxWidth: 60,margin:25}} className="img-fluid" alt="logo" /> */}
             </div> : ' '
     
@@ -564,9 +592,9 @@ class NominationPayments extends React.Component {
                     <Grid style={{marginTop:30,marginLeft:-10}}container item lg={4}>
                     {
                         this.state.status === "uploaded"  ? 
-                        <Typography variant="caption" gutterBottom>
+                        <Typography style={{cursor: 'pointer'}} onClick={this.handleUploadView()} variant="caption" gutterBottom>
                         {this.state.currentSdocId}<div  className={classes.done}>
-                        <CloseIcon   color="red"/>
+                        <AttachFile  onClick={this.handleUploadView(this.state.filename)} color="red"/>
                         </div>
                     </Typography>
                         : 'No file attached'
@@ -639,10 +667,18 @@ class NominationPayments extends React.Component {
                     
                     <Grid style={{textAlign:'right',marginRight:'25px'}} className={classes.label}  item lg={12}>
                     <br /><br />
+                    <Grid style={{ textAlign: 'right', marginRight: '25px' }} className={classes.label} item lg={12}>
+                        { errorTextPayment ? <SummeryView
+                        variant={"warning"}
+                        className={classes.margin}
+                        message={errorMessage}
+                        style={{marginBottom:'10px'}}
+                        /> : " "}
+                        </Grid>
                         <Button style={{marginRight:'15px'}} variant="contained"  onClick={onCloseModal} value="Submit&New" color="primary" className={classes.submit}>
                             Cancel
                         </Button>
-                        <Button style={{marginRight:'15px'}} variant="contained"  type="submit" value="Submit&Clouse" color="default" className={classes.submit}>
+                        <Button disabled={errorTextPayment} style={{marginRight:'15px'}} variant="contained"  type="submit" value="Submit&Clouse" color="default" className={classes.submit}>
                             Update
                         </Button>
                         <Button variant="contained" onClick = { this.handlePdfGenarationButton } style={{padding:7}} size="small"    type="submit" value="Submit&DownloadPdf" color="secondary" className={classes.button}>
@@ -661,16 +697,18 @@ NominationPayments.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = ({Nomination}) => {
+const mapStateToProps = ({Nomination,Election}) => {
     const nominationData = Nomination.nominationData;
     const NominationPayments = Nomination.getNominationPayments;
     const nominationListForPayment = Nomination.nominationListForPayment;
     const partyList = Nomination.partyList;
     const approveElections = Nomination.approveElections;
+    const electionTimeline = Election.ElectionTimeLineData;
+
     const nominationPaymentValidation = Nomination.nominationPaymentValidation;
 
 
-    return {nominationListForPayment,nominationData,NominationPayments,partyList,approveElections,nominationPaymentValidation};
+    return {nominationListForPayment,nominationData,NominationPayments,partyList,approveElections,nominationPaymentValidation,electionTimeline};
   };
 
   const mapActionsToProps = {
@@ -681,7 +719,9 @@ const mapStateToProps = ({Nomination}) => {
     getTeams,
     getApproveElections,
     updateNominationPayments,
-    validateNominationPayment
+    validateNominationPayment,
+    getUploadPath,
+    getElectionTimeLine
   };
   
  
