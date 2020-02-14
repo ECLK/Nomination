@@ -7,58 +7,100 @@ const NOMINATION_BY_NOMINATION_ID_SELECT_QUERY = `SELECT * FROM NOMINATION WHERE
 
 
 const NOMINATION_BY_STATUS_SELECT_QUERY =`SELECT
-																					N.ID AS nomination_id,
-																					NA.STATUS AS nomination_status,
-																					N.TEAM_ID AS nomination_team_id,
-																					N.ELECTION_ID AS nomination_election_id,
-																					N.DIVISION_CONFIG_DATA_ID AS nomination_division_config_data_id
-																					FROM 
-																						NOMINATION N LEFT JOIN NOMINATION_APPROVAL NA ON N.ID=NA.NOMINATION_ID
-																					WHERE
-																						NA.STATUS = :status AND N.TEAM_ID = :team_id AND N.ELECTION_ID = :election_id`;
-const PENDING_NOMINATION_SELECT_QUERY_ALL = `SELECT 
-																				N.ID AS nomination_id,
-																				DC.NAME AS nomination_division_name,
-																				N.TEAM_ID AS nomination_party,
-																				C.ID AS candidate_id,
-																				C.FULL_NAME AS candidate_name,
-																				C.NIC AS candidate_nic,
-																				C.OCCUPATION AS candidate_occupation,
-																				C.ADDRESS AS candidate_address,
-																				P.STATUS AS nomination_payment_status,
-																				OBR.STATUS AS nomination_objection_status,
-																				NA.STATUS AS nomination_approval_status,
-																				NA.REVIEW_NOTE AS nomination_review_note
-																				FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
-																				LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 
-																				LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
-																				LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
-																				LEFT JOIN OBJECTION_REVIEW  OBR ON O.ID = OBR.OBJECTION_ID
-																				LEFT JOIN NOMINATION_APPROVAL NA ON N.ID = NA.NOMINATION_ID
-																				WHERE ELECTION_ID=:electionId
-																				AND N.STATUS=:status`;
+										N.ID AS nomination_id,
+										NA.STATUS AS nomination_status,
+										N.TEAM_ID AS nomination_team_id,
+										N.ELECTION_ID AS nomination_election_id,
+										N.DIVISION_CONFIG_DATA_ID AS nomination_division_config_data_id
+										FROM 
+											NOMINATION N LEFT JOIN NOMINATION_APPROVAL NA ON N.ID=NA.NOMINATION_ID
+										WHERE
+											NA.STATUS = :status AND N.TEAM_ID = :team_id AND N.ELECTION_ID = :election_id`;
+const PENDING_NOMINATION_SELECT_QUERY_ALL_TEAM = `SELECT 
+												N.ID AS nomination_id,
+												DC.NAME AS nomination_division_name,
+												N.TEAM_ID AS nomination_party,
+												C.ID AS candidate_id,
+												C.FULL_NAME AS candidate_name,
+												C.NIC AS candidate_nic,
+												C.OCCUPATION AS candidate_occupation,
+												C.ADDRESS AS candidate_address,
+												P.STATUS AS nomination_payment_status,
+												OBR.STATUS AS nomination_objection_status,
+												NA.STATUS AS nomination_approval_status,
+												NA.REVIEW_NOTE AS nomination_review_note
+												FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
+												LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 
+												LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
+												LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
+												LEFT JOIN OBJECTION_REVIEW  OBR ON O.ID = OBR.OBJECTION_ID
+												LEFT JOIN NOMINATION_APPROVAL NA ON N.ID = NA.NOMINATION_ID
+												WHERE ELECTION_ID=:electionId
+												AND N.STATUS=:status AND N.DIVISION_CONFIG_ID=:divisionId`;
+const PENDING_NOMINATION_SELECT_QUERY_ALL_TEAM_ALL_DIVISION = `SELECT 
+																N.ID AS nomination_id,
+																DC.NAME AS nomination_division_name,
+																N.TEAM_ID AS nomination_party,
+																C.ID AS candidate_id,
+																C.FULL_NAME AS candidate_name,
+																C.NIC AS candidate_nic,
+																C.OCCUPATION AS candidate_occupation,
+																C.ADDRESS AS candidate_address,
+																P.STATUS AS nomination_payment_status,
+																OBR.STATUS AS nomination_objection_status,
+																NA.STATUS AS nomination_approval_status,
+																NA.REVIEW_NOTE AS nomination_review_note
+																FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
+																LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 
+																LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
+																LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
+																LEFT JOIN OBJECTION_REVIEW  OBR ON O.ID = OBR.OBJECTION_ID
+																LEFT JOIN NOMINATION_APPROVAL NA ON N.ID = NA.NOMINATION_ID
+																WHERE ELECTION_ID=:electionId
+																AND N.STATUS=:status`;
+																
 const PENDING_NOMINATION_SELECT_QUERY = `SELECT 
-																				N.ID AS nomination_id,
-																				DC.NAME AS nomination_division_name,
-																				N.TEAM_ID AS nomination_party,
-																				C.ID AS candidate_id,
-																				C.FULL_NAME AS candidate_name,
-																				C.NIC AS candidate_nic,
-																				C.OCCUPATION AS candidate_occupation,
-																				C.ADDRESS AS candidate_address,
-																				P.STATUS AS nomination_payment_status,
-																				OBR.STATUS AS nomination_objection_status,
-																				NA.STATUS AS nomination_approval_status,
-																				NA.REVIEW_NOTE AS nomination_review_note
-																				FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
-																				LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 
-																				LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
-																				LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
-																				LEFT JOIN OBJECTION_REVIEW  OBR ON O.ID = OBR.OBJECTION_ID
-																				LEFT JOIN NOMINATION_APPROVAL NA ON N.ID = NA.NOMINATION_ID
-																				WHERE ELECTION_ID=:electionId
-																				AND N.STATUS=:status AND N.TEAM_ID = :teamId`;
-
+										N.ID AS nomination_id,
+										DC.NAME AS nomination_division_name,
+										N.TEAM_ID AS nomination_party,
+										C.ID AS candidate_id,
+										C.FULL_NAME AS candidate_name,
+										C.NIC AS candidate_nic,
+										C.OCCUPATION AS candidate_occupation,
+										C.ADDRESS AS candidate_address,
+										P.STATUS AS nomination_payment_status,
+										OBR.STATUS AS nomination_objection_status,
+										NA.STATUS AS nomination_approval_status,
+										NA.REVIEW_NOTE AS nomination_review_note
+										FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
+										LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 
+										LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
+										LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
+										LEFT JOIN OBJECTION_REVIEW  OBR ON O.ID = OBR.OBJECTION_ID
+										LEFT JOIN NOMINATION_APPROVAL NA ON N.ID = NA.NOMINATION_ID
+										WHERE ELECTION_ID=:electionId
+										AND N.STATUS=:status AND N.TEAM_ID = :teamId AND N.DIVISION_CONFIG_ID=:divisionId`;
+const PENDING_NOMINATION_SELECT_QUERY_ALL_DIVISION = `SELECT 
+										N.ID AS nomination_id,
+										DC.NAME AS nomination_division_name,
+										N.TEAM_ID AS nomination_party,
+										C.ID AS candidate_id,
+										C.FULL_NAME AS candidate_name,
+										C.NIC AS candidate_nic,
+										C.OCCUPATION AS candidate_occupation,
+										C.ADDRESS AS candidate_address,
+										P.STATUS AS nomination_payment_status,
+										OBR.STATUS AS nomination_objection_status,
+										NA.STATUS AS nomination_approval_status,
+										NA.REVIEW_NOTE AS nomination_review_note
+										FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
+										LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 
+										LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
+										LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
+										LEFT JOIN OBJECTION_REVIEW  OBR ON O.ID = OBR.OBJECTION_ID
+										LEFT JOIN NOMINATION_APPROVAL NA ON N.ID = NA.NOMINATION_ID
+										WHERE ELECTION_ID=:electionId
+										AND N.STATUS=:status AND N.TEAM_ID = :teamId`;
 const NOMINATION_STATUS_INSERT_QUERY = `INSERT INTO NOMINATION_APPROVAL (ID, APPROVED_BY, APPROVED_AT, UPDATED_AT, STATUS, REVIEW_NOTE, NOMINATION_ID) 
                               					VALUES (:id, :createdBy,:createdAt, :updatedAt, :status, :reviewNote, :nominationId)`;
 const NOMINATION_APPROVE_DELETE_QUERY = `DELETE FROM NOMINATION_APPROVAL WHERE NOMINATION_ID = :nominationId AND STATUS='1ST-APPROVE' OR STATUS='REJECT' OR STATUS='2ND-APPROVE'`;
@@ -132,23 +174,47 @@ const fetchNominationByNominationId = (nominationId,transaction) => {
 
 const fetchPendingNominationList = (params) => {
 	if(params.teamId === 'All'){
-		return DbConnection()
-    .query(PENDING_NOMINATION_SELECT_QUERY_ALL,
-      {
-        replacements: params,
-        type: DbConnection().QueryTypes.SELECT,
-      }).catch((error) => {
-        throw new DBError(error);
-      });
+		if(params.divisionId === 'all'){
+			return DbConnection()
+			.query(PENDING_NOMINATION_SELECT_QUERY_ALL_TEAM_ALL_DIVISION,
+			  {
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+			  }).catch((error) => {
+				throw new DBError(error);
+			  });
+		}else{
+			return DbConnection()
+			.query(PENDING_NOMINATION_SELECT_QUERY_ALL_TEAM,
+			  {
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+			  }).catch((error) => {
+				throw new DBError(error);
+			  });
+		}
+		
 	}else{
-		return DbConnection()
+		if(params.divisionId === 'all'){
+			return DbConnection()
+			.query(PENDING_NOMINATION_SELECT_QUERY_ALL_DIVISION,
+			  {
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+			  }).catch((error) => {
+				throw new DBError(error);
+			  });
+		}else{
+			return DbConnection()
     .query(PENDING_NOMINATION_SELECT_QUERY,
       {
         replacements: params,
         type: DbConnection().QueryTypes.SELECT,
       }).catch((error) => {
         throw new DBError(error);
-      });	}
+      });
+		}
+	}
   
 }
 

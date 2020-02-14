@@ -29,6 +29,8 @@ axios.interceptors.request.use(function (config) {
 });
 
 sessionStorage.setItem("party_id", getCookie('party_id'));
+sessionStorage.setItem("division_id", getCookie('division_id'));
+
 
 
 const styles = theme => ({

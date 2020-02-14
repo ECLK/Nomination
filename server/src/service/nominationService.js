@@ -57,10 +57,10 @@ const getPendingNominationsByElectionId = async (req) => {
       const electionId = req.params.electionId;
       const status = req.params.status;
       const teamId = req.params.teamId;
+      const divisionId = req.params.divisionId;
 
-      const params = {'electionId':electionId, "status":status, "teamId":teamId }
+      const params = {'electionId':electionId, "status":status, "teamId":teamId,"divisionId":divisionId }
       const nominations = await NominationRepo.fetchPendingNominationList( params );
-      console.log("params",nominations);
 
       if(!_.isEmpty(nominations)){
         return NominationManager.mapToNominationModel(nominations)
