@@ -10,6 +10,7 @@ import Divider from '@material-ui/core/Divider';
 import { handleChangePayment, 
         getNominationPayments, 
         getTeams, 
+        getTeamsByTeamType,
         getNominationListForPayment, 
         getNominationData, 
         postNominationPayments, 
@@ -192,6 +193,7 @@ class NominationPayments extends React.Component {
             this.setState({ errorTextElection: '' });
         }
         if (name === 'partyType') {
+            this.props.getTeamsByTeamType(event.target.value);
             this.setState({ partyType: event.target.value,errorTextPartyType: '' });
         }
 
@@ -379,7 +381,7 @@ class NominationPayments extends React.Component {
       };
 
     render() {
-        const { classes, depositor, NominationPayments, onCloseModal, partyList, serialNo, approveElections, nominationListForPayment, nominationData,electionTimeline } = this.props;
+        const { classes, depositor, NominationPayments, onCloseModal, partyList, serialNo, approveElections, nominationListForPayment, nominationData,electionTimeline,partyListByType } = this.props;
         const { numberformat,errorTextPartyType } = this.state;
         const { errorTextItems } = this.props;
         const payPerCandidate = (nominationData.length) ? nominationData[0].payPerCandidate : '';
@@ -401,11 +403,10 @@ class NominationPayments extends React.Component {
           }
           
 
-        const suggestions = partyList.map(suggestion => ({
+        const suggestions = partyListByType.map(suggestion => ({
             value: suggestion.team_id,
             label: suggestion.team_name + " (" + suggestion.team_abbrevation + ")",
         }));
-        debugger;
 
         const suggestionsElections = approveElections.map(suggestion => ({
             value: suggestion.id,
@@ -433,20 +434,6 @@ class NominationPayments extends React.Component {
                         <CustomAutocompleteElection  errorTextElection={this.state.errorTextElection} className={classes.textField} approveElections={approveElections} value={this.state.election} suggestions={suggestionsElections} handleChangeAutocomplete={this.handleChangeAutocomplete} />
                     </Grid>
                     <Grid container item lg={3}>
-                        <CustomAutocompleteParty errorTextParty={this.state.errorTextParty} className={classes.textField} value={this.state.party} suggestions={suggestions} handleChange={this.handleChangeAutocomplete} />
-                    </Grid>
-                    <Grid container item lg={3}>
-                        <CustomAutocompleteNomination 
-                        errorTextNomination={this.state.errorTextNomination} 
-                        errorTextNominationPaymentValidation={this.state.errorTextNominationPaymentValidation} 
-                        className={classes.textField} 
-                        nominationListForPayment={nominationListForPayment} 
-                        value={this.state.nomination} 
-                        suggestions={suggestionsNominations} 
-                        handleChange={this.handleChangeAutocomplete} 
-                        />
-                    </Grid>
-                    <Grid container item lg={3}>
                     <FormControl error={(errorTextPartyType) ? true : false} className={classes.formControl}>
                         <Select
                             value={this.state.partyType}
@@ -466,6 +453,21 @@ class NominationPayments extends React.Component {
                         <FormHelperText style={{marginLeft:18}}>{(errorTextPartyType==='emptyField') ? 'This field is required!' : ''}</FormHelperText>
                         </FormControl>
                     </Grid>
+                    <Grid container item lg={3}>
+                        <CustomAutocompleteParty errorTextParty={this.state.errorTextParty} className={classes.textField} value={this.state.party} suggestions={suggestions} handleChange={this.handleChangeAutocomplete} />
+                    </Grid>
+                    <Grid container item lg={3}>
+                        <CustomAutocompleteNomination 
+                        errorTextNomination={this.state.errorTextNomination} 
+                        errorTextNominationPaymentValidation={this.state.errorTextNominationPaymentValidation} 
+                        className={classes.textField} 
+                        nominationListForPayment={nominationListForPayment} 
+                        value={this.state.nomination} 
+                        suggestions={suggestionsNominations} 
+                        handleChange={this.handleChangeAutocomplete} 
+                        />
+                    </Grid>
+                    
                 <Grid container spacing={1} xs={12}>
                     
                 </Grid>
@@ -649,10 +651,11 @@ const mapStateToProps = ({ Nomination,Election }) => {
     const nominationData = Nomination.nominationData;
     const nominationListForPayment = Nomination.nominationListForPayment;
     const partyList = Nomination.partyList;
+    const partyListByType = Nomination.partyListByType;
     const electionTimeline = Election.ElectionTimeLineData;
     const nominationPaymentValidation = Nomination.nominationPaymentValidation;
 
-    return { handleChangePayment, NominationPayments, partyList, nominationListForPayment, nominationData, nominationPaymentValidation,electionTimeline };
+    return { handleChangePayment, NominationPayments, partyList,partyListByType, nominationListForPayment, nominationData, nominationPaymentValidation,electionTimeline };
 };
 
 const mapActionsToProps = {
@@ -664,7 +667,8 @@ const mapActionsToProps = {
     postNominationPayments,
     validateNominationPayment,
     getUploadPath,
-    getElectionTimeLine
+    getElectionTimeLine,
+    getTeamsByTeamType
 };
 
 

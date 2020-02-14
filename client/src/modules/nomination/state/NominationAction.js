@@ -22,7 +22,8 @@ import {
   GET_NOMINATION_LIST_FOR_PAYMENT,
   GET_NOMINATION_DATA,
   NOMINATION_PAYMENT_VALIDATION_LOADED,
-  ORIGINAL_UPLOAD_PATH_LOADED
+  ORIGINAL_UPLOAD_PATH_LOADED,
+  PARTY_LIST_BY_TEAM_TYPE_LOADED
 } from "./NominationTypes";
 import {API_BASE_URL,PDF_GENARATION_SERVICE_URL} from "../../../config.js";
 import axios from "axios";
@@ -117,6 +118,37 @@ export function getTeams() {
     .then(response => {
       const partyList = response.data;
        dispatch(partyListLoaded(partyList));
+    }).catch(err => {
+          console.log(err)
+    });
+  };
+}
+
+//get party list by party type
+const partyListByTypeLoaded = (partyList) => {
+  return {
+    type: PARTY_LIST_BY_TEAM_TYPE_LOADED,
+    payload: partyList,
+  };
+};
+
+export function getTeamsByTeamType(res) {
+  var partyType = '';
+  if(res==="candidate payment rpp"){
+    partyType = "RPP";
+  }
+  if(res==="candidate payment ig"){
+    partyType = "IG";
+  }
+  return function (dispatch) {
+     
+    const response = axios
+    .get(
+      `${API_BASE_URL}/teams/${partyType}/withType`,
+    )
+    .then(response => {
+      const partyList = response.data;
+       dispatch(partyListByTypeLoaded(partyList));
     }).catch(err => {
           console.log(err)
     });
