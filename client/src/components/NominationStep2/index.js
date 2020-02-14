@@ -429,12 +429,12 @@ class NominationPayments extends React.Component {
 
         return (
             <form className={classes.container} onSubmit={this.handleSubmit} noValidate autoComplete="off">
-                <Grid container spacing={1} xs={12}>
+                <Grid container spacing={2} xs={12}>
                     <Grid container item lg={3}>
                         <CustomAutocompleteElection  errorTextElection={this.state.errorTextElection} className={classes.textField} approveElections={approveElections} value={this.state.election} suggestions={suggestionsElections} handleChangeAutocomplete={this.handleChangeAutocomplete} />
                     </Grid>
                     <Grid container item lg={3}>
-                    <FormControl error={(errorTextPartyType) ? true : false} className={classes.formControl}>
+                    <FormControl style={{width:'100%'}} error={(errorTextPartyType) ? true : false} className={classes.formControl}>
                         <Select
                             value={this.state.partyType}
                             error={errorTextPartyType}
@@ -468,9 +468,9 @@ class NominationPayments extends React.Component {
                         />
                     </Grid>
                     
-                <Grid container spacing={1} xs={12}>
+                {/* <Grid container spacing={1} xs={12}>
                     
-                </Grid>
+                </Grid> */}
                 </Grid>
                 <Divider variant="middle" className={classes.topBottomSpace} />
                 <Grid style={{ marginLeft: 12 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>

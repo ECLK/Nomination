@@ -191,7 +191,7 @@ export const initNominationRouter = (app) => {
 		},
 		{
 			method: GET,
-			path: '/nominations/:electionId/pending-nominations/:status/team/:teamId',
+			path: '/nominations/:electionId/pending-nominations/:status/team/:teamId/divisions/:divisionId',
 			handler: (req, res, next) => {
 				return NominationService.getPendingNominationsByElectionId(req)
 					.then((result) => res.status(HTTP_CODE_200).send(result))

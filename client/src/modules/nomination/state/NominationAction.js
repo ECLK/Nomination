@@ -44,7 +44,7 @@ export function getNominations(selectedElection,selectedParty) {
      
     const response = axios
     .get(
-      `${API_BASE_URL}/nominations/${selectedElection}/pending-nominations/${'SUBMIT'}/team/${selectedParty}`,
+      `${API_BASE_URL}/nominations/${selectedElection}/pending-nominations/${'SUBMIT'}/team/${selectedParty}/divisions/${sessionStorage.getItem('division_id')}`,
     )
     .then(response => {
        dispatch(nominationLoaded(response.data));
@@ -462,7 +462,7 @@ export function getNominationList() {
      
     const response = axios
     .get(
-      `${API_BASE_URL}/elections/${sessionStorage.getItem('election_id')}/teams/${sessionStorage.getItem('party_id')}/divisions`,
+      `${API_BASE_URL}/elections/${sessionStorage.getItem('election_id')}/teams/${sessionStorage.getItem('party_id')}/divisions/${sessionStorage.getItem('division_id')}`,
     )
     .then(response => {
       const getNominationList = response.data;
@@ -529,7 +529,7 @@ export function getNominationListForPayment(electionId,teamId) {
      
     const response = axios
     .get(
-      `${API_BASE_URL}/elections/${electionId}/teams/${teamId}/nominations`,
+      `${API_BASE_URL}/elections/${electionId}/teams/${teamId}/nominations/${sessionStorage.getItem('division_id')}/divisions`,
     )
     .then(response => {
       const getNominationList = response.data;
@@ -627,7 +627,7 @@ export function getPaymentList() {
      
     const response = axios
     .get(
-      `${API_BASE_URL}/nomination-payments`,
+      `${API_BASE_URL}/nomination-payments/${sessionStorage.getItem('division_id')}`,
     )
     .then(response => {
       const paymentList = response.data;
