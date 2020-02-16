@@ -3,19 +3,13 @@ import { DbConnection } from './dataSource';
 import { formatQueryToBulkInsert, formatDataToBulkInsert} from './sqlHelper';
 
 
-const CANDIDATE_BY_NOMINATION_SELECT_QUERY = `SELECT ID AS CANDIDATE_ID,
-                                              FULL_NAME AS CANDIDATE_FULL_NAME,
-                                              PREFERRED_NAME AS CANDIDATE_PREFERRED_NAME,
-                                              OCCUPATION AS CANDIDATE_OCCUPATION,
-                                              NIC AS CANDIDATE_NIC,
-                                              DATE_OF_BIRTH AS CANDIDATE_DATE_OF_BIRTH,
-                                              GENDER AS CANDIDATE_GENDER,
-                                              ADDRESS AS CANDIDATE_ADDRESS,
-                                              ELECTORAL_DIVISION_NAME AS CANDIDATE_ELECTORAL_DIVISION_NAME,
-                                              ELECTORAL_DIVISION_CODE AS CANDIDATE_ELECTORAL_DIVISION_CODE,
-                                              COUNSIL_NAME AS CANDIDATE_COUNSIL_NAME,
-                                              NOMINATION_ID AS CANDIDATE_NOMINATION_ID
-                                             FROM CANDIDATE WHERE NOMINATION_ID = :nomination_id`;
+const CANDIDATE_BY_NOMINATION_SELECT_QUERY = `SELECT CD.ID AS CANDIDATE_ID,
+												CD.CANDIDATE_CONFIG_ID AS CANDIDATE_CONFIG_ID,
+												CD.VALUE AS CANDIDATE_VALUE,
+												CC.KEY_NAME AS CANDIDATE_KEY_NAME
+												FROM CANDIDATE_DATA CD
+												RIGHT JOIN CANDIDATE_CONFIG CC ON CD.CANDIDATE_CONFIG_ID=CC.ID
+												WHERE CD.NOMINATION_ID = :nomination_id`;
 
 const CANDIDATE_BY_CANDIDATE_ID_SELECT_QUERY = `SELECT ID AS CANDIDATE_ID,
                                               FULL_NAME AS CANDIDATE_FULL_NAME,
