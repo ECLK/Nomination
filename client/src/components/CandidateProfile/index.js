@@ -41,7 +41,7 @@ class TextFields extends React.Component {
             var configLength = sortedData.length;
             for (var i = 0; i < configLength; i++) {
                 const config = sortedData[i];
-                const keyName = _.camelCase(config['key_name']);
+                const keyName = config['key_name'];
                 const schema = config["json_schema"];
                 if (schema) {
                     properties[keyName] = JSON.parse(schema);

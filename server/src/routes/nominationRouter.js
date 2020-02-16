@@ -33,25 +33,25 @@ export const initNominationRouter = (app) => {
 
 			},
 		},
-		// {
-		// 	method: POST,
-		// 	path: '/nominations/candidates',
-		// 	schema: SAVE_CANDIDATE_SCHEMA,
-		// 	handler: (req, res, next) => {
-		// 		return CandidateService.saveCandidateByNominationId(req)
-		// 			.then((result) => res.status(HTTP_CODE_201).send(result))
-		// 			.catch(error => next(error));
-		// 	},
-		// },
-		{
-			method: POST,
-			path: '/nominations/candidates',
-			handler: (req, res, next) => {
-			  return CandidateService.saveCandidateByNominationId_old(req)
-			  .then((result) => res.status(200).send(result))
-						  .catch(error => next(error));
-			},
-		},
+		 {
+		 	method: POST,
+		 	path: '/nominations/candidates',
+		 	schema: SAVE_CANDIDATE_SCHEMA,
+		 	handler: (req, res, next) => {
+		 		return CandidateService.saveCandidateByNominationId(req)
+		 			.then((result) => res.status(HTTP_CODE_201).send(result))
+		 			.catch(error => next(error));
+		 	},
+		 },
+		 // {
+		 // 	method: POST,
+		 // 	path: '/nominations/candidates',
+		 // 	handler: (req, res, next) => {
+		 // 	  return CandidateService.saveCandidateByNominationId_old(req)
+		 // 	  .then((result) => res.status(200).send(result))
+		 // 				  .catch(error => next(error));
+		 // 	},
+		 // },
 		{
 			method: PUT,
 			path: '/nominations/candidates/:moduleId',

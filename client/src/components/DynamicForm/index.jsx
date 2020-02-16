@@ -9,6 +9,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import update from 'immutability-helper';
+import _ from 'lodash';
 
 const styles = theme => ({
   submit: {
@@ -24,16 +25,17 @@ class DynamicForm extends React.Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.state = { formData: {} };
-    this.createDefaultFromDataMap(props.jsonSchema.properties, null);
+    this.state = { formData: {} , progress:{}};
+    this.createDefaultFromDataMap(props.jsonSchema.properties, null, null);
   }
 
-  createDefaultFromDataMap(properties, prevProperties) {
+  createDefaultFromDataMap(properties, prevProperties, prevState) {
     const state = this.state;
     let needReRender = false;
     for (const [propName, value] of Object.entries(properties)) {
-      if (!prevProperties || value['default'] !== prevProperties[propName]['default']) {
+      if (!prevState || value['default'] !== prevProperties[propName]['default']) { 
         state.formData[propName] = value['default'] || "";
+        state.progress[propName] = {edited:false, valid:"unknown"};
         needReRender = true;
       }
     }
@@ -43,40 +45,80 @@ class DynamicForm extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.createDefaultFromDataMap(this.props.jsonSchema.properties, prevProps.jsonSchema.properties);
+    this.createDefaultFromDataMap(this.props.jsonSchema.properties, prevProps.jsonSchema.properties, prevState);
   }
 
   onChange(event) {
-    let { formData } = this.state;
-    // formData[event.target.id]
-    let value = event.target.value;
-    if (event.target.type === 'date') {
-      value = Date.parse(event.target.value);
-    }
-    let newState = update(this.state, {
-      formData: {
-        [event.target.name]: { $set: value }
+    this.setState(this.editValue(this.state, event.target.name, event.target.value));
+  }
+
+  editValue(state, name, value){
+    let { jsonSchema } = this.props;
+    let valid = 'unknown';
+    const format = jsonSchema.properties[name].format;
+    // const {edited} = progress[event.target.name];
+    
+    if (format === 'date') {
+      if(_.isString(value)) {
+        value = Date.parse(value);
       }
-    });
-    console.log(newState);
-    this.setState(newState);
+      valid = String(this.isAdult(value));
+    } else if (format === 'lknic') {
+      valid =  (/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/.test(value)).toString();
+    } else {
+      valid = (String(value).length !== 0).toString();
+    }
+    let progressValue = {edited:true, valid};
+    let delta = {
+      progress: {
+        [name]: { $set: progressValue }
+      },
+      formData: {
+        [name]: { $set: value }
+      }
+    };
+    return update(state, delta);
+  }
+
+  isAdult(birthday) { // birthday is a date
+      if (_.isNaN(birthday)) {
+        return false;
+      }
+      var ageDifMs = Date.now() - birthday;
+      var ageDate = new Date(ageDifMs); // miliseconds from epoch
+      return Math.abs(ageDate.getUTCFullYear() - 1970) > 14;
   }
 
   onSubmit(event) {
-    this.props.onSubmit(this.state.formData);
+    let { jsonSchema } = this.props;
+    let { formData } = this.state;
+    let state = this.state;
+    let valid = true;
+    for (const [propName, propSpec] of Object.entries(jsonSchema.properties)) {
+      const propValue = formData[propName];
+      state = this.editValue(state,propName,propValue)
+      valid = valid && state.progress[propName].valid === "true";
+    }
+    this.setState(state);
+    if(valid) {
+      this.props.onSubmit(this.state.formData);
+    }
   }
+
 
   render() {
     let { classes, jsonSchema } = this.props;
-    let { formData } = this.state;
+    let { formData, progress } = this.state;
     let items = [];
     for (const [propName, propSpec] of Object.entries(jsonSchema.properties)) {
       const propValue = formData[propName];
+      const {edited, valid} = progress[propName];
+      const isError = edited === true && valid !== "true";
       if (Array.isArray(propSpec.oneOf)) {
         const d = propSpec.oneOf.map(x => <MenuItem value={x.enum[0]}>{x.title}</MenuItem>);
         items.push(<FormControl fullWidth key={propName + "-label"}>
           <InputLabel htmlFor={propName}>{propSpec.title}</InputLabel>
-          <Select name={propName} value={formData[propName]} onChange={this.onChange}>
+          <Select error={isError} name={propName} value={formData[propName]} onChange={this.onChange}>
             {d}
           </Select>
         </FormControl>);
@@ -85,12 +127,12 @@ class DynamicForm extends React.Component {
         let v =  isNaN(d) ? propValue : d.toISOString().slice(0, 10);
         items.push(<FormControl fullWidth key={propName + "-label"}>
           <InputLabel shrink="true" htmlFor={propName}>{propSpec.title}</InputLabel>
-          <Input type="date" value={v} name={propName} onChange={this.onChange} />
+          <Input error={isError} type="date" value={v} name={propName} onChange={this.onChange} />
         </FormControl>);
       } else if (propSpec.type !== "hidden") {
         items.push(<FormControl fullWidth key={propName + "-label"}>
           <InputLabel htmlFor={propName}>{propSpec.title}</InputLabel>
-          <Input value={formData[propName]} name={propName} onChange={this.onChange} />
+          <Input error={isError} value={formData[propName]} name={propName} onChange={this.onChange} />
         </FormControl>);
       }
     }
