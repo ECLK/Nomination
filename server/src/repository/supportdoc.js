@@ -62,6 +62,12 @@ const PAYMENT_SUPPORT_DOC_STATUS_UPDATE_QUERY = `UPDATE PAYMENT_SUPPORT_DOC
 										   STATUS = "DELETE"
 										   WHERE 
 										   ID = :paymentSdocId`;
+
+const PAYMENT_SUPPORT_DOC_SELECT_QUERY = `SELECT 
+												ID AS SUPPORT_DOC_id,
+												ORIGINAL_NAME  AS SUPPORT_DOC_originalname,
+												FILE_PATH AS SUPPORT_DOC_filename
+												FROM PAYMENT_SUPPORT_DOC WHERE PAYMENT_ID=:paymentId AND STATUS = 'NEW' LIMIT 1`;
 										   
 const getSupportDocByNomination = (nominationId) => {
 	const params = { nominationId: nominationId };
@@ -173,6 +179,19 @@ const updateNominationStatus = (nominationId) => {
 };
 
 
+const getSupportDocByPayment = (paymentId) => {
+	const params = { paymentId: paymentId };
+	return DbConnection()
+		.query(PAYMENT_SUPPORT_DOC_SELECT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+			}).catch((error) => {
+			throw new DBError(error);
+		});
+}
+
+
 
 
 // ***************** SUPPORT_DOC_CONFIG_DATA ******************
@@ -249,5 +268,6 @@ export default {
 	updateCandidateSupportingDocs,
 	getSupportDocByCandidate,
 	savePaymentSupportDocs,
-	updatePaymentSupportDocs
+	updatePaymentSupportDocs,
+	getSupportDocByPayment
 }

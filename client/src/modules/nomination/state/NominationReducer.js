@@ -22,7 +22,8 @@ import {
   GET_NOMINATION_LIST_FOR_PAYMENT,
   GET_NOMINATION_DATA,
   NOMINATION_PAYMENT_VALIDATION_LOADED,
-  ORIGINAL_UPLOAD_PATH_LOADED
+  ORIGINAL_UPLOAD_PATH_LOADED,
+  PARTY_LIST_BY_TEAM_TYPE_LOADED
 } from "./NominationTypes";
 
 const initialState = {
@@ -46,7 +47,8 @@ const initialState = {
   nominationPaymentSerial:'',
   nominationData:[],
   nominationPaymentValidation:true,
-  originalUploadPath:''
+  originalUploadPath:'',
+  partyListByType:[]
 };
 
 const findIndex = (nominations, id) => {
@@ -132,6 +134,11 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         partyList: action.payload
+      }; 
+    case PARTY_LIST_BY_TEAM_TYPE_LOADED:
+      return {
+        ...state,
+        partyListByType: action.payload
       }; 
     case RECEIVE_NOMINATION_STATUS:
       const nominationList = state.nominationList;
