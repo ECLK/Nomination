@@ -9,7 +9,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
-import { createAndDownloadPdfNominationForm, createAndDownloadPdfFormUsingTemplate } from '../../modules/nomination/state/NominationAction';
+import { createAndDownloadPdfPresidentialNominationForm, createAndDownloadPdfParliamentaryNominationForm } from '../../modules/nomination/state/NominationAction';
 import ProgressButton from "../ProgressButton";
 import DoneOutline from '@material-ui/icons/DoneOutline';
 import CloseIcon from '@material-ui/icons/Cancel';
@@ -113,7 +113,7 @@ class TextFields extends React.Component {
         }
         if (goNext) {
           if(this.state.nominationFormCategory==='presidential'){
-            createAndDownloadPdfNominationForm(this.state.nominationFormCategory,NominationCandidates,partyList);
+            createAndDownloadPdfPresidentialNominationForm(this.state.nominationFormCategory,NominationCandidates,partyList);
             setTimeout(() => {
               this.setState({
                 success: true,
@@ -121,7 +121,7 @@ class TextFields extends React.Component {
             });
             }, 4000);
           } else if (this.state.nominationFormCategory === 'parliamentary_nomination') {
-            createAndDownloadPdfFormUsingTemplate(this.state.nominationFormCategory, NominationCandidates, partyList);
+            createAndDownloadPdfParliamentaryNominationForm(this.state.nominationFormCategory, NominationCandidates, partyList);
               setTimeout(() => {
                 this.setState({
                   success: true,

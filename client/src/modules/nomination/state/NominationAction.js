@@ -705,38 +705,46 @@ export const createAndDownloadPdf = function createAndDownloadPdf(paymentData) {
     })
 }
 //--------------- End of genarate pdf ---------------------------
-export const createAndDownloadPdfNominationForm = function createAndDownloadPdfNominationForm(type,Data,partyList) {
-  var partyName="";
+export const createAndDownloadPdfPresidentialNominationForm = function createAndDownloadPdfPresidentialNominationForm(type,Data,partyList) {
+  var partyName = "";
   for (var j = 0; j < partyList.length; j++) {
-    if(sessionStorage.getItem("party_id")===partyList[j].team_id){
-      partyName=partyList[j].team_name;
+    if (sessionStorage.getItem("party_id") === partyList[j].team_id) {
+      partyName = partyList[j].team_name;
     }
-}
-  var candidateName="";
-  var address="";
-  var occupation="";
-  if(type==="presidential"){
-    Data.map((data) => {
-      candidateName=data.fullName
-      address=data.address
-      occupation=data.occupation
-    });
   }
-  const NominationData = {
-    candidateName:candidateName,
-    address:address,
-    occupation:occupation,
-    partyName:partyName
-  }
-  firstAPI.post(`/create-pdf/${type}`,NominationData)
-    .then(()=> firstAPI.get('fetch-pdf-presidential', { responseType: 'blob'}))
+
+  var candidateData = {};
+  Data.map((data) => {
+    candidateData['candidateName'] = data.fullName
+    candidateData['address'] = data.address
+    candidateData['occupation'] = data.occupation
+  });
+
+  const nominationData = {
+    partyName: partyName,
+    candidateData: candidateData
+  };
+
+  let templateData = {
+    "margin.top": "0.5",
+    "margin.right": "1",
+    "margin.bottom": "0.5",
+    "margin.left": "1.5",
+    "format": 'Legal'
+  };
+
+  templateData['file'] = {"template": "presidential_nomination_form.js"}
+  templateData['file']['nominationData'] = nominationData;
+
+  firstAPI.post(`/generate`, templateData)
+    .then((res) => firstAPI.get(res.data.url, { responseType: 'blob' }))
     .then((res) => {
-      const pdfBlob = new Blob([res.data], { type:'application/pdf' });
-      saveAs(pdfBlob,'form_of_nomination.pdf');
+      const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      saveAs(pdfBlob, type + '.pdf');
     })
 }
 
-export const createAndDownloadPdfFormUsingTemplate = function createAndDownloadPdfFormUsingTemplate(type, Data, partyList) {
+export const createAndDownloadPdfParliamentaryNominationForm = function createAndDownloadPdfParliamentaryNominationForm(type, Data, partyList) {
   var partyName = "";
   for (var j = 0; j < partyList.length; j++) {
     if (sessionStorage.getItem("party_id") === partyList[j].team_id) {
@@ -757,14 +765,7 @@ export const createAndDownloadPdfFormUsingTemplate = function createAndDownloadP
     "format": 'A3'
   };
 
-  switch (type) {
-    case 'parliamentary_nomination':
-      templateData['file'] = {"template": "parliamentary_nomination_form.js"}
-      break;
-    default:
-      return;
-  }
-
+  templateData['file'] = {"template": "parliamentary_nomination_form.js"}
   templateData['file']['nominationData'] = nominationData;
 
   firstAPI.post(`/generate`, templateData)
