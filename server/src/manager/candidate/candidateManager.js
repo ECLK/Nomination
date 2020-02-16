@@ -18,13 +18,20 @@ const resultMaps = [
 const mapToCandidateModel = (candidates) => {
   var groupedCandidates = _.groupBy(candidates, 'CANDIDATE_ID');
   var expected = _.map(groupedCandidates, function (candidateProperties) {
-    var x = {};
+    var orderedProps = [];
+    var id = "";
     _.each(candidateProperties, function (property) {
-      x['CANDIDATE_ID'] = property.CANDIDATE_ID;
-      x[property.CANDIDATE_KEY_NAME] = property.CANDIDATE_VALUE;
-    })
+      orderedProps.push(property);
+      id = property.CANDIDATE_ID;
+    });
+    orderedProps = _.sortBy(orderedProps, 'CANDIDATE_CONFIG_ID');
+
+    var candidateInfoMap = {CANDIDATE_ID:id};
+    _.each(orderedProps, function (property) {
+      candidateInfoMap[property.CANDIDATE_KEY_NAME] = property.CANDIDATE_VALUE;
+    });
     
-    return x;
+    return candidateInfoMap;
   });
   console.log('expected',expected);
   return expected;
