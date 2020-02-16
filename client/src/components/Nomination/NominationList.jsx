@@ -167,7 +167,7 @@ debugger;
 										
 										division.nomination.length > 0 &&
 										<div>
-										{nomination.paymentStatus ? 
+										{!nomination.paymentStatus ? 
 										<Link style={{ textDecoration: 'none' }} to={{ pathname: "nomination", state: { id: nomination.id,status: nomination.status,divisionId: division.id,division: division.name,candidateCount:division.noOfCandidates }}}  >
 										<Button  variant="contained" color="primary"  className={classes.button} >{nomination.status === 'SUBMIT' ? 'VIEW' : nomination.status === 'NEW' ? 'CREATE' : 'EDIT'}</Button>
 										</Link> : 
