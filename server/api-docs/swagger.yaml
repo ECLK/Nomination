@@ -594,6 +594,30 @@ paths:
           description: ''
       x-auth-type: Application & Application User
       x-throttling-tier: Unlimited
+  '/nominations/candidates/{candidateId}/support-docs/download':
+    get:
+      parameters:
+        - name: candidateId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/nominations/{nominationId}/support-docs/download':
+    get:
+      parameters:
+        - name: nominationId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
 info:
   title: Nomination
   version: '0.9'

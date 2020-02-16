@@ -5,6 +5,8 @@ import { PaymentService, CandidateService, SupportDocService, NominationService,
 import { SAVE_PAYMENT_SCHEMA, UPDATE_PAYMENT_SCHEMA, SAVE_SUPPORT_DOC_SCHEMA, UPDATE_SUPPORT_DOC_SCHEMA, SAVE_CANDIDATE_SCHEMA, SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA, SAVE_NOMINATION_APPROVE_SCHEMA } from './schema/nominationSchema';
 import { HTTP_CODE_404, HTTP_CODE_201, HTTP_CODE_200 } from '../routes/constants/HttpCodes';
 const multer = require('multer');
+const zip = require('express-zip');
+
 
 // SET STORAGE
 var storage = multer.diskStorage({
@@ -263,6 +265,24 @@ export const initNominationRouter = (app) => {
 			handler: (req, res, next) => {
 				return SupportDocService.getSupportDocByNominationIdAndDocId(req)
 					.then((result) => res.download('./src/uploads/'+ result[0]['SUPPORT_DOC_filename']))
+					.catch(error => next(error));
+			},
+		},
+		{
+			method: GET,
+			path: '/nominations/candidates/:candidateId/support-docs/download',
+			handler: (req, res, next) => {
+				return SupportDocService.getSupportDocsByCandidateIdNumber(req)
+					.then((result) => res.zip(result))
+					.catch(error => next(error));
+			},
+		},
+		{
+			method: GET,
+			path: '/nominations/:nominationId/support-docs/download',
+			handler: (req, res, next) => {
+				return SupportDocService.getSupportDocsByNominationIdNumber(req)
+					.then((result) => res.zip(result))
 					.catch(error => next(error));
 			},
 		},

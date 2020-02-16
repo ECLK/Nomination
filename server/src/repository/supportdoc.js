@@ -83,6 +83,19 @@ const CANDIDATE_SUPPORT_DOC_BY_DOC_ID_AND_NOMINATION_ID_SELECT_QUERY = `SELECT
 												FROM NOMINATION_SUPPORT_DOC WHERE SUPPORT_DOC_CONFIG_ID=:documentId AND NOMINATION_ID=:nominationId`;
 
 
+const CANDIDATE_SUPPORT_DOCS_BY_CANDIDATE_ID_SELECT_QUERY = `SELECT 
+												ID AS SUPPORT_DOC_id,
+												ORIGINAL_NAME  AS SUPPORT_DOC_originalname,
+												FILE_PATH AS SUPPORT_DOC_filename
+												FROM CANDIDATE_SUPPORT_DOC WHERE CANDIDATE_ID=:candidateId`;
+
+
+const CANDIDATE_SUPPORT_DOCS_BY_NOMINATION_ID_SELECT_QUERY = `SELECT 
+												ID AS SUPPORT_DOC_id,
+												ORIGINAL_NAME  AS SUPPORT_DOC_originalname,
+												FILE_PATH AS SUPPORT_DOC_filename
+												FROM NOMINATION_SUPPORT_DOC WHERE NOMINATION_ID=:nominationId`;
+
 const getSupportDocByNomination = (nominationId) => {
 	const params = { nominationId: nominationId };
 	return DbConnection()
@@ -229,6 +242,32 @@ const getSupportDocByNominationIdAndDocId = (documentId, nominationId) => {
 		});
 }
 
+const getSupportDocsByCandidateId = (candidateId) => {
+	const params = { candidateId: candidateId };
+	return DbConnection()
+		.query(CANDIDATE_SUPPORT_DOCS_BY_CANDIDATE_ID_SELECT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+			}).catch((error) => {
+			throw new DBError(error);
+		});
+}
+
+
+const getSupportDocsByNominationId = (nominationId) => {
+	const params = { nominationId: nominationId };
+	return DbConnection()
+		.query(CANDIDATE_SUPPORT_DOCS_BY_NOMINATION_ID_SELECT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+			}).catch((error) => {
+			throw new DBError(error);
+		});
+}
+
+
 
 
 // ***************** SUPPORT_DOC_CONFIG_DATA ******************
@@ -308,5 +347,7 @@ export default {
 	updatePaymentSupportDocs,
 	getSupportDocByPayment,
 	getSupportDocByCandidateIdAndDocId,
-	getSupportDocByNominationIdAndDocId
+	getSupportDocByNominationIdAndDocId,
+	getSupportDocsByCandidateId,
+	getSupportDocsByNominationId
 }
