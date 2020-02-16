@@ -60,10 +60,10 @@ class CheckboxesGroup extends React.Component {
             <FormLabel className={classes.legend} component="legend">Nomination Period</FormLabel>
             </Grid>
               <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={4}>
-                <Grid item lg={3}>
+                <Grid item lg={6}>
                   <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Nomination Start</Typography>
                 </Grid>
-                <Grid item lg={3}>
+                <Grid item lg={6}>
                   <TextField
                     id="nominationStart"
                     type="datetime-local"
@@ -84,10 +84,10 @@ class CheckboxesGroup extends React.Component {
                 </Grid>
                 </Grid>
                 <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
-                <Grid item lg={3}>
+                <Grid item lg={6}>
                   <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Nomination End</Typography>
                 </Grid>
-                <Grid item lg={3}>
+                <Grid item lg={6}>
                   <TextField
                     id="datetime-local"
                     type="datetime-local"
@@ -111,10 +111,10 @@ class CheckboxesGroup extends React.Component {
             <FormLabel className={classes.legend} component="legend">Nomination Security Deposit Period</FormLabel>
             </Grid>
               <Grid  container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
-              <Grid item lg={3}>
+              <Grid item lg={6}>
                   <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Deposit Start</Typography>
                 </Grid>
-                <Grid item lg={3}>
+                <Grid item lg={6}>
                   <TextField
                     id="datetime-local"
                     type="datetime-local"
@@ -135,10 +135,10 @@ class CheckboxesGroup extends React.Component {
                   </Grid>
                   </Grid>
                 <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
-                  <Grid item lg={3}>
+                  <Grid item lg={6}>
                   <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Deposit End</Typography>
                 </Grid>
-                <Grid item lg={3}>
+                <Grid item lg={6}>
                   <TextField
                     id="datetime-local"
                     type="datetime-local"
@@ -162,10 +162,10 @@ class CheckboxesGroup extends React.Component {
             <FormLabel className={classes.legend} component="legend">Objection Period</FormLabel>
             </Grid>
               <Grid  container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
-              <Grid item lg={3}>
+              <Grid item lg={6}>
                   <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Objection Start</Typography>
                 </Grid>
-                <Grid item lg={3}>
+                <Grid item lg={6}>
                   <TextField
                     id="datetime-local"
                     type="datetime-local"
@@ -186,10 +186,10 @@ class CheckboxesGroup extends React.Component {
                   </Grid>
                   </Grid>
                 <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
-                  <Grid item lg={3}>
+                  <Grid item lg={6}>
                   <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Objection End</Typography>
                 </Grid>
-                <Grid item lg={3}>
+                <Grid item lg={6}>
                   <TextField
                     id="datetime-local"
                     type="datetime-local"
@@ -214,10 +214,10 @@ class CheckboxesGroup extends React.Component {
             <FormLabel className={classes.legend} component="legend">Nomination Approval Period</FormLabel>
             </Grid>
               <Grid  container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
-              <Grid item lg={3}>
+              <Grid item lg={6}>
                   <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Approve Start</Typography>
                 </Grid>
-                <Grid item lg={3}>
+                <Grid item lg={6}>
                   <TextField
                     id="datetime-local"
                     type="datetime-local"
@@ -238,10 +238,10 @@ class CheckboxesGroup extends React.Component {
                   </Grid>
                   </Grid>
                 <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
-                  <Grid item lg={3}>
+                  <Grid item lg={6}>
                   <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Approve End</Typography>
                 </Grid>
-                <Grid item lg={3}>
+                <Grid item lg={6}>
                   <TextField
                     id="datetime-local"
                     type="datetime-local"

@@ -26,7 +26,8 @@ const styles = theme => ({
     width: '100%',
     marginTop:10,
     padding: 24,
-    paddingLeft: 26,
+    paddingLeft: 0,
+    paddingRight: 0,
   },
   button: {
     marginRight: theme.spacing.unit,
@@ -43,6 +44,8 @@ const styles = theme => ({
 },
 paperContent:{
   padding: 24,
+  paddingLeft: 0,
+  paddingRight: 0,
 },
 done: {
   textAlign: 'right',

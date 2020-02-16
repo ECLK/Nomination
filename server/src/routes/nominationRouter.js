@@ -191,7 +191,7 @@ export const initNominationRouter = (app) => {
 		},
 		{
 			method: GET,
-			path: '/nominations/:electionId/pending-nominations/:status/team/:teamId',
+			path: '/nominations/:electionId/pending-nominations/:status/team/:teamId/divisions/:divisionId',
 			handler: (req, res, next) => {
 				return NominationService.getPendingNominationsByElectionId(req)
 					.then((result) => res.status(HTTP_CODE_200).send(result))
@@ -225,7 +225,7 @@ export const initNominationRouter = (app) => {
 				// console.log(req);
 				var downloadSid = req.params.sid;
 				console.log("downloadSid",downloadSid);
-				return UploadService.getDownloadFilePath(downloadSid)
+				return UploadService.getDownloadFilePath(downloadSid,res)
 				.then((result) => res.status(HTTP_CODE_201).send(result))
 				.catch(error => next(error));
 			},

@@ -45,7 +45,7 @@ export const initDivisionRouter = (app) => {
 		{
 			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/teams/5eedb70e-a4da-48e0-b971-e06cd19ecc70/divisions
 			method: GET,
-			path: '/elections/:electionId/teams/:teamId/divisions',
+			path: '/elections/:electionId/teams/:teamId/divisions/:divisionId',
 			schema: {},
 			handler: (req, res, next) => {
 				return DivisionService.getDivisionsWithNomination(req)
@@ -55,7 +55,7 @@ export const initDivisionRouter = (app) => {
 		},
 		{
 			method: GET,
-			path: '/elections/:electionId/teams/:teamId/nominations',
+			path: '/elections/:electionId/teams/:teamId/nominations/:divisionId/divisions',
 			schema: {},
 			handler: (req, res, next) => {
 				return DivisionService.getDivisionsWithNomination(req)

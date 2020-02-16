@@ -1,5 +1,5 @@
 
-import {Record} from 'typed-immutable';
+import {Record,Maybe} from 'typed-immutable';
 import {List} from 'typed-immutable';
 
 
@@ -18,6 +18,7 @@ const Division = Record({
 const Nomination = Record({
     id: String(),
     status: String(),
+    paymentStatus:Maybe(String),
 });
 
 const AllowedDivision = Record({
@@ -28,7 +29,8 @@ const AllowedDivision = Record({
     electionId: String(),
     teamId: String(),
     currentCandidateCount: Number(),
-    nomination: List(Nomination),
+    nomination: List(Nomination)
+    
 });
 
 

@@ -41,6 +41,11 @@ class InfoBanner extends React.Component {
 		var objectionStart = moment(this.props.election.objectionStart).format("DD MMM YYYY hh:mm a") //parse integer
 		var objectionEnd = moment(this.props.election.objectionEnd).format("DD MMM YYYY hh:mm a") //parse integer
 
+		var paymentStart = moment(this.props.election.paymentStart).format("DD MMM YYYY hh:mm a") //parse integer
+		var paymentEnd = moment(this.props.election.paymentEnd).format("DD MMM YYYY hh:mm a") //parse integer
+
+		var approvalStart = moment(this.props.election.approvalStart).format("DD MMM YYYY hh:mm a") //parse integer
+		var approvalEnd = moment(this.props.election.approvalEnd).format("DD MMM YYYY hh:mm a") //parse integer
 
 		return (
 			<div className={classes.root}>
@@ -73,6 +78,12 @@ class InfoBanner extends React.Component {
 						</Typography>
 						<Typography variant="subtitle1" gutterBottom>
 							<b>Objection Start Date:</b> {objectionStart}  --- <b>Objection End Date:</b> {objectionEnd}
+						</Typography>
+						<Typography variant="subtitle1" gutterBottom>
+							<b>Security Deposit Start Date:</b> {paymentStart}  --- <b>Security Deposit End Date:</b> {paymentEnd}
+						</Typography>
+						<Typography variant="subtitle1" gutterBottom>
+							<b>Nomination Approval Start Date:</b> {approvalStart}  --- <b>Nomination Approval End Date:</b> {approvalEnd}
 						</Typography>
 						{(division)   ?
 						<Typography  variant="subheading" gutterBottom style={{marginBottom:25,marginLeft:5}}>
