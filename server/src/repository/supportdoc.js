@@ -68,7 +68,21 @@ const PAYMENT_SUPPORT_DOC_SELECT_QUERY = `SELECT
 												ORIGINAL_NAME  AS SUPPORT_DOC_originalname,
 												FILE_PATH AS SUPPORT_DOC_filename
 												FROM PAYMENT_SUPPORT_DOC WHERE PAYMENT_ID=:paymentId AND STATUS = 'NEW' LIMIT 1`;
-										   
+
+
+const CANDIDATE_SUPPORT_DOC_BY_DOC_ID_AND_CANDIDATE_ID_SELECT_QUERY = `SELECT 
+												ID AS SUPPORT_DOC_id,
+												ORIGINAL_NAME  AS SUPPORT_DOC_originalname,
+												FILE_PATH AS SUPPORT_DOC_filename
+												FROM CANDIDATE_SUPPORT_DOC WHERE SUPPORT_DOC_CONFIG_ID=:documentId AND CANDIDATE_ID=:candidateId`;
+
+const CANDIDATE_SUPPORT_DOC_BY_DOC_ID_AND_NOMINATION_ID_SELECT_QUERY = `SELECT 
+												ID AS SUPPORT_DOC_id,
+												ORIGINAL_NAME  AS SUPPORT_DOC_originalname,
+												FILE_PATH AS SUPPORT_DOC_filename
+												FROM NOMINATION_SUPPORT_DOC WHERE SUPPORT_DOC_CONFIG_ID=:documentId AND NOMINATION_ID=:nominationId`;
+
+
 const getSupportDocByNomination = (nominationId) => {
 	const params = { nominationId: nominationId };
 	return DbConnection()
@@ -191,6 +205,29 @@ const getSupportDocByPayment = (paymentId) => {
 		});
 }
 
+const getSupportDocByCandidateIdAndDocId = (documentId, candidateId) => {
+	const params = { documentId: documentId, candidateId: candidateId };
+	return DbConnection()
+		.query(CANDIDATE_SUPPORT_DOC_BY_DOC_ID_AND_CANDIDATE_ID_SELECT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+			}).catch((error) => {
+			throw new DBError(error);
+		});
+}
+
+const getSupportDocByNominationIdAndDocId = (documentId, nominationId) => {
+	const params = { documentId: documentId, nominationId: nominationId };
+	return DbConnection()
+		.query(CANDIDATE_SUPPORT_DOC_BY_DOC_ID_AND_NOMINATION_ID_SELECT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+			}).catch((error) => {
+			throw new DBError(error);
+		});
+}
 
 
 
@@ -269,5 +306,7 @@ export default {
 	getSupportDocByCandidate,
 	savePaymentSupportDocs,
 	updatePaymentSupportDocs,
-	getSupportDocByPayment
+	getSupportDocByPayment,
+	getSupportDocByCandidateIdAndDocId,
+	getSupportDocByNominationIdAndDocId
 }

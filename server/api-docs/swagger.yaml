@@ -550,6 +550,50 @@ paths:
           description: ''
       x-auth-type: Application & Application User
       x-throttling-tier: Unlimited
+  '/payments/{paymentId}/download':
+    get:
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/nominations/candidates/{candidateId}/support-docs/{documentId}/download':
+    get:
+      parameters:
+        - name: candidateId
+          in: path
+          required: true
+          type: string
+        - name: documentId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  '/nominations/{nominationId}/support-docs/{documentId}/download':
+    get:
+      parameters:
+        - name: nominationId
+          in: path
+          required: true
+          type: string
+        - name: documentId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
 info:
   title: Nomination
   version: '0.9'

@@ -248,6 +248,24 @@ export const initNominationRouter = (app) => {
 					.catch(error => next(error));
 			},
 		},
+		{
+			method: GET,
+			path: '/nominations/candidates/:candidateId/support-docs/:documentId/download',
+			handler: (req, res, next) => {
+				return SupportDocService.getSupportDocsByCandidateIdAndDocId(req)
+					.then((result) => res.download('./src/uploads/'+ result[0]['SUPPORT_DOC_filename']))
+					.catch(error => next(error));
+			},
+		},
+		{
+			method: GET,
+			path: '/nominations/:nominationId/support-docs/:documentId/download',
+			handler: (req, res, next) => {
+				return SupportDocService.getSupportDocByNominationIdAndDocId(req)
+					.then((result) => res.download('./src/uploads/'+ result[0]['SUPPORT_DOC_filename']))
+					.catch(error => next(error));
+			},
+		},
 		// {
 		//   method: POST,
 		//   path: '/upload',
