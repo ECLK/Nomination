@@ -9,32 +9,39 @@ const resultMaps = [
   {
     mapId: 'candidateMap',
     idProperty: 'ID',
-    properties: ['FULL_NAME', 'PREFERRED_NAME','OCCUPATION','NIC', 'DATE_OF_BIRTH', 'GENDER','ADDRESS', 'NOMINATION_ID']
+    // properties: ['FULL_NAME', 'DES','OCCUPATION','NIC', 'DATE_OF_BIRTH', 'GENDER','ADDRESS', 'NOMINATION_ID']
+    properties: ['CONFIG_ID', 'KEY_NAME','VALUE']
   }
 ];
 
 
 const mapToCandidateModel = (candidates) => {
-  const mappedCandidates = joinjs.map(candidates, resultMaps, 'candidateMap', 'CANDIDATE_');
-
-return _.reduce(mappedCandidates, function(result, candidate) {
-  return result.push({
-    "id": candidate.ID,
-      "fullName": candidate.FULL_NAME,
-      "preferredName": candidate.PREFERRED_NAME,
-      "occupation": candidate.OCCUPATION,
-      // "electoralDivisionName": candidate.ELECTORAL_DIVISION_NAME,
-      // "electoralDivisionCode": candidate.ELECTORAL_DIVISION_CODE,
-      "nic": candidate.NIC,
-      "dateOfBirth": moment(new Date(candidate.DATE_OF_BIRTH)).format('YYYY-MM-DD'),
-      "gender": candidate.GENDER,
-      "address": candidate.ADDRESS,
-      // "counsilName": candidate.COUNSIL_NAME,
-      "nominationId": candidate.NOMINATION_ID,
-      "action": "true",
-
+  var groupedCandidates = _.groupBy(candidates, 'CANDIDATE_ID');
+  var expected = _.map(groupedCandidates, function (candidateProperties) {
+    var x = {};
+    _.each(candidateProperties, function (property) {
+      x['CANDIDATE_ID'] = property.CANDIDATE_ID;
+      x[property.CANDIDATE_KEY_NAME] = property.CANDIDATE_VALUE;
+    })
+    
+    return x;
   });
-},List(Candidate)());
+  console.log('expected',expected);
+  return expected;
+  // const mappedCandidates = joinjs.map(candidates, resultMaps, 'candidateMap', 'CANDIDATE_');
+//   const mappedCandidates = expected;
+
+//   console.log("mappedCandidatesmappedCandidatesmappedCandidates",mappedCandidates);
+// return _.reduce(mappedCandidates, function(result, candidate) {
+  
+//   return result.push({
+//     "id": candidate.ID,
+//       "configId": candidate.CONFIG_ID,
+//       "keyName": candidate.KEY_NAME,
+//       "value": candidate.VALUE
+
+//   });
+// },List(Candidate)());
 
 
 };
