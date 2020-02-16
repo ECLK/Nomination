@@ -10,12 +10,15 @@ import Divider from '@material-ui/core/Divider';
 import { handleChangePayment, 
         getNominationPayments, 
         getTeams, 
+        getTeamsByTeamType,
         getNominationListForPayment, 
         getNominationData, 
         postNominationPayments, 
         validateNominationPayment,
         createAndDownloadPdf,
         getUploadPath } from '../../modules/nomination/state/NominationAction';
+import {getElectionTimeLine} from '../../modules/election/state/ElectionAction';
+        
 import { connect } from 'react-redux';
 import CustomAutocompleteParty from '../AutocompleteParty';
 import CustomAutocompleteElection from '../AutocompleteElection';
@@ -30,10 +33,12 @@ import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import DoneOutline from '@material-ui/icons/DoneOutline';
 import CloseIcon from '@material-ui/icons/Cancel';
+import AttachFile from '@material-ui/icons/AttachFile';
 import FileUpload from "../common/FileUpload";
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import {API_BASE_URL} from "../../config.js";
+import SummeryView from '../SummeryView';
 import axios from "axios";
 
 const styles = theme => ({
@@ -45,7 +50,7 @@ const styles = theme => ({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        width: 200,
+        width: 220,
     },
     dense: {
         marginTop: 19,
@@ -184,9 +189,11 @@ class NominationPayments extends React.Component {
             this.setState({ errorTextParty: '',partyName:event.label });
         }
         if (name === 'election') {
+            this.props.getElectionTimeLine(event.value);
             this.setState({ errorTextElection: '' });
         }
         if (name === 'partyType') {
+            this.props.getTeamsByTeamType(event.target.value);
             this.setState({ partyType: event.target.value,errorTextPartyType: '' });
         }
 
@@ -374,18 +381,32 @@ class NominationPayments extends React.Component {
       };
 
     render() {
-        const { classes, depositor, NominationPayments, onCloseModal, partyList, serialNo, approveElections, nominationListForPayment, nominationData } = this.props;
+        const { classes, depositor, NominationPayments, onCloseModal, partyList, serialNo, approveElections, nominationListForPayment, nominationData,electionTimeline,partyListByType } = this.props;
         const { numberformat,errorTextPartyType } = this.state;
         const { errorTextItems } = this.props;
         const payPerCandidate = (nominationData.length) ? nominationData[0].payPerCandidate : '';
         const candidateCount = (nominationData.length) ? nominationData[0].noOfCandidates : '';
         let today = new Date();
         var TodayFormated = moment(today).format("YYYY-MM-DD");
-        const suggestions = partyList.map(suggestion => ({
+        var TodayFormatedWithTime = moment(today).format("YYYY-MM-DDTHH:mm");
+        var paymentStart = moment(electionTimeline.paymentStart).format("YYYY-MM-DDTHH:mm");
+        var paymentEnd = moment(electionTimeline.paymentEnd).format("YYYY-MM-DDTHH:mm");
+
+        
+        var errorMessage = "Security deposit time should be within " + moment(electionTimeline.paymentStart).format("DD MMM YYYY hh:mm a")  + " and " + moment(electionTimeline.paymentEnd).format("DD MMM YYYY hh:mm a");
+        var errorTextPayment = false;
+        if (moment(paymentStart).isBefore(TodayFormatedWithTime)) {
+            errorTextPayment = true;
+          }
+        if (moment(TodayFormatedWithTime).isBefore(paymentEnd)) {
+            errorTextPayment = true;
+          }
+          
+
+        const suggestions = partyListByType.map(suggestion => ({
             value: suggestion.team_id,
             label: suggestion.team_name + " (" + suggestion.team_abbrevation + ")",
         }));
-        
 
         const suggestionsElections = approveElections.map(suggestion => ({
             value: suggestion.id,
@@ -408,26 +429,12 @@ class NominationPayments extends React.Component {
 
         return (
             <form className={classes.container} onSubmit={this.handleSubmit} noValidate autoComplete="off">
-                <Grid container spacing={1} xs={12}>
+                <Grid container spacing={2} xs={12}>
                     <Grid container item lg={3}>
                         <CustomAutocompleteElection  errorTextElection={this.state.errorTextElection} className={classes.textField} approveElections={approveElections} value={this.state.election} suggestions={suggestionsElections} handleChangeAutocomplete={this.handleChangeAutocomplete} />
                     </Grid>
                     <Grid container item lg={3}>
-                        <CustomAutocompleteParty errorTextParty={this.state.errorTextParty} className={classes.textField} value={this.state.party} suggestions={suggestions} handleChange={this.handleChangeAutocomplete} />
-                    </Grid>
-                    <Grid container item lg={3}>
-                        <CustomAutocompleteNomination 
-                        errorTextNomination={this.state.errorTextNomination} 
-                        errorTextNominationPaymentValidation={this.state.errorTextNominationPaymentValidation} 
-                        className={classes.textField} 
-                        nominationListForPayment={nominationListForPayment} 
-                        value={this.state.nomination} 
-                        suggestions={suggestionsNominations} 
-                        handleChange={this.handleChangeAutocomplete} 
-                        />
-                    </Grid>
-                    <Grid container item lg={3}>
-                    <FormControl error={(errorTextPartyType) ? true : false} className={classes.formControl}>
+                    <FormControl style={{width:'100%'}} error={(errorTextPartyType) ? true : false} className={classes.formControl}>
                         <Select
                             value={this.state.partyType}
                             error={errorTextPartyType}
@@ -446,9 +453,24 @@ class NominationPayments extends React.Component {
                         <FormHelperText style={{marginLeft:18}}>{(errorTextPartyType==='emptyField') ? 'This field is required!' : ''}</FormHelperText>
                         </FormControl>
                     </Grid>
-                <Grid container spacing={1} xs={12}>
+                    <Grid container item lg={3}>
+                        <CustomAutocompleteParty errorTextParty={this.state.errorTextParty} className={classes.textField} value={this.state.party} suggestions={suggestions} handleChange={this.handleChangeAutocomplete} />
+                    </Grid>
+                    <Grid container item lg={3}>
+                        <CustomAutocompleteNomination 
+                        errorTextNomination={this.state.errorTextNomination} 
+                        errorTextNominationPaymentValidation={this.state.errorTextNominationPaymentValidation} 
+                        className={classes.textField} 
+                        nominationListForPayment={nominationListForPayment} 
+                        value={this.state.nomination} 
+                        suggestions={suggestionsNominations} 
+                        handleChange={this.handleChangeAutocomplete} 
+                        />
+                    </Grid>
                     
-                </Grid>
+                {/* <Grid container spacing={1} xs={12}>
+                    
+                </Grid> */}
                 </Grid>
                 <Divider variant="middle" className={classes.topBottomSpace} />
                 <Grid style={{ marginLeft: 12 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>
@@ -471,7 +493,7 @@ class NominationPayments extends React.Component {
                             helperText={this.state.errorTextDepositor === "emptyField" ? 'This field is required!' : ''}
                         />
                     </Grid>
-                    <Grid container item lg={3}>
+                    {/* <Grid container item lg={3}>
                         <TextField
                             error={this.state.errorTextDepositedDate}
                             id="date"
@@ -487,7 +509,30 @@ class NominationPayments extends React.Component {
                             InputProps={{ inputProps: { max: TodayFormated } }}
                             margin="normal"
                         />
-                    </Grid>
+                    </Grid> */}
+
+                    <Grid container item lg={3}>
+                  <TextField
+                    id="datetime-local"
+                    type="datetime-local"
+                    label="Deposited Date"
+                    className={classes.textField}
+                    // name="nominationEnd"
+                    value={moment(new Date((this.state.depositeDate) ? this.state.depositeDate : '')).format("YYYY-MM-DDTHH:mm")}
+                    onChange={this.handleChange('depositeDate')}
+                    helperText={this.state.errorTextDepositedDate === "emptyField" ? 'This field is required!' : ''}
+                    error={this.state.errorTextDepositedDate}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      max: TodayFormatedWithTime
+                    }}
+                    margin="normal"
+                  />
+                </Grid>                   
+
+
                     <Grid container item lg={3}>
                         
                    
@@ -510,7 +555,7 @@ class NominationPayments extends React.Component {
                         this.state.status === "uploaded"  ? 
                         <Typography variant="caption" gutterBottom>
                         {this.state.currentSdocId}<div  className={classes.done}>
-                        <CloseIcon   color="red"/>
+                        <AttachFile   color="red"/>
                         </div>
                     </Typography>
                         : 'No file attached'
@@ -562,21 +607,29 @@ class NominationPayments extends React.Component {
                     </Grid>
                    
                 </Grid>
-
+                
                 <Grid style={{ marginLeft: 12 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>
                 <Grid container item lg={3}>
                
                     </Grid>
                 <Grid container spacing={12}>
                         <Grid style={{ textAlign: 'right', marginRight: '25px' }} className={classes.label} item lg={12}>
+                        { errorTextPayment ? <SummeryView
+                        variant={"warning"}
+                        className={classes.margin}
+                        message={errorMessage}
+                        style={{marginBottom:'10px'}}
+                        /> : " "}
+                        </Grid>
+                        <Grid style={{ textAlign: 'right', marginRight: '25px' }} className={classes.label} item lg={12}>
                             <br /><br />
                             <Button style={{ marginRight: '15px' }} variant="contained" onClick={onCloseModal} value="Submit&New" color="primary" className={classes.submit}>
                                 Cancel
                         </Button>
-                            <Button style={{marginRight:'15px'}} variant="contained" onClick={this.handleChangeButton} type="submit" value="Submit&Clouse" color="default" className={classes.submit}>
+                            <Button disabled={errorTextPayment} style={{marginRight:'15px'}} variant="contained" onClick={this.handleChangeButton} type="submit" value="Submit&Clouse" color="default" className={classes.submit}>
                                 Save
                         </Button>
-                        <Button variant="contained"  style={{padding:7}}  size="small"    type="submit" value="Submit&DownloadPdf" color="secondary" className={classes.button}>
+                        <Button disabled={errorTextPayment} variant="contained"  style={{padding:7}}  size="small"    type="submit" value="Submit&DownloadPdf" color="secondary" className={classes.button}>
                           <DownloadIcon className={clsx(classes.leftIcon, classes.iconSmall)} />
                           Save & Download PDF
                         </Button>
@@ -592,15 +645,17 @@ NominationPayments.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = ({ Nomination }) => {
+const mapStateToProps = ({ Nomination,Election }) => {
     const { handleChangePayment } = Nomination;
     const NominationPayments = Nomination.getNominationPayments;
     const nominationData = Nomination.nominationData;
     const nominationListForPayment = Nomination.nominationListForPayment;
     const partyList = Nomination.partyList;
+    const partyListByType = Nomination.partyListByType;
+    const electionTimeline = Election.ElectionTimeLineData;
     const nominationPaymentValidation = Nomination.nominationPaymentValidation;
 
-    return { handleChangePayment, NominationPayments, partyList, nominationListForPayment, nominationData, nominationPaymentValidation };
+    return { handleChangePayment, NominationPayments, partyList,partyListByType, nominationListForPayment, nominationData, nominationPaymentValidation,electionTimeline };
 };
 
 const mapActionsToProps = {
@@ -611,7 +666,9 @@ const mapActionsToProps = {
     getNominationData,
     postNominationPayments,
     validateNominationPayment,
-    getUploadPath
+    getUploadPath,
+    getElectionTimeLine,
+    getTeamsByTeamType
 };
 
 

@@ -4,12 +4,13 @@ import {withStyles} from '@material-ui/core/styles';
 import FileUpload from "../common/FileUpload";
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
-import { createAndDownloadPdfNominationForm } from '../../modules/nomination/state/NominationAction';
+import { createAndDownloadPdfPresidentialNominationForm, createAndDownloadPdfParliamentaryNominationForm } from '../../modules/nomination/state/NominationAction';
 import ProgressButton from "../ProgressButton";
 import DoneOutline from '@material-ui/icons/DoneOutline';
 import CloseIcon from '@material-ui/icons/Cancel';
@@ -102,22 +103,32 @@ class TextFields extends React.Component {
             this.setState({ errorTextNominationFormCategory: 'emptyField' });
             goNext = false;
         }
-        if(this.state.nominationFormCategory==='presidential'){
-        this.setState({
-          success: false,
-          loading:true
-      });
-    }
+        if(
+          this.state.nominationFormCategory === 'presidential' ||
+          this.state.nominationFormCategory === 'parliamentary_nomination'
+        ) {
+            this.setState({
+              success: false,
+              loading:true
+            });
+        }
         if (goNext) {
           if(this.state.nominationFormCategory==='presidential'){
-            createAndDownloadPdfNominationForm(this.state.nominationFormCategory,NominationCandidates,partyList);
+            createAndDownloadPdfPresidentialNominationForm(this.state.nominationFormCategory,NominationCandidates,partyList);
             setTimeout(() => {
               this.setState({
                 success: true,
                 loading:false
             });
             }, 4000);
-            
+          } else if (this.state.nominationFormCategory === 'parliamentary_nomination') {
+            createAndDownloadPdfParliamentaryNominationForm(this.state.nominationFormCategory, NominationCandidates, partyList);
+              setTimeout(() => {
+                this.setState({
+                  success: true,
+                  loading:false
+              });
+            }, 4000);
           }
         }
       }
@@ -222,10 +233,13 @@ class TextFields extends React.Component {
                             <option  value='presidential'>
                                     Presidential Election
                             </option>
-                            
+                            <option  value='parliamentary_nomination'>
+                                    Parliamentary Nomination
+                            </option>
                         </TextField>
                         </Grid>
-                        <Grid style={{marginTop:'7.5px',marginLeft:'-4%'}} item xs="3">
+                        <Grid item xs={1} implementation="css" component={Hidden} />
+                        <Grid style={{marginTop:'7.5px', marginLeft:'-10%'}} item xs="3">
                         {/* <Button variant="contained" onClick = { this.handlePdfGenarationButton }  size="small"  value="Submit&DownloadPdf" color="secondary" className={classes.button}>
                           <DownloadIcon className={clsx(classes.leftIcon, classes.iconSmall)} />
                           Download PDF

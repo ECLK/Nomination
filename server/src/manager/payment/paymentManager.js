@@ -24,6 +24,7 @@ const resultMaps = [
 ];
 
 const mapToNominationPaymentModel = (payments) => {
+
 	const mappedPayments = joinjs.map(payments, resultMaps, 'nominationPaymentMap', 'PAYMENT_');
 
 	if (!_.isEmpty(mappedPayments)) {
@@ -33,7 +34,7 @@ const mapToNominationPaymentModel = (payments) => {
 			serialNo: mappedPayments[0].SERIAL_NO,
 			depositAmount: mappedPayments[0].AMOUNT,
 			amount: mappedPayments[0].AMOUNT,
-			depositeDate: mappedPayments[0].DEPOSIT_DATE,
+			depositeDate: moment(new Date(mappedPayments[0].DEPOSIT_DATE)).format('YYYY-MM-DDTHH:mm'),
 			uploadedFilePath: mappedPayments[0].FILE_PATH,
 			status: mappedPayments[0].STATUS,
 			nominationId: mappedPayments[0].NOMINATION_ID,
@@ -52,6 +53,7 @@ const mapToNominationPaymentModel = (payments) => {
 
 const mapToPaymentModel = (payments) => {
 	const mappedPayments = joinjs.map(payments, resultMaps, 'paymentMap', 'PAYMENT_');
+
 	if (!_.isEmpty(mappedPayments)) {
 		return _.reduce(mappedPayments, (result, payment) => {
 			return result.push({
@@ -76,7 +78,9 @@ const mapToPaymentModel = (payments) => {
 }
 
 const mapToAllPaymentModel = (payments) => {
+
 	const mappedPayments = joinjs.map(payments, resultMaps, 'allPaymentMap', 'payment_');
+	
 	if (!_.isEmpty(mappedPayments)) {
 		return _.reduce(mappedPayments, (result, payment) => {
 			return result.push({
@@ -84,7 +88,7 @@ const mapToAllPaymentModel = (payments) => {
 				depositor: payment.depositor,
 				serial:payment.serial,
 				deposit_amount: payment.amount,
-				deposit_date: moment(new Date(payment.deposit_date)).format('YYYY-MM-DD'),
+				deposit_date: moment(new Date(payment.deposit_date)).format('YYYY-MM-DDTHH:mm'),
 				nomination_id: payment.nomination_id,
 				team_id: payment.team,
 				division: payment.division,

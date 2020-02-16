@@ -164,7 +164,19 @@ const ALL_PAYMENTS_SELECT_QUERY = `SELECT P.ID AS payment_id,
 									N.TEAM_ID AS payment_team
 									FROM PAYMENT P LEFT JOIN NOMINATION N ON P.NOMINATION_ID=N.ID
 									LEFT JOIN DIVISION_CONFIG    DC  ON N.DIVISION_CONFIG_ID=DC.ID`;	
-
+									
+const PAYMENTS_SELECT_QUERY_BY_DIVISION = `SELECT P.ID AS payment_id, 
+									P.DEPOSITOR AS payment_depositor ,
+									P.SERIAL_NO AS payment_serial,
+									P.DEPOSIT_DATE AS payment_deposit_date, 
+									P.AMOUNT AS payment_amount,
+									P.NOMINATION_ID AS payment_nomination_id,
+									DC.NAME AS payment_division,
+									N.TEAM_ID AS payment_team
+									FROM PAYMENT P LEFT JOIN NOMINATION N ON P.NOMINATION_ID=N.ID
+									LEFT JOIN DIVISION_CONFIG    DC  ON N.DIVISION_CONFIG_ID=DC.ID
+									WHERE DC.ID=:divisionId`;	
+									
 const SERIAL_NO_BY_FORM_SELECT_QUERY = `SELECT * FROM PAYMENT_SERIAL WHERE FORM=:form`;
 
 const PAYMENT_BY_SERIAL_NO_SELECT_QUERY = `SELECT * FROM PAYMENT WHERE SERIAL_NO=:serial`;
@@ -242,15 +254,27 @@ const updateSerial = (form,transaction) => {
             });
 };
 
-const fetchAllPayments = () => {
-	return DbConnection()
+const fetchAllPayments = (divisionId) => {
+	const params = { 'divisionId': divisionId};
+	if(params.divisionId === "all"){
+		return DbConnection()
 		.query(ALL_PAYMENTS_SELECT_QUERY,
 			{
-				replacements: {},
+				replacements: params,
 				type: DbConnection().QueryTypes.SELECT
 			}).catch((error) => {
 				throw new DBError(error);
 			});
+	}else{
+		return DbConnection()
+		.query(PAYMENTS_SELECT_QUERY_BY_DIVISION,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT
+			}).catch((error) => {
+				throw new DBError(error);
+			});
+	}
 }
 
 const updatePaymentStatus = (paymentId,status) => {

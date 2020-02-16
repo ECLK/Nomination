@@ -29,6 +29,17 @@ export const initTeamRouter = (app) => {
 
       },
     },
+    {
+      method: GET,
+      path: '/teams/:teamType/withType',
+      schema: {},
+      handler: (req, res, next) => {
+        return TeamService.getAllTeamsByTeamType(req)
+        .then((result) => res.status(200).send(result))
+        .catch(error => next(error));
+
+      },
+    },
   ]);
 };
 

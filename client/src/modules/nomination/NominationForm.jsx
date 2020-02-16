@@ -75,7 +75,6 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
-    height: "100vh",
     overflow: "auto"
   },
   h5: {
@@ -113,24 +112,18 @@ class Dashboard extends React.Component {
       <div className={classes.root}>
         <CssBaseline />
         <MainMenu title="Election Commission of Sri Lanka" />
-        <Grid container spacing={24}>
-            <Grid item xs={12}>
-              <InfoBanner division={this.props.location.state.division} election={ElectionData}></InfoBanner>
-            </Grid>
-            <Grid item xs={12}>
-                  <NominationForm
-                    NominationPayments={NominationPayments}
-                    customProps={this.props.location.state.id}
-                    nominationStatus={this.props.location.state.status}
-                    division={this.props.location.state.division}
-                    divisionId={this.props.location.state.divisionId}
-                    candidateCount={this.props.location.state.candidateCount}
-                    title="Election Commission of Sri Lanka"
-                  />            
-          </Grid>
-        </Grid>
-                
-       
+        <div className={classes.content}>
+          <InfoBanner division={this.props.location.state.division} election={ElectionData}></InfoBanner>
+          <NominationForm
+            NominationPayments={NominationPayments}
+            customProps={this.props.location.state.id}
+            nominationStatus={this.props.location.state.status}
+            division={this.props.location.state.division}
+            divisionId={this.props.location.state.divisionId}
+            candidateCount={this.props.location.state.candidateCount}
+            title="Election Commission of Sri Lanka"
+          />            
+        </div>
       </div>
     );
   }
