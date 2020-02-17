@@ -61,7 +61,7 @@ class ScrollableTabsButtonAuto extends React.Component {
     
                         </Tabs>
                     </AppBar>
-                    {value === 0 && <TabContainer><CandidateProfileUpdate onCloseModal={onCloseModal} customProps={customProps} index={index}></CandidateProfileUpdate></TabContainer>}
+                    {value === 0 && <TabContainer><CandidateProfile onCloseModal={onCloseModal} customProps={customProps} index={index}></CandidateProfile></TabContainer>}
                     {value === 1 && <TabContainer><CandidateFileUpload onCloseModal={onCloseModal} customProps={customProps} index={index}></CandidateFileUpload></TabContainer>}
                     
     

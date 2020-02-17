@@ -19,13 +19,28 @@ const styles = theme => ({
 class TextFields extends React.Component {
 
     state ={
-        ajaxState: "LOADING",
+        ajaxState: 0,
         jsonSchemaProperties: null,
         formData: null
     };
 
     componentDidMount() {
         const { moduleId } = this.props;
+        const { index,getNominationCandidates,customProps,openSnackbar } = this.props;
+
+        if(index) {
+
+            axios.get(`nominations/${customProps}/candidates/${index}`)
+                .then(res => {
+                    console.log(res);
+                    const formData = res.data[0];
+                    //TODO: do this to all 'date' type fields
+                    formData["DATE_OF_BIRTH"] = Number(formData["DATE_OF_BIRTH"]);
+                    this.setState({ajaxState: this.state.ajaxState + 0.5,  formData });
+                });
+        }
+
+
         axios.get("modules/"+ moduleId +"/candidate-form-config", {}).then(
         (response) => {
             var properties = {
@@ -51,8 +66,11 @@ class TextFields extends React.Component {
                 properties[keyName].title = config['description'];
                 properties[keyName].id = config['candidate_config_id'];
             }
-
-            this.setState({ ajaxState: "DONE", jsonSchemaProperties: properties});
+            let progress = 1;
+            if(index) {
+                progress = 0.5;
+            }
+            this.setState({ ajaxState: this.state.ajaxState + progress, jsonSchemaProperties: properties});
         });
     }
 
@@ -79,22 +97,30 @@ class TextFields extends React.Component {
 
     handleSubmit = (data) => {
         // this.refs.btn.setAttribute("disabled", "disabled");
-        const { customProps,getNominationCandidates } = this.props;
+        const { index, customProps,getNominationCandidates } = this.props;
         let {jsonSchemaProperties} = this.state;
         let candidateKeyValues = { "nominationId" : customProps,
                                    "candidateData":[] };
         for (var configItem in data) {
-            candidateKeyValues.candidateData.push(
-                {"candidateConfigId" : jsonSchemaProperties[configItem].id,
-                 "value" : data[configItem]});
+            if(jsonSchemaProperties[configItem]){
+                candidateKeyValues.candidateData.push(
+                    {"candidateConfigId" : jsonSchemaProperties[configItem].id,
+                    "value" : data[configItem]});
+            }
         }
+
+        let url = 'nominations/candidates';
+        if (index) {
+            url = `nominations/${index}/candidates`;
+        }
+
         axios({
             method: 'post',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            url: 'nominations/candidates',
+            url: url,
             data: candidateKeyValues
         })
         .then(function (response) {
@@ -114,7 +140,7 @@ class TextFields extends React.Component {
     };
 
     render() {
-        let {ajaxState, jsonSchemaProperties} = this.state;
+        let {ajaxState, jsonSchemaProperties, formData} = this.state;
         const jsonSchema = {
             "title": "Create Nomination",
             "description": "Add a new nomiantion",
@@ -126,12 +152,12 @@ class TextFields extends React.Component {
             "properties": jsonSchemaProperties
           };
 
-        if (ajaxState === "LOADING") {
+        if (ajaxState < 1) {
             return <div>Loading form...</div>;
         } else {
             return (<div>
                         <Notifier/>
-                        <DynamicForm jsonSchema={jsonSchema}  onSubmit={this.handleSubmit}/>
+                        <DynamicForm defaultFormData={formData} jsonSchema={jsonSchema}  onSubmit={this.handleSubmit}/>
                     </div>);
         }
     }

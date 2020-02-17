@@ -25,7 +25,7 @@ class DynamicForm extends React.Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.state = { formData: {} , progress:{}};
+    this.state = { progress:{}, formData:props.defaultFormData || {}};
     this.createDefaultFromDataMap(props.jsonSchema.properties, null, null);
   }
 
@@ -34,7 +34,8 @@ class DynamicForm extends React.Component {
     let needReRender = false;
     for (const [propName, value] of Object.entries(properties)) {
       if (!prevState || value['default'] !== prevProperties[propName]['default']) { 
-        state.formData[propName] = value['default'] || "";
+        // TODO: re-enable default values
+        // state.formData[propName] = value['default'] || "";
         state.progress[propName] = {edited:false, valid:"unknown"};
         needReRender = true;
       }
