@@ -83,9 +83,9 @@ export const initNominationRouter = (app) => {
 			},
 		},
 		{
-			method: PUT,
+			method: POST,
 			path: '/nominations/:candidateId/candidates',
-			schema: SAVE_CANDIDATE_SCHEMA,
+			// schema: SAVE_CANDIDATE_SCHEMA,
 			handler: (req, res, next) => {
 				console.log("uuuuuuuuuuuuuuuuuuuuuuuuuuu",req);
 				return CandidateService.saveCandidateByNominationId(req)
