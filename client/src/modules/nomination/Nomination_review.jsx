@@ -41,6 +41,10 @@ import CommentIcon from '@material-ui/icons/InsertComment';
 import IconButton from "@material-ui/core/IconButton";
 import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
+import axios from "axios";
+import {API_BASE_URL} from "../../config";
+import download from "downloadjs";
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 const drawerWidth = 240;
 
@@ -230,6 +234,25 @@ class NominationReview extends React.Component {
       [name]: event.target.value,
     });
   };
+
+  downloadCandidateDocuments = (candidate) => {
+    axios.get(`${API_BASE_URL}/nominations/candidates/${candidate.id}/support-docs/download`, {responseType: 'blob'}, {
+    }).then((response) => {
+      download(new Blob([response.data]), 'candidate_support_docs_'+candidate.id+'.zip', response.headers['content-type']);
+    }).catch(err => {
+      console.log(err)
+    });
+  };
+
+  downloadNominationDocuments = (nomination) => {
+    axios.get(`${API_BASE_URL}/nominations/${nomination.id}/support-docs/download`, {responseType: 'blob'}, {
+    }).then((response) => {
+      download(new Blob([response.data]), 'nomination_support_docs_'+nomination.id+'.zip', response.headers['content-type']);
+    }).catch(err => {
+      console.log(err)
+    });
+  };
+
   render() {
     const { classes, nominations, ApproveElections, partyList } = this.props;
     const { expandedPanelIndex } = this.state;
@@ -269,6 +292,9 @@ class NominationReview extends React.Component {
             </TableCell>
             <TableCell className={classes.candidate_table_cell} align="left">
               {candidate.address}
+            </TableCell>
+            <TableCell onClick={() => { this.downloadCandidateDocuments(candidate) }} className={classes.candidate_table_cell} align="left">
+              <GetAppIcon style={{marginRight:10,marginBottom:-2}} className={classes.left_icon} />
             </TableCell>
           </TableRow>
         </React.Fragment>
@@ -321,6 +347,7 @@ class NominationReview extends React.Component {
                   <TableCell align="left">Full Name</TableCell>
                   <TableCell align="left">Occupation</TableCell>
                   <TableCell align="left">Address</TableCell>
+                  <TableCell align="left">Documents</TableCell>
                 </TableHead>
                 <TableBody>
                   {
@@ -360,6 +387,11 @@ class NominationReview extends React.Component {
           </Grid>
           <br />
         </ExpansionPanelDetails>
+        <Button
+            onClick={() => { this.downloadNominationDocuments(nomination) }}
+            className={classNames(classes.button, classes.green_button)}>Download Nomination Documents
+          <GetAppIcon style={{marginRight:10,marginBottom:-2}} className={classes.left_icon} />
+        </Button>
       </ExpansionPanel>
     ));
 

@@ -57,57 +57,6 @@ class CheckboxesGroup extends React.Component {
           <FormGroup>
             <form className={classes.container} noValidate>
             <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
-            <FormLabel className={classes.legend} component="legend">Nomination Period</FormLabel>
-            </Grid>
-              <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={4}>
-                <Grid item lg={6}>
-                  <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Nomination Start</Typography>
-                </Grid>
-                <Grid item lg={6}>
-                  <TextField
-                    id="nominationStart"
-                    type="datetime-local"
-                    defaultValue={values.nominationStart}
-                    className={classes.textField}
-                    name="nominationStart"
-                    value={moment(new Date((CallElectionData.timeLineData) ? CallElectionData.timeLineData.nominationStart : '')).format("YYYY-MM-DDTHH:mm")}
-                    onChange={handleChange('nominationStart')}
-                    helperText={errorTextItems.errorTextNominationStart === "emptyField" ? 'This field is required!' : errorTextItems.errorTextNominationStart === "emptyField2" ? 'This is not a valid date!' : ''}
-                    error={errorTextItems.errorTextNominationStart}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    inputProps={{
-                      min: TodayFormated
-                    }}
-                  />
-                </Grid>
-                </Grid>
-                <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
-                <Grid item lg={6}>
-                  <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Nomination End</Typography>
-                </Grid>
-                <Grid item lg={6}>
-                  <TextField
-                    id="datetime-local"
-                    type="datetime-local"
-                    defaultValue={values.nominationEnd}
-                    className={classes.textField}
-                    name="nominationEnd"
-                    value={moment(new Date((CallElectionData.timeLineData) ? CallElectionData.timeLineData.nominationEnd : '')).format("YYYY-MM-DDTHH:mm")}
-                    onChange={handleChange('nominationEnd')}
-                    helperText={errorTextItems.errorTextNominationEnd === "emptyField" ? 'This field is required!' : errorTextItems.errorTextNominationEnd === "emptyField2" ? 'This is not a valid date!' : ''}
-                    error={errorTextItems.errorTextNominationEnd}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    inputProps={{
-                      min: TodayFormated
-                    }}
-                  />
-                </Grid>
-                </Grid>
-                <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
             <FormLabel className={classes.legend} component="legend">Nomination Security Deposit Period</FormLabel>
             </Grid>
               <Grid  container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
@@ -158,6 +107,57 @@ class CheckboxesGroup extends React.Component {
                   />
                   </Grid>
                   </Grid>
+            <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
+            <FormLabel className={classes.legend} component="legend">Nomination Period</FormLabel>
+            </Grid>
+              <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={4}>
+                <Grid item lg={6}>
+                  <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Nomination Start</Typography>
+                </Grid>
+                <Grid item lg={6}>
+                  <TextField
+                    id="nominationStart"
+                    type="datetime-local"
+                    defaultValue={values.nominationStart}
+                    className={classes.textField}
+                    name="nominationStart"
+                    value={moment(new Date((CallElectionData.timeLineData) ? CallElectionData.timeLineData.nominationStart : '')).format("YYYY-MM-DDTHH:mm")}
+                    onChange={handleChange('nominationStart')}
+                    helperText={errorTextItems.errorTextNominationStart === "emptyField" ? 'This field is required!' : errorTextItems.errorTextNominationStart === "emptyField2" ? 'This is not a valid date!' : ''}
+                    error={errorTextItems.errorTextNominationStart}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      min: TodayFormated
+                    }}
+                  />
+                </Grid>
+                </Grid>
+                <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
+                <Grid item lg={6}>
+                  <Typography className={classes.Typography} variant="subtitle1" gutterBottom>Nomination End</Typography>
+                </Grid>
+                <Grid item lg={6}>
+                  <TextField
+                    id="datetime-local"
+                    type="datetime-local"
+                    defaultValue={values.nominationEnd}
+                    className={classes.textField}
+                    name="nominationEnd"
+                    value={moment(new Date((CallElectionData.timeLineData) ? CallElectionData.timeLineData.nominationEnd : '')).format("YYYY-MM-DDTHH:mm")}
+                    onChange={handleChange('nominationEnd')}
+                    helperText={errorTextItems.errorTextNominationEnd === "emptyField" ? 'This field is required!' : errorTextItems.errorTextNominationEnd === "emptyField2" ? 'This is not a valid date!' : ''}
+                    error={errorTextItems.errorTextNominationEnd}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      min: TodayFormated
+                    }}
+                  />
+                </Grid>
+                </Grid>
               <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={8}>
             <FormLabel className={classes.legend} component="legend">Objection Period</FormLabel>
             </Grid>
