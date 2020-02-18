@@ -25,7 +25,7 @@ class DynamicForm extends React.Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.state = { progress:{}, formData:props.defaultFormData || {}};
+    this.state = {submitting : false, progress:{}, formData:props.defaultFormData || {}};
     this.createDefaultFromDataMap(props.jsonSchema.properties, null, null);
   }
 
@@ -59,7 +59,9 @@ class DynamicForm extends React.Component {
     const format = jsonSchema.properties[name].format;
     // const {edited} = progress[event.target.name];
     
-    if (format === 'date') {
+    if (jsonSchema.properties[name].type === 'hidden') {
+      valid = 'true';
+    } else if (format === 'date') {
       if(_.isString(value)) {
         value = Date.parse(value);
       }
@@ -102,6 +104,8 @@ class DynamicForm extends React.Component {
     }
     this.setState(state);
     if(valid) {
+      // state.submitting = true;
+      // this.setState(state);
       this.props.onSubmit(this.state.formData);
     }
   }
@@ -109,7 +113,7 @@ class DynamicForm extends React.Component {
 
   render() {
     let { classes, jsonSchema } = this.props;
-    let { formData, progress } = this.state;
+    let { formData, progress, submitting } = this.state;
     let items = [];
     for (const [propName, propSpec] of Object.entries(jsonSchema.properties)) {
       const propValue = formData[propName];
@@ -140,7 +144,7 @@ class DynamicForm extends React.Component {
 
     return <div>
       {items}
-      <Button onClick={this.onSubmit} variant="contained" type="submit" value="Submit&New" color="primary"
+      <Button disabled={submitting} onClick={this.onSubmit} variant="contained" type="submit" value="Submit&New" color="primary"
         className={classes.submit}>
         Save & New
       </Button>
