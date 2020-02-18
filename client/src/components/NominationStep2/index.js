@@ -183,6 +183,7 @@ class NominationPayments extends React.Component {
         });
         if (name === 'nomination') {
             this.props.validateNominationPayment(event.value);
+            this.props.getNominationData(event.value,this.state.partyType);
             this.setState({ errorTextNominationPaymentValidation: '',errorTextNomination: '',division:event.label });
         }
         if (name === 'party') {
@@ -395,11 +396,9 @@ class NominationPayments extends React.Component {
         
         var errorMessage = "Security deposit time should be within " + moment(electionTimeline.paymentStart).format("DD MMM YYYY hh:mm a")  + " and " + moment(electionTimeline.paymentEnd).format("DD MMM YYYY hh:mm a");
         var errorTextPayment = false;
-        debugger;
         //payment start should be before now time 
         if (moment(paymentStart).isAfter(TodayFormatedWithTime)) {
             errorTextPayment = true;
-            debugger;
           }
         //now time should be before payment end
         if (moment(TodayFormatedWithTime).isAfter(paymentEnd)) {
