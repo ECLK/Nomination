@@ -67,7 +67,7 @@ class DynamicForm extends React.Component {
     } else if (format === 'lknic') {
       valid =  (/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/.test(value)).toString();
     } else {
-      valid = (String(value).length !== 0).toString();
+      valid = (!!value).toString();
     }
     let progressValue = {edited:true, valid};
     let delta = {
@@ -118,8 +118,8 @@ class DynamicForm extends React.Component {
       if (Array.isArray(propSpec.oneOf)) {
         const d = propSpec.oneOf.map(x => <MenuItem value={x.enum[0]}>{x.title}</MenuItem>);
         items.push(<FormControl fullWidth key={propName + "-label"}>
-          <InputLabel htmlFor={propName}>{propSpec.title}</InputLabel>
-          <Select error={isError} name={propName} value={formData[propName]} onChange={this.onChange}>
+          <InputLabel shrink={!!formData[propName]} htmlFor={propName}>{propSpec.title}</InputLabel>
+          <Select  error={isError} name={propName} value={formData[propName]} onChange={this.onChange}>
             {d}
           </Select>
         </FormControl>);
