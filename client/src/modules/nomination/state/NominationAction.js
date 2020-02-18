@@ -758,7 +758,7 @@ export const createAndDownloadPdfParliamentaryNominationForm = function createAn
   };
 
   let templateData = {
-    "margin.top": "0.5",
+    "margin.top": "15",
     "margin.right": "1",
     "margin.bottom": "0.5",
     "margin.left": "1.5",
