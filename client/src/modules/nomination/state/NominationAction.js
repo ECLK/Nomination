@@ -697,11 +697,22 @@ const firstAPI = axios.create({
   baseURL: PDF_GENARATION_SERVICE_URL
 })
 export const createAndDownloadPdf = function createAndDownloadPdf(paymentData) {
-  firstAPI.post(`/create-pdf`,paymentData)
-    .then(()=> firstAPI.get('fetch-pdf', { responseType: 'blob'}))
+  let templateData = {
+    "margin.top": "0.5",
+    "margin.right": "1",
+    "margin.bottom": "0.5",
+    "margin.left": "1.5",
+    "format": 'Legal'
+  };
+
+  templateData['file'] = {"template": "nomination_payslip.js"}
+  templateData['file']['paymentData'] = paymentData;
+
+  firstAPI.post(`/generate`, templateData)
+    .then((res) => firstAPI.get(res.data.url, { responseType: 'blob' }))
     .then((res) => {
-      const pdfBlob = new Blob([res.data], { type:'application/pdf' });
-      saveAs(pdfBlob,'nomination_payslip.pdf');
+      const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      saveAs(pdfBlob, 'nomination_payslip.pdf');
     })
 }
 //--------------- End of genarate pdf ---------------------------
