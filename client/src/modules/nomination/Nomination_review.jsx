@@ -407,7 +407,7 @@ class NominationReview extends React.Component {
         <CssBaseline />
         <AdminMenu title="Election Commission of Sri Lanka"></AdminMenu>
         <Typography variant="h5" component="h2">
-          Nomination Review
+          Nomination Approval
         </Typography>
         <div className={classes.container}>
 

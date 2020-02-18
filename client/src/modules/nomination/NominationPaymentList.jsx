@@ -202,7 +202,7 @@ class CustomizedTable extends React.Component {
         return (
             <MuiThemeProvider theme={this.getMuiTheme()}>
             <MUIDataTable
-                title={"Payment list"}
+                title={"Security Deposit List"}
                 data={data}
                 columns={columns}
                 options={options}
