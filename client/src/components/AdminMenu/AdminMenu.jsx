@@ -84,22 +84,19 @@ class ResponsiveDrawer extends React.Component {
     if (this.state.goToLogin) return <Redirect to="/login" />;
     var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)scope\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var scopes = decodeURIComponent(cookieValue).split(/ +/g)
-    // var indexA = scopes.findIndex(x => x === 'election_template_edit');
-    // var indexCall = scopes.findIndex(x => x === 'call_election_edit');
+ 
+      var user_role = sessionStorage.getItem('role');
+    Array.prototype.move = function(x, y){
+      this.splice(y, 0, this.splice(x, 1)[0]);
+      debugger;
+      return this;
+    };
 
+    scopes.move(3,5);
+    scopes.move(1,0);
+    scopes.move(3,2);
+    scopes.move(5,3);
 
-    // if(scopes.length>1){
-    //   var temp = scopes[indexA];
-    //   var temp2 = scopes[0];
-
-    //   scopes[indexA] = scopes[scopes.length - 1];
-    //   scopes[scopes.length - 1] = temp;
-    //   scopes[0] = scopes[indexCall];
-    //   scopes[indexCall] = temp2;
-    // }
-    var user_role = sessionStorage.getItem('role');
-console.log("scopes",scopes);
-    
     //  var scopes = ['home','election_edit','nomination_approval','election_approval','objection_approval','payment_approval','template_edit','profile'];
     const list = scopes.map((scope) => {
       switch (scope) {
@@ -111,13 +108,13 @@ console.log("scopes",scopes);
         case "election_template_edit":
           return <div><ListItem button key="Create_election" component={Link} to='/admin/create-election-home' selected={this.props.location.pathname === "/admin/create-election-home"}>
             <ListItemIcon><NominationIcon /></ListItemIcon>
-            <ListItemText primary="Create Election" />
+            <ListItemText primary="Create Election Template" />
           </ListItem></div>
         case "nomination_approval_edit":
-          return <ListItem button key="Nomination" component={Link} to='/admin/nomination-review' selected={this.props.location.pathname === "/admin/nomination-review"}>
+          return <div><ListItem button key="Nomination" component={Link} to='/admin/nomination-review' selected={this.props.location.pathname === "/admin/nomination-review"}>
             <ListItemIcon><NominationIcon /></ListItemIcon>
             <ListItemText primary="Nomination Approval" />
-          </ListItem>
+          </ListItem><Divider /></div>
         case "call_election_approve_edit":
           return <ListItem button key="Election_review" component={Link} to='/election-process-review'
             selected={this.props.location.pathname === "/election-process-review"}>
@@ -136,11 +133,11 @@ console.log("scopes",scopes);
         //     <ListItemText primary="Payment Approval" />
         //   </ListItem>
         case "election_template_approval":
-          return <ListItem button key="template_review" component={Link} to='/admin/template-review'
+          return <div><ListItem button key="template_review" component={Link} to='/admin/template-review'
               selected={this.props.location.pathname === "/admin/template-review"}>
           <ListItemIcon><MoneyIcon/></ListItemIcon>
           <ListItemText primary="Election Template Approval"/>
-          </ListItem>
+          </ListItem><Divider /></div>
         case "payment_edit":
           return <ListItem button key="Payment" component={Link} to='/admin/nomination-payment-list' selected={this.props.location.pathname === "/admin/nomination-payment-list"}>
           <ListItemIcon><MoneyIcon /></ListItemIcon>
