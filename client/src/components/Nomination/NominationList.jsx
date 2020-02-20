@@ -6,7 +6,6 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import axios from 'axios';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -14,8 +13,6 @@ import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { getNominationList } from '../../modules/nomination/state/NominationAction';
-import SummeryView from '../SummeryView';
 
 
 const styles = theme => ({
@@ -99,10 +96,6 @@ const styles = theme => ({
 			});
 		};
 
-		componentWillMount() {
-			const {getNominationList} = this.props;
-			getNominationList();
-	}
 
 	redirectToTarget = (id) => {
 		this.setState({ nominationId: id });
@@ -112,7 +105,6 @@ const styles = theme => ({
 		const { classes,division } = this.props;
 		const {props} = this;
 		const { expanded } = this.state;
-debugger;
 
 		return (
 			<div className={classes.root}>
@@ -149,12 +141,6 @@ debugger;
 												{ !nomination.paymentStatus ?
 												<ListItem className={classes.listItem} key={index}>
 													<Typography style={{color:'red',marginTop:20}}>Security deposit hasn't been paid,Please make the payment to proceed!</Typography>
-										{/* <SummeryView
-										variant={"info"}
-										className={classes.margin}
-										message={"Please make the payment to proceed!"}
-										style={{marginBottom:'10px'}}
-										/> */}
 										</ListItem> : ' '
 											}
 												<div>
@@ -197,14 +183,12 @@ ControlledExpansionPanels.propTypes = {
 
 const mapStateToProps = ({Nomination}) => {
 	const {getNominationList} = Nomination;
-	const division = Nomination.nominationList;
 	const nominationPaymentValidation = Nomination.nominationPaymentValidation;
 	
-	return {division,getNominationList,nominationPaymentValidation};
+	return {getNominationList,nominationPaymentValidation};
   };
   
   const mapActionsToProps = {
-	getNominationList
   };
 
   export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(ControlledExpansionPanels));

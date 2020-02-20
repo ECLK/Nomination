@@ -144,7 +144,7 @@ console.log("scopes",scopes);
         case "payment_edit":
           return <ListItem button key="Payment" component={Link} to='/admin/nomination-payment-list' selected={this.props.location.pathname === "/admin/nomination-payment-list"}>
           <ListItemIcon><MoneyIcon /></ListItemIcon>
-          <ListItemText primary="Nomination Payment" />
+          <ListItemText primary="Nomination Security Deposit" />
         </ListItem>
       }
     });
