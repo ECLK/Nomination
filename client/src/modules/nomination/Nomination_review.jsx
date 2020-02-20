@@ -195,7 +195,7 @@ class NominationReview extends React.Component {
   findIndex = (nominations, id) => {
     return nominations.findIndex(x => x.id === id);
   };
-  
+
   findApprovalIndex(id) {
     const {nominations} = this.props;
     return nominations.findIndex(x => x.id === id);
@@ -203,7 +203,7 @@ class NominationReview extends React.Component {
   onOpenModal = (nominationId, status) => {
     const {nominations} = this.props;
     const index = this.findApprovalIndex(nominationId);
-    
+
     this.setState({
       open: true,
       nominationId: nominationId,
@@ -294,7 +294,7 @@ class NominationReview extends React.Component {
               {candidate.address}
             </TableCell>
             <TableCell onClick={() => { this.downloadCandidateDocuments(candidate) }} className={classes.candidate_table_cell} align="left">
-              <GetAppIcon style={{marginRight:10,marginBottom:-2}} className={classes.left_icon} />
+              <GetAppIcon style={{marginRight:10,marginBottom:-2, cursor: 'pointer'}} className={classes.left_icon} />
             </TableCell>
           </TableRow>
         </React.Fragment>
@@ -314,10 +314,10 @@ class NominationReview extends React.Component {
               <Typography className={classes.heading}>Total no of candidate : {nomination.candidates.length}</Typography>
             </Grid>
             <Grid item xs="4">
-            
-             
+
+
                 <CommentIcon style={{marginRight:10,marginBottom:-2}} onClick={() => { this.onOpenModal2(nomination.id, APPROVAL_STATE.APPROVED) }} className={classes.left_icon} />
-              
+
               <Button
                 variant={nomination.approval_status === "1ST-APPROVE" ? "contained" : "outlined"}
                 disabled={nomination.approval_status === "1ST-APPROVEd"}
@@ -449,7 +449,7 @@ class NominationReview extends React.Component {
               aria-labelledby="alert-dialog-slide-title"
               aria-describedby="alert-dialog-slide-description"
             >
-             
+
               <DialogTitle id="alert-dialog-slide-title">
               <Remark style={{marginBottom:-4,marginRight:5}} /> {"Remarks"}
               </DialogTitle>
@@ -486,7 +486,7 @@ class NominationReview extends React.Component {
               aria-labelledby="alert-dialog-slide-title"
               aria-describedby="alert-dialog-slide-description"
             >
-             
+
               <DialogTitle id="alert-dialog-slide-title">
               <Remark style={{marginBottom:-4,marginRight:5}} /> {"Remarks"}
               </DialogTitle>
