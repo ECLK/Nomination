@@ -141,14 +141,14 @@ class Home extends React.Component {
                     {/* <div className={classes.root}> */}
                         <Grid  container spacing={24}>
                             <Typography component="h2" variant="headline" gutterBottom style={{marginLeft:5}}>
-                                 Nomination Payment
+                                 Nomination Security Deposit
                             </Typography>
                             <Divider variant="middle" className={classes.topBottomSpace} />
 
                         </Grid>
                         <Grid container spacing={24}>
                             <Button style={{margin:30,marginLeft:13}}  onClick={this.onOpenModal} variant="outlined" color="primary" className={classes.button}>
-                                Add New Payment
+                                Add New Security Deposit
                             </Button>                               
                         </Grid>
                         <Grid container spacing={2}>

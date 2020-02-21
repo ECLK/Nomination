@@ -456,13 +456,18 @@ const nominationListLoaded = (getNominationList) => {
   };
 };
 
-export function getNominationList() {
+export function getNominationList(teamId) {
+  if(teamId){
+   var partyId = teamId
+  }else{
+    var partyId = sessionStorage.getItem('party_id');
+  }
 
   return function (dispatch) {
      
     const response = axios
     .get(
-      `${API_BASE_URL}/elections/${sessionStorage.getItem('election_id')}/teams/${sessionStorage.getItem('party_id')}/divisions/${sessionStorage.getItem('division_id')}`,
+      `${API_BASE_URL}/elections/${sessionStorage.getItem('election_id')}/teams/${partyId}/divisions/${sessionStorage.getItem('division_id')}`,
     )
     .then(response => {
       const getNominationList = response.data;
@@ -697,11 +702,22 @@ const firstAPI = axios.create({
   baseURL: PDF_GENARATION_SERVICE_URL
 })
 export const createAndDownloadPdf = function createAndDownloadPdf(paymentData) {
-  firstAPI.post(`/create-pdf`,paymentData)
-    .then(()=> firstAPI.get('fetch-pdf', { responseType: 'blob'}))
+  let templateData = {
+    "margin.top": "0.5",
+    "margin.right": "1",
+    "margin.bottom": "0.5",
+    "margin.left": "1.5",
+    "format": 'Legal'
+  };
+
+  templateData['file'] = {"template": "nomination_payslip.js"}
+  templateData['file']['paymentData'] = paymentData;
+
+  firstAPI.post(`/generate`, templateData)
+    .then((res) => firstAPI.get(res.data.url, { responseType: 'blob' }))
     .then((res) => {
-      const pdfBlob = new Blob([res.data], { type:'application/pdf' });
-      saveAs(pdfBlob,'nomination_payslip.pdf');
+      const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      saveAs(pdfBlob, 'nomination_payslip.pdf');
     })
 }
 //--------------- End of genarate pdf ---------------------------
@@ -758,11 +774,12 @@ export const createAndDownloadPdfParliamentaryNominationForm = function createAn
   };
 
   let templateData = {
-    "margin.top": "0.5",
+    "margin.top": "15",
     "margin.right": "1",
     "margin.bottom": "0.5",
     "margin.left": "1.5",
-    "format": 'A3'
+    "format": 'A3',
+    "landscape": true
   };
 
   templateData['file'] = {"template": "parliamentary_nomination_form.js"}
