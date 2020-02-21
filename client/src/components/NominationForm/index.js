@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import DoneOutline from '@material-ui/icons/DoneOutline';
-import CloseIcon from '@material-ui/icons/Cancel';
+import DownloadIcon from '@material-ui/icons/GetAppRounded';
 import { Redirect } from 'react-router-dom';
 import {API_BASE_URL} from "../../config.js";
 import axios from "axios";
@@ -250,7 +250,7 @@ class NominationForm extends React.Component {
     {/* <a download={"filename"} href={"ok"}>filename</a> */}
     </div>);
       const closeElement = (<div  className={classes.done} style={this.showFlagToStyle(this.state.status === "uploaded")}>
-      <CloseIcon ref={this.state.currentSdocId}  color="red"/>
+      <DownloadIcon ref={this.state.currentSdocId}  color="red"/>
       {/* <a download={"filename"} href={"ok"}>filename</a> */}
       </div>);
     const supportingDocs = [{
