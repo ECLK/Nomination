@@ -35,7 +35,8 @@ class TextFields extends React.Component {
                     console.log(res);
                     const formData = res.data[0];
                     //TODO: do this to all 'date' type fields
-                    formData["DATE_OF_BIRTH"] = Number(formData["DATE_OF_BIRTH"]);
+                    
+                    formData["DATE_OF_BIRTH"] = Number(Date.parse(formData["DATE_OF_BIRTH"]));
                     this.setState({ajaxState: this.state.ajaxState + 0.5,  formData });
                 });
         }

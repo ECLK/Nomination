@@ -28,7 +28,11 @@ const mapToCandidateModel = (candidates) => {
 
     var candidateInfoMap = {CANDIDATE_ID:id};
     _.each(orderedProps, function (property) {
-      candidateInfoMap[property.CANDIDATE_KEY_NAME] = property.CANDIDATE_VALUE;
+      if(property.CANDIDATE_KEY_NAME === 'DATE_OF_BIRTH'){
+        candidateInfoMap[property.CANDIDATE_KEY_NAME] = moment(new Date(parseInt(property.CANDIDATE_VALUE))).format('YYYY-MM-DD');
+      }else{
+        candidateInfoMap[property.CANDIDATE_KEY_NAME] = property.CANDIDATE_VALUE;
+      }
     });
     
     return candidateInfoMap;
