@@ -56,6 +56,9 @@ class CheckboxTableGrid extends React.Component {
                   zIndex: 101,
                   left: 0,
                   background: "white",
+              },
+              '& table tr:nth-child(1) th:nth-child(1)': {
+                  zIndex: 102,
               }
             }
            }
