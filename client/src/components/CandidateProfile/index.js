@@ -39,8 +39,9 @@ class TextFields extends React.Component {
                     formData["DATE_OF_BIRTH"] = Number(Date.parse(formData["DATE_OF_BIRTH"]));
                     this.setState({ajaxState: this.state.ajaxState + 0.5,  formData });
                 });
-                this.props.getCandidateSupportingDocs(index);
         }
+        this.props.getCandidateSupportingDocs(index);
+
 
 
         axios.get("modules/"+ moduleId +"/candidate-form-config", {}).then(

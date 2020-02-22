@@ -562,6 +562,7 @@ const candidateSupportdocLoaded = (getcandidateSupportdocList) => {
 };
 
 export function getCandidateSupportingDocs(candidateId) {
+  debugger;
   return function (dispatch) {
      
     const response = axios
