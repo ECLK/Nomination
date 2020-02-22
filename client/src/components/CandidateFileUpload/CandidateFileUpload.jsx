@@ -9,9 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import {postCandidateSupportDocs} from '../../modules/nomination/state/NominationAction';
 import { connect } from 'react-redux';
 import DoneOutline from '@material-ui/icons/DoneOutline';
-import CloseIcon from '@material-ui/icons/Cancel';
+import DownloadIcon from '@material-ui/icons/GetApp';
 import { API_BASE_URL } from "../../config.js";
 import axios from "axios";
+import download from 'downloadjs';
 
 
 
@@ -177,6 +178,15 @@ componentDidMount() {
     }
   };
 
+    handleFileDownload = (doc) => {
+        axios.get(`${API_BASE_URL}/nominations/candidates/${this.props.index}/support-docs/${doc.id}/download`, {responseType: 'blob'}, {
+        }).then((response) => {
+            download(new Blob([response.data]), doc.originalname, response.headers['content-type']);
+        }).catch(err => {
+            console.log(err)
+        });
+    };
+
   handleChangeButton = (e) => {
     const { onCloseModal } = this.props;
     if(e.currentTarget.value==="Submit&Clouse"){
@@ -216,7 +226,7 @@ componentDidMount() {
     {/* <a download={"filename"} href={"ok"}>filename</a> */}
     </div>);
       const closeElement = (<div  className={classes.done} style={this.showFlagToStyle(this.state.status === "uploaded")}>
-      <CloseIcon ref={this.state.currentSdocId} onClick={this.handleRese} color="red"/>
+      <DownloadIcon ref={this.state.currentSdocId} onClick={this.handleRese} color="red"/>
       {/* <a download={"filename"} href={"ok"}>filename</a> */}
       </div>);
 
@@ -234,20 +244,20 @@ componentDidMount() {
               <Grid item lg={6}>
                 {docs.doc}
               </Grid>
-              <Grid item lg={4}>
-                <FileUpload value={docs.id} doneElement={doneElement} onSelectFiles={this.onSelectFiles} />
-                {
-                  this.state.supportdoc.map(sdoc => (
-                    sdoc.id === docs.id ? 
-                    <Typography variant="caption" gutterBottom>
-                  {sdoc.originalname}<div  className={classes.done}>
-                  <CloseIcon ref={this.state.currentSdocId} onClick={this.handleRese} color="red"/>
-                  </div>
-                </Typography>
-                    : ' '
-                  ))
-                } 
-              </Grid>
+                <Grid item lg={4}>
+                    <FileUpload value={docs.id} doneElement={doneElement} onSelectFiles={this.onSelectFiles} />
+                    {
+                        this.state.supportdoc.map(sdoc => (
+                            sdoc.id === docs.id ?
+                                <Typography variant="caption" gutterBottom style={{cursor: 'pointer'}} onClick={() => { this.handleFileDownload(sdoc) }}>
+                                    {sdoc.originalname}<div  className={classes.done}>
+                                    <DownloadIcon ref={this.state.currentSdocId} onClick={this.handleRese} color="red"/>
+                                </div>
+                                </Typography>
+                                : ' '
+                        ))
+                    }
+                </Grid>
 
               <Grid item lg={12}>
                 <Divider className={classes.divider} variant="middle"/>

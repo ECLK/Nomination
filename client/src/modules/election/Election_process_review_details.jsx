@@ -320,7 +320,7 @@ class Dashboard extends React.Component {
                     <Typography variant="subtitle2" className={classes.text_a} component="p">Calculation Type  : </Typography>
                 </Grid>
                 <Grid item xs={3} sm={2} justify="center">
-                    <Typography component="p">{(CalculationType === 'vote_and_prefrence') ? 'Vote & Prefrential Based' : (CalculationType === 'pure_prefrence_based') ? 'Pure preference-based' : (CalculationType === 'pure_vote_based') ? 'Pure vote-based' : ''}</Typography>
+                    <Typography component="p">{(CalculationType === 'vote_and_prefrence') ? 'Vote & Preferential Based' : (CalculationType === 'pure_prefrence_based') ? 'Pure preference-based' : (CalculationType === 'pure_vote_based') ? 'Pure vote-based' : ''}</Typography>
                 </Grid>
                 {/* <Grid item xs={12} sm={6}>
                     <Grid container spacing={24}>

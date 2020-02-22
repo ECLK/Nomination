@@ -239,11 +239,11 @@ export const setUpdatedTemplateData = (val) => {
             moduleId: "",
             name: response.data.name,
             status: "PENDING"}
-        //  dispatch(setUpdatedTemplateData(response.data));
-         dispatch({
-            type: RECIVE_PENDING_ELECTION_MODULE,
+        dispatch({
+            type: GET_REJECTED_ELECTION_MODULE,
             payload: electionNew
         });
+        
          dispatch(openSnackbar({ message: election.name + ' has been updated ' }));
       }).catch(err => {
         dispatch(openSnackbar({ message: ' Something went wrong!' }));
