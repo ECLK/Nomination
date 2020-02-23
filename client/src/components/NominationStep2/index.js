@@ -15,7 +15,7 @@ import { handleChangePayment,
         getNominationData, 
         postNominationPayments, 
         validateNominationPayment,
-        createAndDownloadPdf,
+        createAndDownloadNominationPaySlipPdf,
         getUploadPath } from '../../modules/nomination/state/NominationAction';
 import {getElectionTimeLine} from '../../modules/election/state/ElectionAction';
         
@@ -236,7 +236,8 @@ class NominationPayments extends React.Component {
     }
 
     handleSubmit = (e) => {
-        const { postNominationPayments, serialNo, onCloseModal, nominationPaymentValidation,nominationListForPayment } = this.props;
+        const { postNominationPayments, serialNo, onCloseModal, nominationPaymentValidation,nominationListForPayment,nominationData} = this.props;
+        const candidateCount = (nominationData.length) ? nominationData[0].noOfCandidates : '';
         var goNext = true;
         e.preventDefault();
 
@@ -283,7 +284,9 @@ class NominationPayments extends React.Component {
         }
         if (goNext) {
                 postNominationPayments(this.state, serialNo,division,this.state.party);
-                createAndDownloadPdf(this.state);
+                var paymentData = this.state;
+                paymentData["candidateCount"] = candidateCount;
+                createAndDownloadNominationPaySlipPdf(paymentData);
                 onCloseModal();
         }
     };
