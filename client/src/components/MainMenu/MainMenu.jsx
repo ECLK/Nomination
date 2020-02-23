@@ -70,7 +70,7 @@ class ResponsiveDrawer extends React.Component {
   };
 
   handleLogout = () => {
-    this.setState({ goToLogin: true });
+    window.location = "/signout";
   };
 
   render() {
