@@ -22,7 +22,8 @@ import {
   GET_NOMINATION_LIST_FOR_PAYMENT,
   GET_NOMINATION_DATA,
   NOMINATION_PAYMENT_VALIDATION_LOADED,
-  ORIGINAL_UPLOAD_PATH_LOADED
+  ORIGINAL_UPLOAD_PATH_LOADED,
+  PARTY_LIST_BY_TEAM_TYPE_LOADED
 } from "./NominationTypes";
 import {API_BASE_URL,PDF_GENARATION_SERVICE_URL} from "../../../config.js";
 import axios from "axios";
@@ -43,7 +44,7 @@ export function getNominations(selectedElection,selectedParty) {
      
     const response = axios
     .get(
-      `${API_BASE_URL}/nominations/${selectedElection}/pending-nominations/${'SUBMIT'}/team/${selectedParty}`,
+      `${API_BASE_URL}/nominations/${selectedElection}/pending-nominations/${'SUBMIT'}/team/${selectedParty}/divisions/${sessionStorage.getItem('division_id')}`,
     )
     .then(response => {
        dispatch(nominationLoaded(response.data));
@@ -117,6 +118,37 @@ export function getTeams() {
     .then(response => {
       const partyList = response.data;
        dispatch(partyListLoaded(partyList));
+    }).catch(err => {
+          console.log(err)
+    });
+  };
+}
+
+//get party list by party type
+const partyListByTypeLoaded = (partyList) => {
+  return {
+    type: PARTY_LIST_BY_TEAM_TYPE_LOADED,
+    payload: partyList,
+  };
+};
+
+export function getTeamsByTeamType(res) {
+  var partyType = '';
+  if(res==="candidate payment rpp"){
+    partyType = "RPP";
+  }
+  if(res==="candidate payment ig"){
+    partyType = "IG";
+  }
+  return function (dispatch) {
+     
+    const response = axios
+    .get(
+      `${API_BASE_URL}/teams/${partyType}/withType`,
+    )
+    .then(response => {
+      const partyList = response.data;
+       dispatch(partyListByTypeLoaded(partyList));
     }).catch(err => {
           console.log(err)
     });
@@ -424,13 +456,18 @@ const nominationListLoaded = (getNominationList) => {
   };
 };
 
-export function getNominationList() {
+export function getNominationList(teamId) {
+  if(teamId){
+   var partyId = teamId
+  }else{
+    var partyId = sessionStorage.getItem('party_id');
+  }
 
   return function (dispatch) {
      
     const response = axios
     .get(
-      `${API_BASE_URL}/elections/${sessionStorage.getItem('election_id')}/teams/${sessionStorage.getItem('party_id')}/divisions`,
+      `${API_BASE_URL}/elections/${sessionStorage.getItem('election_id')}/teams/${partyId}/divisions/${sessionStorage.getItem('division_id')}`,
     )
     .then(response => {
       const getNominationList = response.data;
@@ -497,7 +534,7 @@ export function getNominationListForPayment(electionId,teamId) {
      
     const response = axios
     .get(
-      `${API_BASE_URL}/elections/${electionId}/teams/${teamId}/nominations`,
+      `${API_BASE_URL}/elections/${electionId}/teams/${teamId}/nominations/${sessionStorage.getItem('division_id')}/divisions`,
     )
     .then(response => {
       const getNominationList = response.data;
@@ -595,7 +632,7 @@ export function getPaymentList() {
      
     const response = axios
     .get(
-      `${API_BASE_URL}/nomination-payments`,
+      `${API_BASE_URL}/nomination-payments/${sessionStorage.getItem('division_id')}`,
     )
     .then(response => {
       const paymentList = response.data;
@@ -665,46 +702,65 @@ const firstAPI = axios.create({
   baseURL: PDF_GENARATION_SERVICE_URL
 })
 export const createAndDownloadPdf = function createAndDownloadPdf(paymentData) {
-  firstAPI.post(`/create-pdf`,paymentData)
-    .then(()=> firstAPI.get('fetch-pdf', { responseType: 'blob'}))
+  let templateData = {
+    "margin.top": "0.5",
+    "margin.right": "1",
+    "margin.bottom": "0.5",
+    "margin.left": "1.5",
+    "format": 'Legal'
+  };
+
+  templateData['file'] = {"template": "nomination_payslip.js"}
+  templateData['file']['paymentData'] = paymentData;
+
+  firstAPI.post(`/generate`, templateData)
+    .then((res) => firstAPI.get(res.data.url, { responseType: 'blob' }))
     .then((res) => {
-      const pdfBlob = new Blob([res.data], { type:'application/pdf' });
-      saveAs(pdfBlob,'nomination_payslip.pdf');
+      const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      saveAs(pdfBlob, 'nomination_payslip.pdf');
     })
 }
 //--------------- End of genarate pdf ---------------------------
-export const createAndDownloadPdfNominationForm = function createAndDownloadPdfNominationForm(type,Data,partyList) {
-  var partyName="";
+export const createAndDownloadPdfPresidentialNominationForm = function createAndDownloadPdfPresidentialNominationForm(type,Data,partyList) {
+  var partyName = "";
   for (var j = 0; j < partyList.length; j++) {
-    if(sessionStorage.getItem("party_id")===partyList[j].team_id){
-      partyName=partyList[j].team_name;
+    if (sessionStorage.getItem("party_id") === partyList[j].team_id) {
+      partyName = partyList[j].team_name;
     }
-}
-  var candidateName="";
-  var address="";
-  var occupation="";
-  if(type==="presidential"){
-    Data.map((data) => {
-      candidateName=data.fullName
-      address=data.address
-      occupation=data.occupation
-    });
   }
-  const NominationData = {
-    candidateName:candidateName,
-    address:address,
-    occupation:occupation,
-    partyName:partyName
-  }
-  firstAPI.post(`/create-pdf/${type}`,NominationData)
-    .then(()=> firstAPI.get('fetch-pdf-presidential', { responseType: 'blob'}))
+
+  var candidateData = {};
+  Data.map((data) => {
+    candidateData['candidateName'] = data.fullName
+    candidateData['address'] = data.address
+    candidateData['occupation'] = data.occupation
+  });
+
+  const nominationData = {
+    partyName: partyName,
+    candidateData: candidateData
+  };
+
+  let templateData = {
+    "margin.top": "0.5",
+    "margin.right": "1",
+    "margin.bottom": "0.5",
+    "margin.left": "1.5",
+    "format": 'Legal'
+  };
+
+  templateData['file'] = {"template": "presidential_nomination_form.js"}
+  templateData['file']['nominationData'] = nominationData;
+
+  firstAPI.post(`/generate`, templateData)
+    .then((res) => firstAPI.get(res.data.url, { responseType: 'blob' }))
     .then((res) => {
-      const pdfBlob = new Blob([res.data], { type:'application/pdf' });
-      saveAs(pdfBlob,'form_of_nomination.pdf');
+      const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      saveAs(pdfBlob, type + '.pdf');
     })
 }
 
-export const createAndDownloadPdfFormUsingTemplate = function createAndDownloadPdfFormUsingTemplate(type, Data, partyList) {
+export const createAndDownloadPdfParliamentaryNominationForm = function createAndDownloadPdfParliamentaryNominationForm(type, Data, partyList) {
   var partyName = "";
   for (var j = 0; j < partyList.length; j++) {
     if (sessionStorage.getItem("party_id") === partyList[j].team_id) {
@@ -718,21 +774,15 @@ export const createAndDownloadPdfFormUsingTemplate = function createAndDownloadP
   };
 
   let templateData = {
-    "margin.top": "0.5",
+    "margin.top": "15",
     "margin.right": "1",
     "margin.bottom": "0.5",
     "margin.left": "1.5",
-    "format": 'A3'
+    "format": 'A3',
+    "landscape": true
   };
 
-  switch (type) {
-    case 'parliamentary_nomination':
-      templateData['file'] = {"template": "parliamentary_nomination_form.js"}
-      break;
-    default:
-      return;
-  }
-
+  templateData['file'] = {"template": "parliamentary_nomination_form.js"}
   templateData['file']['nominationData'] = nominationData;
 
   firstAPI.post(`/generate`, templateData)

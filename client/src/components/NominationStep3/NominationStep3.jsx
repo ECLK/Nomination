@@ -4,15 +4,19 @@ import {withStyles} from '@material-ui/core/styles';
 import FileUpload from "../common/FileUpload";
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
-import { createAndDownloadPdfNominationForm, createAndDownloadPdfFormUsingTemplate } from '../../modules/nomination/state/NominationAction';
+import { createAndDownloadPdfPresidentialNominationForm, createAndDownloadPdfParliamentaryNominationForm } from '../../modules/nomination/state/NominationAction';
 import ProgressButton from "../ProgressButton";
 import DoneOutline from '@material-ui/icons/DoneOutline';
 import CloseIcon from '@material-ui/icons/Cancel';
+import axios from "axios";
+import {API_BASE_URL} from "../../config";
+import download from "downloadjs";
 
 const styles = theme => ({
     container: {
@@ -92,6 +96,15 @@ class TextFields extends React.Component {
     var filesArray = this.state.files;
   };
 
+    handleFileDownload = (doc) => {
+        axios.get(`${API_BASE_URL}/nominations/${this.props.customProps}/support-docs/${doc.id}/download`, {responseType: 'blob'}, {
+        }).then((response) => {
+            download(new Blob([response.data]), doc.originalname, response.headers['content-type']);
+        }).catch(err => {
+            console.log(err)
+        });
+    };
+
  
 
   handlePdfGenarationButton = (e) => {
@@ -113,7 +126,7 @@ class TextFields extends React.Component {
         }
         if (goNext) {
           if(this.state.nominationFormCategory==='presidential'){
-            createAndDownloadPdfNominationForm(this.state.nominationFormCategory,NominationCandidates,partyList);
+            createAndDownloadPdfPresidentialNominationForm(this.state.nominationFormCategory,NominationCandidates,partyList);
             setTimeout(() => {
               this.setState({
                 success: true,
@@ -121,7 +134,7 @@ class TextFields extends React.Component {
             });
             }, 4000);
           } else if (this.state.nominationFormCategory === 'parliamentary_nomination') {
-            createAndDownloadPdfFormUsingTemplate(this.state.nominationFormCategory, NominationCandidates, partyList);
+            createAndDownloadPdfParliamentaryNominationForm(this.state.nominationFormCategory, NominationCandidates, partyList);
               setTimeout(() => {
                 this.setState({
                   success: true,
@@ -157,21 +170,19 @@ class TextFields extends React.Component {
             </Grid>
             <Grid item lg={2}>
               <span ><FileUpload  value={docs.id} doneElement={doneElement} onSelectFiles={onSelectFiles} /></span>
-              
+
             </Grid>
-            <Grid style={{marginLeft:-44}} item lg={1}>
-            {
-             supportdoc.map(sdoc => (
-              sdoc.id === docs.id ? 
-              <Typography variant="caption" gutterBottom>
-            {sdoc.originalname}<div  className={classes.done}>
-            <CloseIcon   color="red"/>
-            </div>
-           </Typography>
-               : ' '
-            ))
-          } 
-            </Grid>
+              {
+                  supportdoc.map(sdoc => (
+                      sdoc.id === docs.id ?
+                          <Typography variant="caption" gutterBottom style={{cursor: 'pointer'}} onClick={() => { this.handleFileDownload(sdoc) }}>
+                              {sdoc.originalname}<div  className={classes.done}>
+                              <CloseIcon   color="red"/>
+                          </div>
+                          </Typography>
+                          : ' '
+                  ))
+              }
             {/* {docs.id === 'b20dd58c-e5bb-469d-98c9-8711d6da1879' ?
             <Grid item lg={5}>
               <span><FileUpload   style={{textAlign: 'right'}} value={docs.id} doneElement={doneElement} onSelectFiles={onSelectFiles} /></span>
@@ -237,7 +248,8 @@ class TextFields extends React.Component {
                             </option>
                         </TextField>
                         </Grid>
-                        <Grid style={{marginTop:'7.5px',marginLeft:'-4%'}} item xs="3">
+                        <Grid item xs={1} implementation="css" component={Hidden} />
+                        <Grid style={{marginTop:'7.5px', marginLeft:'-10%'}} item xs="3">
                         {/* <Button variant="contained" onClick = { this.handlePdfGenarationButton }  size="small"  value="Submit&DownloadPdf" color="secondary" className={classes.button}>
                           <DownloadIcon className={clsx(classes.leftIcon, classes.iconSmall)} />
                           Download PDF

@@ -17,11 +17,18 @@ FROM TEAM t
 	LEFT JOIN CONTACT_NUMBER cn on t.ID = cn.TEAM_ID
 WHERE t.ID = :team_id`;
 const ALL_TEAM_SELECT_QUERY = `SELECT 
-ID AS team_id,
-PARTY_NAME AS team_name,
-ABBREVIATION AS team_abbrevation,
-PARTY_TYPE AS team_party_type
-FROM TEAM`;
+                                ID AS team_id,
+                                PARTY_NAME AS team_name,
+                                ABBREVIATION AS team_abbrevation,
+                                PARTY_TYPE AS team_party_type
+                                FROM TEAM`;
+const ALL_TEAM_SELECT_QUERY_BY_TEAM_TYPE = `SELECT 
+                                ID AS team_id,
+                                PARTY_NAME AS team_name,
+                                ABBREVIATION AS team_abbrevation,
+                                PARTY_TYPE AS team_party_type
+                                FROM TEAM WHERE PARTY_TYPE=:partyType`;
+
 
 const fetchTeamById = (team_id) => {
     const params = { team_id: team_id };
@@ -49,6 +56,20 @@ const fetchAllTeams = () => {
             });
 };
 
+const fetchAllTeamsByTeamType = (partyType) => {
+    const params = { partyType: partyType };
+    return DbConnectionTeam()
+        .query(ALL_TEAM_SELECT_QUERY_BY_TEAM_TYPE,
+            {
+                replacements: params,
+                type: DbConnectionTeam().QueryTypes.SELECT,
+            }).then((response) => {
+                return response;
+            })
+            .catch((error) => {
+                throw new DBError(error);
+            });
+};
 
 
 
@@ -77,6 +98,7 @@ const fetchAllTeams = () => {
 
 export default {
   fetchTeamById,
-  fetchAllTeams
+  fetchAllTeams,
+  fetchAllTeamsByTeamType
     // updateTeam,
 }

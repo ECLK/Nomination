@@ -149,7 +149,8 @@ const savePaymentNoteBypaymentId = async (req) => {
 
 const getAllPayments = async (req) => {
 	try {
-		const payments = await PaymentRepo.fetchAllPayments();
+		const divisionId = req.params.divisionId;
+		const payments = await PaymentRepo.fetchAllPayments(divisionId);
 		if (!_.isEmpty(payments)){
 			return PaymentManager.mapToAllPaymentModel(payments);
 		} else {

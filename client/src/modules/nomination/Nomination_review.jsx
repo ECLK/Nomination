@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { APPROVAL_STATE } from './state/NominationTypes';
 import { getNominations, onChangeApproval, getApproveElections, getTeams } from './state/NominationAction';
+import { getElectionTimeLine } from '../election/state/ElectionAction';
 import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -41,6 +42,12 @@ import CommentIcon from '@material-ui/icons/InsertComment';
 import IconButton from "@material-ui/core/IconButton";
 import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
+import axios from "axios";
+import {API_BASE_URL} from "../../config";
+import download from "downloadjs";
+import GetAppIcon from '@material-ui/icons/GetApp';
+import SummeryView from "../../components/SummeryView";
+import moment from "moment";
 
 const drawerWidth = 240;
 
@@ -155,12 +162,13 @@ class NominationReview extends React.Component {
 
 
   componentDidMount() {
-    const { getNominations, getApproveElections, getTeams,nominations } = this.props;
+    const { getNominations, getApproveElections, getTeams,nominations, getElectionTimeLine } = this.props;
     this.setState({
       nominations: nominations,
     });
     getApproveElections();
     getTeams();
+    getElectionTimeLine();
   }
 
   togglePanel = panelIndex => (event, didExpand) => {
@@ -180,8 +188,16 @@ class NominationReview extends React.Component {
 
     this.setState({ selectedElection: event.target.value, });
     getNominations(event.target.value, this.state.selectedParty);
+    this.getElectionTimeline(event.target.value);
 
   };
+
+  getElectionTimeline = (electionId) => {
+    const { getElectionTimeLine } = this.props;
+    debugger;
+    getElectionTimeLine(electionId);
+  };
+
   handleChangeParty = (event) => {
     const { getNominations } = this.props;
     this.setState({ selectedParty: event.target.value, });
@@ -191,7 +207,7 @@ class NominationReview extends React.Component {
   findIndex = (nominations, id) => {
     return nominations.findIndex(x => x.id === id);
   };
-  
+
   findApprovalIndex(id) {
     const {nominations} = this.props;
     return nominations.findIndex(x => x.id === id);
@@ -199,7 +215,7 @@ class NominationReview extends React.Component {
   onOpenModal = (nominationId, status) => {
     const {nominations} = this.props;
     const index = this.findApprovalIndex(nominationId);
-    
+
     this.setState({
       open: true,
       nominationId: nominationId,
@@ -230,8 +246,27 @@ class NominationReview extends React.Component {
       [name]: event.target.value,
     });
   };
+
+  downloadCandidateDocuments = (candidate) => {
+    axios.get(`${API_BASE_URL}/nominations/candidates/${candidate.id}/support-docs/download`, {responseType: 'blob'}, {
+    }).then((response) => {
+      download(new Blob([response.data]), 'candidate_support_docs_'+candidate.id+'.zip', response.headers['content-type']);
+    }).catch(err => {
+      console.log(err)
+    });
+  };
+
+  downloadNominationDocuments = (nomination) => {
+    axios.get(`${API_BASE_URL}/nominations/${nomination.id}/support-docs/download`, {responseType: 'blob'}, {
+    }).then((response) => {
+      download(new Blob([response.data]), 'nomination_support_docs_'+nomination.id+'.zip', response.headers['content-type']);
+    }).catch(err => {
+      console.log(err)
+    });
+  };
+
   render() {
-    const { classes, nominations, ApproveElections, partyList } = this.props;
+    const { classes, nominations, ApproveElections, partyList, ElectionData } = this.props;
     const { expandedPanelIndex } = this.state;
     let selectedElection = this.state.selectedElection;
     if (!selectedElection) {
@@ -253,6 +288,17 @@ class NominationReview extends React.Component {
     });
 
 
+    var nominationApprovalStart = moment(ElectionData.approvalStart).format("YYYY-MM-DDTHH:mm");
+    var nominationApprovalEnd = moment(ElectionData.approvalEnd).format("YYYY-MM-DDTHH:mm");
+    let today = new Date();
+    var TodayFormattedWithTime = moment(today).format("YYYY-MM-DDTHH:mm");
+    var errorMessage = "Nomination approval time should be within " + moment(ElectionData.approvalStart).format("DD MMM YYYY hh:mm a")  + " and " + moment(ElectionData.approvalEnd).format("DD MMM YYYY hh:mm a");
+    var isWithinValidTimeFrame = false;
+
+    if (moment(nominationApprovalStart).isBefore(TodayFormattedWithTime) && moment(TodayFormattedWithTime).isBefore(nominationApprovalEnd)) {
+      isWithinValidTimeFrame = true;
+    }
+
     const CandidateRow = (props) => {
       const { classes, candidate } = props;
       return (
@@ -269,6 +315,9 @@ class NominationReview extends React.Component {
             </TableCell>
             <TableCell className={classes.candidate_table_cell} align="left">
               {candidate.address}
+            </TableCell>
+            <TableCell onClick={() => { this.downloadCandidateDocuments(candidate) }} className={classes.candidate_table_cell} align="left">
+              <GetAppIcon style={{marginRight:10,marginBottom:-2, cursor: 'pointer'}} className={classes.left_icon} />
             </TableCell>
           </TableRow>
         </React.Fragment>
@@ -288,10 +337,10 @@ class NominationReview extends React.Component {
               <Typography className={classes.heading}>Total no of candidate : {nomination.candidates.length}</Typography>
             </Grid>
             <Grid item xs="4">
-            
-             
+
+
                 <CommentIcon style={{marginRight:10,marginBottom:-2}} onClick={() => { this.onOpenModal2(nomination.id, APPROVAL_STATE.APPROVED) }} className={classes.left_icon} />
-              
+
               <Button
                 variant={nomination.approval_status === "1ST-APPROVE" ? "contained" : "outlined"}
                 disabled={nomination.approval_status === "1ST-APPROVEd"}
@@ -321,6 +370,7 @@ class NominationReview extends React.Component {
                   <TableCell align="left">Full Name</TableCell>
                   <TableCell align="left">Occupation</TableCell>
                   <TableCell align="left">Address</TableCell>
+                  <TableCell align="left">Documents</TableCell>
                 </TableHead>
                 <TableBody>
                   {
@@ -360,6 +410,11 @@ class NominationReview extends React.Component {
           </Grid>
           <br />
         </ExpansionPanelDetails>
+        <Button
+            onClick={() => { this.downloadNominationDocuments(nomination) }}
+            className={classNames(classes.button, classes.green_button)}>Download Nomination Documents
+          <GetAppIcon style={{marginRight:10,marginBottom:-2}} className={classes.left_icon} />
+        </Button>
       </ExpansionPanel>
     ));
 
@@ -375,7 +430,7 @@ class NominationReview extends React.Component {
         <CssBaseline />
         <AdminMenu title="Election Commission of Sri Lanka"></AdminMenu>
         <Typography variant="h5" component="h2">
-          Nomination Review
+          Nomination Approval
         </Typography>
         <div className={classes.container}>
 
@@ -417,7 +472,7 @@ class NominationReview extends React.Component {
               aria-labelledby="alert-dialog-slide-title"
               aria-describedby="alert-dialog-slide-description"
             >
-             
+
               <DialogTitle id="alert-dialog-slide-title">
               <Remark style={{marginBottom:-4,marginRight:5}} /> {"Remarks"}
               </DialogTitle>
@@ -454,7 +509,7 @@ class NominationReview extends React.Component {
               aria-labelledby="alert-dialog-slide-title"
               aria-describedby="alert-dialog-slide-description"
             >
-             
+
               <DialogTitle id="alert-dialog-slide-title">
               <Remark style={{marginBottom:-4,marginRight:5}} /> {"Remarks"}
               </DialogTitle>
@@ -486,9 +541,16 @@ class NominationReview extends React.Component {
           </div>
           <br />
           <br />
-
+          <Grid style={{ textAlign: 'center', marginRight: '25px' }} className={classes.label} item lg={12}>
+            { !isWithinValidTimeFrame ? <SummeryView
+                variant={"warning"}
+                className={classes.margin}
+                message={errorMessage}
+                style={{marginBottom:'10px'}}
+            /> : " "}
+          </Grid>
           <div style={{ width: '100%' }}>
-            {nominationElements}
+            {isWithinValidTimeFrame? nominationElements: null}
           </div>
           <br />
 
@@ -502,7 +564,7 @@ NominationReview.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = ({ Nomination }) => {
+const mapStateToProps = ({ Nomination,Election }) => {
   /*const {all_nominations} = Nomination;
   return {all_nominations}*/
   const { getApproveElections } = Nomination;
@@ -510,18 +572,19 @@ const mapStateToProps = ({ Nomination }) => {
 
   const ApproveElections = Nomination.approveElections;
   const partyList = Nomination.partyList;
-
+  const ElectionData = Election.ElectionTimeLineData;
 
   const nominations = Nomination.nominations;
 
-  return { nominations, getApproveElections, ApproveElections, getTeams, partyList };
+  return { nominations, getApproveElections, ApproveElections, getTeams, partyList,ElectionData };
 };
 
 const mapActionsToProps = {
   getNominations,
   getApproveElections,
   onChangeApproval,
-  getTeams
+  getTeams,
+  getElectionTimeLine
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(NominationReview));

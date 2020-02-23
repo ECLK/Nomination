@@ -46,7 +46,7 @@ export const initPaymentRouter = (app) => {
 		},
 		{
 			method: GET,
-			path: '/nomination-payments',
+			path: '/nomination-payments/:divisionId',
 			schema: {},
 			handler: (req, res, next) => {
 				return PaymentService.getAllPayments(req)
