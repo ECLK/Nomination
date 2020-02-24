@@ -194,7 +194,6 @@ class NominationReview extends React.Component {
 
   getElectionTimeline = (electionId) => {
     const { getElectionTimeLine } = this.props;
-    debugger;
     getElectionTimeLine(electionId);
   };
 
@@ -286,7 +285,6 @@ class NominationReview extends React.Component {
       })
       return record;
     });
-
 
     var nominationApprovalStart = moment(ElectionData.approvalStart).format("YYYY-MM-DDTHH:mm");
     var nominationApprovalEnd = moment(ElectionData.approvalEnd).format("YYYY-MM-DDTHH:mm");
@@ -385,12 +383,12 @@ class NominationReview extends React.Component {
                 <List component="nav">
                   <ListItem>
                     <ListItemIcon>
-                      {nomination.payment_status === "paid" ? <Done className={classes.green_icon} /> :
+                      {nomination.payment_status === "APPROVE" ? <Done className={classes.green_icon} /> :
                         <Alarm className={classes.orange_icon} />}
                     </ListItemIcon>
                     <ListItemText className={classes.capitalize_text}
-                      primary={nomination.payment_status === "paid" ? "Payment Reviewed" : "Payment Review Pending"}
-                      secondary="Objection Status" />
+                      primary={nomination.payment_status === "APPROVE" ? "Security Deposit Done" : "Security Deposit Pending"}
+                      secondary="Security Deposit Status" />
                     {/* <ListItemText className={classes.capitalize_text}
                                   primary={nomination.payment_status}
                                   secondary="Payment Status"/> */}

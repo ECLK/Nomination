@@ -86,19 +86,20 @@ class CustomizedTable extends React.Component {
       const { classes,CandidateList,NominationPayments,division,candidateCount,supportdoc,supportingDocs} = this.props;
       const paymentStatus='';
       const rows = this.state.nominations;
+      debugger;
       const CandidateRow = (props) => {
         const { classes, candidate } = props;
         return (
           <React.Fragment>
-            <TableRow key={candidate.fullName}>
+            <TableRow key={candidate.FULL_NAME}>
               <TableCell className={classes.candidate_table_cell} align="left">
-                  {candidate.fullName}
+                  {candidate.FULL_NAME}
               </TableCell>
               <TableCell className={classNames(classes.candidate_table_cell, classes.capitalize_text)} align="left">
-                  {candidate.address}
+                  {candidate.ADDRESS}
               </TableCell>
               <TableCell className={classNames(classes.candidate_table_cell, classes.capitalize_text)} align="left">
-                  {candidate.occupation}
+                  {candidate.OCCUPATION}
               </TableCell>
             </TableRow>
           </React.Fragment>

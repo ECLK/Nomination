@@ -58,7 +58,7 @@ function findApprovalIndex(nominations, id) {
   return nominations.findIndex(x => x.id === id);
 }
 function findNominationIndex(nomination, id) {
-  return nomination.findIndex(x => x.id === id);
+  return nomination.findIndex(x => x.CANDIDATE_ID === id);
 }
 function findDivisionIndex(nominationList, id) {
   return nominationList.findIndex(x => x.id === id);
@@ -110,7 +110,7 @@ export default function reducer(state = initialState, action) {
         getNominationCandidates: action.payload
       };  
     case DELETE_NOMINATION_CANDIDATE:
-      const toDelete = state.getNominationCandidates.findIndex(x => x.id === action.payload.candidateId);
+      const toDelete = state.getNominationCandidates.findIndex(x => x.CANDIDATE_ID === action.payload.candidateId);
       return {
         ...state,
         getNominationCandidates: update(state.getNominationCandidates, { $splice: [[toDelete, 1]] } )

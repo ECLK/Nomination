@@ -119,11 +119,12 @@ N.TEAM_ID AS division_team_id,
 N.ID AS nomination_id,
 N.STATUS AS nomination_status,
 P.STATUS AS nomination_paymentStatus,
-COUNT(C.ID) AS division_current_candidate_count
+IF(CC.ID<>' ',COUNT(C.ID),0) AS division_current_candidate_count
 FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID=DC.ID
-LEFT JOIN CANDIDATE C ON N.ID=C.NOMINATION_ID
+LEFT JOIN CANDIDATE_DATA C ON N.ID=C.NOMINATION_ID
+LEFT JOIN CANDIDATE_CONFIG CC ON C.CANDIDATE_CONFIG_ID = CC.ID
 LEFT JOIN PAYMENT P ON N.ID=P.NOMINATION_ID
-WHERE N.ELECTION_ID=:election_id  AND N.TEAM_ID=:team_id AND N.DIVISION_CONFIG_ID=:divisionId GROUP BY N.ID`;
+WHERE N.ELECTION_ID=:election_id  AND N.TEAM_ID=:team_id AND N.DIVISION_CONFIG_ID=:divisionId GROUP BY N.ID,CC.ID`;
 
 const DIVISIONS_WITH_NOMINATION_SELECT_QUERY_ALL = `SELECT 
 N.DIVISION_CONFIG_ID AS division_id,
@@ -135,11 +136,12 @@ N.TEAM_ID AS division_team_id,
 N.ID AS nomination_id,
 N.STATUS AS nomination_status,
 P.STATUS AS nomination_paymentStatus,
-COUNT(C.ID) AS division_current_candidate_count
+IF(CC.ID<>' ',COUNT(C.ID),0) AS division_current_candidate_count
 FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID=DC.ID
-LEFT JOIN CANDIDATE C ON N.ID=C.NOMINATION_ID
+LEFT JOIN CANDIDATE_DATA C ON N.ID=C.NOMINATION_ID
+LEFT JOIN CANDIDATE_CONFIG CC ON C.CANDIDATE_CONFIG_ID = CC.ID
 LEFT JOIN PAYMENT P ON N.ID=P.NOMINATION_ID
-WHERE N.ELECTION_ID=:election_id  AND N.TEAM_ID=:team_id GROUP BY N.ID`;
+WHERE N.ELECTION_ID=:election_id  AND N.TEAM_ID=:team_id GROUP BY N.ID,CC.ID`;
 
 const fetchDivisionsWithNomination = (electionId, teamId,divisionId) => {
 	const params = { election_id: electionId, team_id: teamId,divisionId: divisionId };

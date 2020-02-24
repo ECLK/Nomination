@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import CustomAutocompleteParty from '../../components/AutocompleteParty';
 import ObjectionPanel from '../../components/Objection/SubmittedObjectionList';
 import { connect } from 'react-redux';
-import { getTeams,getNominationList } from '../../modules/nomination/state/NominationAction';
+import { getTeams,getNominationList,getNominationStatus } from '../../modules/nomination/state/NominationAction';
 //import ObjectionPanel from '../../../components/Objection/ObjectionList';
 
 const styles = theme => ({
@@ -57,6 +57,7 @@ class Home extends React.Component {
         });
         this.props.getTeams();
         this.props.getNominationList();
+        this.props.getNominationStatus(sessionStorage.getItem('election_id'));
     }
 
     handleChangeAutocomplete = (name) => event => {
@@ -69,7 +70,7 @@ class Home extends React.Component {
     
 
     render() {
-        const { classes,partyList,division } = this.props;
+        const { classes,partyList,division,nominationPaymentStatus } = this.props;
         const suggestions = partyList.map(suggestion => ({
             value: suggestion.team_id,
             label: suggestion.team_name+" ("+suggestion.team_abbrevation+")",
@@ -105,7 +106,7 @@ class Home extends React.Component {
                             }
                             
                             {/* </Grid>  */}
-                                <NominationPanel teamId={this.state.party} division={division} ></NominationPanel>
+                                <NominationPanel nominationPaymentStatus={nominationPaymentStatus} teamId={this.state.party} division={division} ></NominationPanel>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 {/* <Typography variant="h4" gutterBottom>Objections</Typography>
@@ -130,13 +131,15 @@ Home.propTypes = {
 const mapStateToProps = ({Nomination}) => {
     const partyList = Nomination.partyList;
 	const division = Nomination.nominationList;
+    const nominationPaymentStatus = Nomination.nominationPaymentStatus;
 
-	return {partyList,division};
+	return {partyList,division,nominationPaymentStatus};
   };
   
   const mapActionsToProps = {
     getTeams,
-    getNominationList
+    getNominationList,
+    getNominationStatus
   };
 
   export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Home));
