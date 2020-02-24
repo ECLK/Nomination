@@ -19,5 +19,6 @@ export const URL_SCHEMA = Joi.object().keys({
   templateName: Joi.string(),
   keyName: Joi.string(),
   sid: Joi.string(),
-  teamType: Joi.string()
+  teamType: Joi.string(),
+  documentId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/)
 });

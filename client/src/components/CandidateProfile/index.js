@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Hidden from '@material-ui/core/Hidden';
 import Notifier, { openSnackbar } from '../Notifier';
-import { getNominationCandidates } from '../../modules/nomination/state/NominationAction';
+import { getNominationCandidates,getCandidateSupportingDocs } from '../../modules/nomination/state/NominationAction';
 import { connect } from 'react-redux';
 import DynamicForm from "../DynamicForm";
 import _ from 'lodash';
@@ -35,10 +35,13 @@ class TextFields extends React.Component {
                     console.log(res);
                     const formData = res.data[0];
                     //TODO: do this to all 'date' type fields
-                    formData["DATE_OF_BIRTH"] = Number(formData["DATE_OF_BIRTH"]);
+                    
+                    formData["DATE_OF_BIRTH"] = Number(Date.parse(formData["DATE_OF_BIRTH"]));
                     this.setState({ajaxState: this.state.ajaxState + 0.5,  formData });
                 });
         }
+        this.props.getCandidateSupportingDocs(index);
+
 
 
         axios.get("modules/"+ moduleId +"/candidate-form-config", {}).then(
@@ -176,7 +179,8 @@ const mapStateToProps = ({Nomination, Election}) => {
   };
 
   const mapActionsToProps = {
-    getNominationCandidates
+    getNominationCandidates,
+    getCandidateSupportingDocs
   };
   
   export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(TextFields));

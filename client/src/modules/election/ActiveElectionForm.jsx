@@ -186,35 +186,52 @@ class ActiveElectionForm extends React.Component {
     var approvalStart = moment(CallElectionData.timeLineData.approvalStart).format("YYYY-MM-DDTHH:mm");
     var approvalEnd = moment(CallElectionData.timeLineData.approvalEnd).format("YYYY-MM-DDTHH:mm");
 
-    if (moment(nominationEnd).isBefore(nominationStart)) {
-      this.setState({ errorTextNominationEnd: 'emptyField2' });
-      goNext = false;
-    }
-    if (moment(objectionStart).isBefore(paymentEnd)) {
-      this.setState({ errorTextObjectionStart: 'emptyField2' });
-      goNext = false;
-    }
-    if (moment(objectionEnd).isBefore(objectionStart)) {
-      this.setState({ errorTextObjectionEnd: 'emptyField2' });
-      goNext = false;
-    }
-    if (moment(paymentStart).isBefore(nominationStart)) {
-      this.setState({ errorTextPaymentStart: 'emptyField2' });
-      goNext = false;
-    }
+    //payment start should be before payment end
     if (moment(paymentEnd).isBefore(paymentStart)) {
       this.setState({ errorTextPaymentEnd: 'emptyField2' });
       goNext = false;
     }
+    //nomination start should be before nomination end
+    if (moment(nominationEnd).isBefore(nominationStart)) {
+      this.setState({ errorTextNominationEnd: 'emptyField2' });
+      goNext = false;
+    }
+    //objection start should be before objection end
+    if (moment(objectionEnd).isBefore(objectionStart)) {
+      this.setState({ errorTextObjectionEnd: 'emptyField2' });
+      goNext = false;
+    }
+    //approve start should be bofore approve end 
     if (moment(approvalEnd).isBefore(approvalStart)) {
       this.setState({ errorTextApprovalEnd: 'emptyField2' });
       goNext = false;
     }
+    //payment start should be before nomination start 
+    if (moment(nominationStart).isBefore(paymentStart)) {
+      this.setState({ errorTextNominationStart: 'emptyField2' });
+      goNext = false;
+    }
+    //payment end should be before nomination end 
+    if (moment(nominationEnd).isBefore(paymentEnd)) {
+      this.setState({ errorTextNominationEnd: 'emptyField2' });
+      goNext = false;
+    }
+    //nomination end should be before objection start
+    if (moment(objectionStart).isBefore(nominationEnd)) {
+      this.setState({ errorTextObjectionStart: 'emptyField2' });
+      goNext = false;
+    }
+    //payment end should be before objection start
+    if (moment(objectionStart).isBefore(paymentEnd)) {
+      this.setState({ errorTextObjectionStart: 'emptyField2' });
+      goNext = false;
+    }
+    //objection end should be before approve start
     if (moment(approvalStart).isBefore(objectionEnd)) {
       this.setState({ errorTextApprovalStart: 'emptyField2' });
       goNext = false;
     }
-
+debugger;
     let today = new Date();
     var TodayFormated = moment(today).format("YYYY-MM-DDTHH:mm");
 
@@ -235,19 +252,19 @@ class ActiveElectionForm extends React.Component {
       goNext = false;
     }
     if (moment(paymentStart).isBefore(TodayFormated) && CallElectionData.status !== 'APPROVE') {
-      this.setState({ errorTextObjectionStart: 'emptyField2' });
+      this.setState({ errorTextPaymentStart: 'emptyField2' });
       goNext = false;
     }
     if (moment(paymentEnd).isBefore(TodayFormated) && CallElectionData.status !== 'APPROVE') {
-      this.setState({ errorTextObjectionEnd: 'emptyField2' });
+      this.setState({ errorTextPaymentEnd: 'emptyField2' });
       goNext = false;
     }
     if (moment(approvalStart).isBefore(TodayFormated) && CallElectionData.status !== 'APPROVE') {
-      this.setState({ errorTextObjectionStart: 'emptyField2' });
+      this.setState({ errorTextApprovalStart: 'emptyField2' });
       goNext = false;
     }
     if (moment(approvalEnd).isBefore(TodayFormated) && CallElectionData.status !== 'APPROVE') {
-      this.setState({ errorTextObjectionEnd: 'emptyField2' });
+      this.setState({ errorTextApprovalEnd: 'emptyField2' });
       goNext = false;
     }
 

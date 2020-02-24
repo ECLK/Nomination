@@ -16,7 +16,8 @@ import { handleChangePayment,
         postNominationPayments, 
         validateNominationPayment,
         createAndDownloadPdf,
-        getUploadPath } from '../../modules/nomination/state/NominationAction';
+        getUploadPath,
+        getNominationStatus } from '../../modules/nomination/state/NominationAction';
 import {getElectionTimeLine} from '../../modules/election/state/ElectionAction';
         
 import { connect } from 'react-redux';
@@ -183,6 +184,7 @@ class NominationPayments extends React.Component {
         });
         if (name === 'nomination') {
             this.props.validateNominationPayment(event.value);
+            this.props.getNominationData(event.value,this.state.partyType);
             this.setState({ errorTextNominationPaymentValidation: '',errorTextNomination: '',division:event.label });
         }
         if (name === 'party') {
@@ -190,6 +192,7 @@ class NominationPayments extends React.Component {
         }
         if (name === 'election') {
             this.props.getElectionTimeLine(event.value);
+            this.props.getNominationStatus(event.value);
             this.setState({ errorTextElection: '' });
         }
         if (name === 'partyType') {
@@ -381,7 +384,7 @@ class NominationPayments extends React.Component {
       };
 
     render() {
-        const { classes, depositor, NominationPayments, onCloseModal, partyList, serialNo, approveElections, nominationListForPayment, nominationData,electionTimeline,partyListByType } = this.props;
+        const { classes, depositor, NominationPayments, onCloseModal, partyList, serialNo, approveElections, nominationListForPayment, nominationData,electionTimeline,partyListByType,nominationPaymentStatus } = this.props;
         const { numberformat,errorTextPartyType } = this.state;
         const { errorTextItems } = this.props;
         const payPerCandidate = (nominationData.length) ? nominationData[0].payPerCandidate : '';
@@ -395,10 +398,12 @@ class NominationPayments extends React.Component {
         
         var errorMessage = "Security deposit time should be within " + moment(electionTimeline.paymentStart).format("DD MMM YYYY hh:mm a")  + " and " + moment(electionTimeline.paymentEnd).format("DD MMM YYYY hh:mm a");
         var errorTextPayment = false;
-        if (moment(paymentStart).isBefore(TodayFormatedWithTime)) {
+        //payment start should be before now time 
+        if (moment(paymentStart).isAfter(TodayFormatedWithTime)) {
             errorTextPayment = true;
           }
-        if (moment(TodayFormatedWithTime).isBefore(paymentEnd)) {
+        //now time should be before payment end
+        if (moment(TodayFormatedWithTime).isAfter(paymentEnd)) {
             errorTextPayment = true;
           }
           
@@ -435,6 +440,7 @@ class NominationPayments extends React.Component {
                     </Grid>
                     <Grid container item lg={3}>
                     <FormControl style={{width:'100%'}} error={(errorTextPartyType) ? true : false} className={classes.formControl}>
+                        { nominationPaymentStatus === "Yes" ?
                         <Select
                             value={this.state.partyType}
                             error={errorTextPartyType}
@@ -449,7 +455,22 @@ class NominationPayments extends React.Component {
                             </MenuItem>
                             <MenuItem value={'candidate payment rpp'}>Registered Political Party ( RPP )</MenuItem>
                             <MenuItem value={'candidate payment ig'}>Indipendent Group ( IG )</MenuItem>
+                            </Select> :
+                            <Select
+                            value={this.state.partyType}
+                            error={errorTextPartyType}
+                            onChange={this.handleChangeAutocomplete("partyType")}
+                            name="partyType"
+                            style={{marginTop:20,marginLeft:20,width:'88%'}}
+                            displayEmpty
+                            className={classes.textField}
+                            >
+                            <MenuItem value="" disabled>
+                                Slect party type
+                            </MenuItem>
+                            <MenuItem value={'candidate payment ig'}>Indipendent Group ( IG )</MenuItem>
                         </Select>
+                        }
                         <FormHelperText style={{marginLeft:18}}>{(errorTextPartyType==='emptyField') ? 'This field is required!' : ''}</FormHelperText>
                         </FormControl>
                     </Grid>
@@ -649,13 +670,14 @@ const mapStateToProps = ({ Nomination,Election }) => {
     const { handleChangePayment } = Nomination;
     const NominationPayments = Nomination.getNominationPayments;
     const nominationData = Nomination.nominationData;
+    const nominationPaymentStatus = Nomination.nominationPaymentStatus;
     const nominationListForPayment = Nomination.nominationListForPayment;
     const partyList = Nomination.partyList;
     const partyListByType = Nomination.partyListByType;
     const electionTimeline = Election.ElectionTimeLineData;
     const nominationPaymentValidation = Nomination.nominationPaymentValidation;
 
-    return { handleChangePayment, NominationPayments, partyList,partyListByType, nominationListForPayment, nominationData, nominationPaymentValidation,electionTimeline };
+    return { handleChangePayment,nominationPaymentStatus, NominationPayments, partyList,partyListByType, nominationListForPayment, nominationData, nominationPaymentValidation,electionTimeline };
 };
 
 const mapActionsToProps = {
@@ -668,7 +690,8 @@ const mapActionsToProps = {
     validateNominationPayment,
     getUploadPath,
     getElectionTimeLine,
-    getTeamsByTeamType
+    getTeamsByTeamType,
+    getNominationStatus
 };
 
 

@@ -13,7 +13,10 @@ import TextField from '@material-ui/core/TextField';
 import { createAndDownloadPdfPresidentialNominationForm, createAndDownloadPdfParliamentaryNominationForm } from '../../modules/nomination/state/NominationAction';
 import ProgressButton from "../ProgressButton";
 import DoneOutline from '@material-ui/icons/DoneOutline';
-import CloseIcon from '@material-ui/icons/Cancel';
+import DownloadIcon from '@material-ui/icons/GetApp';
+import axios from "axios";
+import {API_BASE_URL} from "../../config";
+import download from "downloadjs";
 
 const styles = theme => ({
     container: {
@@ -93,6 +96,15 @@ class TextFields extends React.Component {
     var filesArray = this.state.files;
   };
 
+    handleFileDownload = (doc) => {
+        axios.get(`${API_BASE_URL}/nominations/${this.props.customProps}/support-docs/${doc.id}/download`, {responseType: 'blob'}, {
+        }).then((response) => {
+            download(new Blob([response.data]), doc.originalname, response.headers['content-type']);
+        }).catch(err => {
+            console.log(err)
+        });
+    };
+
  
 
   handlePdfGenarationButton = (e) => {
@@ -158,21 +170,19 @@ class TextFields extends React.Component {
             </Grid>
             <Grid item lg={2}>
               <span ><FileUpload  value={docs.id} doneElement={doneElement} onSelectFiles={onSelectFiles} /></span>
-              
+
             </Grid>
-            <Grid style={{marginLeft:-44}} item lg={1}>
-            {
-             supportdoc.map(sdoc => (
-              sdoc.id === docs.id ? 
-              <Typography variant="caption" gutterBottom>
-            {sdoc.originalname}<div  className={classes.done}>
-            <CloseIcon   color="red"/>
-            </div>
-           </Typography>
-               : ' '
-            ))
-          } 
-            </Grid>
+              {
+                  supportdoc.map(sdoc => (
+                      sdoc.id === docs.id ?
+                          <Typography variant="caption" gutterBottom style={{cursor: 'pointer'}} onClick={() => { this.handleFileDownload(sdoc) }}>
+                              {sdoc.originalname}<div  className={classes.done}>
+                              <DownloadIcon   color="red"/>
+                          </div>
+                          </Typography>
+                          : ' '
+                  ))
+              }
             {/* {docs.id === 'b20dd58c-e5bb-469d-98c9-8711d6da1879' ?
             <Grid item lg={5}>
               <span><FileUpload   style={{textAlign: 'right'}} value={docs.id} doneElement={doneElement} onSelectFiles={onSelectFiles} /></span>

@@ -219,6 +219,82 @@ const getSupportDocsByPaymentId = async (req) => {
 
 };
 
+
+//Get support documents for a particular candidate by document id
+const getSupportDocsByCandidateIdAndDocId = async (req) => {
+    try {
+        const documentId = req.params.documentId;
+        const candidateId = req.params.candidateId;
+        const supportDocs = await SupportDocRepo.getSupportDocByCandidateIdAndDocId(documentId, candidateId);
+        if(!_.isEmpty(supportDocs)){
+            return supportDocs
+        }else {
+            throw new ApiError("Support Documents not found",HTTP_CODE_404);
+        }
+    }catch (e){
+        throw new ServerError("server error");
+    }
+
+};
+
+//Get support documents for a particular nomination by document id
+const getSupportDocByNominationIdAndDocId = async (req) => {
+    try {
+        const documentId = req.params.documentId;
+        const nominationId = req.params.nominationId;
+        const supportDocs = await SupportDocRepo.getSupportDocByNominationIdAndDocId(documentId, nominationId);
+        if(!_.isEmpty(supportDocs)){
+            return supportDocs
+        }else {
+            throw new ApiError("Support Documents not found",HTTP_CODE_404);
+        }
+    }catch (e){
+        throw new ServerError("server error");
+    }
+
+};
+
+//Get support documents for a particular candidate
+const getSupportDocsByCandidateIdNumber = async (req) => {
+    try {
+        const candidateId = req.params.candidateId;
+        const supportDocs = await SupportDocRepo.getSupportDocsByCandidateId(candidateId);
+        const docs = [];
+        if(!_.isEmpty(supportDocs)){
+            supportDocs.forEach(function(item){
+                docs.push({path: './src/uploads/'+item.SUPPORT_DOC_filename, name: item.SUPPORT_DOC_originalname});
+            });
+            return docs;
+        }else {
+            throw new ApiError("Support Documents not found",HTTP_CODE_404);
+        }
+    }catch (e){
+        throw new ServerError("server error");
+    }
+
+};
+
+
+//Get support documents for a particular nomination
+const getSupportDocsByNominationIdNumber = async (req) => {
+    try {
+        const nominationId = req.params.nominationId;
+        const supportDocs = await SupportDocRepo.getSupportDocsByNominationId(nominationId);
+        const docs = [];
+        if(!_.isEmpty(supportDocs)){
+            supportDocs.forEach(function(item){
+                docs.push({path: './src/uploads/'+item.SUPPORT_DOC_filename, name: item.SUPPORT_DOC_originalname});
+            });
+            return docs;
+        }else {
+            throw new ApiError("Support Documents not found",HTTP_CODE_404);
+        }
+    }catch (e){
+        throw new ServerError("server error");
+    }
+
+};
+
 export default {
   getsupportDocsByNominationId,
   saveSupportDocsByNominationId,
@@ -229,5 +305,9 @@ export default {
   updateNominationStatusByNominationId,
   saveSupportDocsByPaymentId,
   updateSupportDocsByPaymentId,
-    getSupportDocsByPaymentId
+    getSupportDocsByPaymentId,
+    getSupportDocsByCandidateIdAndDocId,
+    getSupportDocByNominationIdAndDocId,
+    getSupportDocsByCandidateIdNumber,
+    getSupportDocsByNominationIdNumber
 }
