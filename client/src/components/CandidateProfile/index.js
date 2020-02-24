@@ -132,6 +132,9 @@ class TextFields extends React.Component {
                 openSnackbar({ message: 'Candidate Added Sccessfully...' });
             }, 10);
             getNominationCandidates(customProps);
+            if(index) {
+                this.props.onCloseModal()
+            }
           })
           .catch(function (e) {
             callback({success:false})
