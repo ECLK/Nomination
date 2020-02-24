@@ -358,7 +358,9 @@ export const setNominationStatus = (nominationSuppertDocs) => {
        )
        .then(response => {
           dispatch(setCandidateSupportDocData(response.data));
+          dispatch(openSnackbar({ message:`Document uploaded successfully`}));
        }).catch(err => {
+        dispatch(openSnackbar({ message: err.response.data.message }));
              console.log(err)
        });
      };

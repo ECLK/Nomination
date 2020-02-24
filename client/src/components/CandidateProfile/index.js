@@ -129,9 +129,16 @@ class TextFields extends React.Component {
         })
         .then(function (response) {
             callback({success:response.status == 201});
-            setTimeout(() => {
-                openSnackbar({ message: 'Candidate Added Sccessfully...' });
-            }, 10);
+            if(index){
+                setTimeout(() => {
+                    openSnackbar({ message: 'Candidate Updated Sccessfully...' });
+                }, 10);
+            }else{
+                setTimeout(() => {
+                    openSnackbar({ message: 'Candidate Added Sccessfully...' });
+                }, 10);
+            }
+            
             getNominationCandidates(customProps);
             if(index) {
                 onCloseModal();
@@ -166,7 +173,7 @@ class TextFields extends React.Component {
         } else {
             return (<div>
                         <Notifier/>
-                        <DynamicForm defaultFormData={formData} jsonSchema={jsonSchema}  onSubmit={this.handleSubmit}/>
+                        <DynamicForm index={this.props.index} defaultFormData={formData} jsonSchema={jsonSchema}  onSubmit={this.handleSubmit}/>
                     </div>);
         }
     }

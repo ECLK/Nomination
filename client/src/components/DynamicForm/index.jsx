@@ -132,7 +132,7 @@ class DynamicForm extends React.Component {
 
 
   render() {
-    let { classes, jsonSchema } = this.props;
+    let { classes, jsonSchema,index } = this.props;
     let { formData, progress, submitting } = this.state;
     let items = [];
     for (const [propName, propSpec] of Object.entries(jsonSchema.properties || {})) {
@@ -164,10 +164,16 @@ class DynamicForm extends React.Component {
 
     return <div>
       {items}
-      <Button disabled={submitting} onClick={this.onSubmit} variant="contained" type="submit" value="Submit&New" color="primary"
+      {
+        (index) ? <Button disabled={submitting} onClick={this.onSubmit} variant="contained" type="submit" value="Submit&New" color="primary"
+        className={classes.submit}>
+        Update
+      </Button> :
+        <Button disabled={submitting} onClick={this.onSubmit} variant="contained" type="submit" value="Submit&New" color="primary"
         className={classes.submit}>
         Save & New
       </Button>
+      }
     </div>;
   }
 }
