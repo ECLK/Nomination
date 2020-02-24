@@ -701,7 +701,7 @@ export function validateNominationPayment(nominationId) {
 const firstAPI = axios.create({
   baseURL: PDF_GENARATION_SERVICE_URL
 })
-export const createAndDownloadPdf = function createAndDownloadPdf(paymentData) {
+export const createAndDownloadNominationPaySlipPdf = function createAndDownloadNominationPaySlipPdf(paymentData) {
   let templateData = {
     "margin.top": "0.5",
     "margin.right": "1",
