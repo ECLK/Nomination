@@ -102,7 +102,7 @@ const styles = theme => ({
 	}
 
 	render() {
-		const { classes,division } = this.props;
+		const { classes,division,nominationPaymentStatus } = this.props;
 		const {props} = this;
 		const { expanded } = this.state;
 
@@ -138,11 +138,11 @@ const styles = theme => ({
 													label={nomination.status === 'SUBMIT' ? 'SUBMITTED' : nomination.status === 'NEW' ? 'NEW' : 'DRAFT'}
 												/>
 												</Typography>
-												{ !nomination.paymentStatus ?
+												{ nominationPaymentStatus === 'Yes' ?  (!nomination.paymentStatus) ?
 												<ListItem className={classes.listItem} key={index}>
 													<Typography style={{color:'red',marginTop:20}}>Security deposit hasn't been paid,Please make the payment to proceed!</Typography>
-										</ListItem> : ' '
-											}
+												</ListItem> : ' ' 
+												: ' '}
 												<div>
 												{
 													
@@ -153,11 +153,15 @@ const styles = theme => ({
 										
 										division.nomination.length > 0 &&
 										<div>
-										{nomination.paymentStatus ? 
+										{nominationPaymentStatus === 'Yes' ? (nomination.paymentStatus) ? 
 										<Link style={{ textDecoration: 'none' }} to={{ pathname: "nomination", state: { id: nomination.id,status: nomination.status,divisionId: division.id,division: division.name,candidateCount:division.noOfCandidates }}}  >
 										<Button  variant="contained" color="primary"  className={classes.button} >{nomination.status === 'SUBMIT' ? 'VIEW' : nomination.status === 'NEW' ? 'CREATE' : 'EDIT'}</Button>
 										</Link> : 
 										<Button disabled={true} variant="contained" color="primary"  className={classes.button} >{nomination.status === 'SUBMIT' ? 'VIEW' : nomination.status === 'NEW' ? 'CREATE' : 'EDIT'}</Button>
+										: 
+										<Link style={{ textDecoration: 'none' }} to={{ pathname: "nomination", state: { id: nomination.id,status: nomination.status,divisionId: division.id,division: division.name,candidateCount:division.noOfCandidates }}}  >
+										<Button  variant="contained" color="primary"  className={classes.button} >{nomination.status === 'SUBMIT' ? 'VIEW' : nomination.status === 'NEW' ? 'CREATE' : 'EDIT'}</Button>
+										</Link>
 										}
 										</div>
 									}
