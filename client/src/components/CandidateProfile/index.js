@@ -117,6 +117,7 @@ class TextFields extends React.Component {
             url = `nominations/${index}/candidates`;
         }
 
+        const onCloseModal = this.props.onCloseModal;
         axios({
             method: 'post',
             headers: {
@@ -133,7 +134,7 @@ class TextFields extends React.Component {
             }, 10);
             getNominationCandidates(customProps);
             if(index) {
-                this.props.onCloseModal()
+                onCloseModal();
             }
           })
           .catch(function (e) {

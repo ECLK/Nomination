@@ -38,7 +38,8 @@ class DynamicForm extends React.Component {
         // TODO: re-enable default values
         const prevFormData = state.formData[propName];
         const prevProgress = JSON.stringify(state.progress[propName]);
-        state.formData[propName] = this.props.defaultFormData[propName] || value['default'] || "";
+        state.formData[propName] = (this.props.defaultFormData && this.props.defaultFormData[propName]) 
+                                   || value['default'] || "";
         state.progress[propName] = {edited:false, valid:"unknown"};
         needReRender = needReRender || (prevFormData != state.formData[propName]) 
                                     || (prevProgress != JSON.stringify(state.progress[propName]));
