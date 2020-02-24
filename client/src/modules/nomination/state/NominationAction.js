@@ -358,7 +358,9 @@ export const setNominationStatus = (nominationSuppertDocs) => {
        )
        .then(response => {
           dispatch(setCandidateSupportDocData(response.data));
+          dispatch(openSnackbar({ message:`Document uploaded successfully`}));
        }).catch(err => {
+        dispatch(openSnackbar({ message: err.response.data.message }));
              console.log(err)
        });
      };
@@ -437,11 +439,13 @@ export function deleteNominationCandidate(customProps) {
          dispatch(
           setDeleteData(getNominationCandidateDeleted)
            );
+           dispatch(openSnackbar({ message: "Candidate was deleted successfully!"}));
       }).catch(err => {
         const getNominationCandidateDeleted = [];
         dispatch(
           setDeleteData(getNominationCandidateDeleted)
           );
+        dispatch(openSnackbar({ message: err.response.data.message }));
             console.log(err)
       });
     };
@@ -562,6 +566,7 @@ const candidateSupportdocLoaded = (getcandidateSupportdocList) => {
 };
 
 export function getCandidateSupportingDocs(candidateId) {
+  debugger;
   return function (dispatch) {
      
     const response = axios
@@ -701,7 +706,7 @@ export function validateNominationPayment(nominationId) {
 const firstAPI = axios.create({
   baseURL: PDF_GENARATION_SERVICE_URL
 })
-export const createAndDownloadPdf = function createAndDownloadPdf(paymentData) {
+export const createAndDownloadNominationPaySlipPdf = function createAndDownloadNominationPaySlipPdf(paymentData) {
   let templateData = {
     "margin.top": "0.5",
     "margin.right": "1",

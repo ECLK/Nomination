@@ -35,25 +35,25 @@ export const initNominationRouter = (app) => {
 
 			},
 		},
-		// {
-		// 	method: POST,
-		// 	path: '/nominations/candidates',
-		// 	schema: SAVE_CANDIDATE_SCHEMA,
-		// 	handler: (req, res, next) => {
-		// 		return CandidateService.saveCandidateByNominationId(req)
-		// 			.then((result) => res.status(HTTP_CODE_201).send(result))
-		// 			.catch(error => next(error));
-		// 	},
-		// },
 		{
 			method: POST,
 			path: '/nominations/candidates',
+			// schema: SAVE_CANDIDATE_SCHEMA,
 			handler: (req, res, next) => {
-			  return CandidateService.saveCandidateByNominationId_old(req)
-			  .then((result) => res.status(200).send(result))
-						  .catch(error => next(error));
+				return CandidateService.saveCandidateByNominationId(req)
+					.then((result) => res.status(HTTP_CODE_201).send(result))
+					.catch(error => next(error));
 			},
 		},
+		// {
+		// 	method: POST,
+		// 	path: '/nominations/candidates',
+		// 	handler: (req, res, next) => {
+		// 	  return CandidateService.saveCandidateByNominationId_old(req)
+		// 	  .then((result) => res.status(200).send(result))
+		// 				  .catch(error => next(error));
+		// 	},
+		// },
 		{
 			method: PUT,
 			path: '/nominations/candidates/:moduleId',
@@ -85,13 +85,12 @@ export const initNominationRouter = (app) => {
 			},
 		},
 		{
-			// curl -H "Content-Type: application/json" -X PUT -d '{ "fullName" : "W Clement Amila Fernando", "preferredName" : "Clement", "nic": "883202091V", "dateOfBirth": 1549490224, "gender": "MALE", "address": "55/11, 1ST Gemunu Lane, Subhuthipura, Battaramulla.", "occupation": "SSE", "electoralDivisionName": "Kotte", "electoralDivisionCode": "26", "counsilName": "counsil_name" }' http://localhost:9001/ec-election/candidates/1d986c33-0e3d-4e27-9ff3-a8b03118408c
-			method: PUT,
+			method: POST,
 			path: '/nominations/:candidateId/candidates',
-			schema: SAVE_CANDIDATE_SCHEMA,
+			// schema: SAVE_CANDIDATE_SCHEMA,
 			handler: (req, res, next) => {
 				console.log("uuuuuuuuuuuuuuuuuuuuuuuuuuu",req);
-				return CandidateService.updateCandidateDataById(req)
+				return CandidateService.saveCandidateByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_200).send(result))
 					.catch(error => next(error));
 			}

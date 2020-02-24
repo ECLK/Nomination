@@ -16,7 +16,7 @@ import { getNominationListForPayment,
         getApproveElections,
         updateNominationPayments,
         validateNominationPayment,
-        createAndDownloadPdf,
+        createAndDownloadNominationPaySlipPdf,
         getUploadPath } from '../../modules/nomination/state/NominationAction';
 import {getElectionTimeLine} from '../../modules/election/state/ElectionAction';
 import { connect } from 'react-redux';
@@ -216,7 +216,8 @@ class NominationPayments extends React.Component {
      };
 
      handlePdfGenarationButton = (e) => {
-      const { onCloseModal,nominationListForPayment,partyList } = this.props;
+      const { onCloseModal,nominationListForPayment,partyList,nominationData} = this.props;
+      const candidateCount = (nominationData.length) ? nominationData[0].noOfCandidates :  '';
       var goNext = true;
       e.preventDefault();
 
@@ -253,7 +254,11 @@ class NominationPayments extends React.Component {
           }
       }
       if (goNext) {
-              createAndDownloadPdf(this.state);
+              var paymentData = this.state;
+              paymentData['partyName'] = partyName;
+              paymentData['division'] = nominationName;
+              paymentData['candidateCount'] = candidateCount;
+              createAndDownloadNominationPaySlipPdf(paymentData);
               onCloseModal();
       }
         }

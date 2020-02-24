@@ -49,15 +49,20 @@ class CheckboxTableGrid extends React.Component {
 
     getMuiTheme = () => createMuiTheme({
         overrides: {
-            MUIDataTable: {
-              root: {
-                backgroundColor: "green"
+          MUIDataTable: {
+            paper: {
+              '& table tr td:nth-child(2)': {
+                  position: "sticky",
+                  zIndex: 101,
+                  left: 0,
+                  background: "white",
               },
-              paper: {
-                boxShadow: "none"
+              '& table tr:nth-child(1) th:nth-child(1)': {
+                  zIndex: 102,
               }
-            },
-          }
+            }
+           }
+        }
       })
 
     componentWillMount() {

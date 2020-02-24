@@ -17,41 +17,43 @@ const NOMINATION_BY_STATUS_SELECT_QUERY =`SELECT
 										WHERE
 											NA.STATUS = :status AND N.TEAM_ID = :team_id AND N.ELECTION_ID = :election_id`;
 const PENDING_NOMINATION_SELECT_QUERY_ALL_TEAM = `SELECT 
-												N.ID AS nomination_id,
-												DC.NAME AS nomination_division_name,
-												N.TEAM_ID AS nomination_party,
-												C.ID AS candidate_id,
-												C.FULL_NAME AS candidate_name,
-												C.NIC AS candidate_nic,
-												C.OCCUPATION AS candidate_occupation,
-												C.ADDRESS AS candidate_address,
-												P.STATUS AS nomination_payment_status,
-												OBR.STATUS AS nomination_objection_status,
-												NA.STATUS AS nomination_approval_status,
-												NA.REVIEW_NOTE AS nomination_review_note
-												FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
-												LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 
-												LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
-												LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
-												LEFT JOIN OBJECTION_REVIEW  OBR ON O.ID = OBR.OBJECTION_ID
-												LEFT JOIN NOMINATION_APPROVAL NA ON N.ID = NA.NOMINATION_ID
-												WHERE ELECTION_ID=:electionId
-												AND N.STATUS=:status AND N.DIVISION_CONFIG_ID=:divisionId`;
+													N.ID AS nomination_id,
+													DC.NAME AS nomination_division_name,
+													N.TEAM_ID AS nomination_party,
+													C.ID AS candidate_id,
+													IF(CC.KEY_NAME="NIC",C.VALUE,NULL) AS 'candidate_nic',
+													IF(CC.KEY_NAME="FULL_NAME",C.VALUE,NULL) AS 'candidate_name',
+													IF(CC.KEY_NAME="OCCUPATION",C.VALUE,NULL) AS 'candidate_occupation',
+													IF(CC.KEY_NAME="ADDRESS",C.VALUE,NULL) AS 'candidate_address',
+													P.STATUS AS nomination_payment_status,
+													OBR.STATUS AS nomination_objection_status,
+													NA.STATUS AS nomination_approval_status,
+													NA.REVIEW_NOTE AS nomination_review_note
+													FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
+													LEFT JOIN CANDIDATE_DATA C ON  N.ID = C.NOMINATION_ID 
+													LEFT JOIN CANDIDATE_CONFIG CC ON C.CANDIDATE_CONFIG_ID = CC.ID
+													LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
+													LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
+													LEFT JOIN OBJECTION_REVIEW  OBR ON O.ID = OBR.OBJECTION_ID
+													LEFT JOIN NOMINATION_APPROVAL NA ON N.ID = NA.NOMINATION_ID
+													WHERE ELECTION_ID=:electionId
+													AND N.STATUS=:status AND N.DIVISION_CONFIG_ID=:divisionId`;
 const PENDING_NOMINATION_SELECT_QUERY_ALL_TEAM_ALL_DIVISION = `SELECT 
 																N.ID AS nomination_id,
 																DC.NAME AS nomination_division_name,
 																N.TEAM_ID AS nomination_party,
 																C.ID AS candidate_id,
-																C.FULL_NAME AS candidate_name,
-																C.NIC AS candidate_nic,
-																C.OCCUPATION AS candidate_occupation,
-																C.ADDRESS AS candidate_address,
+																IF(CC.KEY_NAME="NIC",C.VALUE,NULL) AS 'candidate_nic',
+																IF(CC.KEY_NAME="FULL_NAME",C.VALUE,NULL) AS 'candidate_name',
+																IF(CC.KEY_NAME="OCCUPATION",C.VALUE,NULL) AS 'candidate_occupation',
+																IF(CC.KEY_NAME="ADDRESS",C.VALUE,NULL) AS 'candidate_address',
 																P.STATUS AS nomination_payment_status,
 																OBR.STATUS AS nomination_objection_status,
 																NA.STATUS AS nomination_approval_status,
 																NA.REVIEW_NOTE AS nomination_review_note
 																FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
-																LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 
+																LEFT JOIN CANDIDATE_DATA C ON  N.ID = C.NOMINATION_ID 
+																LEFT JOIN CANDIDATE_CONFIG CC ON C.CANDIDATE_CONFIG_ID = CC.ID
 																LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
 																LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
 																LEFT JOIN OBJECTION_REVIEW  OBR ON O.ID = OBR.OBJECTION_ID
@@ -64,16 +66,17 @@ const PENDING_NOMINATION_SELECT_QUERY = `SELECT
 										DC.NAME AS nomination_division_name,
 										N.TEAM_ID AS nomination_party,
 										C.ID AS candidate_id,
-										C.FULL_NAME AS candidate_name,
-										C.NIC AS candidate_nic,
-										C.OCCUPATION AS candidate_occupation,
-										C.ADDRESS AS candidate_address,
+										IF(CC.KEY_NAME="NIC",C.VALUE,NULL) AS 'candidate_nic',
+										IF(CC.KEY_NAME="FULL_NAME",C.VALUE,NULL) AS 'candidate_name',
+										IF(CC.KEY_NAME="OCCUPATION",C.VALUE,NULL) AS 'candidate_occupation',
+										IF(CC.KEY_NAME="ADDRESS",C.VALUE,NULL) AS 'candidate_address',
 										P.STATUS AS nomination_payment_status,
 										OBR.STATUS AS nomination_objection_status,
 										NA.STATUS AS nomination_approval_status,
 										NA.REVIEW_NOTE AS nomination_review_note
 										FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
-										LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 
+										LEFT JOIN CANDIDATE_DATA C ON  N.ID = C.NOMINATION_ID 
+										LEFT JOIN CANDIDATE_CONFIG CC ON C.CANDIDATE_CONFIG_ID = CC.ID
 										LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
 										LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
 										LEFT JOIN OBJECTION_REVIEW  OBR ON O.ID = OBR.OBJECTION_ID
@@ -85,16 +88,17 @@ const PENDING_NOMINATION_SELECT_QUERY_ALL_DIVISION = `SELECT
 										DC.NAME AS nomination_division_name,
 										N.TEAM_ID AS nomination_party,
 										C.ID AS candidate_id,
-										C.FULL_NAME AS candidate_name,
-										C.NIC AS candidate_nic,
-										C.OCCUPATION AS candidate_occupation,
-										C.ADDRESS AS candidate_address,
+										IF(CC.KEY_NAME="NIC",C.VALUE,NULL) AS 'candidate_nic',
+										IF(CC.KEY_NAME="FULL_NAME",C.VALUE,NULL) AS 'candidate_name',
+										IF(CC.KEY_NAME="OCCUPATION",C.VALUE,NULL) AS 'candidate_occupation',
+										IF(CC.KEY_NAME="ADDRESS",C.VALUE,NULL) AS 'candidate_address',
 										P.STATUS AS nomination_payment_status,
 										OBR.STATUS AS nomination_objection_status,
 										NA.STATUS AS nomination_approval_status,
 										NA.REVIEW_NOTE AS nomination_review_note
 										FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
-										LEFT JOIN CANDIDATE C ON  N.ID = C.NOMINATION_ID 
+										LEFT JOIN CANDIDATE_DATA C ON  N.ID = C.NOMINATION_ID 
+										LEFT JOIN CANDIDATE_CONFIG CC ON C.CANDIDATE_CONFIG_ID = CC.ID
 										LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
 										LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
 										LEFT JOIN OBJECTION_REVIEW  OBR ON O.ID = OBR.OBJECTION_ID
