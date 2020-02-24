@@ -437,11 +437,13 @@ export function deleteNominationCandidate(customProps) {
          dispatch(
           setDeleteData(getNominationCandidateDeleted)
            );
+           dispatch(openSnackbar({ message: "Candidate was deleted successfully!"}));
       }).catch(err => {
         const getNominationCandidateDeleted = [];
         dispatch(
           setDeleteData(getNominationCandidateDeleted)
           );
+        dispatch(openSnackbar({ message: err.response.data.message }));
             console.log(err)
       });
     };
