@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import {postCandidateSupportDocs} from '../../modules/nomination/state/NominationAction';
 import { connect } from 'react-redux';
 import DoneOutline from '@material-ui/icons/DoneOutline';
-import CloseIcon from '@material-ui/icons/Cancel';
+import DownloadIcon from '@material-ui/icons/GetApp';
 import { API_BASE_URL } from "../../config.js";
 import axios from "axios";
 import download from 'downloadjs';
@@ -226,7 +226,7 @@ componentDidMount() {
     {/* <a download={"filename"} href={"ok"}>filename</a> */}
     </div>);
       const closeElement = (<div  className={classes.done} style={this.showFlagToStyle(this.state.status === "uploaded")}>
-      <CloseIcon ref={this.state.currentSdocId} onClick={this.handleRese} color="red"/>
+      <DownloadIcon ref={this.state.currentSdocId} onClick={this.handleRese} color="red"/>
       {/* <a download={"filename"} href={"ok"}>filename</a> */}
       </div>);
 
@@ -251,7 +251,7 @@ componentDidMount() {
                             sdoc.id === docs.id ?
                                 <Typography variant="caption" gutterBottom style={{cursor: 'pointer'}} onClick={() => { this.handleFileDownload(sdoc) }}>
                                     {sdoc.originalname}<div  className={classes.done}>
-                                    <CloseIcon ref={this.state.currentSdocId} onClick={this.handleRese} color="red"/>
+                                    <DownloadIcon ref={this.state.currentSdocId} onClick={this.handleRese} color="red"/>
                                 </div>
                                 </Typography>
                                 : ' '

@@ -358,7 +358,9 @@ export const setNominationStatus = (nominationSuppertDocs) => {
        )
        .then(response => {
           dispatch(setCandidateSupportDocData(response.data));
+          dispatch(openSnackbar({ message:`Document uploaded successfully`}));
        }).catch(err => {
+        dispatch(openSnackbar({ message: err.response.data.message }));
              console.log(err)
        });
      };
@@ -437,11 +439,13 @@ export function deleteNominationCandidate(customProps) {
          dispatch(
           setDeleteData(getNominationCandidateDeleted)
            );
+           dispatch(openSnackbar({ message: "Candidate was deleted successfully!"}));
       }).catch(err => {
         const getNominationCandidateDeleted = [];
         dispatch(
           setDeleteData(getNominationCandidateDeleted)
           );
+        dispatch(openSnackbar({ message: err.response.data.message }));
             console.log(err)
       });
     };
@@ -562,6 +566,7 @@ const candidateSupportdocLoaded = (getcandidateSupportdocList) => {
 };
 
 export function getCandidateSupportingDocs(candidateId) {
+  debugger;
   return function (dispatch) {
      
     const response = axios

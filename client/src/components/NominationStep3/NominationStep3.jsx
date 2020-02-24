@@ -13,7 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import { createAndDownloadPdfPresidentialNominationForm, createAndDownloadPdfParliamentaryNominationForm } from '../../modules/nomination/state/NominationAction';
 import ProgressButton from "../ProgressButton";
 import DoneOutline from '@material-ui/icons/DoneOutline';
-import CloseIcon from '@material-ui/icons/Cancel';
+import DownloadIcon from '@material-ui/icons/GetApp';
 import axios from "axios";
 import {API_BASE_URL} from "../../config";
 import download from "downloadjs";
@@ -177,7 +177,7 @@ class TextFields extends React.Component {
                       sdoc.id === docs.id ?
                           <Typography variant="caption" gutterBottom style={{cursor: 'pointer'}} onClick={() => { this.handleFileDownload(sdoc) }}>
                               {sdoc.originalname}<div  className={classes.done}>
-                              <CloseIcon   color="red"/>
+                              <DownloadIcon   color="red"/>
                           </div>
                           </Typography>
                           : ' '
