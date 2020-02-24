@@ -95,7 +95,7 @@ class TextFields extends React.Component {
     }
 
 
-    handleSubmit = (data) => {
+    handleSubmit = (data, callback) => {
         // this.refs.btn.setAttribute("disabled", "disabled");
         const { index, customProps,getNominationCandidates } = this.props;
         let {jsonSchemaProperties} = this.state;
@@ -124,12 +124,14 @@ class TextFields extends React.Component {
             data: candidateKeyValues
         })
         .then(function (response) {
+            callback({success:response.status == 201});
             setTimeout(() => {
                 openSnackbar({ message: 'Candidate Added Sccessfully...' });
             }, 10);
             getNominationCandidates(customProps);
           })
           .catch(function (e) {
+            callback({success:false})
             const message = _.get(e, 'response.data.message');
             if(message) {
                 setTimeout(() => {

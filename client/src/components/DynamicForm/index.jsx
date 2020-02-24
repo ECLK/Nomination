@@ -26,19 +26,23 @@ class DynamicForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {submitting : false, progress:{}, formData:props.defaultFormData || {}};
-    this.createDefaultFromDataMap(props.jsonSchema.properties, null, null);
+    this.createDefaultFromDataMap(null, null);
   }
 
-  createDefaultFromDataMap(properties, prevProperties, prevState) {
+  createDefaultFromDataMap(prevProperties, prevState) {
+    const properties  = this.props.jsonSchema.properties;
     const state = this.state;
     let needReRender = false;
-    for (const [propName, value] of Object.entries(properties)) {
-      if (!prevState || value['default'] !== prevProperties[propName]['default']) { 
+    for (const [propName, value] of Object.entries(properties || {})) {
+      // if (!prevState || value['default'] !== prevProperties[propName]['default']) { 
         // TODO: re-enable default values
-        // state.formData[propName] = value['default'] || "";
+        const prevFormData = state.formData[propName];
+        const prevProgress = JSON.stringify(state.progress[propName]);
+        state.formData[propName] = this.props.defaultFormData[propName] || value['default'] || "";
         state.progress[propName] = {edited:false, valid:"unknown"};
-        needReRender = true;
-      }
+        needReRender = needReRender || (prevFormData != state.formData[propName]) 
+                                    || (prevProgress != JSON.stringify(state.progress[propName]));
+      // }
     }
     if (needReRender) {
       this.setState(state);
@@ -46,7 +50,9 @@ class DynamicForm extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.createDefaultFromDataMap(this.props.jsonSchema.properties, prevProps.jsonSchema.properties, prevState);
+    if(this.props != prevProps) { // not just a state change
+      this.createDefaultFromDataMap(prevProps.jsonSchema.properties, prevState);
+    }
   }
 
   onChange(event) {
@@ -92,6 +98,19 @@ class DynamicForm extends React.Component {
       return Math.abs(ageDate.getUTCFullYear() - 1970) > 14;
   }
 
+  onSubmitCallback(submitReq) {
+    const state = this.state;
+    if(submitReq.success){
+      const properties = this.props.jsonSchema.properties
+      for (const [propName, value] of Object.entries(properties)) {
+        // state.formData[propName] = value['default'] || "";
+        state.progress[propName] = {edited:false, valid:"unknown"};
+      }
+    } 
+    state.submitting = false;
+    this.setState(state);
+  }
+
   onSubmit(event) {
     let { jsonSchema } = this.props;
     let { formData } = this.state;
@@ -104,9 +123,9 @@ class DynamicForm extends React.Component {
     }
     this.setState(state);
     if(valid) {
-      // state.submitting = true;
-      // this.setState(state);
-      this.props.onSubmit(this.state.formData);
+      state.submitting = true;
+      this.setState(state);
+      this.props.onSubmit(this.state.formData, this.onSubmitCallback.bind(this));
     }
   }
 
@@ -115,7 +134,7 @@ class DynamicForm extends React.Component {
     let { classes, jsonSchema } = this.props;
     let { formData, progress, submitting } = this.state;
     let items = [];
-    for (const [propName, propSpec] of Object.entries(jsonSchema.properties)) {
+    for (const [propName, propSpec] of Object.entries(jsonSchema.properties || {})) {
       const propValue = formData[propName];
       const {edited, valid} = progress[propName];
       const isError = edited === true && valid !== "true";
