@@ -736,9 +736,9 @@ export const createAndDownloadPdfPresidentialNominationForm = function createAnd
 
   var candidateData = {};
   Data.map((data) => {
-    candidateData['candidateName'] = data.fullName
-    candidateData['address'] = data.address
-    candidateData['occupation'] = data.occupation
+    candidateData['candidateName'] = data.FULL_NAME
+    candidateData['address'] = data.ADDRESS
+    candidateData['occupation'] = data.OCCUPATION
   });
 
   const nominationData = {
