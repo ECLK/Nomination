@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Hidden from '@material-ui/core/Hidden';
 import Notifier, { openSnackbar } from '../Notifier';
+import { candidateMessage } from '../../modules/election/state/ElectionAction';
 import { getNominationCandidates,getCandidateSupportingDocs } from '../../modules/nomination/state/NominationAction';
 import { connect } from 'react-redux';
 import DynamicForm from "../DynamicForm";
@@ -100,7 +101,7 @@ class TextFields extends React.Component {
 
     handleSubmit = (data, callback) => {
         // this.refs.btn.setAttribute("disabled", "disabled");
-        const { index, customProps,getNominationCandidates } = this.props;
+        const { index, customProps,getNominationCandidates,candidateMessage } = this.props;
         let {jsonSchemaProperties} = this.state;
         let candidateKeyValues = { "nominationId" : customProps,
                                    "candidateData":[] };
@@ -130,13 +131,9 @@ class TextFields extends React.Component {
         .then(function (response) {
             callback({success:response.status == 201});
             if(index){
-                setTimeout(() => {
-                    openSnackbar({ message: 'Candidate Updated Sccessfully...' });
-                }, 10);
+                candidateMessage(index);
             }else{
-                setTimeout(() => {
-                    openSnackbar({ message: 'Candidate Added Sccessfully...' });
-                }, 10);
+                candidateMessage();
             }
             
             getNominationCandidates(customProps);
@@ -191,7 +188,8 @@ const mapStateToProps = ({Nomination, Election}) => {
 
   const mapActionsToProps = {
     getNominationCandidates,
-    getCandidateSupportingDocs
+    getCandidateSupportingDocs,
+    candidateMessage
   };
   
   export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(TextFields));

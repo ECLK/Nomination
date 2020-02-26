@@ -558,7 +558,16 @@ export const onChangeApprovalData = (electionApprovals) => {
     };
   }
 
-
+  export function candidateMessage (index) {
+    return function (dispatch) {
+        const response = axios
+        if(index){
+            dispatch(openSnackbar({ message: 'Candidate Updated Sccessfully...' }));
+        }else{
+            dispatch(openSnackbar({ message: 'Candidate Added Sccessfully...' }));
+        }
+    }
+}
   export const openSnackbar = ({ message }) => {
      const data = {
         open: true,
