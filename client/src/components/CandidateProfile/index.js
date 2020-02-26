@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
-import Hidden from '@material-ui/core/Hidden';
-import Notifier, { openSnackbar } from '../Notifier';
 import { candidateMessage } from '../../modules/election/state/ElectionAction';
 import { getNominationCandidates,getCandidateSupportingDocs } from '../../modules/nomination/state/NominationAction';
 import { connect } from 'react-redux';
@@ -131,9 +126,9 @@ class TextFields extends React.Component {
         .then(function (response) {
             callback({success:response.status == 201});
             if(index){
-                candidateMessage(index);
+                candidateMessage('Candidate Updated Sccessfully...');
             }else{
-                candidateMessage();
+                candidateMessage('Candidate Added Sccessfully...');
             }
             
             getNominationCandidates(customProps);
@@ -145,9 +140,7 @@ class TextFields extends React.Component {
             callback({success:false})
             const message = _.get(e, 'response.data.message');
             if(message) {
-                setTimeout(() => {
-                    openSnackbar({ message });
-                }, 10);
+                candidateMessage(message);
             }
           });
     };
@@ -169,7 +162,6 @@ class TextFields extends React.Component {
             return <div>Loading form...</div>;
         } else {
             return (<div>
-                        <Notifier/>
                         <DynamicForm index={this.props.index} defaultFormData={formData} jsonSchema={jsonSchema}  onSubmit={this.handleSubmit}/>
                     </div>);
         }
