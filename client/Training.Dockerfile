@@ -5,11 +5,12 @@ COPY package*.json /app/
 COPY ./public /app/public
 WORKDIR /app
 RUN npm ci
-ENV REACT_APP_API_BASE_URL=https://apim-gateway.ecdev.opensource.lk/nominations/0.9
-# ENV REACT_APP_PDF_GENARATION_SERVICE_URL=http://pdf-service-1hcnse.pxe-dev-platformer-1552477983757-1pdna.svc
-ENV REACT_APP_PDF_GENARATION_SERVICE_URL=https://pdf.ecdev.opensource.lk
-ENV REACT_APP_AUTH_BASE_URL=https://nominations.ecdev.opensource.lk
-ENV REACT_APP_NOMINATION_URL=https://nominations.ecdev.opensource.lk
+ENV REACT_APP_API_BASE_URL=https://apim-gw.training.elections.gov.lk/nominations/0.9
+# ENV REACT_APP_PDF_GENARATION_SERVICE_URL=http://pdf-service-z1jkglv.pxe-dev-platformer-1552477983757-1pdna.svc
+ENV REACT_APP_PDF_GENARATION_SERVICE_URL=https://pdf.ecstag.opensource.lk
+ENV REACT_APP_AUTH_BASE_URL=https://nominations.training.elections.gov.lk
+ENV REACT_APP_NOMINATION_URL=https://nominations.training.elections.gov.lk
+
 RUN npm run build
 
 FROM nginx:1.15

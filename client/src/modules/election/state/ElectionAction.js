@@ -558,7 +558,11 @@ export const onChangeApprovalData = (electionApprovals) => {
     };
   }
 
-
+  export function candidateMessage (message) {
+    return function (dispatch) {
+        dispatch(openSnackbar({ message: message }));
+    }
+}
   export const openSnackbar = ({ message }) => {
      const data = {
         open: true,

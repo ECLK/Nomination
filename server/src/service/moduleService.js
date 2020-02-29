@@ -181,11 +181,11 @@ const ApproveElectionTemplateByModuleId = async (req) => {
 		if (templateUsage[0].COUNT===0) {
 			return await ModuleRepo.updateTemplateStatus( electionData );
 		  } else {
-			throw new ValidationError("This election template already in use",HTTP_CODE_400);
+			throw new ApiError("This election template already in use",HTTP_CODE_400);
 		  }
 	}catch (error){
 	  console.log(error);
-	  throw new ValidationError(e.message,HTTP_CODE_400);
+	  throw new ApiError(error.message,HTTP_CODE_400);
 	}
   };
 

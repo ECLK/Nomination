@@ -6,7 +6,8 @@ COPY ./public /app/public
 WORKDIR /app
 RUN npm ci
 ENV REACT_APP_API_BASE_URL=https://apim-gw.ecstag.opensource.lk/nominations/0.9
-ENV REACT_APP_PDF_GENARATION_SERVICE_URL=https://pdf.authnominations.ecstag.opensource.lk
+# ENV REACT_APP_PDF_GENARATION_SERVICE_URL=http://pdf-service-z1jkglv.pxe-dev-platformer-1552477983757-1pdna.svc
+ENV REACT_APP_PDF_GENARATION_SERVICE_URL=https://pdf.ecstag.opensource.lk
 ENV REACT_APP_AUTH_BASE_URL=https://nominations.ecstag.opensource.lk
 ENV REACT_APP_NOMINATION_URL=https://nominations.ecstag.opensource.lk
 
