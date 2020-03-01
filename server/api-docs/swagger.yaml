@@ -379,10 +379,10 @@ paths:
           description: ''
       x-auth-type: Application & Application User
       x-throttling-tier: Unlimited
-      x-scope: election_template_approval
+      x-scope: ''
       security:
         - default:
-            - election_template_approval
+            - ''
   '/election-modules/{moduleId}':
     put:
       parameters:
@@ -1068,7 +1068,7 @@ x-wso2-security:
         description: ''
         key: payment_edit
         roles: OFC-NominationPayment
-host: '192.168.8.112:8243'
+host: '192.168.8.109:8243'
 basePath: /nominations/0.9
 schemes:
   - https
@@ -1076,7 +1076,7 @@ schemes:
 securityDefinitions:
   default:
     type: oauth2
-    authorizationUrl: 'https://192.168.8.112:8243/authorize'
+    authorizationUrl: 'https://192.168.8.109:8243/authorize'
     flow: implicit
     scopes:
       election_template_edit: create election template
