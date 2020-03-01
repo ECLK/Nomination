@@ -51,7 +51,7 @@ const styles = theme => ({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        width: 220,
+        width: 240,
     },
     dense: {
         marginTop: 19,
@@ -437,7 +437,7 @@ class NominationPayments extends React.Component {
 
         return (
             <form className={classes.container} onSubmit={this.handleSubmit} noValidate autoComplete="off">
-                <Grid container spacing={2} xs={12}>
+                <Grid container spacing={1} xs={12}>
                     <Grid container item lg={3}>
                         <CustomAutocompleteElection  errorTextElection={this.state.errorTextElection} className={classes.textField} approveElections={approveElections} value={this.state.election} suggestions={suggestionsElections} handleChangeAutocomplete={this.handleChangeAutocomplete} />
                     </Grid>
@@ -497,7 +497,7 @@ class NominationPayments extends React.Component {
                 </Grid> */}
                 </Grid>
                 <Divider variant="middle" className={classes.topBottomSpace} />
-                <Grid style={{ marginLeft: 12 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>
+                <Grid style={{ marginLeft: 12 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={1}>
                     <Grid container item lg={3}>
                         <TextField
                             label="Serial No"
@@ -588,7 +588,7 @@ class NominationPayments extends React.Component {
                     </Grid>
                     
                 </Grid>
-                <Grid style={{ marginLeft: 12 }} container spacing={2} xs={12}>
+                <Grid style={{ marginLeft: 12 }} container spacing={1} xs={12}>
                     <Grid container item lg={3}>
                         <TextField
                             id="formatted-numberformat-input"
@@ -632,7 +632,7 @@ class NominationPayments extends React.Component {
                    
                 </Grid>
                 
-                <Grid style={{ marginLeft: 12 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>
+                <Grid style={{ marginLeft: 12 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={1}>
                 <Grid container item lg={3}>
                
                     </Grid>
