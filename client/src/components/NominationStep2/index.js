@@ -288,6 +288,7 @@ class NominationPayments extends React.Component {
                 postNominationPayments(this.state, serialNo,division,this.state.party);
                 var paymentData = this.state;
                 paymentData["candidateCount"] = candidateCount;
+                paymentData["serialNo"] = serialNo;
                 createAndDownloadNominationPaySlipPdf(paymentData);
                 onCloseModal();
         }
