@@ -296,7 +296,14 @@ class CreateElection extends React.Component {
                             formStatus.errorTextSecurityDepositeRpp = '';
                             break;
                         case '123213'://Security Deposit Amount RPP
-                            formStatus.errorTextSecurityDepositeAmountRpp = '';
+                        for (let i = 0; i < this.props.new_election_module.electionConfig.length; i++) {
+                            if (this.props.new_election_module.electionConfig[i].electionModuleConfigId === '123213' && this.props.new_election_module.electionConfig[i].value < 0 ) {
+                                formStatus.errorTextSecurityDepositeAmountRpp = 'emptyField2';
+                                break;
+                            }else{
+                                formStatus.errorTextSecurityDepositeAmountRpp = '';
+                            }
+                        }  
                             break;
                         case 'fe2c2d7e-66de-406a-b887-1143023f8e54'://Security Deposit IG
                             for (let i = 0; i < this.props.new_election_module.electionConfig.length; i++) {
@@ -307,7 +314,14 @@ class CreateElection extends React.Component {
                             formStatus.errorTextSecurityDepositeIg = '';
                             break;
                         case '1232132'://Security Deposit Amount IG
-                            formStatus.errorTextSecurityDepositeAmountIg = '';
+                        for (let i = 0; i < this.props.new_election_module.electionConfig.length; i++) {
+                            if (this.props.new_election_module.electionConfig[i].electionModuleConfigId === '1232132' && this.props.new_election_module.electionConfig[i].value < 0 ) {
+                                formStatus.errorTextSecurityDepositeAmountIg = 'emptyField2';
+                                break;
+                            }else{
+                                formStatus.errorTextSecurityDepositeAmountIg = '';
+                            }
+                        }  
                             break;
                         case '1243123'://Nomination Submission
                             formStatus.errorTextNominationSubmision = '';
@@ -332,7 +346,7 @@ class CreateElection extends React.Component {
 
                 Object.values(formStatus).map((item) => {
                     console.log(item)
-                    if (item === 'emptyField') {
+                    if (item === 'emptyField' || item === 'emptyField2') {
                         goNext = false;
                     }
                 }

@@ -400,7 +400,7 @@ class ElectionConfig extends React.Component {
                             prefix={'Rs '}
                             value={depositAmountRpp}
                             onChange={this.handleChangeAmountRpp('123213')}
-                            helperText={errorTextItems.errorTextSecurityDepositeAmountRpp === "emptyField" ? 'This field is required!' : 'Please type your Amount '}
+                            helperText={errorTextItems.errorTextSecurityDepositeAmountRpp === "emptyField" ? 'This field is required!' : errorTextItems.errorTextSecurityDepositeAmountRpp === "emptyField2" ? 'Negative values not allowed!' : 'Please type your Amount '}
                             margin="normal"
                             InputProps={{
                                 inputComponent: this.NumberFormatCustom,
@@ -450,7 +450,7 @@ class ElectionConfig extends React.Component {
                             prefix={'Rs '}
                             value={depositAmountIg}
                             onChange={this.handleChangeAmountIg('1232132')}
-                            helperText={errorTextItems.errorTextSecurityDepositeAmountIg === "emptyField" ? 'This field is required!' : 'Please type your Amount '}
+                            helperText={errorTextItems.errorTextSecurityDepositeAmountIg === "emptyField" ? 'This field is required!' : errorTextItems.errorTextSecurityDepositeAmountIg === "emptyField2" ? 'Negative values not allowed!' : 'Please type your Amount ' }
                             margin="normal"
                             InputProps={{
                                 inputComponent: this.NumberFormatCustom,
