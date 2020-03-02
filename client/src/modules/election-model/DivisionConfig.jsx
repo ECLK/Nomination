@@ -65,6 +65,9 @@ class DivisionConfig extends React.Component {
         if(this.state.noOfCandidates===undefined || this.state.noOfCandidates===''){
             this.setState({errorTextNoOfCandidates:'emptyField'});
         }
+        if(this.state.noOfCandidates<0){
+            this.setState({errorTextNoOfCandidates:'emptyField2'});
+        }
         const division = {
             divisionCode: this.state.divisionCode,
             divisionName: this.state.divisionName,
@@ -73,7 +76,7 @@ class DivisionConfig extends React.Component {
         
             const divisions = this.state.divisions;
             if(this.state.divisionCode!==undefined && this.state.divisionName!==undefined && this.state.noOfCandidates!==undefined){
-                if(this.state.divisionCode!=='' && this.state.divisionName!=='' && this.state.noOfCandidates!==''){
+                if(this.state.divisionCode!=='' && this.state.divisionName!=='' && this.state.noOfCandidates!=='' && this.state.noOfCandidates>0){
                     newElectionModule.divisionConfig.push(division);
                     divisions.push(division);
                     this.props.electionChanged(newElectionModule); 
@@ -139,10 +142,10 @@ class DivisionConfig extends React.Component {
                         </FormControl>
                     </Grid>
                     <Grid item xs={2}>
-                        <FormControl error={(this.state.errorTextNoOfCandidates==='emptyField') ? true : false} className={classes.formControl}>
+                        <FormControl error={(this.state.errorTextNoOfCandidates==='emptyField') ? true : (this.state.errorTextNoOfCandidates==='emptyField2') ? true : false} className={classes.formControl}>
                             <InputLabel htmlFor="common-name">No of Candidates</InputLabel>
                             <Input type="number" id="common-name" value={this.state.noOfCandidates} onChange={handleChange('noOfCandidates')} />
-                            <FormHelperText>{(this.state.errorTextNoOfCandidates==='emptyField') ? 'This field is required!' : ''}</FormHelperText>
+                            <FormHelperText>{(this.state.errorTextNoOfCandidates==='emptyField') ? 'This field is required!' : (this.state.errorTextNoOfCandidates==='emptyField2') ? 'Negative values not allowed!' : ''}</FormHelperText>
                         </FormControl>
                     </Grid>
                     <Grid item xs={6}>
