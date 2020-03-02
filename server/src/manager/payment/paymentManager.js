@@ -88,7 +88,7 @@ const mapToAllPaymentModel = (payments) => {
 				depositor: payment.depositor,
 				serial:payment.serial,
 				deposit_amount: payment.amount,
-				deposit_date: moment(new Date(payment.deposit_date)).format('YYYY-MM-DDTHH:mm'),
+				deposit_date: moment(new Date(payment.deposit_date)).format('YYYY-MM-DD hh:mm A'),
 				nomination_id: payment.nomination_id,
 				team_id: payment.team,
 				division: payment.division,

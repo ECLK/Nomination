@@ -264,7 +264,7 @@ export function postNominationPayments(candidatePayments,serialNo,division,party
         const newPayment = {
           action:true,
           deposit_amount:response.data.amount,
-          deposit_date:candidatePayments.depositeDate,
+          deposit_date:response.data.depositDate,
           depositor:response.data.depositor,
           division:division,
           nomination_id:response.data.nominationId,
@@ -399,7 +399,7 @@ export const setNominationStatus = (nominationSuppertDocs) => {
         const updateNominationPayments = {
           action:true,
           deposit_amount:response.data.amount,
-          deposit_date:nominationPayments.depositeDate,
+          deposit_date:response.data.depositDate,
           depositor:response.data.depositor,
           division:nominationName,
           nomination_id:nominationPayments.nomination,
