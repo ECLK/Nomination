@@ -375,13 +375,13 @@ class Dashboard extends React.Component {
                                 </Grid>
                                     : (
                                         <div>
-                                <Grid container spacing={24}>
+                                <Grid container spacing={2}>
                                              <Grid item xs={4} sm={1}>
                                     <Link to="/admin/template-review" >
                                         <Button size="medium">Back</Button>
                                     </Link>
                                 </Grid>
-                                    <Grid style={{marginRight:15}} item xs={4} sm={1}>
+                                    <Grid style={{marginRight:50}} item xs={4} sm={1}>
                                     <Button 
                                         variant={ ElectionTemplateReviewData.approval_status==="APPROVE" ? "contained" : "outlined" }
                                         disabled={ ElectionTemplateReviewData.approval_status==="APPROVE" }
@@ -392,7 +392,7 @@ class Dashboard extends React.Component {
                                         <Done className={classes.left_icon} />
                                     </Button>
                                     </Grid>
-                                    <Grid item xs={4} sm={1}>
+                                    <Grid  item xs={4} sm={1}>
                                     <Button
                                         variant={ ElectionTemplateReviewData.approval_status==="REJECT" ? "contained" : "outlined" }
                                         disabled={ ElectionTemplateReviewData.approval_status==="REJECT" }
