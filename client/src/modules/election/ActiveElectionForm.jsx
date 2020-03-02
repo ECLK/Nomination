@@ -231,7 +231,6 @@ class ActiveElectionForm extends React.Component {
       this.setState({ errorTextApprovalStart: 'emptyField2' });
       goNext = false;
     }
-debugger;
     let today = new Date();
     var TodayFormated = moment(today).format("YYYY-MM-DDTHH:mm");
 
