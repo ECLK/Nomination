@@ -194,7 +194,7 @@ export const onChangeApprovalData = (nominationApprovals) => {
 export function onChangeApproval(nominations,id,status,reviewNote) {
   return function (dispatch) {
     let nominationApprovals = {
-      createdBy: 'admin',//TODO: yujith, change this to session user after creating the session
+      createdBy: sessionStorage.getItem('user'),
       createdAt: Date.parse(new Date()),
       updatedAt: Date.parse(new Date()),
       status: status,

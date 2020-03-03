@@ -277,7 +277,7 @@ export function postCallElectionData(CallElectionData, electionData) {
         "name":CallElectionData.name,
         "module_id":CallElectionData.module_id,
         "status":'PENDING',
-        "created_by":"admin",
+        "created_by":sessionStorage.getItem('user'),
         "created_at":Date.parse(newDate),
         "updated_at":Date.parse(newDate),
         "timeLineData": 
@@ -309,7 +309,7 @@ export function postCallElectionData(CallElectionData, electionData) {
                     "id":response.data,
                     "name":CallElectionData.name,
                     "status":'PENDING',
-                    "createdBy":"admin",
+                    "createdBy":sessionStorage.getItem('user'),
                     "lastModified":Date.parse(newDate),
                     "moduleId":CallElectionData.module_id
                 }
@@ -339,7 +339,7 @@ export function editCallElectionData(CallElectionData, electionId) {
             "name":CallElectionData.name,
             "module_id":CallElectionData.module_id,
             "status":'PENDING',
-            "created_by":"admin",
+            "created_by":sessionStorage.getItem('user'),
             "created_at":Date.parse(newDate),
             "updated_at":Date.parse(newDate),
             "timeLineData": 
@@ -364,7 +364,7 @@ export function editCallElectionData(CallElectionData, electionId) {
                     { ...allElectionData }
                 )
                 .then(response => {
-                   const data={electionId:electionId,status:'PENDING'}
+                   const data={createdBy:response.data.created_by,electionId:electionId,status:'PENDING'}
                     dispatch(setEditCallElectionData(data));
                     dispatch(openSnackbar({ message: CallElectionData.name + ' has been updated ' }));
                 }).catch(err => {
@@ -634,7 +634,7 @@ export function getCallElectionData(electionId,electionName,moduleId) {
         "name":'asd',
         "module_id":'xd',
         "status":'PENDING',
-        "created_by":"admin",
+        "created_by":sessionStorage.getItem('user'),
         "created_at":Date.parse(newDate),
         "updated_at":Date.parse(newDate),
         "timeLineData": 

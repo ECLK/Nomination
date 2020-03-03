@@ -56,7 +56,8 @@ const ELECTION_MODULE_UPDATE_QUERY = `UPDATE ELECTION_MODULE
                                 SET 
                                 NAME = :name,
                                 DIVISION_COMMON_NAME = :divisionCommonName,
-                                UPDATED_AT = :updatedAt
+                                UPDATED_AT = :updatedAt,
+                                CREATED_BY = :createdBy
                                 WHERE 
                                 ID = :id`;
 

@@ -122,7 +122,7 @@ export default function reducer(state = initialState, action) {
         const i = findApprovalIndex(AllElectionsPrev, action.payload.electionId);
         return {
             ...state,
-            AllElections: update(state.AllElections, {[i]: {status: {$set: action.payload.status}}})
+            AllElections: update(state.AllElections, {[i]: {status: {$set: action.payload.status},createdBy: {$set: action.payload.createdBy},}})
         }; 
         case ELECTION_REVIEW_DATA://save timeline, electionConfig, allow nominaton
             return {
@@ -171,9 +171,7 @@ export default function reducer(state = initialState, action) {
                 CallElectionData: action.payload
             };
         case DELETE_CALL_ELECTION_DATA:
-        console.log(action.payload);
             const toDelete = state.AllElections.findIndex(x => x.id === action.payload);
-            debugger;
                 return {
                     ...state,
                     AllElections: update(state.AllElections, { $splice: [[toDelete, 1]] } )
