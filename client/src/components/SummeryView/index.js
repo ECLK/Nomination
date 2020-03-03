@@ -52,7 +52,6 @@ class SummeryView extends React.Component {
 		const classes = this.props;
 		const { className, message, onClose, variant, ...other } = this.props;
 		const Icon = variantIcon[variant];
-		debugger;
 			return (
 				<SnackbarContent
 				className={clsx(classes.classes[variant], classes.classes.className)}
