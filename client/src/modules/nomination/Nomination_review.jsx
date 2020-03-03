@@ -48,6 +48,8 @@ import download from "downloadjs";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import SummeryView from "../../components/SummeryView";
 import moment from "moment";
+import Chip from '@material-ui/core/Chip';
+
 
 const drawerWidth = 240;
 
@@ -548,7 +550,7 @@ class NominationReview extends React.Component {
             />}
           </Grid>
           <div style={{ width: '100%' }}>
-            {isWithinValidTimeFrame? nominationElements: null}
+            {isWithinValidTimeFrame? nominationElements: <Grid style={{ textAlign: 'center', marginRight: '25px'}} className={classes.label} item lg={12}><Chip size="medium" label="No Data Found!" /></Grid>}
           </div>
           <br />
 
