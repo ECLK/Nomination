@@ -84,7 +84,7 @@ export default function reducer(state = initialState, action) {
             const i = findApprovalIndex(AllElectionsPrev, action.payload.id);
             return {
                 ...state,
-                AllElectionTemplates: update(state.AllElectionTemplates, {[i]: {status: {$set: action.payload.status},createdBy: {$set: action.payload.createdBy}}})
+                AllElectionTemplates: update(state.AllElectionTemplates, {[i]: {status: {$set: action.payload.status},createdBy: {$set: action.payload.createdBy},lastModified: {$set: action.payload.lastModified}}})
             };  
             // return {
             //     ...state,
