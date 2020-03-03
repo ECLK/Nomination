@@ -76,7 +76,7 @@ const saveActiveElectionData = async (req) => {
       const saveAllowedNominatonListData =  await saveAllowedNominatonList(req,electionId);
       await ActiveElectionRepo.saveAllowedNominations(electionId,saveAllowedNominatonListData, transaction);
       await ActiveElectionRepo.savePendingElectionStatus(pendingStatusData, transaction);
-    return electionId;
+    return pendingStatusData;
   });
 }catch (e){
   console.log(e);

@@ -27,13 +27,14 @@ export const setPostModuleData = (val) => {
 
 export function postCallElectionData(electionData) {
     //TODO: config ids should get from the front end and the array should be dynamic
+    let newDate = new Date();
 
     let allElectionModuleData = {
         "moduleId": "1268362183761283718236",
         "divisionCommonName":'Provintial',
-        "createdBy":'admin',
-        "createdAt":'',
-        "updatedAt":'',
+        "createdBy":sessionStorage.getItem('user'),
+        "createdAt":Date.parse(newDate),
+        "updatedAt":Date.parse(newDate),
         "candidateFormConfiguration": [
             {
                 candidateConfigId: '1',
@@ -143,7 +144,7 @@ export const submitElection = function saveElection(election) {
         "name": election.name,
         "id": "1268362183761283718236",
         "divisionCommonName":'Provintial',
-        "createdBy":'admin',
+        "createdBy":sessionStorage.getItem('user'),
         "createdAt":'',
         "updatedAt":'',
         "candidateFormConfiguration": [
@@ -225,6 +226,8 @@ export const setUpdatedTemplateData = (val) => {
 }
 
   export function editElection(moduleId,election) {
+      election.createdBy = sessionStorage.getItem('user');
+
     return function (dispatch) {
       const response = axios
       .put(
@@ -233,7 +236,7 @@ export const setUpdatedTemplateData = (val) => {
       )
       .then(response => {
         var electionNew= {createdAt: response.data.createdAt,
-            createdBy: 'admin',
+            createdBy: response.data.createdBy,
             id: response.data.id,
             lastModified: response.data.updatedAt,
             moduleId: "",
@@ -405,6 +408,7 @@ export const setGetTemplateData = (val) => {
 }
 
 export function getElectionTemplateData(moduleId) {
+    let newDate = new Date();
     if(moduleId===undefined){
         return function (dispatch) {
             const new_election_module= { 
@@ -429,9 +433,9 @@ export function getElectionTemplateData(moduleId) {
     let allElectionModuleData = {
         "moduleId": moduleId,
         "divisionCommonName":'Provintial',
-        "createdBy":'admin',
-        "createdAt":'',
-        "updatedAt":'',
+        "createdBy":sessionStorage.getItem('user'),
+        "createdAt":Date.parse(newDate),
+        "updatedAt":Date.parse(newDate),
         "candidateFormConfiguration": [
             {
                 candidateConfigId: '1',

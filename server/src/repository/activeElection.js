@@ -20,7 +20,8 @@ const ACTIVE_ELECTION_UPDATE_QUERY = `UPDATE ELECTION
                                 SET 
                                 NAME = :name,
                                 MODULE_ID = :module_id,
-                                UPDATED_AT = :updated_at
+                                UPDATED_AT = :updated_at,
+                                CREATED_BY = :created_by
                                 WHERE 
                                 ID = :id`;
 const ACTIVE_ELECTION_STATUS_UPDATE_QUERY = `UPDATE ELECTION_APPROVAL 

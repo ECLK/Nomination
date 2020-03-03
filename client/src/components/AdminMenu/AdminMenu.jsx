@@ -85,10 +85,9 @@ class ResponsiveDrawer extends React.Component {
     var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)scope\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var scopes = decodeURIComponent(cookieValue).split(/ +/g)
  
-      var user_role = sessionStorage.getItem('role');
+      var user = sessionStorage.getItem('user');
     Array.prototype.move = function(x, y){
       this.splice(y, 0, this.splice(x, 1)[0]);
-      debugger;
       return this;
     };
 
@@ -184,7 +183,7 @@ class ResponsiveDrawer extends React.Component {
 
             <Button color="inherit">
               <PersonIcon style={{ marginRight: 5 }} />
-              {(user_role === 'cg_user') ? 'EC-Chairman' : (user_role === 'ac_user') ? ' Commissioner-General' : ''}
+              {user}
             </Button>
             <Button className={classes.logoutBtn} onClick={this.handleLogout} color="inherit">
               <PowerSetting style={{ marginRight: 5 }} />
