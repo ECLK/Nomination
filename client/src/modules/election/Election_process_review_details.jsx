@@ -356,12 +356,12 @@ class Dashboard extends React.Component {
                 <Grid item xs={3} sm={1} justify="center">
                     <Typography component="p">{SecurityDepositRpp}</Typography>
                 </Grid>
-                {SecurityDepositIg === 'Yes' ?
+                {SecurityDepositRpp === 'Yes' ?
                     <Grid item xs={3} sm={2} justify="center">
                         <Typography component="p">Amount per Candidate : </Typography>
                     </Grid>
                     : ''}
-                {SecurityDepositIg === 'Yes' ?
+                {SecurityDepositRpp === 'Yes' ?
                     <Grid item xs={3} sm={2}>
                         <Typography component="p">{'(Rs.) ' + CandidatePaymentRpp} </Typography>
                     </Grid>
