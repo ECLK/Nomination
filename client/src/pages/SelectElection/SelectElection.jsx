@@ -16,6 +16,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import {getActiveElections} from '../../modules/election/state/ElectionAction';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom'
+import MainMenuLogin from '../../components/MainMenuLogin';
+
 
 
 
@@ -99,6 +101,7 @@ class SelectElection extends React.Component {
             return (
             <main className={classes.main}>
                 <CssBaseline/>
+                <MainMenuLogin title="Election Commission of Sri Lanka" ></MainMenuLogin>
                 <Paper className={classes.paper}>
                     <Avatar className={classes.avatar}>
                         <LockIcon/>
