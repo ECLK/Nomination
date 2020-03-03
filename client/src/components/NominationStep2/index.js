@@ -161,9 +161,10 @@ class NominationPayments extends React.Component {
     }
 
     componentDidMount() {
-        const { getNominationPayments, getTeams } = this.props;
+        const { getNominationPayments, getTeams,getElectionTimeLine } = this.props;
         getNominationPayments();
         getTeams();
+        getElectionTimeLine(this.state.election);
     }
 
     handleChange = (name) => event => {
