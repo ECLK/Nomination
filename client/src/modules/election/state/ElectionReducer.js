@@ -122,7 +122,7 @@ export default function reducer(state = initialState, action) {
         const i = findApprovalIndex(AllElectionsPrev, action.payload.electionId);
         return {
             ...state,
-            AllElections: update(state.AllElections, {[i]: {status: {$set: action.payload.status},createdBy: {$set: action.payload.createdBy},}})
+            AllElections: update(state.AllElections, {[i]: {status: {$set: action.payload.status},createdBy: {$set: action.payload.createdBy},lastModified: {$set: action.payload.lastModified},}})
         }; 
         case ELECTION_REVIEW_DATA://save timeline, electionConfig, allow nominaton
             return {

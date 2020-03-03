@@ -364,7 +364,7 @@ export function editCallElectionData(CallElectionData, electionId) {
                     { ...allElectionData }
                 )
                 .then(response => {
-                   const data={createdBy:response.data.created_by,electionId:electionId,status:'PENDING'}
+                   const data={createdBy:response.data.created_by,electionId:electionId,status:'PENDING',lastModified:response.data.updated_at}
                     dispatch(setEditCallElectionData(data));
                     dispatch(openSnackbar({ message: CallElectionData.name + ' has been updated ' }));
                 }).catch(err => {
