@@ -93,7 +93,7 @@ class CustomizedTable extends React.Component {
           <React.Fragment>
             <TableRow key={candidate.FULL_NAME}>
               <TableCell className={classes.candidate_table_cell} align="left">
-                  {candidate.FULL_NAME}
+                  {candidate.PREFERRED_NAME}
               </TableCell>
               <TableCell className={classNames(classes.candidate_table_cell, classes.capitalize_text)} align="left">
                   {candidate.ADDRESS}
