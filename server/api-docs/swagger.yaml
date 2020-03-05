@@ -1014,6 +1014,18 @@ paths:
           description: ''
       x-auth-type: Application & Application User
       x-throttling-tier: Unlimited
+  '/elections/electionStatus/{status}':
+    get:
+      parameters:
+        - name: status
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
 info:
   title: Nomination
   version: '0.9'
