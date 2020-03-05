@@ -1,5 +1,6 @@
 var API_BASE_URL = 'http://localhost:8280/nominations/0.9';
-var PDF_GENARATION_SERVICE_URL = 'http://localhost:5000/';
+// var PDF_GENARATION_SERVICE_URL = 'http://localhost:5000/';
+var PDF_GENARATION_SERVICE_URL = 'http://localhost:8280/nominations/0.9';
 var AUTH_BASE_URL = 'http://localhost:3001/';
 
 
