@@ -56,7 +56,9 @@ class Home extends React.Component {
             this.setState({ election });
         });
         this.props.getTeams();
-        this.props.getNominationList();
+        if(sessionStorage.getItem('party_id') !== "all"){
+            this.props.getNominationList(sessionStorage.getItem('party_id'));
+        }
         this.props.getNominationStatus(sessionStorage.getItem('election_id'));
     }
 
