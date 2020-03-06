@@ -461,17 +461,12 @@ const nominationListLoaded = (getNominationList) => {
 };
 
 export function getNominationList(teamId) {
-  if(teamId){
-   var partyId = teamId
-  }else{
-    var partyId = sessionStorage.getItem('party_id');
-  }
 
   return function (dispatch) {
      
     const response = axios
     .get(
-      `${API_BASE_URL}/elections/${sessionStorage.getItem('election_id')}/teams/${partyId}/divisions/${sessionStorage.getItem('division_id')}`,
+      `${API_BASE_URL}/elections/${sessionStorage.getItem('election_id')}/teams/${teamId}/divisions/${sessionStorage.getItem('division_id')}`,
     )
     .then(response => {
       const getNominationList = response.data;
@@ -703,9 +698,20 @@ export function validateNominationPayment(nominationId) {
 //--------------- End of get security deposit details ---------------------------
 
 //--------------- Start of genarate pdf ---------------------------
+
+function getCookie(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
 const firstAPI = axios.create({
-  baseURL: PDF_GENARATION_SERVICE_URL
+  baseURL: PDF_GENARATION_SERVICE_URL,
+  headers: {
+    'Authorization': "Bearer " +getCookie('somekey')
+  }
 })
+
 export const createAndDownloadNominationPaySlipPdf = function createAndDownloadNominationPaySlipPdf(paymentData) {
   let templateData = {
     "margin.top": "0.5",
@@ -719,7 +725,7 @@ export const createAndDownloadNominationPaySlipPdf = function createAndDownloadN
   templateData['file']['paymentData'] = paymentData;
 
   firstAPI.post(`/generate`, templateData)
-    .then((res) => firstAPI.get(res.data.url, { responseType: 'blob' }))
+    .then((res) => firstAPI.get(res.data.path, { responseType: 'blob' }))
     .then((res) => {
       const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
       saveAs(pdfBlob, 'nomination_payslip.pdf');
@@ -758,7 +764,7 @@ export const createAndDownloadPdfPresidentialNominationForm = function createAnd
   templateData['file']['nominationData'] = nominationData;
 
   firstAPI.post(`/generate`, templateData)
-    .then((res) => firstAPI.get(res.data.url, { responseType: 'blob' }))
+    .then((res) => firstAPI.get(res.data.path, { responseType: 'blob' }))
     .then((res) => {
       const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
       saveAs(pdfBlob, type + '.pdf');
@@ -791,7 +797,7 @@ export const createAndDownloadPdfParliamentaryNominationForm = function createAn
   templateData['file']['nominationData'] = nominationData;
 
   firstAPI.post(`/generate`, templateData)
-    .then((res) => firstAPI.get(res.data.url, { responseType: 'blob' }))
+    .then((res) => firstAPI.get(res.data.path, { responseType: 'blob' }))
     .then((res) => {
       const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
       saveAs(pdfBlob, type + '.pdf');

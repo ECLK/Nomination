@@ -142,16 +142,17 @@ export default function reducer(state = initialState, action) {
       }; 
     case RECEIVE_NOMINATION_STATUS:
       const nominationList = state.nominationList;
+      debugger;
       const index2 = findDivisionIndex(nominationList, action.payload.divisionId);
       const nomination = nominationList[index2].nomination;
-      const index3 = findNominationIndex(nomination, action.payload.nominationId);
+      // const index3 = findNominationIndex(nomination, action.payload.nominationId);
       return {
         ...state,
         nominationList: nominationList.map((nomination, nominationIndex) => {
           if (nominationIndex === index2) {
             return {
               ...nominationList[index2],
-              nomination: update(nominationList[index2].nomination, {[index3]: {status: {$set: 'SUBMIT'}}})
+              nomination: update(nominationList[index2].nomination, {[0]: {status: {$set: 'SUBMIT'}}})
             }
           } else {
             return nomination
