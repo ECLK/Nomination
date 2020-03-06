@@ -26,19 +26,19 @@ import NominationIcon from '@material-ui/icons/Description';
 import ObjectionIcon from '@material-ui/icons/PanTool';
 import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
-import MailIcon from '@material-ui/icons/Mail';
 import InboxIcon from '@material-ui/icons/Inbox';
 import { withRouter, Redirect } from 'react-router-dom';
 import {
-  getNominations,
+  getPendingNominations,
 } from '../../modules/nomination/state/NominationAction';
 import {
   getAllElectionsToApprove,
 } from '../../modules/election/state/ElectionAction';
-import {
-  getElectionTemplateData,
-} from '../../modules/election-model/state/ElectionAction';
 import {connect} from "react-redux";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 
 
 const drawerWidth = 240;
@@ -84,10 +84,9 @@ class ResponsiveDrawer extends React.Component {
   };
 
   componentDidMount() {
-    const { getAllElectionsToApprove } = this.props;
-    // getNominations();
+    const { getAllElectionsToApprove, getPendingNominations } = this.props;
     getAllElectionsToApprove();
-    // getElectionTemplateData()
+    getPendingNominations();
 
   }
 
@@ -99,42 +98,26 @@ class ResponsiveDrawer extends React.Component {
     window.location = "/signout";
   };
 
-  onNotificationIconClick =(totalNotificationCount, pendingElectionsCount, pendingNominationsCount) => {
-
-    // this.notificationIconClickStatus = true;
-    if(totalNotificationCount>0) {
-      return <List component="nav" aria-label="main mailbox folders">
-        {pendingElectionsCount>0? <ListItem button component={Link} to='/election-process-review'
-                                            selected={this.props.location.pathname === "/election-process-review"}>
-          <ListItemText primary={`You have ${pendingElectionsCount} elections to approve`} />
-        </ListItem>: null}
-        {pendingNominationsCount>0? <ListItem button component={Link} to='/admin/nomination-review' selected={this.props.location.pathname === "/admin/nomination-review"}>
-          <ListItemText primary={`You have ${pendingNominationsCount} nominations to approve`} />
-        </ListItem>: null}
-      </List>;
-    }else {
-      return <List component="nav" aria-label="main mailbox folders">
-        <ListItem button>
-          <ListItemText primary={`You don't have any notifications`} />
-        </ListItem>
-      </List>;
-    }
-  }
-
 
 
   render() {
-    const { classes, theme, pendingElections } = this.props;
+    const { classes, theme, pendingElections, pendingNominations } = this.props;
     if (this.state.goToLogin) return <Redirect to="/login" />;
     var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)scope\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var scopes = decodeURIComponent(cookieValue).split(/ +/g)
 
     var pendingElectionsCount = pendingElections? pendingElections.length: 0;
-    var pendingNominationsCount = pendingElections? pendingElections.length: 0;
-    // var pendingPaymentsCount = pendingElections? pendingElections.length: 0;
+    var pendingNominationsCount = pendingNominations? pendingNominations.length: 0;
+    var pendingNominationsPaymentCount = 0;
+    if(pendingNominations){
+      pendingNominations.forEach(function(nomination){
+        if(nomination.payment_status == null){
+          pendingNominationsPaymentCount++;
+        }
+      });
+    }
 
-
-    var totalNotificationCount = pendingElectionsCount+ pendingNominationsCount;
+    var totalNotificationCount = pendingElectionsCount + pendingNominationsCount + pendingNominationsPaymentCount;
 
       var user = sessionStorage.getItem('user');
     Array.prototype.move = function(x, y){
@@ -233,16 +216,37 @@ class ResponsiveDrawer extends React.Component {
             <div style={{ flex: 1 }}></div>
 
             {totalNotificationCount>0 ?
-              <Button onClick={this.onNotificationIconClick} color="inherit">
-                <Badge badgeContent={totalNotificationCount} color="error">
-                    <MailIcon onClick={this.onNotificationIconClick} />
-                </Badge>
-              </Button>
-            :<Button onClick={this.onNotificationIconClick} color="inherit">
-              <MailIcon onClick={this.onNotificationIconClick} />
-            </Button>}
-
-            {true? this.onNotificationIconClick(totalNotificationCount,pendingElectionsCount, pendingNominationsCount): null}
+                <PopupState variant="popover" popupId="notification-list">
+                  {popupState => (
+                      <React.Fragment>
+                        <Button color="inherit" {...bindTrigger(popupState)}>
+                          <Badge badgeContent={totalNotificationCount} color="error">
+                            <NotificationsIcon/>
+                          </Badge>
+                        </Button>
+                        <Menu style={{marginTop: 45}} {...bindMenu(popupState)}>
+                          {pendingElectionsCount>0? <MenuItem onClick={popupState.close} component={Link} to='/election-process-review'
+                                                              selected={this.props.location.pathname === "/election-process-review"}>{`You have ${pendingElectionsCount} elections to approve`}</MenuItem>: null}
+                          {pendingNominationsCount>0? <MenuItem onClick={popupState.close} component={Link} to='/admin/nomination-review' selected={this.props.location.pathname === "/admin/nomination-review"}>{`You have ${pendingNominationsCount} nominations to approve`}</MenuItem>:null}
+                          {pendingNominationsPaymentCount>0? <MenuItem onClick={popupState.close} component={Link} to='/admin/nomination-payment-list' selected={this.props.location.pathname === "/admin/nomination-payment-list"}>{`You have ${pendingNominationsPaymentCount} nomination payments to approve`}</MenuItem>:null}
+                        </Menu>
+                      </React.Fragment>
+                  )}
+                </PopupState>
+            :
+                <PopupState variant="popover" popupId="notification-list">
+                  {popupState => (
+                      <React.Fragment>
+                        <Button color="inherit" {...bindTrigger(popupState)}>
+                          <NotificationsIcon/>
+                        </Button>
+                        <Menu style={{marginTop: 45}} {...bindMenu(popupState)}>
+                          <MenuItem onClick={popupState.close}>You don't have any notifications</MenuItem>
+                        </Menu>
+                      </React.Fragment>
+                  )}
+                </PopupState>
+            }
 
             <Button color="inherit">
               <PersonIcon style={{ marginRight: 5 }} />
@@ -296,18 +300,16 @@ ResponsiveDrawer.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = ({ Election }) => {
-  debugger;
-  // const nominations = Nomination.all_nominations;
+const mapStateToProps = ({ Election, Nomination }) => {
+  const pendingNominations = Nomination.pendingNominations;
   const pendingElections = Election.pendingElections;
 
-  return { pendingElections };
+  return { pendingElections, pendingNominations };
 };
 
 const mapActionsToProps = {
-  // getNominations,
   getAllElectionsToApprove,
-  // getElectionTemplateData
+  getPendingNominations,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles, { withTheme: true })(withRouter(ResponsiveDrawer)));

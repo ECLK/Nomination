@@ -23,7 +23,8 @@ import {
   GET_NOMINATION_DATA,
   NOMINATION_PAYMENT_VALIDATION_LOADED,
   ORIGINAL_UPLOAD_PATH_LOADED,
-  PARTY_LIST_BY_TEAM_TYPE_LOADED
+  PARTY_LIST_BY_TEAM_TYPE_LOADED,
+  PENDING_NOMINATIONS_LOADED
 } from "./NominationTypes";
 
 const initialState = {
@@ -103,18 +104,18 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         getNominationPayments: action.payload
-      }; 
+      };
     case GET_NOMINATION_CANDIDATES:
       return {
         ...state,
         getNominationCandidates: action.payload
-      };  
+      };
     case DELETE_NOMINATION_CANDIDATE:
       const toDelete = state.getNominationCandidates.findIndex(x => x.CANDIDATE_ID === action.payload.candidateId);
       return {
         ...state,
         getNominationCandidates: update(state.getNominationCandidates, { $splice: [[toDelete, 1]] } )
-      };   
+      };
     case HANDLE_CHANGE_PAYMENT:
       return {
         ...state,
@@ -124,22 +125,22 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         postNominationSupportDocs: action.payload
-      };   
+      };
     case APPROVED_ELECTIONS:
       return {
         ...state,
         approveElections: action.payload
-      }; 
+      };
     case PARTY_LIST_LOADED:
       return {
         ...state,
         partyList: action.payload
-      }; 
+      };
     case PARTY_LIST_BY_TEAM_TYPE_LOADED:
       return {
         ...state,
         partyListByType: action.payload
-      }; 
+      };
     case RECEIVE_NOMINATION_STATUS:
       const nominationList = state.nominationList;
       debugger;
@@ -158,27 +159,27 @@ export default function reducer(state = initialState, action) {
             return nomination
           }
         })
-      } 
+      }
     case GET_NOMINATION_LIST:
       return {
         ...state,
         nominationList: action.payload
-      };  
+      };
     case GET_NOMINATION_LIST_FOR_PAYMENT:
       return {
         ...state,
         nominationListForPayment: action.payload
-      };  
+      };
     case POST_CANDIDATE_SUPPORT_DOC:
       return {
         ...state,
         postCandidateSupportDocs: action.payload
-      }; 
+      };
     case CANDIDATE_SUPPORT_DOC_LOADED:
       return {
         ...state,
         candidateSupportdocLoaded: action.payload
-      }; 
+      };
     case NOMINATION_PAYMENT_STATUS_LOADED:
       return {
         ...state,
@@ -188,28 +189,33 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         paymentList: action.payload
-      }; 
+      };
     case PAYMENT_SERIAL_NO_LOADED:
       return {
         ...state,
         nominationPaymentSerial: action.payload
-      }; 
+      };
     case GET_NOMINATION_DATA:
       return {
         ...state,
         nominationData: action.payload
-      }; 
+      };
     case NOMINATION_PAYMENT_VALIDATION_LOADED:
       return {
         ...state,
         nominationPaymentValidation: action.payload
-      }; 
+      };
     case ORIGINAL_UPLOAD_PATH_LOADED:
         return {
           ...state,
           originalUploadPath: action.payload
-        }; 
-      
+        };
+    case PENDING_NOMINATIONS_LOADED:
+        return {
+          ...state,
+          pendingNominations: action.payload
+        };
+
   }
   return state;
 }
