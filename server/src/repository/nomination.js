@@ -38,6 +38,21 @@ const PENDING_NOMINATION_SELECT_QUERY_ALL_TEAM = `SELECT
 													LEFT JOIN NOMINATION_APPROVAL NA ON N.ID = NA.NOMINATION_ID
 													WHERE ELECTION_ID=:electionId
 													AND N.STATUS=:status AND N.DIVISION_CONFIG_ID=:divisionId`;
+
+const PENDING_NOMINATION_SELECT_QUERY_ALL_TEAM_FOR_NOTIFICATION = `SELECT 
+																	N.ID AS nomination_id,
+																	DC.NAME AS nomination_division_name,
+																	N.TEAM_ID AS nomination_party,
+																	P.STATUS AS nomination_payment_status,
+																	OBR.STATUS AS nomination_objection_status,
+																	NA.STATUS AS nomination_approval_status,
+																	NA.REVIEW_NOTE AS nomination_review_note
+																	FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
+																	LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
+																	LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
+																	LEFT JOIN OBJECTION_REVIEW  OBR ON O.ID = OBR.OBJECTION_ID
+																	LEFT JOIN NOMINATION_APPROVAL NA ON N.ID = NA.NOMINATION_ID
+																	WHERE N.STATUS=:status AND N.DIVISION_CONFIG_ID=:divisionId`;
 const PENDING_NOMINATION_SELECT_QUERY_ALL_TEAM_ALL_DIVISION = `SELECT 
 																N.ID AS nomination_id,
 																DC.NAME AS nomination_division_name,
@@ -60,6 +75,21 @@ const PENDING_NOMINATION_SELECT_QUERY_ALL_TEAM_ALL_DIVISION = `SELECT
 																LEFT JOIN NOMINATION_APPROVAL NA ON N.ID = NA.NOMINATION_ID
 																WHERE ELECTION_ID=:electionId
 																AND N.STATUS=:status`;
+
+const PENDING_NOMINATION_SELECT_QUERY_ALL_TEAM_ALL_DIVISION_FOR_NOTIFICATION = `SELECT 
+																N.ID AS nomination_id,
+																DC.NAME AS nomination_division_name,
+																N.TEAM_ID AS nomination_party,
+																P.STATUS AS nomination_payment_status,
+																OBR.STATUS AS nomination_objection_status,
+																NA.STATUS AS nomination_approval_status,
+																NA.REVIEW_NOTE AS nomination_review_note
+																FROM NOMINATION N LEFT JOIN DIVISION_CONFIG DC ON N.DIVISION_CONFIG_ID = DC.ID
+																LEFT JOIN PAYMENT P ON N.ID = P.NOMINATION_ID
+																LEFT JOIN OBJECTION O ON N.ID = O.NOMINATION_ID
+																LEFT JOIN OBJECTION_REVIEW  OBR ON O.ID = OBR.OBJECTION_ID
+																LEFT JOIN NOMINATION_APPROVAL NA ON N.ID = NA.NOMINATION_ID
+																WHERE N.STATUS=:status`;
 																
 const PENDING_NOMINATION_SELECT_QUERY = `SELECT 
 										N.ID AS nomination_id,
@@ -222,6 +252,28 @@ const fetchPendingNominationList = (params) => {
   
 }
 
+const fetchPendingNominationListForNotification = (params) => {
+		if(params.divisionId === 'all'){
+			return DbConnection()
+			.query(PENDING_NOMINATION_SELECT_QUERY_ALL_TEAM_ALL_DIVISION_FOR_NOTIFICATION,
+			  {
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+			  }).catch((error) => {
+				throw new DBError(error);
+			  });
+		}else{
+			return DbConnection()
+			.query(PENDING_NOMINATION_SELECT_QUERY_ALL_TEAM_FOR_NOTIFICATION,
+			  {
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+			  }).catch((error) => {
+				throw new DBError(error);
+			  });
+		}
+}
+
 const fetchNominationPaymentStatus = (params) => {
 	
 		return DbConnection()
@@ -279,5 +331,6 @@ export default {
 	fetchPendingNominationList,
 	createNominationStatus,
 	fetchNominationPaymentStatus,
-	fetchNominationData
+	fetchNominationData,
+	fetchPendingNominationListForNotification
 }

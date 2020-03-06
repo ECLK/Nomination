@@ -200,6 +200,15 @@ export const initNominationRouter = (app) => {
 			},
 		},
 		{
+			method: GET,
+			path: '/nominations/:status/divisions/:divisionId',
+			handler: (req, res, next) => {
+				return NominationService.getPendingNominationsByStatus(req)
+					.then((result) => res.status(HTTP_CODE_200).send(result))
+					.catch(error => next(error));
+			},
+		},
+		{
 			method: POST,
 			path: '/nominations/:nominationId/approve-nomination',
 			schema: SAVE_NOMINATION_APPROVE_SCHEMA,
