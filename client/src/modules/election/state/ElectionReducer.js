@@ -19,14 +19,15 @@ import {
     DELETE_CALL_ELECTION_DATA,
     GET_CALL_ELECTION_TIME_LINE_DATA,
     GET_ACTIVE_ELECTIONS,
-SET_ELECTORATES_DIVISIONS,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+SET_ELECTORATES_DIVISIONS,
     ELECTION_ELECTORATES_REVIEW_DATA,
-    ELECTION_ELIGIBILITY_REVIEW_DATA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+    ELECTION_ELIGIBILITY_REVIEW_DATA,
+    GET_PENDING_ELECTIONS_DATA
 } from "./ElectionTypes";
 import { REQUEST_STATE } from "../../../lib/request_redux_state";
 import update from 'immutability-helper';
 
-const initialState = { 
+const initialState = {
     //define the common states only
     nominationStart: '2017-05-24T10:30',
     nominationEnd: '2017-05-24T10:30',
@@ -47,7 +48,7 @@ const initialState = {
         "created_by":"",
         "created_at":'',
         "updated_at":'',
-        "timeLineData": 
+        "timeLineData":
             {
                 nominationStart: '',
                 nominationEnd: '',
@@ -74,7 +75,7 @@ const initialState = {
 const findIndex = (AllElections, id) => {
     return AllElections.findIndex(x => x.id === id);
   };
-  
+
   function findApprovalIndex(AllElections, id) {
     return AllElections.findIndex(x => x.id === id);
   }
@@ -123,7 +124,7 @@ export default function reducer(state = initialState, action) {
         return {
             ...state,
             AllElections: update(state.AllElections, {[i]: {status: {$set: action.payload.status},createdBy: {$set: action.payload.createdBy},lastModified: {$set: action.payload.lastModified},}})
-        }; 
+        };
         case ELECTION_REVIEW_DATA://save timeline, electionConfig, allow nominaton
             return {
                 ...state,
@@ -152,14 +153,14 @@ export default function reducer(state = initialState, action) {
                     ...state.AllElections,
                     action.payload
                 ]
-            };    
+            };
         case RECEIVE_APPROVED_ELECTION:
             const AllElections = state.AllElections;
             const index = findApprovalIndex(AllElections, action.payload.electionId);
             return {
                 ...state,
                 AllElections: update(AllElections, {[index]: {status: {$set: action.payload.status}}})
-            }; 
+            };
         case GET_CALL_ELECTION_DATA://set election data to the state
             return {
                 ...state,
@@ -200,6 +201,11 @@ export default function reducer(state = initialState, action) {
         return {
             ...state,
             electionEligibilities: action.payload
+        };
+        case GET_PENDING_ELECTIONS_DATA:
+        return {
+            ...state,
+            pendingElections: action.payload
         };
     }
     return state;

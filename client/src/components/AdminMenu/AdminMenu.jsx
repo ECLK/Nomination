@@ -25,7 +25,20 @@ import PowerSetting from '@material-ui/icons/PowerSettingsNew';
 import NominationIcon from '@material-ui/icons/Description';
 import ObjectionIcon from '@material-ui/icons/PanTool';
 import Button from '@material-ui/core/Button';
-import { withRouter, Redirect } from 'react-router-dom'
+import Badge from '@material-ui/core/Badge';
+import MailIcon from '@material-ui/icons/Mail';
+import InboxIcon from '@material-ui/icons/Inbox';
+import { withRouter, Redirect } from 'react-router-dom';
+import {
+  getNominations,
+} from '../../modules/nomination/state/NominationAction';
+import {
+  getAllElectionsToApprove,
+} from '../../modules/election/state/ElectionAction';
+import {
+  getElectionTemplateData,
+} from '../../modules/election-model/state/ElectionAction';
+import {connect} from "react-redux";
 
 
 const drawerWidth = 240;
@@ -70,6 +83,14 @@ class ResponsiveDrawer extends React.Component {
     goToLogin: false,
   };
 
+  componentDidMount() {
+    const { getAllElectionsToApprove } = this.props;
+    // getNominations();
+    getAllElectionsToApprove();
+    // getElectionTemplateData()
+
+  }
+
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
@@ -78,13 +99,43 @@ class ResponsiveDrawer extends React.Component {
     window.location = "/signout";
   };
 
+  onNotificationIconClick =(totalNotificationCount, pendingElectionsCount, pendingNominationsCount) => {
+
+    // this.notificationIconClickStatus = true;
+    if(totalNotificationCount>0) {
+      return <List component="nav" aria-label="main mailbox folders">
+        {pendingElectionsCount>0? <ListItem button component={Link} to='/election-process-review'
+                                            selected={this.props.location.pathname === "/election-process-review"}>
+          <ListItemText primary={`You have ${pendingElectionsCount} elections to approve`} />
+        </ListItem>: null}
+        {pendingNominationsCount>0? <ListItem button component={Link} to='/admin/nomination-review' selected={this.props.location.pathname === "/admin/nomination-review"}>
+          <ListItemText primary={`You have ${pendingNominationsCount} nominations to approve`} />
+        </ListItem>: null}
+      </List>;
+    }else {
+      return <List component="nav" aria-label="main mailbox folders">
+        <ListItem button>
+          <ListItemText primary={`You don't have any notifications`} />
+        </ListItem>
+      </List>;
+    }
+  }
+
+
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, pendingElections } = this.props;
     if (this.state.goToLogin) return <Redirect to="/login" />;
     var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)scope\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var scopes = decodeURIComponent(cookieValue).split(/ +/g)
- 
+
+    var pendingElectionsCount = pendingElections? pendingElections.length: 0;
+    var pendingNominationsCount = pendingElections? pendingElections.length: 0;
+    // var pendingPaymentsCount = pendingElections? pendingElections.length: 0;
+
+
+    var totalNotificationCount = pendingElectionsCount+ pendingNominationsCount;
+
       var user = sessionStorage.getItem('user');
     Array.prototype.move = function(x, y){
       this.splice(y, 0, this.splice(x, 1)[0]);
@@ -181,6 +232,18 @@ class ResponsiveDrawer extends React.Component {
             </Typography>
             <div style={{ flex: 1 }}></div>
 
+            {totalNotificationCount>0 ?
+              <Button onClick={this.onNotificationIconClick} color="inherit">
+                <Badge badgeContent={totalNotificationCount} color="error">
+                    <MailIcon onClick={this.onNotificationIconClick} />
+                </Badge>
+              </Button>
+            :<Button onClick={this.onNotificationIconClick} color="inherit">
+              <MailIcon onClick={this.onNotificationIconClick} />
+            </Button>}
+
+            {true? this.onNotificationIconClick(totalNotificationCount,pendingElectionsCount, pendingNominationsCount): null}
+
             <Button color="inherit">
               <PersonIcon style={{ marginRight: 5 }} />
               {user}
@@ -233,4 +296,18 @@ ResponsiveDrawer.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(withRouter(ResponsiveDrawer));
+const mapStateToProps = ({ Election }) => {
+  debugger;
+  // const nominations = Nomination.all_nominations;
+  const pendingElections = Election.pendingElections;
+
+  return { pendingElections };
+};
+
+const mapActionsToProps = {
+  // getNominations,
+  getAllElectionsToApprove,
+  // getElectionTemplateData
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles, { withTheme: true })(withRouter(ResponsiveDrawer)));
