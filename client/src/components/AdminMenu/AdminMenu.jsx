@@ -25,7 +25,20 @@ import PowerSetting from '@material-ui/icons/PowerSettingsNew';
 import NominationIcon from '@material-ui/icons/Description';
 import ObjectionIcon from '@material-ui/icons/PanTool';
 import Button from '@material-ui/core/Button';
-import { withRouter, Redirect } from 'react-router-dom'
+import Badge from '@material-ui/core/Badge';
+import InboxIcon from '@material-ui/icons/Inbox';
+import { withRouter, Redirect } from 'react-router-dom';
+import {
+  getPendingNominations,
+} from '../../modules/nomination/state/NominationAction';
+import {
+  getAllElectionsToApprove,
+} from '../../modules/election/state/ElectionAction';
+import {connect} from "react-redux";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 
 
 const drawerWidth = 240;
@@ -70,6 +83,13 @@ class ResponsiveDrawer extends React.Component {
     goToLogin: false,
   };
 
+  componentDidMount() {
+    const { getAllElectionsToApprove, getPendingNominations } = this.props;
+    getAllElectionsToApprove();
+    getPendingNominations();
+
+  }
+
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
@@ -79,12 +99,26 @@ class ResponsiveDrawer extends React.Component {
   };
 
 
+
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, pendingElections, pendingNominations } = this.props;
     if (this.state.goToLogin) return <Redirect to="/login" />;
     var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)scope\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var scopes = decodeURIComponent(cookieValue).split(/ +/g)
- 
+
+    var pendingElectionsCount = pendingElections? pendingElections.length: 0;
+    var pendingNominationsCount = pendingNominations? pendingNominations.length: 0;
+    var pendingNominationsPaymentCount = 0;
+    if(pendingNominations){
+      pendingNominations.forEach(function(nomination){
+        if(nomination.payment_status == null){
+          pendingNominationsPaymentCount++;
+        }
+      });
+    }
+
+    var totalNotificationCount = pendingElectionsCount + pendingNominationsCount + pendingNominationsPaymentCount;
+
       var user = sessionStorage.getItem('user');
     Array.prototype.move = function(x, y){
       this.splice(y, 0, this.splice(x, 1)[0]);
@@ -181,6 +215,39 @@ class ResponsiveDrawer extends React.Component {
             </Typography>
             <div style={{ flex: 1 }}></div>
 
+            {totalNotificationCount>0 ?
+                <PopupState variant="popover" popupId="notification-list">
+                  {popupState => (
+                      <React.Fragment>
+                        <Button color="inherit" {...bindTrigger(popupState)}>
+                          <Badge badgeContent={totalNotificationCount} color="error">
+                            <NotificationsIcon/>
+                          </Badge>
+                        </Button>
+                        <Menu style={{marginTop: 45}} {...bindMenu(popupState)}>
+                          {pendingElectionsCount>0? <MenuItem onClick={popupState.close} component={Link} to='/election-process-review'
+                                                              selected={this.props.location.pathname === "/election-process-review"}>{`You have ${pendingElectionsCount} elections to approve`}</MenuItem>: null}
+                          {pendingNominationsCount>0? <MenuItem onClick={popupState.close} component={Link} to='/admin/nomination-review' selected={this.props.location.pathname === "/admin/nomination-review"}>{`You have ${pendingNominationsCount} nominations to approve`}</MenuItem>:null}
+                          {pendingNominationsPaymentCount>0? <MenuItem onClick={popupState.close} component={Link} to='/admin/nomination-payment-list' selected={this.props.location.pathname === "/admin/nomination-payment-list"}>{`You have ${pendingNominationsPaymentCount} nomination payments to approve`}</MenuItem>:null}
+                        </Menu>
+                      </React.Fragment>
+                  )}
+                </PopupState>
+            :
+                <PopupState variant="popover" popupId="notification-list">
+                  {popupState => (
+                      <React.Fragment>
+                        <Button color="inherit" {...bindTrigger(popupState)}>
+                          <NotificationsIcon/>
+                        </Button>
+                        <Menu style={{marginTop: 45}} {...bindMenu(popupState)}>
+                          <MenuItem onClick={popupState.close}>You don't have any notifications</MenuItem>
+                        </Menu>
+                      </React.Fragment>
+                  )}
+                </PopupState>
+            }
+
             <Button color="inherit">
               <PersonIcon style={{ marginRight: 5 }} />
               {user}
@@ -233,4 +300,16 @@ ResponsiveDrawer.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(withRouter(ResponsiveDrawer));
+const mapStateToProps = ({ Election, Nomination }) => {
+  const pendingNominations = Nomination.pendingNominations;
+  const pendingElections = Election.pendingElections;
+
+  return { pendingElections, pendingNominations };
+};
+
+const mapActionsToProps = {
+  getAllElectionsToApprove,
+  getPendingNominations,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles, { withTheme: true })(withRouter(ResponsiveDrawer)));

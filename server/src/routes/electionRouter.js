@@ -112,5 +112,16 @@ export const initElectionRouter = (app) => {
 
             },
         },
+		{
+			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/status/PENDING
+			method: GET,
+			path: '/elections/electionStatus/:status',
+			schema: {},
+			handler: (req, res, next) => {
+				return ElectionService.getElectionsByStatusName(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			}
+		},
 	]);
 };

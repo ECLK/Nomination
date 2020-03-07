@@ -23,7 +23,8 @@ import {
   GET_NOMINATION_DATA,
   NOMINATION_PAYMENT_VALIDATION_LOADED,
   ORIGINAL_UPLOAD_PATH_LOADED,
-  PARTY_LIST_BY_TEAM_TYPE_LOADED
+  PARTY_LIST_BY_TEAM_TYPE_LOADED,
+    PENDING_NOMINATIONS_LOADED
 } from "./NominationTypes";
 import {API_BASE_URL,PDF_GENARATION_SERVICE_URL} from "../../../config.js";
 import axios from "axios";
@@ -41,7 +42,7 @@ const nominationLoaded = (getNominations) => {
 
 export function getNominations(selectedElection,selectedParty) {
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/nominations/${selectedElection}/pending-nominations/${'SUBMIT'}/team/${selectedParty}/divisions/${sessionStorage.getItem('division_id')}`,
@@ -63,7 +64,7 @@ const nominationPaymentLoaded = (getNominationPayments) => {
 
 export function getNominationPayments(customProps) {
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/nominations/${customProps}/payments`,
@@ -86,7 +87,7 @@ const approveElectionLoaded = (approveElections) => {
 
 export function getApproveElections() {
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/elections/status/${'APPROVE'}`,
@@ -110,7 +111,7 @@ const partyListLoaded = (partyList) => {
 
 export function getTeams() {
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/teams`,
@@ -141,7 +142,7 @@ export function getTeamsByTeamType(res) {
     partyType = "IG";
   }
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/teams/${partyType}/withType`,
@@ -164,7 +165,7 @@ const nominationCandidateLoaded = (getNominationCandidates) => {
 
 export function getNominationCandidates(customProps) {
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/nominations/${customProps}/candidates`,
@@ -222,12 +223,12 @@ export function onChangeApproval(nominations,id,status,reviewNote) {
 export const handleChangePayment = (name) => event => {
   this.setState({
     [name]:event.target.value,
-}); 
+});
 let paymentState = this.state;
 return {
   type: HANDLE_CHANGE_PAYMENT,
   payload: paymentState,
-} 
+}
 
 };
 
@@ -301,7 +302,7 @@ export const setNominationStatus = (nominationSuppertDocs) => {
       divisionId:divisionId
     }
     return function (dispatch) {
-       
+
       const response = axios
       .put(
         `${API_BASE_URL}/nominations/${nominationSuppertDocs.nominationId}/support-docs`,
@@ -328,7 +329,7 @@ export const setNominationStatus = (nominationSuppertDocs) => {
       divisionId:divisionId
     }
      return function (dispatch) {
-        
+
        const response = axios
        .put(
          `${API_BASE_URL}/nominations/${nominationSuppertDocs.nominationId}/update-nomination-status`,
@@ -348,9 +349,9 @@ export const setNominationStatus = (nominationSuppertDocs) => {
         payload: val
     }
 }
-  export function postCandidateSupportDocs(candidateSuppertDocs) {     
+  export function postCandidateSupportDocs(candidateSuppertDocs) {
      return function (dispatch) {
-        
+
        const response = axios
        .post(
          `${API_BASE_URL}/nominations/candidate/support-docs`,
@@ -375,7 +376,7 @@ export const setNominationStatus = (nominationSuppertDocs) => {
 
   export function updateNominationPayments(paymentId,nominationPayments,partyName,nominationName) {
     return function (dispatch) {
-          
+
       let nominationPayment = {
           depositor: nominationPayments.depositor,
           amount: nominationPayments.depositAmount,
@@ -429,7 +430,7 @@ export const setDeleteData = (getNominationCandidateDeleted) => {
 
 export function deleteNominationCandidate(customProps) {
     return function (dispatch) {
-       
+
       const response = axios
       .delete(
         `${API_BASE_URL}/nominations/${customProps}/candidates`,
@@ -463,7 +464,7 @@ const nominationListLoaded = (getNominationList) => {
 export function getNominationList(teamId) {
 
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/elections/${sessionStorage.getItem('election_id')}/teams/${teamId}/divisions/${sessionStorage.getItem('division_id')}`,
@@ -496,7 +497,7 @@ const nominationDataLoaded = (getNominationData) => {
 export function getNominationData(nominationId,keyName) {
   return function (dispatch) {
     //change this keyName to candidate payment ig to get the ig candidate payment
-   
+
 
     const response = axios
     .get(
@@ -530,7 +531,7 @@ const nominationListforPaymentLoaded = (getNominationList) => {
 
 export function getNominationListForPayment(electionId,teamId) {
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/elections/${electionId}/teams/${teamId}/nominations/${sessionStorage.getItem('division_id')}/divisions`,
@@ -563,7 +564,7 @@ const candidateSupportdocLoaded = (getcandidateSupportdocList) => {
 export function getCandidateSupportingDocs(candidateId) {
   debugger;
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/nominations/${candidateId}/candidate/support-docs`,
@@ -595,7 +596,7 @@ const nominationPaymentStatusLoaded = (paymentStatus) => {
 
 export function getNominationStatus(electionId) {
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/nominations/${electionId}/payment-status`,
@@ -629,7 +630,7 @@ const paymentListLoaded = (paymentList) => {
 
 export function getPaymentList() {
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/nomination-payments/${sessionStorage.getItem('division_id')}`,
@@ -654,7 +655,7 @@ const paymentSerialLoaded = (paymentSerial) => {
 
 export function getNominationPaymentSerialNumber() {
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/payment-serial`,
@@ -679,7 +680,7 @@ const nominationPaymentValidationLoaded = (nominationValidation) => {
 
 export function validateNominationPayment(nominationId) {
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/payments/${nominationId}/validate`,
@@ -813,7 +814,7 @@ const uploadePathLoaded = (OriginalPath) => {
 
 export function getUploadPath(sid) {
   return function (dispatch) {
-     
+
     const response = axios
     .get(
       `${API_BASE_URL}/file-download/${sid}`,
@@ -827,4 +828,27 @@ export function getUploadPath(sid) {
           console.log(err)
     });
   };
+}
+
+
+const pendingNominationsLoaded = (nominations) => {
+    return {
+        type: PENDING_NOMINATIONS_LOADED,
+        payload: nominations,
+    };
+};
+
+export function getPendingNominations() {
+    return function (dispatch) {
+
+        const response = axios
+            .get(
+                `${API_BASE_URL}/nominations/${'SUBMIT'}/divisions/${sessionStorage.getItem('division_id')}`,
+            )
+            .then(response => {
+                dispatch(pendingNominationsLoaded(response.data));
+            }).catch(err => {
+                console.log(err)
+            });
+    };
 }
