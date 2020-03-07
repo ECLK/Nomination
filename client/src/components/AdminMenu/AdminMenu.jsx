@@ -108,6 +108,14 @@ class ResponsiveDrawer extends React.Component {
 
     var pendingElectionsCount = pendingElections? pendingElections.length: 0;
     var pendingNominationsCount = pendingNominations? pendingNominations.length: 0;
+
+    var nominationCout = 0;
+    for(var i=0;i<pendingNominationsCount;i++){
+        if (pendingNominations[i].approval_status === null) {
+        nominationCout++;
+      }
+    }
+    
     var pendingNominationsPaymentCount = 0;
     if(pendingNominations){
       pendingNominations.forEach(function(nomination){
@@ -117,7 +125,7 @@ class ResponsiveDrawer extends React.Component {
       });
     }
 
-    var totalNotificationCount = pendingElectionsCount + pendingNominationsCount + pendingNominationsPaymentCount;
+    var totalNotificationCount = pendingElectionsCount + nominationCout + pendingNominationsPaymentCount;
 
       var user = sessionStorage.getItem('user');
     Array.prototype.move = function(x, y){
@@ -225,10 +233,23 @@ class ResponsiveDrawer extends React.Component {
                           </Badge>
                         </Button>
                         <Menu style={{marginTop: 45}} {...bindMenu(popupState)}>
-                          {pendingElectionsCount>0? <MenuItem onClick={popupState.close} component={Link} to='/election-process-review'
-                                                              selected={this.props.location.pathname === "/election-process-review"}>{`You have ${pendingElectionsCount} elections to approve`}</MenuItem>: null}
-                          {pendingNominationsCount>0? <MenuItem onClick={popupState.close} component={Link} to='/admin/nomination-review' selected={this.props.location.pathname === "/admin/nomination-review"}>{`You have ${pendingNominationsCount} nominations to approve`}</MenuItem>:null}
-                          {pendingNominationsPaymentCount>0? <MenuItem onClick={popupState.close} component={Link} to='/admin/nomination-payment-list' selected={this.props.location.pathname === "/admin/nomination-payment-list"}>{`You have ${pendingNominationsPaymentCount} nomination payments to approve`}</MenuItem>:null}
+                        {scopes.map((scope) => {
+                          switch (scope) {
+                            case "call_election_approve_edit":
+                              return pendingElectionsCount>0 ? <MenuItem onClick={popupState.close} component={Link} to='/election-process-review'
+                              selected={this.props.location.pathname === "/election-process-review"}>{`You have ${pendingElectionsCount} election to approve`}</MenuItem> : null
+                            case "nomination_approval_edit":
+                              return nominationCout===1 ? 
+                                <MenuItem onClick={popupState.close} component={Link} to='/admin/nomination-review' selected={this.props.location.pathname === "/admin/nomination-review"}>{`You have ${nominationCout} nomination to approve`}</MenuItem>
+                                : nominationCout>1 ? <MenuItem onClick={popupState.close} component={Link} to='/admin/nomination-review' selected={this.props.location.pathname === "/admin/nomination-review"}>{`You have ${nominationCout} nominations to approve`}</MenuItem>
+                                : null
+                            case "payment_edit":
+                              return pendingNominationsPaymentCount===1 ? 
+                              <MenuItem onClick={popupState.close} component={Link} to='/admin/nomination-payment-list' selected={this.props.location.pathname === "/admin/nomination-payment-list"}>{`You have ${pendingNominationsPaymentCount} pending security deposit`}</MenuItem>
+                                : pendingNominationsPaymentCount>1 ? <MenuItem onClick={popupState.close} component={Link} to='/admin/nomination-payment-list' selected={this.props.location.pathname === "/admin/nomination-payment-list"}>{`You have ${pendingNominationsPaymentCount} pending security deposits`}</MenuItem>
+                                : null
+                          }
+                        })}
                         </Menu>
                       </React.Fragment>
                   )}
