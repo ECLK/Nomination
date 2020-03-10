@@ -3,6 +3,7 @@ import TeamRepo from '../repository/team';
 import {TeamManager}  from 'Managers';
 import _ from 'lodash';
 import {HTTP_CODE_404} from '../routes/constants/HttpCodes';
+const uuidv4 = require('uuid/v4');
 
 
 
@@ -53,10 +54,122 @@ const getAllTeamsByTeamType = async (req) => {
   }
 };
 
+//Save payment details for a particular nomination
+const createTeam = async (req) => {
+	try {
+		const id = uuidv4();
+		const partyName = req.body.partyName;
+    const partyType = req.body.partyType;
+    const secretaryName = req.body.secretaryName;
+    const title = req.body.title;
+    const address = req.body.address;
+		const updatedAt = req.body.updatedAt;
+		const createdAt = req.body.createdAt;
+		const createdBy = req.body.createdBy;
+		const abbreviation = req.body.abbreviation;
+		const approvedSymbol = req.body.approvedSymbol;
+    const phoneList = req.body.phoneList;
+    var phone = phoneList.map( function( el ){ 
+      return el.phone; 
+     }).join();
+    const faxList = req.body.faxList;
+    var fax = faxList.map( function( el ){ 
+      return el.fax; 
+     }).join();
+    const filePath = req.body.filePath;
+    const filename = req.body.fileName;
+    const originalname = req.body.originalname;
+    const teamData = { 'id': id, 
+                        'partyName': partyName, 
+                        'partyType': partyType,
+                        'abbreviation': abbreviation, 
+                        'address': address, 
+                        'approvedSymbol': approvedSymbol, 
+                        'secretaryName': secretaryName, 
+                        'title': title, 
+                        'updatedAt': updatedAt, 
+                        'createdAt': createdAt, 
+                        'createdBy': createdBy, 
+                        'filePath': filePath,
+                        'phone': phone,
+                        'fax': fax,
+                        'originalName':originalname,
+                        'filename':filename 
+                      };
+		await TeamRepo.insertTeam(teamData);
+		return teamData;
+	} catch (e) {
+		throw new ServerError("server error");
+	}
+};
+
+//Update party details for a particular party
+const updateTeamById = async (req) => {
+	try {
+    const partyId = req.params.teamId;
+		const partyName = req.body.partyName;
+    const partyType = req.body.partyType;
+    const secretaryName = req.body.secretaryName;
+    const title = req.body.title;
+    const address = req.body.address;
+		const updatedAt = req.body.updatedAt;
+		const createdAt = req.body.createdAt;
+		const createdBy = req.body.createdBy;
+		const abbreviation = req.body.abbreviation;
+		const approvedSymbol = req.body.approvedSymbol;
+    const phoneList = req.body.phoneList;
+    var phone = phoneList.map( function( el ){ 
+      return el.phone; 
+     }).join();
+    const faxList = req.body.faxList;
+    var fax = faxList.map( function( el ){ 
+      return el.fax; 
+     }).join();
+    const filePath = req.body.filePath;
+    const filename = req.body.fileName;
+    const originalname = req.body.originalname;
+    const teamData = { 'id': partyId, 
+                        'partyName': partyName, 
+                        'partyType': partyType,
+                        'abbreviation': abbreviation, 
+                        'address': address, 
+                        'approvedSymbol': approvedSymbol, 
+                        'secretaryName': secretaryName, 
+                        'title': title, 
+                        'updatedAt': updatedAt, 
+                        'createdAt': createdAt, 
+                        'createdBy': createdBy, 
+                        'filePath': filePath,
+                        'phone': phone,
+                        'fax': fax,
+                        'originalName':originalname,
+                        'filename':filename 
+                      };
+		await TeamRepo.updateTeam(teamData);
+		return teamData;
+	} catch (e) {
+		throw new ServerError("server error");
+	}
+};
+
+//Delete party details for a particular party
+const deletePartyById = async (req) => {
+	try {
+    const partyId = req.params.teamId;
+		await TeamRepo.updateTeamStatus(partyId);
+		return partyId;
+	} catch (e) {
+		throw new ServerError("server error");
+	}
+};
+
 
 
 export default {
     getTeamById,
     getAllTeams,
-    getAllTeamsByTeamType
+    getAllTeamsByTeamType,
+    createTeam,
+    updateTeamById,
+    deletePartyById
 }
