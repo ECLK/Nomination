@@ -1,17 +1,19 @@
 
-import { Record, List } from 'typed-immutable';
+import { Record, List,Maybe } from 'typed-immutable';
 
-const ContactNumber = Record({
-	id: String(),
-	number: String(),
-});
 
 export const Team = Record({
-	id: String(),
-	name: String(),
-	symbol: String(),
-	fax: String(),
-	nameOfAuthorizedMember: String(),
-	addressOfAuthorizedMember: String(),
-	contactNumber: List(ContactNumber),
+	partyId: String(),
+	partyName: String(),
+	abbreviation: String(),
+	partyType: String(),
+	title: Maybe(String),
+	secretaryName: Maybe(String),
+	phone: Maybe(String),
+	address: Maybe(String),
+	fax: Maybe(String),
+	approvedSymbol: Maybe(String),
+	fileName: Maybe(String),
+	filePath: Maybe(String),
+	originalName: Maybe(String),
 });

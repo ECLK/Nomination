@@ -1,7 +1,9 @@
 import _ from 'lodash';
-import { GET, POST } from 'HttpMethods';
-import {TeamService} from 'Service';
+import { GET, POST, PUT, DELETE } from 'HttpMethods';
+import {TeamService,UploadService} from 'Service';
 import {createRoutes} from '../middleware/Router';
+import {HTTP_CODE_201} from '../routes/constants/HttpCodes';
+
 
 const teamRouter = createRoutes();
 
@@ -40,6 +42,45 @@ export const initTeamRouter = (app) => {
 
       },
     },
+    {
+			method: POST,
+			path: '/teams',
+			handler: (req, res, next) => {
+				return TeamService.createTeam(req)
+					.then((result) => res.status(HTTP_CODE_201).send(result))
+					.catch(error => next(error));
+			},
+    },
+    {
+      method: PUT,
+      path: '/teams/:teamId',
+      handler: (req, res, next) => {
+        return TeamService.updateTeamById(req)
+        .then((result) => res.status(HTTP_CODE_201).send(result))
+        .catch(error => next(error));
+      },
+    },
+    {
+      method: DELETE,
+      path: '/teams/:teamId',
+      handler: (req, res, next) => {
+        return TeamService.deletePartyById(req)
+        .then((result) => res.status(HTTP_CODE_201).send(result))
+					.catch(error => next(error));
+      },
+    },
+    {
+			method: GET,
+			path: '/image-download/:sid',
+			handler: (req, res, next) => {
+				// console.log(req);
+				var downloadSid = req.params.sid;
+				console.log("downloadSid",downloadSid);
+				return UploadService.getDownloadImage(downloadSid,res,next)
+				.then((result) => res.status(HTTP_CODE_201).send(result))
+				.catch(error => next(error));
+			},
+			},
   ]);
 };
 
