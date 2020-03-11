@@ -97,31 +97,31 @@ class PartyRegistration extends React.Component {
     handleChange = (name) => event => {
         if (name === 'phone') {
             this.setState({ errorTextPhone: '' });
-        } 
+        }
         if (name === 'fax') {
             this.setState({ errorTextFax: '' });
-        } 
+        }
         if (name === 'address') {
             this.setState({ errorTextAddress: '' });
-        } 
+        }
         if (name === 'title') {
             this.setState({ errorTextTitle: '' });
-        } 
+        }
         if (name === 'partyName') {
             this.setState({ errorTextPartyName: '' });
-        } 
+        }
         if (name === 'partyType') {
             this.setState({ errorTextPartyType: '' });
-        } 
+        }
         if (name === 'abbreviation') {
             this.setState({ errorTextAbbreviation: '' });
-        } 
+        }
         if (name === 'approvedSymbol') {
             this.setState({ errorTextApprovedSymbol: '' });
-        } 
+        }
         if (name === 'secretaryName') {
             this.setState({ errorTextSecretaryName: '' });
-        } 
+        }
         this.setState({
             [name]: event.target.value,
         });
@@ -157,7 +157,7 @@ class PartyRegistration extends React.Component {
             this.setState({ errorTextAddress: 'emptyField' });
             goNext = false;
         }
-        
+
         if (this.state.approvedSymbol === '' || this.state.approvedSymbol === null) {
             this.setState({ errorTextApprovedSymbol: 'emptyField' });
             goNext = false;
@@ -167,7 +167,7 @@ class PartyRegistration extends React.Component {
             this.setState({ errorTextSecretaryName: 'emptyField' });
             goNext = false;
         }
-        
+
         if (this.state.phoneList.length === 0 || this.state.phoneList.length === null) {
             this.setState({ errorTextPhone: 'emptyField' });
             goNext = false;
@@ -187,7 +187,7 @@ class PartyRegistration extends React.Component {
     handleUploadView = sid => () => {
         this.props.getUploadPath(sid);
       };
-    
+
     showFlagToStyle = (flag) => (
     {display: flag ? "" : "none"}
     );
@@ -195,11 +195,11 @@ class PartyRegistration extends React.Component {
     onSelectFiles = evt => {
         evt.preventDefault();
         evt.stopPropagation();
-    
+
         this.setState({
           status: evt.type,
         });
-    
+
         // Fetch files
         const { files } = evt.target;
         this.uploadFiles(files);
@@ -208,18 +208,18 @@ class PartyRegistration extends React.Component {
       uploadFiles = files => {
         let error = false;
         const errorMessages = [];
-    
+
         const data = {
           error: null,
           files
-        }; 
-    
+        };
+
         const { allowedTypes, allowedSize } = this.state;
-    
+
         if (files && files.length > 0) {
           for (let i = 0; i < files.length; i += 1) {
             const file = files[i];
-    
+
             // Validate file type
             if (allowedTypes && allowedTypes.length > 0) {
               if (!allowedTypes.includes(file.type)) {
@@ -227,7 +227,7 @@ class PartyRegistration extends React.Component {
                 errorMessages.push("Invalid file type(s)");
               }
             }
-    
+
             // Validate fileSize
             if (allowedSize && allowedSize > 0) {
               if (file.size / 1048576 > allowedSize) {
@@ -237,7 +237,7 @@ class PartyRegistration extends React.Component {
             }
           }
         }
-    
+
         if (error) {
           data.error = errorMessages;
           data.files = null;
@@ -250,7 +250,7 @@ class PartyRegistration extends React.Component {
             headers: {
               'Content-Type': 'multipart/form-data'
             },
-    
+
             onUploadProgress: (progressEvent) => {
               let percentCompleted = (progressEvent.loaded * 100) / progressEvent.total;
               this.setState(
@@ -258,26 +258,26 @@ class PartyRegistration extends React.Component {
               );
               console.log(percentCompleted);
             }
-    
-    
+
+
           }).then((response) => {
-    
-           
-          
+
+
             const obj = {'filename':response.data.filename, 'originalname':response.data.originalname};
-            
+
             this.setState(
               {
                 status: "uploaded",
                 currentSdocId: response.data.originalname,
-                filename:response.data.filename
+                filename:response.data.filename,
+                  file: URL.createObjectURL(files[0])
               }
             );
           });
         }
       };
 
-      addPhone = () => {      
+      addPhone = () => {
         if(this.state.phone===undefined || this.state.phone===''){
             this.setState({errorTextPhone:'emptyField'});
         }
@@ -288,7 +288,7 @@ class PartyRegistration extends React.Component {
             if(this.state.phone!==undefined || this.state.phone!==''){
                     phoneList.push(phone);
                     this.setState({ phoneList });
-            }   
+            }
         }
 
         removePhone = (index) => () => {
@@ -297,7 +297,7 @@ class PartyRegistration extends React.Component {
             this.setState({...this.state, phoneList});
         }
 
-        addFax = () => {      
+        addFax = () => {
             if(this.state.fax===undefined || this.state.fax===''){
                 this.setState({errorTextFax:'emptyField'});
             }
@@ -308,9 +308,9 @@ class PartyRegistration extends React.Component {
                 if(this.state.fax!==undefined || this.state.fax!==''){
                         faxList.push(fax);
                         this.setState({ faxList });
-                }   
+                }
             }
-    
+
             removeFax = (index) => () => {
                 const faxList = this.state.faxList;
                 faxList.splice(index, 1);
@@ -320,7 +320,7 @@ class PartyRegistration extends React.Component {
     render() {
         const { classes, onCloseModal} = this.props;
         const { errorTextPartyType,errorTextSecretaryName,errorTextAbbreviation,errorTextApprovedSymbol,errorTextAddress,errorTextTitle,errorTextPartyName,errorTextPhone,errorTextFax } = this.state;
-      
+
 
         const doneElement = (<div className={classes.done} style={this.showFlagToStyle(this.state.status === "uploading")}>
         <DoneOutline  color="secondary"/>
@@ -348,7 +348,7 @@ class PartyRegistration extends React.Component {
                     </Grid>
                 </Grid>
                 <Grid style={{ marginLeft: 12,marginBottom:20 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>
-                    
+
                     <Grid container item lg={4}>
                     <FormControl style={{width:'100%'}} error={(errorTextPartyType) ? true : false} >
                         <Select
@@ -365,10 +365,10 @@ class PartyRegistration extends React.Component {
                             </MenuItem>
                             <MenuItem value={'RPP'}>Registered Political Party ( RPP )</MenuItem>
                             <MenuItem value={'IND'}>Indipendent Group ( IND )</MenuItem>
-                            </Select> 
+                            </Select>
                         <FormHelperText style={{marginLeft:18}}>{(errorTextPartyType==='emptyField') ? 'This field is required!' : ''}</FormHelperText>
                         </FormControl>
-                    </Grid>                  
+                    </Grid>
                     <Grid container item lg={3}>
                         <TextField
                             error={errorTextAbbreviation}
@@ -425,10 +425,10 @@ class PartyRegistration extends React.Component {
                             <MenuItem value={'Mr'}>Mr</MenuItem>
                             <MenuItem value={'Mrs'}>Mrs</MenuItem>
                             <MenuItem value={'Ms'}>Ms</MenuItem>
-                            </Select> 
+                            </Select>
                         <FormHelperText style={{marginLeft:18}}>{(errorTextTitle==='emptyField') ? 'This field is required!' : ''}</FormHelperText>
                         </FormControl>
-                    </Grid>  
+                    </Grid>
                     <Grid container item lg={4}>
                     <TextField
                         id="outlined-multiline-static"
@@ -442,8 +442,8 @@ class PartyRegistration extends React.Component {
                         // defaultValue="Enter Address"
                         variant="outlined"
                         helperText={errorTextAddress === "emptyField" ? 'This field is required!' : ''}
-                        />  
-                    </Grid>           
+                        />
+                    </Grid>
                 </Grid>
                 <Grid direction="column" style={{ marginLeft: 12}} container spacing={2}>
                 <Grid container item lg={6}>
@@ -521,19 +521,19 @@ class PartyRegistration extends React.Component {
                         })
                     }
                 </Grid>
-                
+
                 <Grid style={{ marginLeft: 12,marginTop:25 }} container spacing={2} xs={12}>
                 <Grid container item lg={6}>
-                        
-                   
+
+
                     <Grid container item lg={6}>
                     {
-            
+
             this.state.status === "uploaded" ? <div className={classes.done} >
             <DoneOutline style={{marginTop:30,marginLeft:-20}} onClick={this.handleUploadView(this.state.filename)}  color="secondary"/>
             {/* <img src={`http://localhost:9001/src/uploads/${sdoc.filename}`} style={{maxWidth: 60,margin:25}} className="img-fluid" alt="logo" /> */}
             </div> : ' '
-    
+
         }
                     <span>
                     <Typography style={{color:"rgba(0, 0, 0, 0.54)",fontSize:12}} variant="subtitle1" >Attach party symbol</Typography>
@@ -541,20 +541,12 @@ class PartyRegistration extends React.Component {
                     </span>
                     </Grid>
                     <Grid style={{marginTop:30,marginLeft:-10}}container item lg={4}>
-                    {
-                        this.state.status === "uploaded"  ? 
-                        <Typography variant="caption" gutterBottom>
-                        {this.state.currentSdocId}<div  className={classes.done}>
-                        <AttachFile   color="red"/>
-                        </div>
-                    </Typography>
-                        : 'No file attached'
-                    } 
+                        <img src={this.state.file}/>
                     </Grid>
                     </Grid>
-                   
+
                 </Grid>
-                
+
                 <Grid style={{ marginLeft: 12 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>
                 <Grid container spacing={12}>
                         <Grid style={{ textAlign: 'right', marginRight: '25px' }} className={classes.label} item lg={12}>
