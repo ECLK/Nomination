@@ -206,10 +206,23 @@ export function getPartyLogo(sid) {
       }
     )
     .then(response => {
-      const partyLogo = window.URL.createObjectURL(new Blob([response.data]));
-      dispatch(partyLogoLoaded(partyLogo));
+      //**blob to dataURL**
+      const blob = new Blob([response.data]);
+      blobToDataURL(blob, (dataUrl) => {
+        dispatch(partyLogoLoaded(dataUrl));
+      });
+      // const partyLogo = window.URL.createObjectURL(new Blob([response.data]));
+      // dispatch(partyLogoLoaded(partyLogo));
     }).catch(err => {
           console.log(err)
     });
   };
 }
+
+//**blob to dataURL**
+function blobToDataURL(blob, callback) {
+  var a = new FileReader();
+  a.onload = function(e) {callback(e.target.result);}
+  a.readAsDataURL(blob);
+}
+
