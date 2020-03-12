@@ -199,13 +199,15 @@ const partyLogoLoaded = (partyLogo) => {
 export function getPartyLogo(sid) {
   return function (dispatch) {
      
-    const response = axios
-    .get(
-      `${API_BASE_URL}/image-download/${sid}`,
+    const response = axios({
+        url: `${API_BASE_URL}/image-download/${sid}`,
+        method: 'GET',
+        responseType: 'blob'
+      }
     )
     .then(response => {
-      const partyLogo = response.config;
-       dispatch(partyLogoLoaded(partyLogo));
+      const partyLogo = window.URL.createObjectURL(new Blob([response.data]));
+      dispatch(partyLogoLoaded(partyLogo));
     }).catch(err => {
           console.log(err)
     });
