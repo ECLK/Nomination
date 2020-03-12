@@ -22,7 +22,6 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from "axios";
-import Eclogo from '../../assets/Emblem_of_Sri_Lanka.png';
 
 
 const styles = theme => ({
@@ -381,6 +380,11 @@ debugger;
         <CloseIcon ref={this.state.currentSdocId}  color="red"/>
         {/* <a download={"filename"} href={"ok"}>filename</a> */}
         </div>);
+        
+        let partyLogoImgTag = <img src={PartyLogo} style={{maxWidth: 60,margin:25}} className="img-fluid" alt="logo"/>
+        if (this.state.file) {
+            partyLogoImgTag = <img src={this.state.file} style={{maxWidth: 60,margin:25}} className="img-fluid" alt="logo"/>
+        }
 
         return (
             <form className={classes.container} onSubmit={this.handleSubmit} noValidate autoComplete="off">
@@ -601,9 +605,8 @@ debugger;
                     </Typography>
                         : 'No file attached'
                     }  */}
-                        <img src={this.state.file}/>
                     <div className={classes.logocontainer} >
-                    <img src={Eclogo} style={{maxWidth: 60,margin:25}} className="img-fluid" alt="logo" />
+                        {partyLogoImgTag}
                     </div>
                     </Grid>
                     </Grid>
