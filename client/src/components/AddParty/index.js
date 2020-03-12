@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import "react-datepicker/dist/react-datepicker.css";
 import Button from '@material-ui/core/Button';
-import { saveParty} from '../../modules/party/state/PartyAction';
+import { saveParty,asyncValidateParty} from '../../modules/party/state/PartyAction';
 import { getUploadPath} from '../../modules/nomination/state/NominationAction';
 import { connect } from 'react-redux';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -94,6 +94,7 @@ class PartyRegistration extends React.Component {
             faxList:[],
             fax:'',
             status:'',
+            exist:false
         }
     }
 
@@ -180,6 +181,10 @@ class PartyRegistration extends React.Component {
         if (this.state.faxList.length === 0 || this.state.faxList.length === null) {
             this.setState({ errorTextFax: 'emptyField' });
             goNext = false;
+        }
+
+        if (this.state.exist === true) {
+            this.setState({ errorTextPartyName: 'emptyField2' });
         }
 
         if (goNext) {
@@ -321,6 +326,20 @@ class PartyRegistration extends React.Component {
                 this.setState({...this.state, faxList});
             }
 
+            asyncValidation = name => event => {
+                if (event.target.value) {
+                    asyncValidateParty(event.target.value).then((data) => {
+                        if (data.exist === true) {
+                            this.setState({ exist: data.exist });
+                        } else {
+                            this.setState({ exist: data.exist });
+                        }
+                    })
+                } else {
+                    this.setState({ exist: false });
+                }
+            }
+
     render() {
         const { classes, onCloseModal} = this.props;
         const { errorTextPartyType,errorTextSecretaryName,errorTextAbbreviation,errorTextApprovedSymbol,errorTextAddress,errorTextTitle,errorTextPartyName,errorTextPhone,errorTextFax } = this.state;
@@ -345,9 +364,13 @@ class PartyRegistration extends React.Component {
                             style={{width:'100%'}}
                             className={classes.textField}
                             value={this.state.partyName}
-                            onChange={this.handleChange("partyName")}
+                            // onChange={this.handleChange("partyName")}
+                            onChange={(evt) => {
+                                this.handleChange("partyName")(evt)
+                                this.asyncValidation('partyName')(evt)
+                            }}
                             margin="normal"
-                            helperText={errorTextPartyName === "emptyField" ? 'This field is required!' : ''}
+                            helperText={errorTextPartyName === "emptyField" ? 'This field is required!' : errorTextPartyName === "emptyField2" ? 'This party name already been used!' : ' '}
                         />
                     </Grid>
                 </Grid>
@@ -399,19 +422,7 @@ class PartyRegistration extends React.Component {
                     </Grid>
                 </Grid>
                 <Grid style={{ marginLeft: 12,marginBottom:20 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>
-                    <Grid container item lg={4}>
-                        <TextField
-                            error={errorTextSecretaryName}
-                            label="Name of the Secretary"
-                            style={{width:'100%'}}
-                            className={classes.textField}
-                            value={this.state.secretaryName}
-                            onChange={this.handleChange("secretaryName")}
-                            margin="normal"
-                            helperText={errorTextSecretaryName === "emptyField" ? 'This field is required!' : ''}
-                        />
-                    </Grid>
-                    <Grid container item lg={2}>
+                <Grid container item lg={2}>
                     <FormControl style={{width:'80%'}} error={(errorTextPartyType) ? true : false} >
                         <Select
                             value={this.state.title}
@@ -432,6 +443,18 @@ class PartyRegistration extends React.Component {
                             </Select>
                         <FormHelperText style={{marginLeft:18}}>{(errorTextTitle==='emptyField') ? 'This field is required!' : ''}</FormHelperText>
                         </FormControl>
+                    </Grid>
+                    <Grid container item lg={4}>
+                        <TextField
+                            error={errorTextSecretaryName}
+                            label="Name of the Secretary"
+                            style={{width:'100%'}}
+                            className={classes.textField}
+                            value={this.state.secretaryName}
+                            onChange={this.handleChange("secretaryName")}
+                            margin="normal"
+                            helperText={errorTextSecretaryName === "emptyField" ? 'This field is required!' : ''}
+                        />
                     </Grid>
                     <Grid container item lg={4}>
                     <TextField

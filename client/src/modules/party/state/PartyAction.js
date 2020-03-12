@@ -226,3 +226,15 @@ function blobToDataURL(blob, callback) {
   a.readAsDataURL(blob);
 }
 
+export const asyncValidateParty = function asyncValidateParty(partyName) {
+  let promises = [];
+  if(partyName){
+      promises.push(axios.get(`${API_BASE_URL}/teams/validations/${partyName}`));
+      return axios.all(promises)
+          .then(args =>{
+              return {
+                  exist: args[0].data,
+              }
+          });
+  }
+}

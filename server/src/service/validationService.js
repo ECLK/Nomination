@@ -26,6 +26,23 @@ const validateElectionsByElectionName = async (req) => {
 	}
 };
 
+const validatePartyByPartyName = async (req) => {
+	let exist = '';
+
+	if(req.params.partyName){
+		exist = await validationRepo.fetchPartyCount(req.params.partyName);
+	}
+	if (!_.isEmpty(exist)) {
+		if(exist[0].COUNT>0){
+			return true;
+		}else{
+			return false;
+		}
+	} else {
+		throw new ApiError("party name is not found");
+	}
+};
+
 const validateTemplateByTemplateName = async (req) => {
 
 	let exist = '';
@@ -94,5 +111,6 @@ export default {
 	validateTemplateByTemplateName,
 	validateElectionStatus,
 	validateElectionTemplateStatus,
-	validateNominationStatus
+	validateNominationStatus,
+	validatePartyByPartyName
 }

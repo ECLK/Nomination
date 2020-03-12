@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { GET, POST, PUT, DELETE } from 'HttpMethods';
-import {TeamService,UploadService} from 'Service';
+import {TeamService,UploadService,ValidationService} from 'Service';
 import {createRoutes} from '../middleware/Router';
 import {HTTP_CODE_201, HTTP_CODE_200} from '../routes/constants/HttpCodes';
 
@@ -79,7 +79,17 @@ export const initTeamRouter = (app) => {
 				return UploadService.getDownloadImage(downloadSid,res,next)
 				.catch(error => next(error));
 			},
-			},
+      },
+      {
+        method: GET,
+        path: '/teams/validations/:partyName',
+        schema: {},
+        handler: (req, res, next) => {
+          return ValidationService.validatePartyByPartyName(req)
+            .then((result) => res.status(HTTP_CODE_201).send(result))
+            .catch(error => next(error));
+        }
+      },
   ]);
 };
 
