@@ -4,6 +4,8 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { bindMiddlewares } from './WSMiddleware';
 import configService from '../config/ConfigService';
+// import {PDF_GENARATION_SERVICE_URL} from '../config/config';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 var jwtDecode = require('jwt-decode');
 
 let log4js = require('log4js');
@@ -12,6 +14,26 @@ let logger = log4js.getLogger("app");
 const app = express();
 
 app.use(cookieParser());
+
+// move this to a config file
+const PDF_GENARATION_SERVICE_URL = process.env.NOMINATION_PDF_GENARATION_SERVICE_URL;
+
+let generateProxy = createProxyMiddleware('/ec-election/generate', {
+  target: PDF_GENARATION_SERVICE_URL+'/generate',
+  pathRewrite: function (path, req) {
+    return path.replace('/ec-election/generate', '')
+  }
+});
+app.use(generateProxy);
+
+let exportsProxy = createProxyMiddleware('/ec-election/exports', {
+  target: PDF_GENARATION_SERVICE_URL+'/exports',
+  pathRewrite: function (path, req) {
+    return path.replace('/ec-election/exports', '')
+  }
+});
+app.use(exportsProxy);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

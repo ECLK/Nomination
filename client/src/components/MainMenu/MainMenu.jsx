@@ -86,8 +86,7 @@ class ResponsiveDrawer extends React.Component {
       scopes[indexNomination] = scopes[0];
       scopes[0] = tempNomination;
     }
-console.log("ffffffffffffffffff",scopes);
-    var user_role = sessionStorage.getItem('role');
+    var user = sessionStorage.getItem('user');
 
     const list = scopes.map((scope) => {
       switch (scope) {
@@ -138,7 +137,7 @@ console.log("ffffffffffffffffff",scopes);
             
             <Button color="inherit">
               <PersonIcon style={{marginRight:5}}/>
-              {(user_role==='party_user') ? 'Party User' : (user_role==='ig_user') ? 'IG user' : ''}
+              {user}
             </Button>
             <Button onClick={this.handleLogout} color="inherit">
               <PowerSetting style={{marginRight:5}}/>

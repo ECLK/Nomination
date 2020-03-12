@@ -81,24 +81,24 @@ class CustomizedTable extends React.Component {
                     display: true
                 }
             },
-            {
-                name: "Full Name",
-                options: {
-                    display: true
-                }
-            },
+            // {
+            //     name: "Full Name",
+            //     options: {
+            //         display: true
+            //     }
+            // },
             {
                 name: "Preferred Name",
                 options: {
                     display: true
                 }
             },
-            {
-                name: "Date of Birth",
-                options: {
-                    display: true
-                }
-            },
+            // {
+            //     name: "Date of Birth",
+            //     options: {
+            //         display: true
+            //     }
+            // },
             {
                 name: "Gender",
                 options: {

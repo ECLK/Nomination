@@ -61,7 +61,19 @@ const ELECTION_BY_STATUS_SELECT_QUERY = `SELECT
 										WHERE EA.STATUS=:status OR EA.STATUS='APPROVE'  OR EA.STATUS='REJECT'`;
 										// WHERE EA.STATUS=:status OR EA.STATUS='APPROVE' OR EA.STATUS='REJECT'`;
 
-									
+const ELECTION_BY_STATUS_NAME_SELECT_QUERY = `SELECT
+										E.ID AS election_id,
+										E.NAME AS election_name,
+										E.MODULE_ID AS election_module_id,
+										EA.STATUS AS election_status,
+										E.CREATED_BY AS election_created_by,
+										EA.UPDATED_AT AS election_last_modified
+										FROM
+										ELECTION E LEFT JOIN ELECTION_APPROVAL EA
+										ON E.ID=EA.ELECTION_ID
+										WHERE EA.STATUS=:status`;
+
+
 // const LAST_ELECTION_ID_SELECT_QUERY = `SELECT ID
 // 										FROM ELECTION
 // 										WHERE CREATED_AT <= ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000)
@@ -70,8 +82,8 @@ const ELECTION_BY_STATUS_SELECT_QUERY = `SELECT
 const LAST_ELECTION_ID_SELECT_QUERY = `SELECT e.NAME AS name, et.ELECTION_ID AS id FROM ELECTION_TIMELINE  et LEFT JOIN 
 										ELECTION e ON e.ID=et.ELECTION_ID
 										WHERE et.NOMINATION_START<=ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000) 
-										AND et.OBJECTION_END>=ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000)  `;										
-									
+										AND et.OBJECTION_END>=ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000)  `;
+
 const fetchElectionByIdWithTimelineData = (electionId) => {
 	const params = { id: electionId };
 	return DbConnection()
@@ -96,9 +108,23 @@ const createTest = (modules) => {
 };
 
 const fetchElectionsByStatus = (status) => {
-	const params ={status:status}; 
+	const params ={status:status};
     return DbConnection()
         .query(ELECTION_BY_STATUS_SELECT_QUERY,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.SELECT,
+			}).then((Response) => {
+				return Response;
+			}).catch((error) => {
+            throw new DBError(error);
+        });
+};
+
+const fetchElectionsByStatusName = (status) => {
+	const params ={status:status};
+    return DbConnection()
+        .query(ELECTION_BY_STATUS_NAME_SELECT_QUERY,
             {
                 replacements: params,
                 type: DbConnection().QueryTypes.SELECT,
@@ -157,5 +183,6 @@ export default {
 	fetchElectionConfigById,
 	fetchAllElections,
 	fetchLastElectionId,
-	fetchElectionsByStatus
+	fetchElectionsByStatus,
+	fetchElectionsByStatusName,
 }

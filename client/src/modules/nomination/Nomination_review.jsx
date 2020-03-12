@@ -48,6 +48,8 @@ import download from "downloadjs";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import SummeryView from "../../components/SummeryView";
 import moment from "moment";
+import Chip from '@material-ui/core/Chip';
+
 
 const drawerWidth = 240;
 
@@ -150,7 +152,7 @@ class NominationReview extends React.Component {
       open: true,
       expandedPanelIndex: -1,
       nominations: [],
-      selectedElection: '',
+      selectedElection: 'all',
       open: false,
       reviewNote: '',
       nominationId: '',
@@ -291,10 +293,9 @@ class NominationReview extends React.Component {
     let today = new Date();
     var TodayFormattedWithTime = moment(today).format("YYYY-MM-DDTHH:mm");
     var errorMessage = "Nomination approval time should be within " + moment(ElectionData.approvalStart).format("DD MMM YYYY hh:mm a")  + " and " + moment(ElectionData.approvalEnd).format("DD MMM YYYY hh:mm a");
-    var isWithinValidTimeFrame = false;
-
-    if (moment(nominationApprovalStart).isBefore(TodayFormattedWithTime) && moment(TodayFormattedWithTime).isBefore(nominationApprovalEnd)) {
-      isWithinValidTimeFrame = true;
+    var isWithinValidTimeFrame = true;
+    if (moment(TodayFormattedWithTime).isBefore(nominationApprovalStart) || moment(TodayFormattedWithTime).isAfter(nominationApprovalEnd)) {
+      isWithinValidTimeFrame = false;
     }
 
     const CandidateRow = (props) => {
@@ -443,6 +444,7 @@ class NominationReview extends React.Component {
                   id: 'election-select',
                 }}
               >
+                <MenuItem value={"all"}>-- Select Election --</MenuItem>
                 {menuItems}
               </Select>
             </FormControl>
@@ -540,15 +542,15 @@ class NominationReview extends React.Component {
           <br />
           <br />
           <Grid style={{ textAlign: 'center', marginRight: '25px' }} className={classes.label} item lg={12}>
-            { !isWithinValidTimeFrame ? <SummeryView
+            { isWithinValidTimeFrame ? " " : <SummeryView
                 variant={"warning"}
                 className={classes.margin}
                 message={errorMessage}
                 style={{marginBottom:'10px'}}
-            /> : " "}
+            />}
           </Grid>
           <div style={{ width: '100%' }}>
-            {isWithinValidTimeFrame? nominationElements: null}
+            {isWithinValidTimeFrame? nominationElements: <Grid style={{ textAlign: 'center', marginRight: '25px'}} className={classes.label} item lg={12}><Chip size="medium" label="No Data Found!" /></Grid>}
           </div>
           <br />
 

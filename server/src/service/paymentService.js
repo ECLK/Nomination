@@ -6,6 +6,7 @@ import { PaymentManager } from 'Managers';
 import { NominationService,SupportDocService } from 'Service';
 import { HTTP_CODE_404, HTTP_CODE_204 } from '../routes/constants/HttpCodes';
 import { executeTransaction } from '../repository/TransactionExecutor';
+import moment from 'moment';
 const uuidv4 = require('uuid/v4');
 
 
@@ -64,10 +65,11 @@ const createPaymentByNominationId = async (req) => {
 		const realSerial = await getRealSerialNumber();
 		await NominationService.validateNominationId(nominationId);//TODO: yujith,re check this function
 		const paymentData = { 'id': id, 'depositor': depositor, 'depositDate': depositDateInt,'serialNo': realSerial, 'amount': amount, 'updatedAt': updatedAt, 'createdAt': createdAt, 'createdBy': createdBy, 'filePath': filePath, 'nominationId': nominationId, 'status': status };
+		const paymentDataForRes = { 'id': id, 'depositor': depositor, 'depositDate': moment(new Date(depositDateInt)).format('YYYY-MM-DD hh:mm A'),'serialNo': realSerial, 'amount': amount, 'updatedAt': updatedAt, 'createdAt': createdAt, 'createdBy': createdBy, 'filePath': filePath, 'nominationId': nominationId, 'status': status };
 		const supportDocData = {'filePath': filename, 'nominationId': nominationId,'originalName':originalname,'id':id  };
 		await PaymentRepo.createPayment(paymentData,transaction);
 		await SupportDocService.saveSupportDocsByPaymentId(supportDocData,transaction);
-		return paymentData;
+		return paymentDataForRes;
 	});
 	} catch (e) {
 		throw new ServerError("server error");
@@ -90,10 +92,11 @@ const updatePaymentByNominationId = async (req) => {
 		const originalname = req.body.originalname;
 		const paymentSdocId = req.body.paymentSdocId;
 		const paymentData = {'paymentId':paymentId,'depositor':depositor,'depositDate':depositDate, 'amount':amount, 'filePath':filePath, 'updatedAt':updatedAt, 'nominationId':nominationId, 'note':note};
+		const paymentDataForRes = {'paymentId':paymentId,'depositor':depositor,'depositDate':moment(new Date(depositDate)).format('YYYY-MM-DD hh:mm A'), 'amount':amount, 'filePath':filePath, 'updatedAt':updatedAt, 'nominationId':nominationId, 'note':note};
 		const supportDocData = {'filePath': filename, 'nominationId': nominationId,'originalName':originalname,'id':paymentId ,'paymentSdocId':paymentSdocId };
 	await Payment.updatePaymentCommons(paymentData,transaction);
 	const sdocdata = await SupportDocService.updateSupportDocsByPaymentId(supportDocData,transaction);
-	return paymentData;
+	return paymentDataForRes;
 	});
   }catch (e){
     throw new ServerError("server error");

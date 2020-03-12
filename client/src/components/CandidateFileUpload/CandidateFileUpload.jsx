@@ -206,10 +206,12 @@ componentDidMount() {
     render() {
         const {classes} = this.props;
         var names = ['Jake', 'Jon', 'Thruster'];
-        const supportingDocs = [{
-          "id": "ff4c6768-bdbe-4a16-b680-5fecb6b1f747",
-          "doc": "Birth Certificate",
-        }, {
+        const supportingDocs = [
+        //   {
+        //   "id": "ff4c6768-bdbe-4a16-b680-5fecb6b1f747",
+        //   "doc": "Birth Certificate",
+        // }, 
+        {
           "id": "fe2c2d7e-66de-406a-b887-1143023f8e72",
           "doc": "National Identity Card (NIC)",
         }, {
@@ -217,7 +219,10 @@ componentDidMount() {
           "doc": "Declaration of Assets and Liabilities Form",
         }, {
             "id": "15990459-2ea4-413f-b1f7-29a138fd7a97",
-            "doc": "Affidavit",
+            "doc": "Affidavit - Dual citizenship",
+          }, {
+            "id": "12312312324344434",
+            "doc": "Affidavit - Gender transition",
           }
       ];
 

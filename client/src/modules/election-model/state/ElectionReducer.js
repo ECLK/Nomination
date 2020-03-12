@@ -82,10 +82,9 @@ export default function reducer(state = initialState, action) {
         case GET_REJECTED_ELECTION_MODULE:
             const AllElectionsPrev = state.AllElectionTemplates;
             const i = findApprovalIndex(AllElectionsPrev, action.payload.id);
-            debugger;
             return {
                 ...state,
-                AllElectionTemplates: update(state.AllElectionTemplates, {[i]: {status: {$set: action.payload.status}}})
+                AllElectionTemplates: update(state.AllElectionTemplates, {[i]: {status: {$set: action.payload.status},createdBy: {$set: action.payload.createdBy},lastModified: {$set: action.payload.lastModified}}})
             };  
             // return {
             //     ...state,

@@ -287,10 +287,13 @@ class CheckboxTableGrid extends React.Component {
         const columns = this.state.columnHeaders;
         // set option list
         const options = {
+            filter: false,
+            download: false,
             filterType: "dropdown",
             responsive: "scroll",
             selectableRows: false,
-            pagination: false
+            pagination: false,
+            viewColumns:false
         };
 
         return (

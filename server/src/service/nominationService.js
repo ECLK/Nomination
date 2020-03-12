@@ -74,6 +74,28 @@ const getPendingNominationsByElectionId = async (req) => {
     }
   };
 
+//Get second approve pending nomination list for notification
+const getPendingNominationsByStatus = async (req) => {
+  try {
+    const electionId = req.params.electionId;
+    const status = req.params.status;
+    const divisionId = req.params.divisionId;
+
+    const params = {'electionId':electionId, "status":status,"divisionId":divisionId }
+    const nominations = await NominationRepo.fetchPendingNominationListForNotification( params );
+
+    if(!_.isEmpty(nominations)){
+      return NominationManager.mapToNominationNotificationModel(nominations)
+    }else {
+      // throw new ApiError("Nominations not found", HTTP_CODE_204);
+      return [];
+    }
+  } catch (e){
+    console.log(e);
+    throw new ServerError("Server error", HTTP_CODE_404);
+  }
+};
+
   //approve nomination by nomination id
 const saveApproveNominationByNominationId = async (req) => {
     try {
@@ -146,5 +168,6 @@ export default {
     getPendingNominationsByElectionId,
     saveApproveNominationByNominationId,
     getNominationPaymentStatusByElectionId,
-    getNominationDataByNominationId
+    getNominationDataByNominationId,
+    getPendingNominationsByStatus
 };

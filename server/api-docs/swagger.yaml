@@ -1,6 +1,6 @@
-swagger: '2.0'
+swagger: "2.0"
 paths:
-  '/nominations/{nominationId}/candidates':
+  "/nominations/{nominationId}/candidates":
     get:
       parameters:
         - name: nominationId
@@ -8,15 +8,15 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: nomination_edit
       security:
         - default:
             - nomination_edit
-  '/nominations/{nominationId}/payments':
+  "/nominations/{nominationId}/payments":
     get:
       parameters:
         - name: nominationId
@@ -24,15 +24,15 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-      x-scope: ''
+      x-scope: ""
       security:
         - default:
-            - ''
-  '/elections/{electionId}':
+            - ""
+  "/elections/{electionId}":
     get:
       parameters:
         - name: electionId
@@ -40,15 +40,15 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-      x-scope: ''
+      x-scope: ""
       security:
         - default:
-            - ''
-  '/nominations/{candidateId}/candidate/support-docs':
+            - ""
+  "/nominations/{candidateId}/candidate/support-docs":
     get:
       parameters:
         - name: candidateId
@@ -56,15 +56,15 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: nomination_edit
       security:
         - default:
             - nomination_edit
-  '/nominations/{nominationId}/candidates/{candidateId}':
+  "/nominations/{nominationId}/candidates/{candidateId}":
     get:
       parameters:
         - name: nominationId
@@ -76,15 +76,15 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: nomination_edit
       security:
         - default:
             - nomination_edit
-  '/nominations/{nominationId}/support-docs':
+  "/nominations/{nominationId}/support-docs":
     put:
       parameters:
         - name: nominationId
@@ -101,9 +101,9 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: nomination_edit
       security:
@@ -116,11 +116,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/nominations/{paymentId}/payments':
+  "/nominations/{paymentId}/payments":
     put:
       parameters:
         - name: paymentId
@@ -137,14 +137,14 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-      x-scope: ''
+      x-scope: ""
       security:
         - default:
-            - ''
+            - ""
   /nominations/candidates:
     post:
       parameters:
@@ -158,9 +158,9 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: nomination_edit
       security:
@@ -179,9 +179,9 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
   /nominations/candidate/support-docs:
     post:
@@ -196,9 +196,9 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: nomination_edit
       security:
@@ -217,15 +217,15 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-      x-scope: ''
+      x-scope: ""
       security:
         - default:
-            - ''
-  '/candidates/{candidateId}':
+            - ""
+  "/candidates/{candidateId}":
     put:
       parameters:
         - name: candidateId
@@ -242,15 +242,15 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: nomination_edit
       security:
         - default:
             - nomination_edit
-  '/nominations/{candidateId}/candidates':
+  "/nominations/{candidateId}/candidates":
     delete:
       parameters:
         - name: candidateId
@@ -258,9 +258,9 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: nomination_edit
       security:
@@ -282,18 +282,18 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
   /elections:
     get:
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/modules/{status}/all':
+  "/modules/{status}/all":
     get:
       parameters:
         - name: status
@@ -301,11 +301,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/modules/validations/{templateName}':
+  "/modules/validations/{templateName}":
     get:
       parameters:
         - name: templateName
@@ -313,11 +313,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/field-options/{fieldName}':
+  "/field-options/{fieldName}":
     get:
       parameters:
         - name: fieldName
@@ -325,11 +325,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/modules/{moduleId}':
+  "/modules/{moduleId}":
     get:
       parameters:
         - name: moduleId
@@ -337,9 +337,9 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
     delete:
       parameters:
@@ -348,9 +348,9 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
   /election-modules:
     post:
@@ -365,9 +365,9 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: election_template_edit
       security:
@@ -375,15 +375,15 @@ paths:
             - election_template_edit
     get:
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: election_template_approval
       security:
         - default:
             - election_template_approval
-  '/election-modules/{moduleId}':
+  "/election-modules/{moduleId}":
     put:
       parameters:
         - name: moduleId
@@ -400,15 +400,15 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: election_template_edit
       security:
         - default:
             - election_template_edit
-  '/elections/status/{status}':
+  "/elections/status/{status}":
     get:
       parameters:
         - name: status
@@ -416,11 +416,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/elections/{electionId}/payments':
+  "/elections/{electionId}/payments":
     get:
       parameters:
         - name: electionId
@@ -428,15 +428,15 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: payment_approve_edit
       security:
         - default:
             - payment_approve_edit
-  '/activeElectionsData/{electionId}':
+  "/activeElectionsData/{electionId}":
     get:
       parameters:
         - name: electionId
@@ -444,9 +444,9 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: call_election_edit
       security:
@@ -468,9 +468,9 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: call_election_edit
       security:
@@ -483,15 +483,15 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: call_election_edit
       security:
         - default:
             - call_election_edit
-  '/field-options/{fieldName}/{moduleId}':
+  "/field-options/{fieldName}/{moduleId}":
     get:
       parameters:
         - name: fieldName
@@ -503,9 +503,9 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
   /activeElectionsData:
     post:
@@ -520,15 +520,15 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: call_election_edit
       security:
         - default:
             - call_election_edit
-  '/activeElections/{electionId}/approve-active-election':
+  "/activeElections/{electionId}/approve-active-election":
     post:
       parameters:
         - name: electionId
@@ -545,15 +545,15 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: call_election_approve_edit
       security:
         - default:
             - call_election_approve_edit
-  '/elections/{paymentId}/payments':
+  "/elections/{paymentId}/payments":
     put:
       parameters:
         - name: paymentId
@@ -570,15 +570,15 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: payment_approve_edit
       security:
         - default:
             - payment_approve_edit
-  '/elections/{paymentId}/paymentNote':
+  "/elections/{paymentId}/paymentNote":
     put:
       parameters:
         - name: paymentId
@@ -595,9 +595,9 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: payment_approve_edit
       security:
@@ -606,11 +606,27 @@ paths:
   /teams:
     get:
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/nominations/{nominationId}/approve-nomination':
+    post:
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Unlimited
+  "/nominations/{nominationId}/approve-nomination":
     post:
       parameters:
         - name: nominationId
@@ -627,15 +643,15 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: nomination_approval_edit
       security:
         - default:
             - nomination_approval_edit
-  '/elections/validations/{electionName}':
+  "/elections/validations/{electionName}":
     get:
       parameters:
         - name: electionName
@@ -643,11 +659,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/nominations/{electionId}/payment-status':
+  "/nominations/{electionId}/payment-status":
     get:
       parameters:
         - name: electionId
@@ -655,18 +671,18 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
   /elections/forDemo/new:
     get:
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/user/{userId}':
+  "/user/{userId}":
     get:
       parameters:
         - name: userId
@@ -674,16 +690,16 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
   /users:
     get:
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
     post:
       parameters:
@@ -697,11 +713,11 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/users/{userId}':
+  "/users/{userId}":
     put:
       parameters:
         - name: userId
@@ -718,11 +734,11 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/election-modules/{moduleId}/approve-election-templates':
+  "/election-modules/{moduleId}/approve-election-templates":
     put:
       parameters:
         - name: moduleId
@@ -739,18 +755,18 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
   /payment-serial:
     get:
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/payments/{nominationId}/validate':
+  "/payments/{nominationId}/validate":
     get:
       parameters:
         - name: nominationId
@@ -758,11 +774,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/nominations/{nominationId}/key-name/{keyName}':
+  "/nominations/{nominationId}/key-name/{keyName}":
     get:
       parameters:
         - name: nominationId
@@ -774,11 +790,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/activeElectionsData/{electionId}/electorates':
+  "/activeElectionsData/{electionId}/electorates":
     get:
       parameters:
         - name: electionId
@@ -786,11 +802,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/activeElectionsData/{electionId}/eligibility':
+  "/activeElectionsData/{electionId}/eligibility":
     get:
       parameters:
         - name: electionId
@@ -798,18 +814,18 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
   /render-form:
     get:
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/modules/{moduleId}/candidate-form-config':
+  "/modules/{moduleId}/candidate-form-config":
     get:
       parameters:
         - name: moduleId
@@ -817,11 +833,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/nominations/{nominationId}/update-nomination-status':
+  "/nominations/{nominationId}/update-nomination-status":
     put:
       parameters:
         - name: nominationId
@@ -838,11 +854,11 @@ paths:
               payload:
                 type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/file-download/{sid}':
+  "/file-download/{sid}":
     get:
       parameters:
         - name: sid
@@ -850,11 +866,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/payments/{paymentId}/download':
+  "/payments/{paymentId}/download":
     get:
       parameters:
         - name: paymentId
@@ -862,11 +878,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/teams/{partyType}/withType':
+  "/teams/{partyType}/withType":
     get:
       parameters:
         - name: partyType
@@ -874,11 +890,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/elections/{electionId}/teams/{teamId}/divisions/{divisionId}':
+  "/elections/{electionId}/teams/{teamId}/divisions/{divisionId}":
     get:
       parameters:
         - name: electionId
@@ -894,11 +910,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/elections/{electionId}/teams/{teamId}/nominations/{divisionId}/divisions':
+  "/elections/{electionId}/teams/{teamId}/nominations/{divisionId}/divisions":
     get:
       parameters:
         - name: electionId
@@ -914,11 +930,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/nomination-payments/{divisionId}':
+  "/nomination-payments/{divisionId}":
     get:
       parameters:
         - name: divisionId
@@ -926,15 +942,15 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
       x-scope: payment_edit
       security:
         - default:
             - payment_edit
-  '/nominations/{electionId}/pending-nominations/{status}/team/{teamId}/divisions/{divisionId}':
+  "/nominations/{electionId}/pending-nominations/{status}/team/{teamId}/divisions/{divisionId}":
     get:
       parameters:
         - name: electionId
@@ -954,11 +970,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/nominations/candidates/{candidateId}/support-docs/{documentId}/download':
+  "/nominations/candidates/{candidateId}/support-docs/{documentId}/download":
     get:
       parameters:
         - name: candidateId
@@ -970,11 +986,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/nominations/{nominationId}/support-docs/{documentId}/download':
+  "/nominations/{nominationId}/support-docs/{documentId}/download":
     get:
       parameters:
         - name: nominationId
@@ -986,11 +1002,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/nominations/candidates/{candidateId}/support-docs/download':
+  "/nominations/candidates/{candidateId}/support-docs/download":
     get:
       parameters:
         - name: candidateId
@@ -998,11 +1014,11 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
-  '/nominations/{nominationId}/support-docs/download':
+  "/nominations/{nominationId}/support-docs/download":
     get:
       parameters:
         - name: nominationId
@@ -1010,13 +1026,126 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: ''
-      x-auth-type: Application & Application User
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Unlimited
+  /generate:
+    post:
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Unlimited
+  "/exports/{fileName}":
+    get:
+      parameters:
+        - name: fileName
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Unlimited
+  "/nominations/{status}/divisions/{divisionId}":
+    get:
+      parameters:
+        - name: status
+          in: path
+          required: true
+          type: string
+        - name: divisionId
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Unlimited
+  "/elections/electionStatus/{status}":
+    get:
+      parameters:
+        - name: status
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Unlimited
+  "/teams/{teamId}":
+    get:
+      parameters:
+        - name: teamId
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Unlimited
+      x-scope: party_edit
+    put:
+      parameters:
+        - name: teamId
+          in: path
+          required: true
+          type: string
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Unlimited
+    delete:
+      parameters:
+        - name: teamId
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Unlimited
+  "/image-download/{sid}":
+    get:
+      parameters:
+        - name: sid
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      x-auth-type: "Application & Application User"
       x-throttling-tier: Unlimited
 info:
   title: Nomination
-  version: '0.9'
+  version: "0.9"
 x-wso2-security:
   apim:
     x-wso2-scopes:
@@ -1028,14 +1157,14 @@ x-wso2-security:
         description: call election
         key: call_election_edit
         roles: OFC-CallElection
-      - name: 'edit objection '
+      - name: "edit objection "
         description: add objections
         key: objection_edit
-        roles: 'IG-User,RPP-User'
+        roles: "IG-User,RPP-User"
       - name: create nomination
         description: create nominations
         key: nomination_edit
-        roles: 'IG-User,RPP-User'
+        roles: "IG-User,RPP-User"
       - name: nomination approval
         description: approve nominations
         key: nomination_approval_edit
@@ -1059,16 +1188,20 @@ x-wso2-security:
       - name: user home
         description: user dashboard
         key: user_home
-        roles: 'IG-User,RPP-User'
+        roles: "IG-User,RPP-User"
       - name: admin home
         description: admin dashboard
         key: admin_home
-        roles: 'OFC-CallElection,OFC-CreateElectionTemplate,OFC-CreateObjection,OFC-ElectionApproval,OFC-ElectionTemplateApproval,OFC-NominationApproval,OFC-ObjectionApproval,OFC-PaymentApproval'
+        roles: "OFC-CallElection,OFC-CreateElectionTemplate,OFC-CreateObjection,OFC-ElectionApproval,OFC-ElectionTemplateApproval,OFC-NominationApproval,OFC-ObjectionApproval,OFC-PaymentApproval"
       - name: Payment edit
-        description: ''
+        description: ""
         key: payment_edit
         roles: OFC-NominationPayment
-host: '192.168.8.112:8243'
+      - name: party registration
+        description: this user can add edit delete parties
+        key: party_edit
+        roles: OFC-PartyRegistration
+host: "192.168.8.112:8243"
 basePath: /nominations/0.9
 schemes:
   - https
@@ -1076,12 +1209,12 @@ schemes:
 securityDefinitions:
   default:
     type: oauth2
-    authorizationUrl: 'https://192.168.8.112:8243/authorize'
+    authorizationUrl: "https://192.168.8.112:8243/authorize"
     flow: implicit
     scopes:
       election_template_edit: create election template
       call_election_edit: edit call election
-      objection_edit: 'edit objection '
+      objection_edit: "edit objection "
       nomination_edit: create nomination
       nomination_approval_edit: nomination approval
       election_template_approval: approve election template

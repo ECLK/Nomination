@@ -83,7 +83,9 @@ class CustomizedTable extends React.Component {
             {
                 name: "ID",
                 options: {
-                    display: false
+                    display: false,
+                    filter: false,
+                    viewColumns:false
                 }
             },
             {
@@ -125,7 +127,8 @@ class CustomizedTable extends React.Component {
             {
                 name: "Action",
                 options: {
-                    filter: true,
+                    filter: false,
+                    viewColumns:false,
                     customBodyRender: (value, tableMeta, updateValue) => {
                         return (
                             <Grid container className={classes.grid} direction="row" justify="flex-start" alignItems="stretch" spacing={12}>
@@ -188,9 +191,11 @@ class CustomizedTable extends React.Component {
         //     ["234", "Clemant", "clem@gmail.com", "UNP", "Business Analyst"],
         //     ["3", "Umayanga", "umayanga@gmail.com", "JVP", "Business Analyst"]]
         const options = {
+            filter: true,
             filterType: "dropdown",
             responsive: "scroll",
-            selectableRows: false
+            selectableRows: false,
+            viewColumns:true
             // customToolbar: () => {
             //     return (
             //         <CustomToolbar customProps={customProps} modalType="Add"  />

@@ -19,7 +19,8 @@ import {
     GET_ACTIVE_ELECTIONS,
     SET_ELECTORATES_DIVISIONS,
     ELECTION_ELECTORATES_REVIEW_DATA,
-    ELECTION_ELIGIBILITY_REVIEW_DATA
+    ELECTION_ELIGIBILITY_REVIEW_DATA,
+    GET_PENDING_ELECTIONS_DATA
 } from "./ElectionTypes";
 import { API_BASE_URL } from "../../../config.js";
 import axios from "axios";
@@ -272,15 +273,15 @@ export function receivePendingElection (pendingElection) {
 export function postCallElectionData(CallElectionData, electionData) {
     //TODO: yujith, config ids should get from the front end and the array should be dynamic
     let newDate = new Date();
-   
+
     let allElectionData = {
         "name":CallElectionData.name,
         "module_id":CallElectionData.module_id,
         "status":'PENDING',
-        "created_by":"admin",
+        "created_by":sessionStorage.getItem('user'),
         "created_at":Date.parse(newDate),
         "updated_at":Date.parse(newDate),
-        "timeLineData": 
+        "timeLineData":
             {
                 nominationStart: CallElectionData.timeLineData.nominationStart,
                 nominationEnd: CallElectionData.timeLineData.nominationEnd,
@@ -295,7 +296,7 @@ export function postCallElectionData(CallElectionData, electionData) {
         "nominationAllowData": CallElectionData.rowData
 
     }
-   
+
 
     return function (dispatch) {
         const response = axios
@@ -304,12 +305,12 @@ export function postCallElectionData(CallElectionData, electionData) {
                 { ...allElectionData }
             )
             .then(response => {
-                
+
                 let allElectionDataNew = {
                     "id":response.data,
                     "name":CallElectionData.name,
                     "status":'PENDING',
-                    "createdBy":"admin",
+                    "createdBy":sessionStorage.getItem('user'),
                     "lastModified":Date.parse(newDate),
                     "moduleId":CallElectionData.module_id
                 }
@@ -334,15 +335,15 @@ export const setEditCallElectionData = (val) => {
 export function editCallElectionData(CallElectionData, electionId) {
         //TODO: yujith, config ids should get from the front end and the array should be dynamic
         let newDate = new Date();
-       
+
         let allElectionData = {
             "name":CallElectionData.name,
             "module_id":CallElectionData.module_id,
             "status":'PENDING',
-            "created_by":"admin",
+            "created_by":sessionStorage.getItem('user'),
             "created_at":Date.parse(newDate),
             "updated_at":Date.parse(newDate),
-            "timeLineData": 
+            "timeLineData":
                 {
                     nominationStart: CallElectionData.timeLineData.nominationStart,
                     nominationEnd: CallElectionData.timeLineData.nominationEnd,
@@ -355,7 +356,7 @@ export function editCallElectionData(CallElectionData, electionId) {
                     electionId: electionId,
                 },
             "nominationAllowData": CallElectionData.rowData
-    
+
         }
         return function (dispatch) {
             const response = axios
@@ -364,7 +365,7 @@ export function editCallElectionData(CallElectionData, electionId) {
                     { ...allElectionData }
                 )
                 .then(response => {
-                   const data={electionId:electionId,status:'PENDING'}
+                   const data={createdBy:response.data.created_by,electionId:electionId,status:'PENDING',lastModified:response.data.updated_at}
                     dispatch(setEditCallElectionData(data));
                     dispatch(openSnackbar({ message: CallElectionData.name + ' has been updated ' }));
                 }).catch(err => {
@@ -386,7 +387,7 @@ export const setDeleteCallElectionData = (val) => {
 }
 
 export function deleteCallElectionData(electionId,electionName) {
-       
+
         return function (dispatch) {
             const response = axios
                 .delete(
@@ -457,7 +458,7 @@ export function getElectionReviewData(id) {
     };
 }
 
-//Get electorates data for election approve detail page 
+//Get electorates data for election approve detail page
 
 export const electionElectoratesReviewDataLoaded = (val) => {
     return {
@@ -531,7 +532,7 @@ export const onChangeApprovalData = (electionApprovals) => {
         payload: electionApprovals
     }
 }
-  
+
   export function onChangeApproval(electionId,status,reviewNote,electionName) {
     return function (dispatch) {
       let electionApprovals = {
@@ -540,8 +541,8 @@ export const onChangeApprovalData = (electionApprovals) => {
         electionId: electionId,
         reviewNote:reviewNote
       };
-      
-       
+
+
       const response = axios
       .post(
         `${API_BASE_URL}/activeElections/${electionId}/approve-active-election`,
@@ -572,7 +573,7 @@ export const onChangeApprovalData = (electionApprovals) => {
         type: SNACK_BAR_MESSAGE_LOADED,
         payload: data,
       }
-    
+
   };
   export const handleSnackbarClose = () => {
     const data = {
@@ -583,7 +584,7 @@ export const onChangeApprovalData = (electionApprovals) => {
        type: SNACK_BAR_MESSAGE_LOADED,
        payload: data,
      }
-   
+
  };
 
  export const getFieldOptions = function getFieldOptions(moduleId) {
@@ -629,15 +630,15 @@ export const setGetCallElectionData = (val) => {
 export function getCallElectionData(electionId,electionName,moduleId) {
     //TODO: config ids should get from the front end and the array should be dynamic
     let newDate = new Date();
-   
+
     let allElectionData = {
         "name":'asd',
         "module_id":'xd',
         "status":'PENDING',
-        "created_by":"admin",
+        "created_by":sessionStorage.getItem('user'),
         "created_at":Date.parse(newDate),
         "updated_at":Date.parse(newDate),
-        "timeLineData": 
+        "timeLineData":
             {
                 nominationStart: Date.parse(newDate),
                 nominationEnd: Date.parse(newDate),
@@ -648,7 +649,7 @@ export function getCallElectionData(electionId,electionName,moduleId) {
         "nominationAllowData": {}
 
     }
-  
+
     return function (dispatch) {
         const response = axios
             .get(
@@ -664,7 +665,7 @@ export function getCallElectionData(electionId,electionName,moduleId) {
                     "created_by":"",
                     "created_at":'',
                     "updated_at":'',
-                    "timeLineData": 
+                    "timeLineData":
                         {
                             nominationStart: '',
                             nominationEnd: '',
@@ -698,7 +699,7 @@ export const setGetElectionTimeLineData = (val) => {
 }
 
 export function getElectionTimeLine(electionId) {
-  
+
     return function (dispatch) {
         const response = axios
             .get(
@@ -713,4 +714,34 @@ export function getElectionTimeLine(electionId) {
 }
 
 
-  
+export function getAllElectionsToApprove() {
+    return function (dispatch) {
+        const response = axios
+            .get(
+                `${API_BASE_URL}/elections/electionStatus/PENDING`,
+            )
+            .then(response => {
+                const getElections = response.data;
+
+                dispatch(
+                    pendingElectionsLoaded(getElections)
+                );
+            }).catch(err => {
+                const getElections = [];
+                dispatch(
+                    pendingElectionsLoaded(getElections)
+                );
+                console.log(err)
+            });
+    };
+}
+
+
+const pendingElectionsLoaded = (elections) => {
+    return {
+        type: GET_PENDING_ELECTIONS_DATA,
+        payload: elections,
+    };
+};
+
+

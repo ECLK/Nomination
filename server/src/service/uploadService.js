@@ -50,7 +50,55 @@ return {data:data};
 }
 }
 
+/* Gets the download file path related to a download sid */
+const getDownloadImage = async (downloadSid,res,next) => {
+  try{
+  // Get the download session file name
+  var dlSessionFileName = path.join('./src/uploads/'+downloadSid);
+  console.log("dlSessionFileName",dlSessionFileName);
+
+  // Check if the download session exists
+  const existsSync = await fs.existsSync(dlSessionFileName);
+  console.log("existsSync",existsSync);
+  if (!existsSync) {
+    throw new ApiError("image does not exist", HTTP_CODE_404);
+  }
+  else{
+    console.log("ddddd",path.join(__dirname, '../uploads/', downloadSid));
+    return res.sendFile(path.join(__dirname, '../uploads/', downloadSid), {}, function (err) {
+      if (err) {
+         next(err);
+      } else {
+        console.log('Sent:', fileName)
+      }
+    });
+  }
+
+  var options = {
+    root: path.join(__dirname, './src/uploads/'),
+    dotfiles: 'deny',
+    // headers: {
+    //   'x-timestamp': Date.now(),
+    //   'x-sent': true
+    // }
+  }
+
+  var fileName = downloadSid;
+  res.sendFile(fileName, options, function (err) {
+    if (err) {
+       next(err);
+    } else {
+      console.log('Sent:', fileName)
+    }
+  })
+
+}catch (err){
+  console.log("sgfsdfsdfdfdfd",err);
+}
+}
+
 export default {
   uploadFile,
-  getDownloadFilePath
+  getDownloadFilePath,
+  getDownloadImage
 }
