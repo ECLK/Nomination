@@ -105,7 +105,6 @@ class PartyRegistration extends React.Component {
 
 
     handleChange = (name) => event => {
-        debugger;
         if (name === 'phone') {
             this.setState({ errorTextPhone: '' });
         }
@@ -178,7 +177,6 @@ class PartyRegistration extends React.Component {
             this.setState({ errorTextSecretaryName: 'emptyField' });
             goNext = false;
         }
-        debugger;
 
         if (this.state.phoneList.length === 0 || this.state.phoneList.length === null) {
             this.setState({ errorTextPhone: 'emptyField' });
@@ -189,7 +187,6 @@ class PartyRegistration extends React.Component {
             this.setState({ errorTextFax: 'emptyField' });
             goNext = false;
         }
-debugger;
         if (goNext) {
             updateParty(this.state.partyId,this.state);
             onCloseModal();
@@ -305,7 +302,6 @@ debugger;
           }else{
             var faxList = [];
           }
-          debugger;
           getPartyLogo(PartyDetails.fileName);
           this.setState({partyName:PartyDetails.partyName});
           this.setState({partyType:PartyDetails.partyType});

@@ -54,6 +54,10 @@ const styles = theme => ({
         marginBottom: 20,
         marginTop: 50
     },
+    logocontainer: {
+        height: '100%',
+        marginTop:-55
+      },
 });
 
 class PartyRegistration extends React.Component {
@@ -540,8 +544,10 @@ class PartyRegistration extends React.Component {
                     <span ><FileUpload  value={this.state.paySlip} doneElement={doneElement} onSelectFiles={this.onSelectFiles} /></span>
                     </span>
                     </Grid>
-                    <Grid style={{marginTop:30,marginLeft:-10}}container item lg={4}>
-                        <img src={this.state.file}/>
+                    <Grid style={{marginTop:30,marginLeft:-10}} container item lg={4}>
+                        <div className={classes.logocontainer} >
+                        <img style={{maxWidth: 60,margin:25}} src={this.state.file}/>
+                        </div>
                     </Grid>
                     </Grid>
 
