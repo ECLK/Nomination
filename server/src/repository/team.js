@@ -144,6 +144,19 @@ const updateTeamStatus = (partyId) => {
 			});
 };
 
+const TEAM_SELECT_QUERY_FROM_NOMINATION = `SELECT * FROM NOMINATION WHERE TEAM_ID=:team_id`;
+
+const teamValidation = (team_id) => {
+    const params = { team_id: team_id };
+    return DbConnection()
+        .query(TEAM_SELECT_QUERY_FROM_NOMINATION,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.SELECT,
+            }).catch((error) => {
+                throw new DBError(error);
+            });
+};
 
 
 
@@ -153,5 +166,6 @@ export default {
   fetchAllTeamsByTeamType,
   insertTeam,
   updateTeam,
-  updateTeamStatus
+  updateTeamStatus,
+  teamValidation
 }

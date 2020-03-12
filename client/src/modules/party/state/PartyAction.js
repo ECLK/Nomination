@@ -79,6 +79,7 @@ export function saveParty(partyDetails) {
        dispatch(setData(newPartyData));
        dispatch(openSnackbar({ message:`New party has been registered successfully!`}));
     }).catch(err => {
+      dispatch(openSnackbar({ message: err.response.data.message }));
           console.log(err)
     });
   };
@@ -125,6 +126,7 @@ export function updateParty(teamId,partyDetails) {
        dispatch(setUpdateData(newPartyData));
        dispatch(openSnackbar({ message:`The party has been updated successfully!`}));
     }).catch(err => {
+      dispatch(openSnackbar({ message: err.response.data.message }));
           console.log(err)
     });
   };
@@ -173,7 +175,7 @@ export function deleteParty(teamId) {
          dispatch(
           setDeleteParty(getDeletedParty)
            );
-           dispatch(openSnackbar({ message: "Candidate was deleted successfully!"}));
+           dispatch(openSnackbar({ message: "Party was deleted successfully!"}));
       }).catch(err => {
         const getDeletedParty = [];
         dispatch(
