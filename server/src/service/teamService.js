@@ -2,7 +2,7 @@ import { ServerError , ApiError } from 'Errors';
 import TeamRepo from '../repository/team';
 import {TeamManager}  from 'Managers';
 import _ from 'lodash';
-import {HTTP_CODE_404} from '../routes/constants/HttpCodes';
+import {HTTP_CODE_404,HTTP_CODE_403} from '../routes/constants/HttpCodes';
 const uuidv4 = require('uuid/v4');
 
 
@@ -99,7 +99,7 @@ const createTeam = async (req) => {
 		await TeamRepo.insertTeam(teamData);
 		return teamData;
 	} catch (e) {
-		throw new ServerError("server error");
+		throw e;
 	}
 };
 
@@ -148,7 +148,7 @@ const updateTeamById = async (req) => {
 		await TeamRepo.updateTeam(teamData);
 		return teamData;
 	} catch (e) {
-		throw new ServerError("server error");
+		throw e;
 	}
 };
 
@@ -156,10 +156,16 @@ const updateTeamById = async (req) => {
 const deletePartyById = async (req) => {
 	try {
     const partyId = req.params.teamId;
-		await TeamRepo.updateTeamStatus(partyId);
-		return partyId;
+    const partyExist = await TeamRepo.teamValidation(partyId);
+    if(_.isEmpty(partyExist)){
+      await TeamRepo.updateTeamStatus(partyId);
+      return partyId;
+    }else{
+      throw new ApiError("Sorry, This party already been used!",HTTP_CODE_403);
+    }
+		
 	} catch (e) {
-		throw new ServerError("server error");
+		throw e;
 	}
 };
 

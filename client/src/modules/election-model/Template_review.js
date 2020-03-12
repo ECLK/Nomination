@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AdminMenu from '../../components/AdminMenu/AdminMenu';
-import CallElectionList from '../../components/CallElectionList';
+import ElectionTemplateList from '../../components/ElectionTemplateList';
 import CallElection from '../../modules/election/CallElection';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -266,7 +266,7 @@ class Home extends React.Component {
 
                         <Grid item xs={8} >
                             <div style={{ width: '100%' }}>
-                                <CallElectionList callElectionApproveElements={callElectionApproveElements} callElectionPendingElements={callElectionPendingElements} callElectionRejectedElements={callElectionRejectedElements}></CallElectionList>
+                                <ElectionTemplateList callElectionApproveElements={callElectionApproveElements} callElectionPendingElements={callElectionPendingElements} callElectionRejectedElements={callElectionRejectedElements}></ElectionTemplateList>
                             </div>
                         </Grid>
                         <Grid item xs={5} >
