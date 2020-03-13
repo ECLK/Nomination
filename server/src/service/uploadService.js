@@ -1,12 +1,15 @@
 const multer = require('multer');
-const upload = multer({dest: 'src/uploads/'});
+var path   = require('path');
+
+const uploadPath = path.join(__dirname, '../uploads/');
+const upload = multer({dest: uploadPath});
+
 let single = upload.single('file');
 import { HTTP_CODE_404, HTTP_CODE_204 } from '../routes/constants/HttpCodes';
 import { ServerError, ApiError } from 'Errors';
 
 
 var fs     = require('fs');
-var path   = require('path');
 const DL_SESSION_FOLDER = '/src/download_sessions';
 
 const uploadFile = async (req, res) => {
@@ -24,7 +27,7 @@ const uploadFile = async (req, res) => {
 const getDownloadFilePath = async (downloadSid) => {
   try{
   // Get the download session file name
-  var dlSessionFileName = path.join('./src/uploads/'+downloadSid);
+  var dlSessionFileName = (uploadPath+downloadSid);
   console.log("dlSessionFileName",dlSessionFileName);
 
   // Check if the download session exists
@@ -54,7 +57,7 @@ return {data:data};
 const getDownloadImage = async (downloadSid,res,next) => {
   try{
   // Get the download session file name
-  var dlSessionFileName = path.join('./src/uploads/'+downloadSid);
+  var dlSessionFileName = (uploadPath+downloadSid);
   console.log("dlSessionFileName",dlSessionFileName);
 
   // Check if the download session exists
@@ -64,33 +67,15 @@ const getDownloadImage = async (downloadSid,res,next) => {
     throw new ApiError("image does not exist", HTTP_CODE_404);
   }
   else{
-    console.log("ddddd",path.join(__dirname, '../uploads/', downloadSid));
-    return res.sendFile(path.join(__dirname, '../uploads/', downloadSid), {}, function (err) {
+    console.log("ddddd",dlSessionFileName);
+    return res.sendFile(dlSessionFileName, {}, function (err) {
       if (err) {
          next(err);
       } else {
-        console.log('Sent:', fileName)
+        console.log('Sent:', dlSessionFileName)
       }
     });
   }
-
-  var options = {
-    root: path.join(__dirname, './src/uploads/'),
-    dotfiles: 'deny',
-    // headers: {
-    //   'x-timestamp': Date.now(),
-    //   'x-sent': true
-    // }
-  }
-
-  var fileName = downloadSid;
-  res.sendFile(fileName, options, function (err) {
-    if (err) {
-       next(err);
-    } else {
-      console.log('Sent:', fileName)
-    }
-  })
 
 }catch (err){
   console.log("sgfsdfsdfdfdfd",err);
