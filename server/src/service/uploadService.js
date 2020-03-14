@@ -2,9 +2,15 @@ const multer = require('multer');
 var path   = require('path');
 
 const uploadPath = path.join(__dirname, '../uploads/');
+const uploadImgPath = path.join(__dirname, '../partySymbols/');
+
 const upload = multer({dest: uploadPath});
+const uploadImg = multer({dest: uploadImgPath});
+
 
 let single = upload.single('file');
+let singleImg = uploadImg.single('file');
+
 import { HTTP_CODE_404, HTTP_CODE_204 } from '../routes/constants/HttpCodes';
 import { ServerError, ApiError } from 'Errors';
 
@@ -22,6 +28,18 @@ const uploadFile = async (req, res) => {
   });
   return await promise1;
 };
+
+const uploadImage = async (req, res) => {
+  var promise1 = new Promise(function (resolve, reject) {
+    singleImg(req, res, function (r) {
+      const {filename, mimetype, originalname} = req.file;
+      resolve({filename, mimetype, originalname});
+    });
+
+  });
+  return await promise1;
+};
+
 
 /* Gets the download file path related to a download sid */
 const getDownloadFilePath = async (downloadSid) => {
@@ -57,7 +75,7 @@ return {data:data};
 const getDownloadImage = async (downloadSid,res,next) => {
   try{
   // Get the download session file name
-  var dlSessionFileName = (uploadPath+downloadSid);
+  var dlSessionFileName = (uploadImgPath+downloadSid);
   console.log("dlSessionFileName",dlSessionFileName);
 
   // Check if the download session exists
@@ -85,5 +103,6 @@ const getDownloadImage = async (downloadSid,res,next) => {
 export default {
   uploadFile,
   getDownloadFilePath,
-  getDownloadImage
+  getDownloadImage,
+  uploadImage
 }
