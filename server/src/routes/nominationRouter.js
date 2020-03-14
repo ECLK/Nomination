@@ -229,6 +229,16 @@ export const initNominationRouter = (app) => {
 		},
 		},
 		{
+			method: POST,
+			path: '/image-upload',
+			handler: (req, res, next) => {
+				// console.log(req);
+				return UploadService.uploadImage(req)
+				.then((result) => res.status(HTTP_CODE_201).send(result))
+				.catch(error => next(error));
+			},
+			},
+		{
 			method: GET,
 			path: '/file-download/:sid',
 			handler: (req, res, next) => {
