@@ -55,6 +55,21 @@ const getDivisionsByElectionId = async (req) => {
     }
 }
 
+const getDivisionDataByDivisionId = async (req) => {
+    console.log("req.params",req.params);
+    try {
+        const divisionId = req.params.divisionId;
+        const divisionData = await DivisionRepo.fetchDivisionDataByDivisionId(divisionId);
+        if (!_.isEmpty(divisionData)) {
+            return DivisionManager.mapToDivisionDataModel(divisionData);
+        } else {
+            throw new ApiError("Division data not found", DIVISION_NOT_FOUND_CODE);
+        }
+    } catch (error) {
+        console.log("error",error);
+        throw new ServerError("Server Error", HTTP_CODE_404);
+    }
+}
 /**
  * Get eligible division list with nominations for particular election and team
  * @param {*} req 
@@ -110,4 +125,5 @@ export default {
   getDivisionsByElectionId,
   getDivisionsWithNomination,
   addDivisonsByModuleId,
+  getDivisionDataByDivisionId
 }

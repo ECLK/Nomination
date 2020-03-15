@@ -34,7 +34,7 @@ export const initDivisionRouter = (app) => {
     {
 			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/divisions/
 			method: GET,
-			path: '/elections/:electionId/divisions/',
+			path: '/elections/:electionId/divisions',
 			schema: {},
 			handler: (req, res, next) => {
 				return DivisionService.getDivisionsByElectionId(req)
@@ -73,6 +73,17 @@ export const initDivisionRouter = (app) => {
 					.then((result) => res.status(200).send(result))
 					.catch(error => next(error));
 			}
-		}
+		},
+		{
+			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/elections/43680f3e-97ac-4257-b27a-5f3b452da2e6/divisions/
+			method: GET,
+			path: '/divisions/:divisionId/divisionData',
+			schema: {},
+			handler: (req, res, next) => {
+				return DivisionService.getDivisionDataByDivisionId(req)
+					.then((result) => res.status(200).send(result))
+					.catch(error => next(error));
+			},
+		},
 	]);
 };

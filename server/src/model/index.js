@@ -5,7 +5,7 @@ import { Candidate } from './Candidate';
 import { Payment , NominationPayment,AllPayments } from './Payment';
 import { Election, AllElection, ElectionWithStatus } from './Election';
 import { Nomination,NominationNotification } from './Nomination';
-import { Division, AllowedDivision } from './Division';
+import { Division, AllowedDivision,DivisionData } from './Division';
 import { SupportDoc,CandidateSupportDoc,CandidateSupportDocData } from './SupportDoc';
 import {Module,ModuleList,AllElectionTemplate,CandidateConfig} from './Module';
 import {Objection } from './Objection';
@@ -39,5 +39,6 @@ export {
   electoratesData,
   eligibilityData,
   CandidateConfig,
-  NominationNotification
+  NominationNotification,
+  DivisionData
 };
