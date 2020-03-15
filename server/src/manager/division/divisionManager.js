@@ -1,5 +1,5 @@
 var joinjs = require('join-js').default;
-import { Division, AllowedDivision } from 'Models';
+import { Division, AllowedDivision,DivisionData } from 'Models';
 import {List} from 'typed-immutable';
 import _ from 'lodash';
 
@@ -21,6 +21,27 @@ const resultMaps = [
         mapId: 'nominationMap',
         idProperty: 'id',
         properties: [ 'status','paymentStatus']
+    },
+    {
+        mapId: 'divisionDataMap',
+        idProperty: 'ID',
+        properties: [ 'NAME'],
+        collections: [
+            { name: 'parties', mapId: 'partyMap', columnPrefix: 'PARTY_' }
+        ]
+    },
+    {
+        mapId: 'partyMap',
+        idProperty: 'id',
+        properties: [ ],
+        collections: [
+            { name: 'candidates', mapId: 'candidateMap', columnPrefix: 'CANDIDATE_' }
+        ]
+    },
+    {
+        mapId: 'candidateMap',
+        idProperty: 'id',
+        properties: [ 'name']
     },
     
 ]
@@ -62,7 +83,35 @@ console.log("mappedAllowedDivisions",mappedAllowedDivisions);
     }, List(AllowedDivision)());
 };
 
+// const mapToDivisionDataModel = (divisionData) => {
+//     console.log("divisionData",divisionData);
+// 	const mappedDivisionData = joinjs.map(divisionData, resultMaps, 'divisionDataMap', 'DIVISION_');
+//     console.log("mappedDivisionData",mappedDivisionData);
+
+// 	return DivisionData({
+// 		id: mappedDivisionData[0].id,
+// 		name: mappedDivisionData[0].name,
+// 		parties: mappedDivisionData[0].parties,
+// 		// candidates: mappedElection[0].candidates,
+// 	});
+// }
+
+const mapToDivisionDataModel = (divisionData) => {
+    console.log("divisionData",divisionData);
+
+    const mappedDivisionData = joinjs.map(divisionData, resultMaps, 'divisionDataMap', 'DIVISION_');
+console.log("mappedDivisionData",mappedDivisionData);
+    return _.reduce(mappedDivisionData, (result, division) => {
+        return result.push({
+            id: division.ID,
+            name: division.NAME,
+            parties: division.parties,
+        });
+    }, List(DivisionData)());
+};
+
 export default{
     mapToDivisionModel,
     mapToDivisionModelWithNominations,
+    mapToDivisionDataModel
 }
