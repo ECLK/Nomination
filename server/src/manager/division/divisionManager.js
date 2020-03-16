@@ -7,7 +7,7 @@ const resultMaps = [
     {
         mapId: 'divisionMap',
         idProperty: 'id',
-        properties: [ 'name', 'code', 'no_of_candidates', 'module_id', 'election_id', 'config_id', 'status' ]
+        properties: [ 'name', 'code', 'no_of_candidates', 'module_id', 'election_id', 'config_id' ]
     },
     {
         mapId: 'allowedDivisionMap',
@@ -58,7 +58,7 @@ const mapToDivisionModel = (divisionData) => {
             moduleId: division.module_id,
             electionId: division.election_id,
             configId: division.config_id,
-            status: division.status
+            // status: division.status
         });
     }, List(Division)());
 };

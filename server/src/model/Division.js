@@ -11,7 +11,7 @@ const Division = Record({
     moduleId: String(),
     electionId: String(),
     configId: String(),
-    status: Number(),
+    // status: Number(),
 });
 
 
