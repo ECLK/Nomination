@@ -67,6 +67,7 @@ const getDivisionDataByDivisionId = async (req) => {
             throw new ApiError("Division data not found", DIVISION_NOT_FOUND_CODE);
         }
     } catch (error) {
+        throw error;
         console.log("error",error);
         throw new ServerError("Server Error", HTTP_CODE_404);
     }
