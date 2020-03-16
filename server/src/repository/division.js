@@ -24,7 +24,7 @@ FROM
 	DIVISION_CONFIG dc
 	LEFT JOIN ELECTION e ON dc.MODULE_ID = e.MODULE_ID
 WHERE
-	E.ID = :id`;
+	e.ID = :id`;
 
 const fetchDivisionsByElectionId = (electionId) => {
 	const params = { id: electionId };
