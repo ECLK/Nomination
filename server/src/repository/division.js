@@ -18,9 +18,8 @@ const DIVISIONS_BY_ELECTION_ID_SELECT_QUERY = `SELECT
 	dc.CODE as division_code,
 	dc.NO_OF_CANDIDATES as division_no_of_candidates,
 	dc.MODULE_ID as division_module_id,
-	dcd.ELECTION_ID as division_election_id,
-	dcd.DIVISION_CONFIG_ID as division_config_id,
-	dcd.SELECT_FLAG as division_status
+	e.ID as division_election_id,
+	dc.ID as division_config_id
 FROM
 	DIVISION_CONFIG dc
 	LEFT JOIN ELECTION e ON dc.MODULE_ID = e.MODULE_ID
