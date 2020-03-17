@@ -24,7 +24,8 @@ const ALL_TEAM_SELECT_QUERY = `SELECT
                                 ID AS team_id,
                                 PARTY_NAME AS team_name,
                                 ABBREVIATION AS team_abbrevation,
-                                PARTY_TYPE AS team_party_type
+                                PARTY_TYPE AS team_party_type,
+                                APPROVED_SYMBOL AS team_symbol
                                 FROM TEAM WHERE STATUS <> "DELETED"`;
 const ALL_TEAM_SELECT_QUERY_BY_TEAM_TYPE = `SELECT 
                                 ID AS team_id,
