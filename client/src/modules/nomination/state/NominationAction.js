@@ -139,7 +139,7 @@ export function getTeamsByTeamType(res) {
     partyType = "RPP";
   }
   if(res==="candidate payment ig"){
-    partyType = "IG";
+    partyType = "IND";
   }
   return function (dispatch) {
 
