@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AdminMenu from '../../components/AdminMenu/AdminMenu';
-import CheckboxTable from '../../components/CheckboxTable/CheckboxTable';
 import CheckboxTableIg from '../../components/CheckboxTableIg/CheckboxTable';
-
 import { CardContent } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { getFieldOptions } from './state/ElectionAction';
@@ -39,13 +37,8 @@ class AllowNomination extends React.Component {
     
 
     render() {
-        const { classes,electionData,errorTextElectorates,rowHeadersForRpp,rowHeadersForIg } = this.props;
-         const data = rowHeadersForRpp.map((record) => {
-            record.id = record.team_id;
-            record.name = record.team_name;
-            return record;
-          });
-          const data2 = rowHeadersForIg.map((record) => {
+        const { classes,electionData,errorTextElectorates,rowHeaders } = this.props;
+         const data = rowHeaders.map((record) => {
             record.id = record.team_id;
             record.name = record.team_name;
             return record;
@@ -96,8 +89,7 @@ class AllowNomination extends React.Component {
                 <div className={classes.content}>
                         <CardContent>
                             <form ref="form" onSubmit={this.handleSubmit}>
-                                <CheckboxTable title="" data={nomination_setup}  rows={rowHeadersForRpp}></CheckboxTable>
-                                <CheckboxTableIg title="" data={nomination_setup}  rows={rowHeadersForIg}></CheckboxTableIg>
+                                <CheckboxTableIg title="" data={nomination_setup}  rows={rowHeaders}></CheckboxTableIg>
                             </form>
                         </CardContent>
                 </div>

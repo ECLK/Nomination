@@ -203,6 +203,7 @@ export function setCallElectionData(electionData) {
         WeightagePrefarence: electionData.WeightagePrefarence,
         WeightageVote: electionData.WeightageVote,
         rowData: electionData.rowData,
+        rowDataIg: electionData.rowDataIg,
 
     };
 
@@ -273,7 +274,9 @@ export function receivePendingElection (pendingElection) {
 export function postCallElectionData(CallElectionData, electionData) {
     //TODO: yujith, config ids should get from the front end and the array should be dynamic
     let newDate = new Date();
-
+    var rowDataIg = CallElectionData.rowDataIg;
+    var rowDataRpp = CallElectionData.rowData;
+    var rowData = rowDataIg.concat(rowDataRpp);
     let allElectionData = {
         "name":CallElectionData.name,
         "module_id":CallElectionData.module_id,
@@ -293,7 +296,7 @@ export function postCallElectionData(CallElectionData, electionData) {
                 approvalEnd: CallElectionData.timeLineData.approvalEnd,
                 electionId: electionData.election_id,
             },
-        "nominationAllowData": CallElectionData.rowData
+        "nominationAllowData": rowData
 
     }
 
@@ -335,7 +338,9 @@ export const setEditCallElectionData = (val) => {
 export function editCallElectionData(CallElectionData, electionId) {
         //TODO: yujith, config ids should get from the front end and the array should be dynamic
         let newDate = new Date();
-
+        var rowDataIg = CallElectionData.rowDataIg;
+        var rowDataRpp = CallElectionData.rowData;
+        var rowData = rowDataIg.concat(rowDataRpp);
         let allElectionData = {
             "name":CallElectionData.name,
             "module_id":CallElectionData.module_id,
@@ -355,7 +360,7 @@ export function editCallElectionData(CallElectionData, electionId) {
                     approvalEnd: CallElectionData.timeLineData.approvalEnd,
                     electionId: electionId,
                 },
-            "nominationAllowData": CallElectionData.rowData
+            "nominationAllowData": rowData
 
         }
         return function (dispatch) {
@@ -673,7 +678,8 @@ export function getCallElectionData(electionId,electionName,moduleId) {
                             objectionEnd: '',
                             electionId: '',
                         },
-                    "rowData":[]
+                    "rowData":[],
+                    "rowDataIg":[]
                 }
                 dispatch(setGetCallElectionData(CallElectionData));
                 console.log(err)

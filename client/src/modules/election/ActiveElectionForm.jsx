@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ElectionTimeLine from '../../components/ElectionTimeLine/ElectionTimeLine';
 import AllowNomination from './AllowNomination';
+import AllowNominationIg from './AllowNominationIg';
 import { Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
@@ -119,6 +120,7 @@ class ActiveElectionForm extends React.Component {
       electionModule: CallElectionData.electionModule,
       values: '',
       rowData: '',
+      rowDataIg: '',
       goToHome: false,
       columnHeaders: { name: '', id: '' },
       errorTextNominationStart: '',
@@ -377,7 +379,9 @@ class ActiveElectionForm extends React.Component {
   };
 
   getStepContent(step, values) {
-    const { CallElectionData } = this.props;
+    const { CallElectionData,rowHeaders } = this.props;
+    var rowHeadersForRpp = rowHeaders.filter(x => x.team_party_type === "RPP");
+    var rowHeadersForIg = rowHeaders.filter(x => x.team_party_type === "IG");
     const { errorTextNominationStart, errorTextNominationEnd, errorTextObjectionStart, errorTextObjectionEnd, errorTextPaymentStart, errorTextPaymentEnd, errorTextApprovalStart, errorTextApprovalEnd } = this.state;
     const errorTextItems = { errorTextNominationStart, errorTextNominationEnd, errorTextObjectionStart, errorTextObjectionEnd, errorTextPaymentStart, errorTextPaymentEnd, errorTextApprovalStart, errorTextApprovalEnd }
 
@@ -393,9 +397,19 @@ class ActiveElectionForm extends React.Component {
         return <AllowNomination
           handleChange={this.handleChange}
           values={values}
+          rowHeadersForRpp={rowHeadersForRpp}
+          rowHeadersForIg={rowHeadersForIg}
           CallElectionData={CallElectionData}
           errorTextElectorates={this.state.errorTextElectorates}
         />;
+      // case 2:
+      //     return <AllowNominationIg
+      //       handleChange={this.handleChange}
+      //       values={values}
+      //       rowHeaders={rowHeadersForIg}
+      //       CallElectionData={CallElectionData}
+      //       errorTextElectorates={this.state.errorTextElectorates}
+      //     />;
       default:
         return 'Unknown step';
     }
@@ -520,14 +534,16 @@ ActiveElectionForm.propTypes = {
   classes: PropTypes.object,
 };
 
-const mapStateToProps = ({ Election }) => {
+const mapStateToProps = ({ Election,Nomination }) => {
 
   const { setCallElectionData, postCallElectionData, openSnackbar } = Election;
   const CallElectionData = Election.CallElectionData;
   const electionData = Election.electionData;
+  const rowHeaders = Nomination.partyList;
+
   const getCallElectionData = Election.getCallElectionData;
 
-  return { setCallElectionData, CallElectionData, electionData, postCallElectionData, openSnackbar, getCallElectionData }
+  return { setCallElectionData, CallElectionData, electionData, postCallElectionData, openSnackbar, getCallElectionData,rowHeaders }
 };
 
 const mapActionsToProps = {
