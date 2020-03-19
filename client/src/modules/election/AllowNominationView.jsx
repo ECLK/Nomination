@@ -59,7 +59,7 @@ class AllowNomination extends React.Component {
         //     return record;
         //   });
         var rowHeadersForRpp = rowHeaders.filter(x => x.team_party_type === "RPP");
-        var rowHeadersForIg = rowHeaders.filter(x => x.team_party_type === "IG");
+        var rowHeadersForIg = rowHeaders.filter(x => x.team_party_type === "IND");
 
      
           const data = rowHeadersForRpp.map((record) => {
