@@ -64,7 +64,7 @@ class CheckboxTableGrid extends React.Component {
            }
         }
       })
-      
+
     componentWillReceiveProps(props) {
         const { rows, cols, CallElectionData,rowData } = props;
         
@@ -300,7 +300,7 @@ class CheckboxTableGrid extends React.Component {
         return (
             <MuiThemeProvider theme={this.getMuiTheme()}>
             <MUIDataTable 
-                title={"Electoral Units ( Registered Political Parties )"}
+                title={"Electoral Units ( Independent Groups )"}
                 data={outputData}
                 columns={columns}
                 options={options}

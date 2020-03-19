@@ -33,7 +33,7 @@ class CheckboxTableGrid extends React.Component {
             checkboxGrid: [],
             rowHeaders: [],
             columnHeaders: [],
-            rowData: [],
+            rowDataIg: [],
             data: [],
             nominationStart: CallElectionData.nominationStart,
             nominationEnd: CallElectionData.nominationEnd,
@@ -47,7 +47,7 @@ class CheckboxTableGrid extends React.Component {
         };
     }
 
-      getMuiTheme = () => createMuiTheme({
+    getMuiTheme = () => createMuiTheme({
         overrides: {
           MUIDataTable: {
             paper: {
@@ -64,15 +64,14 @@ class CheckboxTableGrid extends React.Component {
            }
         }
       })
-      
-    componentWillReceiveProps(props) {
-        const { rows, cols, CallElectionData,rowData } = props;
-        
+
+    componentWillMount() {
+        const { rows, cols, CallElectionData } = this.props;
         let rowHeaders = [''];
         this.props.rows.map((value) => {
             rowHeaders.push(value.name);
         });
-        let columnHeaders = [''];
+        let columnHeaders = ['', 'Select All'];
         this.props.cols.map((value) => {
             columnHeaders.push(value.name);
         });
@@ -80,7 +79,7 @@ class CheckboxTableGrid extends React.Component {
         let checkboxGrid = [];
         rowHeaders.map(() => {
             let row = [];
-            columnHeaders.map((index) => {
+            columnHeaders.map(() => {
                 row.push(false);
             });
             checkboxGrid.push(row);
@@ -92,21 +91,21 @@ class CheckboxTableGrid extends React.Component {
             var colCount = 0;
             rawCount++;
             for (let j = 0; j < cols.length; j++) {
-                for (let h = 0; h < rowData.length; h++) {
-                    if (cols[j].id === rowData[h].division_id && rows[i].id === rowData[h].team_id) {
+                for (let h = 0; h < CallElectionData.rowDataIg.length; h++) {
+                    if (cols[j].id === CallElectionData.rowDataIg[h].division_id && rows[i].id === CallElectionData.rowDataIg[h].team_id) {
 
                         let allow_party = {
-                            'division_id': rowData[h].division_id,
-                            'team_id': rowData[h].team_id,
+                            'division_id': CallElectionData.rowDataIg[h].division_id,
+                            'team_id': CallElectionData.rowDataIg[h].team_id,
                             'id': (i + 1) + '-' + (j + 1)
                         }
-                        this.state.rowData.push(allow_party);
+                        this.state.rowDataIg.push(allow_party);
 
                     }
                 }
             }
         }
-        this.setState({ rowData: this.state.rowData });
+        this.setState({ rowDataIg: this.state.rowDataIg });
 
         this.setState({ rowHeaders, columnHeaders, checkboxGrid });
         var rawCount = 0;
@@ -116,7 +115,7 @@ class CheckboxTableGrid extends React.Component {
         for (let i = 0; i < rows.length; i++) {
             let row = [];
             for (let j = 0; j < cols.length; j++) {
-                rowData.map((value) => {
+                CallElectionData.rowDataIg.map((value) => {
                     if (cols[j].id === value.division_id && rows[i].id === value.team_id) {
                         if (prevCol === cols[j].id) {
                             colCount++;
@@ -164,7 +163,7 @@ class CheckboxTableGrid extends React.Component {
             this.setValue('single', params)
         }
         checkboxGrid[row][col] = event.target.checked;
-        newElectionModule.rowData = this.state.rowData;
+        newElectionModule.rowDataIg = this.state.rowDataIg;
         handleChangeElectionData(newElectionModule);
         this.setState({ checkboxGrid });
     };
@@ -181,7 +180,7 @@ class CheckboxTableGrid extends React.Component {
                     'election_id': electionData.election_id,
                     'id': params.row + '-' + (i + 1)
                 }
-                this.state.rowData.push(allow_party);
+                this.state.rowDataIg.push(allow_party);
             } else {
                 this.removeValue(params.row + '-' + (i + 1))
             }
@@ -200,7 +199,7 @@ class CheckboxTableGrid extends React.Component {
                     'election_id': electionData.election_id,
                     'id': (i + 1) + '-' + params.col
                 }
-                this.state.rowData.push(allow_party);
+                this.state.rowDataIg.push(allow_party);
             } else {
                 this.removeValue((i + 1) + '-' + params.col)
             }
@@ -248,19 +247,19 @@ class CheckboxTableGrid extends React.Component {
                         'election_id': electionData.election_id,
                         'id': (params.row) + '-' + (params.col)
                     }
-                    this.state.rowData.push(allow_party);
+                    this.state.rowDataIg.push(allow_party);
                 } else {
                     this.removeValue((params.row) + '-' + (params.col))
                 }
         }
 
-        this.state.rowData = _.uniq(this.state.rowData, function (data) {
+        this.state.rowDataIg = _.uniq(this.state.rowDataIg, function (data) {
             return data.id
         })
     }
 
     removeValue = (id) => {
-        this.state.rowData = _.without(this.state.rowData, _.findWhere(this.state.rowData, {
+        this.state.rowDataIg = _.without(this.state.rowDataIg, _.findWhere(this.state.rowDataIg, {
             id: id
         }));
     }
@@ -269,38 +268,38 @@ class CheckboxTableGrid extends React.Component {
         const { data } = this.props;
         // this is written here so that `checked={this.state.checkboxGrid[i][j-1]}` could work.
         // on this way updated checkbox data is always taken from state and setup properly
-        let rowData = [];
+        let rowDataIg = [];
         for (let i = 0; i < this.state.rowHeaders.length; i++) {
             let colData = [];
-            for (let j = 0; j < this.state.columnHeaders.length+1; j++) {
+            for (let j = 0; j < this.state.columnHeaders.length; j++) {
                 if (j == 0) {
-                    if(i!==0 && j!==1){
                     colData.push(this.state.rowHeaders[i]);
-                    }
                 } else {
-                    if(i!==0 && j!==1){
-                        colData.push(<Checkbox color="primary" checked={this.state.checkboxGrid[i][j - 1]} onChange={this.handleChange(i, j - 1, data)}></Checkbox>);
-                    }
+                    colData.push(<Checkbox color="primary" checked={this.state.checkboxGrid[i][j - 1]} onChange={this.handleChange(i, j - 1, data)}></Checkbox>);
                 }
             }
-            rowData.push(colData);
+            rowDataIg.push(colData);
         }
         // set row data headers
-        const outputData = rowData.map(Object.values);
-        // const outputData = rowData.map(Object.values);
+        const outputData = rowDataIg.map(Object.values);
+        // const outputData = CallElectionData.rowData.map(Object.values);
         // set column data
         const columns = this.state.columnHeaders;
         // set option list
         const options = {
+            filter: false,
+            download: false,
             filterType: "dropdown",
             responsive: "scroll",
             selectableRows: false,
+            pagination: false,
+            viewColumns:false
         };
 
         return (
             <MuiThemeProvider theme={this.getMuiTheme()}>
             <MUIDataTable 
-                title={"Electoral Units ( Registered Political Parties )"}
+                title={this.props.title}
                 data={outputData}
                 columns={columns}
                 options={options}
@@ -314,7 +313,6 @@ const mapStateToProps = ({ Election }) => {
     const { setCallElectionData } = Election;
     const CallElectionData = Election.CallElectionData;
     const cols = Election.columnHeaders;
-    // const rowData = Election.electionElectorates;
     const electionData = Election.electionData;
     return { setCallElectionData, CallElectionData, electionData, cols }
 };

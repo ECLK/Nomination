@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AdminMenu from '../../components/AdminMenu/AdminMenu';
 import CheckboxTable from '../../components/CheckboxTableElectionReview/CheckboxTable';
+import CheckboxTableIg from '../../components/CheckboxTableElectionReviewIg/CheckboxTable';
 import { CardContent } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { getFieldOptions,getElectoratesData,getEligibilityData } from './state/ElectionAction';
@@ -52,12 +53,25 @@ class AllowNomination extends React.Component {
 
     render() {
         const { classes,electionData,errorTextElectorates ,rowData,rowHeaders} = this.props;
-        const data = rowHeaders.map((record) => {
+        // const data = rowHeaders.map((record) => {
+        //     record.id = record.team_id;
+        //     record.name = record.team_name;
+        //     return record;
+        //   });
+        var rowHeadersForRpp = rowHeaders.filter(x => x.team_party_type === "RPP");
+        var rowHeadersForIg = rowHeaders.filter(x => x.team_party_type === "IG");
+
+     
+          const data = rowHeadersForRpp.map((record) => {
             record.id = record.team_id;
             record.name = record.team_name;
             return record;
           });
-
+          const data2 = rowHeadersForIg.map((record) => {
+            record.id = record.team_id;
+            record.name = record.team_name;
+            return record;
+          });
         let nomination_setup = [
             {
                 'election_id': electionData.election_id,
@@ -90,7 +104,9 @@ class AllowNomination extends React.Component {
                 <div style={{marginTop:-78}} className={classes.content}>
                         {/* <CardContent> */}
                             <form ref="form" onSubmit={this.handleSubmit}>
-                                <CheckboxTable  data={nomination_setup}  rows={rowHeaders} rowData={rowData}></CheckboxTable>
+                                {/* <CheckboxTable  data={nomination_setup}  rows={rowHeaders} rowData={rowData}></CheckboxTable> */}
+                                <CheckboxTable title="" data={nomination_setup}  rows={rowHeadersForRpp} rowData={rowData}></CheckboxTable>
+                                <CheckboxTableIg title="" data={nomination_setup}  rows={rowHeadersForIg} rowData={rowData}></CheckboxTableIg>
                             </form>
                         {/* </CardContent> */}
                 </div>

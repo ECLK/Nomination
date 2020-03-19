@@ -37,6 +37,7 @@ const initialState = {
     WeightagePrefarence: '%',
     WeightageVote: '%',
     rowData: [],
+    rowDataIg: [],
     requestState: REQUEST_STATE.NOT_STARTED,
     elections: [],
     electionData: [],
@@ -56,7 +57,8 @@ const initialState = {
                 objectionEnd: '',
                 electionId: '',
             },
-        "rowData":[]
+        "rowData":[],
+        "rowDataIg":[]
     },
     PostedCallElection: [],
     PostedCallElectionData: [],

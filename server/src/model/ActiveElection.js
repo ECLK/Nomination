@@ -42,6 +42,7 @@ const CallElection = Record({
   updated_at: Maybe(Number),
   timeLineData: timeLineData,
   rowData: List(nominationAllowData),
+  rowDataIg: List(nominationAllowData),
 });
 
 
