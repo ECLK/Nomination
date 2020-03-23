@@ -13,6 +13,8 @@ ENV REACT_APP_AUTH_BASE_URL=https://nominations.ecstag.opensource.lk
 ENV REACT_APP_NOMINATION_URL=https://nominations.ecstag.opensource.lk
 
 RUN npm run build
+RUN rm /etc/localtime
+RUN ln -s /usr/share/zoneinfo/Asia/Colombo /etc/localtime
 
 FROM nginx:1.15
 
