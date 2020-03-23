@@ -298,7 +298,7 @@ class NominationPayments extends React.Component {
                if(party_type === 'RPP'){
                  party_type='candidate payment rpp';
                 this.setState({partyType:'candidate payment rpp'});
-               }else if (party_type === 'IG') {
+               }else if (party_type === 'IND') {
                 party_type='candidate payment ig';
                 this.setState({partyType:'candidate payment ig'});
                }
