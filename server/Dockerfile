@@ -45,6 +45,8 @@ COPY --from=build /home/builder/Nomination/build/ /home/lsf/Nomination/build/
 COPY --from=build /home/builder/Nomination/src/config/development.json /home/lsf/Nomination/prod.json 
 RUN chown lsf:lsf /home/lsf/Nomination/build/uploads
 RUN chown lsf:lsf /home/lsf/Nomination/build/partySymbols
+RUN rm /etc/localtime
+RUN ln -s /usr/share/zoneinfo/Asia/Colombo /etc/localtime
 
 ENV APP_ID 'nomination-api'
 
