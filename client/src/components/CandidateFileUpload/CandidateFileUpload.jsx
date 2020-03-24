@@ -13,6 +13,7 @@ import DownloadIcon from '@material-ui/icons/GetApp';
 import { API_BASE_URL } from "../../config.js";
 import axios from "axios";
 import download from 'downloadjs';
+import SummeryView from '../SummeryView';
 
 
 
@@ -39,7 +40,10 @@ class CandidateFileUpload extends React.Component {
         filename:'',
         supportDocId:'3',
         supportdoc:[],
-        currentSdocId:''
+        currentSdocId:'',
+        errorTextFileUpload:'',
+        allowedTypes:['image/jpeg','image/png','application/pdf'],
+        allowedSize:2
     }
  }
 
@@ -106,6 +110,7 @@ componentDidMount() {
   };
 
   uploadFiles = files => {
+    this.setState({errorTextFileUpload:''});
     let error = false;
     const errorMessages = [];
 
@@ -141,7 +146,8 @@ componentDidMount() {
     if (error) {
       data.error = errorMessages;
       data.files = null;
-      this.reset();
+      this.setState({errorTextFileUpload:errorMessages});
+      // this.reset();
     } else {
       const formData = new FormData();
       this.setState({status: "uploading", progress: 0});
@@ -163,14 +169,14 @@ componentDidMount() {
 
        
       
-        const obj = {'id':this.state.supportDocId, 'filename':response.data.filename, 'originalname':response.data.originalname};
+        const obj = {'id':this.state.supportDocId, 'filename':response.data.filename, 'originalname':response.data.originalname2};
         
         const newArray = this.state.supportdoc.slice(); // Create a copy
         newArray.push(obj); // Push the object
         this.setState(
           {
             status: "uploaded",
-            currentSdocId: response.data.originalname,
+            currentSdocId: response.data.originalname2,
             supportdoc: newArray
           }
         );
@@ -259,9 +265,10 @@ componentDidMount() {
                                     <DownloadIcon ref={this.state.currentSdocId} onClick={this.handleRese} color="red"/>
                                 </div>
                                 </Typography>
-                                : ' '
+                                 : ' '
                         ))
                     }
+                    
                 </Grid>
 
               <Grid item lg={12}>
@@ -273,7 +280,26 @@ componentDidMount() {
 
       return (
         <form className={classes.container} onSubmit={this.handleSubmit} noValidate autoComplete="off">
-        {supportingDocItems}
+          
+           {
+             <Grid container spacing={12}><Grid item lg={12}>
+             <SummeryView
+             variant={'info'}
+             className={classes.margin}
+             message={"Files must be less than 2 MB.\nAllowed file types: jpg jpeg png pdf."}
+             style={{marginBottom:'10px'}}
+           />{
+           this.state.errorTextFileUpload  ? 
+           
+              <SummeryView
+              variant={'warning'}
+              className={classes.margin}
+              message={this.state.errorTextFileUpload}
+              style={{marginBottom:'10px'}}
+            /> : ''}
+            </Grid> </Grid>
+          }
+                 {supportingDocItems}
         <Grid container spacing={12}>
                     <Grid className={classes.label}  item lg={12}>
                     <br /><br />

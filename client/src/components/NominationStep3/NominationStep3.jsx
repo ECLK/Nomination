@@ -17,6 +17,8 @@ import DownloadIcon from '@material-ui/icons/GetApp';
 import axios from "axios";
 import {API_BASE_URL} from "../../config";
 import download from "downloadjs";
+import SummeryView from '../SummeryView';
+
 
 const styles = theme => ({
     container: {
@@ -145,7 +147,7 @@ class TextFields extends React.Component {
         }
       }
     render() {
-        const {classes,onSelectFiles,doneElement,supportdoc,closeElement,supportingDocs,handleUploadView} = this.props;
+        const {classes,onSelectFiles,doneElement,supportdoc,closeElement,supportingDocs,handleUploadView,errorTextFileUpload} = this.props;
         
 
         const supportingDocItems = supportingDocs.map(docs => (
@@ -160,7 +162,8 @@ class TextFields extends React.Component {
               {/* <img src={`http://localhost:9001/src/uploads/${sdoc.filename}`} style={{maxWidth: 60,margin:25}} className="img-fluid" alt="logo" /> */}
               </div> : ' '
             ))
-          }           
+          } 
+                  
           
             </Grid>
             <Grid item lg={3}>
@@ -259,7 +262,28 @@ class TextFields extends React.Component {
                     </Grid>
             </CardActions>
           </Card>
+          <SummeryView
+              variant={'info'}
+              className={classes.margin}
+              message={"Files must be less than 2 MB.\nAllowed file types: jpg jpeg png pdf."}
+              style={{marginBottom:'10px'}}
+            />
+            {
+           errorTextFileUpload  ? 
+           <SummeryView
+              variant={'warning'}
+              className={classes.margin}
+              message={errorTextFileUpload}
+              style={{marginBottom:'10px'}}
+            /> : ''
+          } 
         {supportingDocItems}
+         
+          {/* <Grid container item lg={8}>
+                    <Typography style={{backgroundColor:"yellow",fontSize:12}} variant="subtitle1" >Files must be less than 2 MB.</Typography>
+                    <Typography style={{backgroundColor:"yellow",fontSize:12}} variant="subtitle1" >Allowed file types: jpg jpeg png pdf.</Typography>
+                    </Grid> */}
+          
         </div>
         );
     }

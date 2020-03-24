@@ -22,7 +22,9 @@ const uploadFile = async (req, res) => {
   var promise1 = new Promise(function (resolve, reject) {
     single(req, res, function (r) {
       const {filename, mimetype, originalname} = req.file;
-      resolve({filename, mimetype, originalname});
+      var originalname2 = originalname.replace(/[&\/\\#, +()$~%.'":*?<>{}]/g, '_'); 
+
+      resolve({filename, mimetype, originalname2});
     });
 
   });
@@ -33,7 +35,9 @@ const uploadImage = async (req, res) => {
   var promise1 = new Promise(function (resolve, reject) {
     singleImg(req, res, function (r) {
       const {filename, mimetype, originalname} = req.file;
-      resolve({filename, mimetype, originalname});
+      var originalname2 = originalname.replace(/[&\/\\#, +()$~%.'":*?<>{}]/g, '_'); 
+
+      resolve({filename, mimetype, originalname2});
     });
 
   });
