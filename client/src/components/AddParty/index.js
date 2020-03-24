@@ -22,6 +22,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from "axios";
+import SummeryView from '../SummeryView';
 
 const styles = theme => ({
     container: {
@@ -94,7 +95,10 @@ class PartyRegistration extends React.Component {
             faxList:[],
             fax:'',
             status:'',
-            exist:false
+            exist:false,
+            errorTextFileUpload:'',
+            allowedTypes:['image/jpeg','image/png'],
+            allowedSize:2
         }
     }
 
@@ -215,6 +219,7 @@ class PartyRegistration extends React.Component {
       };
 
       uploadFiles = files => {
+        this.setState({errorTextFileUpload:''});
         let error = false;
         const errorMessages = [];
 
@@ -250,7 +255,8 @@ class PartyRegistration extends React.Component {
         if (error) {
           data.error = errorMessages;
           data.files = null;
-          this.reset();
+          this.setState({errorTextFileUpload:errorMessages});
+        //   this.reset();
         } else {
           const formData = new FormData();
           this.setState({status: "uploading", progress: 0});
@@ -272,12 +278,12 @@ class PartyRegistration extends React.Component {
           }).then((response) => {
 
 
-            const obj = {'filename':response.data.filename, 'originalname':response.data.originalname};
+            const obj = {'filename':response.data.filename, 'originalname':response.data.originalname2};
 
             this.setState(
               {
                 status: "uploaded",
-                currentSdocId: response.data.originalname,
+                currentSdocId: response.data.originalname2,
                 filename:response.data.filename,
                   file: URL.createObjectURL(files[0])
               }
@@ -575,6 +581,24 @@ class PartyRegistration extends React.Component {
                     </Grid>
 
                 </Grid>
+                {
+                    <Grid style={{marginLeft:10,marginTop:20}} container item lg={6}><Grid item lg={6}>
+                    <SummeryView
+                    variant={'info'}
+                    className={classes.margin}
+                    message={"Files must be less than 2 MB.\nAllowed file types: jpg jpeg png."}
+                    style={{marginBottom:'10px'}}
+                />{
+                this.state.errorTextFileUpload  ? 
+                
+                    <SummeryView
+                    variant={'warning'}
+                    className={classes.margin}
+                    message={this.state.errorTextFileUpload}
+                    style={{marginBottom:'10px'}}
+                    /> : ''}
+                    </Grid> </Grid>
+                }
 
                 <Grid style={{ marginLeft: 12 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>
                 <Grid container spacing={12}>
