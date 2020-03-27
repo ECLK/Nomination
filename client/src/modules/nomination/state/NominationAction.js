@@ -415,7 +415,7 @@ export const setNominationStatus = (nominationSuppertDocs) => {
          dispatch(setUpdatedPaymentData(updateNominationPayments));
          dispatch(openSnackbar({ message:`Payment has been updated for ${nominationName} by ${partyName}`}));
       }).catch(err => {
-        dispatch(openSnackbar({ message: err.response.data.message.message }));
+        dispatch(openSnackbar({ message: err.response.data.message }));
             console.log(err)
       });
     };
