@@ -242,7 +242,7 @@ class Dashboard extends React.Component {
 
     handleChange = name => event => {
         this.setState({
-            [name]: event.target.value,
+            [name]: event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''),
             errorTextModule: ''
         });
     };

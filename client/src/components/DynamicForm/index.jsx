@@ -57,7 +57,11 @@ class DynamicForm extends React.Component {
   }
 
   onChange(event) {
-    this.setState(this.editValue(this.state, event.target.name, event.target.value));
+    if(event.target.name === 'ADDRESS'){
+      this.setState(this.editValue(this.state, event.target.name, event.target.value.replace(/[^a-zA-Z0-9,/ ]/g, '')));
+    }else{
+      this.setState(this.editValue(this.state, event.target.name, event.target.value.replace(/[^a-zA-Z0-9 ]/g, '')));
+    }
   }
 
   editValue(state, name, value){

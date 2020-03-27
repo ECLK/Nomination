@@ -276,6 +276,7 @@ export function postNominationPayments(candidatePayments,serialNo,division,party
          dispatch(setData(newPayment));
          dispatch(openSnackbar({ message:`Payment has been submitted for ${candidatePayments.division} by ${candidatePayments.partyName}`}));
       }).catch(err => {
+        dispatch(openSnackbar({ message: err.response.data.message }));
             console.log(err)
       });
     };

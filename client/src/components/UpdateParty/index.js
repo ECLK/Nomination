@@ -136,9 +136,16 @@ class PartyRegistration extends React.Component {
         if (name === 'secretaryName') {
             this.setState({ errorTextSecretaryName: '' });
         }
-        this.setState({
-            [name]: event.target.value,
-        });
+
+        if(name === 'address'){
+            this.setState({
+                [name]: event.target.value.replace(/[^a-zA-Z0-9,/ ]/g, ''),
+            });
+        }else{
+            this.setState({
+                [name]: event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''),
+            });
+        }
     };
 
     handleSubmit = (e) => {
