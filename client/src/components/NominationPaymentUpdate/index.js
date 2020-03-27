@@ -624,7 +624,7 @@ class NominationPayments extends React.Component {
                     </Grid>
                     <Grid container item lg={8}>
                     <Typography style={{backgroundColor:"yellow",fontSize:12}} variant="subtitle1" >Files must be less than 2 MB.</Typography>
-                    <Typography style={{backgroundColor:"yellow",fontSize:12}} variant="subtitle1" >Allowed file types: jpg jpeg png pdf.</Typography>
+                    <Typography style={{backgroundColor:"yellow",fontSize:12}} variant="subtitle1" >Allowed file types: jpg, jpeg, png or pdf.</Typography>
                     </Grid>
                     
                     </Grid>
