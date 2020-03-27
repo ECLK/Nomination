@@ -123,7 +123,7 @@ class ElectionConfig extends React.Component {
         if(event && event.target ){
             const newElectionModule = {...this.props.electionModule};
             const target = event.target;
-            const value = target.type === 'checkbox' ? target.checked : target.value;
+            const value = target.type === 'checkbox' ? target.checked : target.value.replace(/[^a-zA-Z0-9_ ]/g, '');
             const name = target.name;
             const electionConf = {
                 electionModuleConfigId: name,

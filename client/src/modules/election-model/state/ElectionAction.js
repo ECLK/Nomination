@@ -213,6 +213,7 @@ export const submitElection = function saveElection(election) {
                     dispatch(openSnackbar({ message: election.name + ' has been submitted for approval' }));
                 }
             }).catch(err => {
+                dispatch(openSnackbar({ message: err.response.data.message }));
                 console.log(err)
             });
     }
@@ -249,7 +250,7 @@ export const setUpdatedTemplateData = (val) => {
         
          dispatch(openSnackbar({ message: election.name + ' has been updated ' }));
       }).catch(err => {
-        dispatch(openSnackbar({ message: ' Something went wrong!' }));
+        dispatch(openSnackbar({ message: err.response.data.message }));
             console.log(err)
       });
     };

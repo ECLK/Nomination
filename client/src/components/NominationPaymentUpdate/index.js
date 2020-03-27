@@ -183,9 +183,16 @@ class NominationPayments extends React.Component {
         if(name==='note'){
             this.setState({errorTextNote:''});
            }
-         this.setState({
-                 [name]:event.target.value,
-         });   
+        if(name==='depositor'){
+          this.setState({
+            [name]:event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''),
+         });  
+        }else{
+          this.setState({
+            [name]:event.target.value,
+        });  
+        }
+          
        };
 
        handleChangeAutocomplete = (name) => event => {

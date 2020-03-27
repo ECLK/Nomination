@@ -3,7 +3,12 @@ import { GET, POST, PUT, DELETE } from 'HttpMethods';
 import { ModuleService, SupportDocService, CandidateService,ValidationService } from 'Service';
 import { createRoutes } from '../middleware/Router';
 import ModuleManager from '../manager/module/moduleManager';
-import { MODULE_EDIT_SCHEMA, GET_MODULE_BY_ID_SCHEMA } from './schema/moduleSchema';
+import { MODULE_EDIT_SCHEMA, 
+		GET_MODULE_BY_ID_SCHEMA,
+		ELECTION_TEMPLATE_DATA_EDIT_SCHEMA_FOR_PUT,
+		ELECTION_TEMPLATE_DATA_EDIT_SCHEMA,
+		ELECTION_TEMPLATE_APPROVAL_SCHEMA
+	 } from './schema/moduleSchema';
 
 const moduleRouter = createRoutes();
 
@@ -100,6 +105,7 @@ export const initModuleRouter = (app) => {
 		{
 			method: POST,
 			path: '/election-modules',
+			schema: ELECTION_TEMPLATE_DATA_EDIT_SCHEMA,
 			handler: (req, res, next) => {
 			  return ModuleService.saveElectionModule(req)
 			  .then((result) => res.status(200).send(result))
@@ -109,6 +115,7 @@ export const initModuleRouter = (app) => {
 		{
 			method: PUT,
 			path: '/election-modules/:moduleId',
+			schema: ELECTION_TEMPLATE_DATA_EDIT_SCHEMA_FOR_PUT,
 			handler: (req, res, next) => {
 			  return ModuleService.saveElectionModule(req)
 			  .then((result) => res.status(200).send(result))
@@ -137,6 +144,7 @@ export const initModuleRouter = (app) => {
 		{
 			method: PUT,
 			path: '/election-modules/:moduleId/approve-election-templates',
+			schema: ELECTION_TEMPLATE_APPROVAL_SCHEMA,
 			handler: (req, res, next) => {
 				return ModuleService.ApproveElectionTemplateByModuleId(req)
 					.then((result) => res.status(200).send(result))

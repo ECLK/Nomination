@@ -2,7 +2,14 @@ import _ from 'lodash';
 import { GET, POST, PUT, DELETE } from 'HttpMethods';
 import { createRoutes } from '../middleware/Router';
 import { PaymentService, CandidateService, SupportDocService, NominationService, UploadService} from 'Service';
-import { SAVE_PAYMENT_SCHEMA, UPDATE_PAYMENT_SCHEMA, SAVE_SUPPORT_DOC_SCHEMA, UPDATE_SUPPORT_DOC_SCHEMA, SAVE_CANDIDATE_SCHEMA, SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA, SAVE_NOMINATION_APPROVE_SCHEMA } from './schema/nominationSchema';
+import { SAVE_PAYMENT_SCHEMA,
+		 UPDATE_PAYMENT_SCHEMA, 
+		 SAVE_SUPPORT_DOC_SCHEMA, 
+		 UPDATE_SUPPORT_DOC_SCHEMA, 
+		 SAVE_CANDIDATE_SCHEMA, 
+		 SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA, 
+		 SAVE_NOMINATION_APPROVE_SCHEMA,
+		} from './schema/nominationSchema';
 import { HTTP_CODE_404, HTTP_CODE_201, HTTP_CODE_200 } from '../routes/constants/HttpCodes';
 const multer = require('multer');
 const zip = require('express-zip');
@@ -38,7 +45,7 @@ export const initNominationRouter = (app) => {
 		{
 			method: POST,
 			path: '/nominations/candidates',
-			// schema: SAVE_CANDIDATE_SCHEMA,
+			schema: SAVE_CANDIDATE_SCHEMA,
 			handler: (req, res, next) => {
 				return CandidateService.saveCandidateByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_201).send(result))
@@ -87,9 +94,8 @@ export const initNominationRouter = (app) => {
 		{
 			method: POST,
 			path: '/nominations/:candidateId/candidates',
-			// schema: SAVE_CANDIDATE_SCHEMA,
+			schema: SAVE_CANDIDATE_SCHEMA,
 			handler: (req, res, next) => {
-				console.log("uuuuuuuuuuuuuuuuuuuuuuuuuuu",req);
 				return CandidateService.saveCandidateByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_200).send(result))
 					.catch(error => next(error));
@@ -99,7 +105,7 @@ export const initNominationRouter = (app) => {
 			// curl -H "Content-Type: application/json" -X GET http://localhost:9001/ec-election/nominations/a0e4a9c9-4841-45df-9600-f7a607400ab6/payments
 			method: GET,
 			path: '/nominations/:nominationId/payments',
-			schema: {},
+			// schema: SAVE_PAYMENT_SCHEMA,
 			handler: (req, res, next) => {
 				return PaymentService.getPaymentByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_200).send(result))
@@ -109,6 +115,7 @@ export const initNominationRouter = (app) => {
 		{
 			method: POST,
 			path: '/nominations/payments',
+			schema: SAVE_PAYMENT_SCHEMA,
 			handler: (req, res, next) => {
 				return PaymentService.createPaymentByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_201).send(result))
@@ -118,7 +125,7 @@ export const initNominationRouter = (app) => {
 		{
 			method: PUT,
 			path: '/nominations/:paymentId/payments',
-			// schema: UPDATE_PAYMENT_SCHEMA,
+			schema: UPDATE_PAYMENT_SCHEMA,
 			handler: (req, res, next) => {
 				return PaymentService.updatePaymentByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_201).send(result))

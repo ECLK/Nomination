@@ -321,7 +321,7 @@ export function postCallElectionData(CallElectionData, electionData) {
                 dispatch(receivePendingElection(allElectionDataNew));
                 dispatch(openSnackbar({ message: CallElectionData.name + ' has been submitted for approval' }));
             }).catch(err => {
-                dispatch(openSnackbar({ message: ' Something went wrong' }));
+                dispatch(openSnackbar({ message: err.response.data.message }));
                 console.log(err)
             });
     };
@@ -374,7 +374,7 @@ export function editCallElectionData(CallElectionData, electionId) {
                     dispatch(setEditCallElectionData(data));
                     dispatch(openSnackbar({ message: CallElectionData.name + ' has been updated ' }));
                 }).catch(err => {
-                    dispatch(openSnackbar({ message: ' Something went wrong' }));
+                    dispatch(openSnackbar({ message: err.response.data.message }));
                     console.log(err)
                 });
         };
