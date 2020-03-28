@@ -88,6 +88,9 @@ class NominationForm extends React.Component {
       election:{},
       errorTextDepositor:'',
       errorTextDepositedDate:'',
+      errorTextFileUpload:'',
+      allowedTypes:['image/jpeg','image/png','application/pdf'],
+      allowedSize:2
     }    
   }
 
@@ -145,6 +148,7 @@ class NominationForm extends React.Component {
     this.uploadFiles(files);
   };
   uploadFiles = files => {
+    this.setState({errorTextFileUpload:''});
     let error = false;
     const errorMessages = [];
 
@@ -180,7 +184,8 @@ class NominationForm extends React.Component {
     if (error) {
       data.error = errorMessages;
       data.files = null;
-      this.reset();
+      this.setState({errorTextFileUpload:errorMessages});
+      // this.reset();
     } else {
       const formData = new FormData();
       this.setState({status: "uploading", progress: 0});
@@ -203,14 +208,14 @@ class NominationForm extends React.Component {
 
        
       
-        const obj = {'id':this.state.supportDocId, 'filename':response.data.filename, 'originalname':response.data.originalname};
+        const obj = {'id':this.state.supportDocId, 'filename':response.data.filename, 'originalname':response.data.originalname2};
         
         const newArray = this.state.supportdoc.slice(); // Create a copy
         newArray.push(obj); // Push the object
         this.setState(
           {
             status: "uploaded",
-            currentSdocId: response.data.originalname,
+            currentSdocId: response.data.originalname2,
             supportdoc: newArray
           }
         );
@@ -270,7 +275,7 @@ class NominationForm extends React.Component {
         case 0:
           return <NominationStep1 customProps={customProps}/>;
         case 1:
-          return <NominationStep3 handleUploadView={this.handleUploadView} partyList={partyList} NominationCandidates={NominationCandidates} supportingDocs={supportingDocs} customProps={customProps} supportdoc={this.state.supportdoc} closeElement={closeElement} doneElement={doneElement} onSelectFiles={this.onSelectFiles}  />;
+          return <NominationStep3 handleUploadView={this.handleUploadView} partyList={partyList} NominationCandidates={NominationCandidates} supportingDocs={supportingDocs} customProps={customProps} supportdoc={this.state.supportdoc} closeElement={closeElement} doneElement={doneElement} onSelectFiles={this.onSelectFiles} errorTextFileUpload={this.state.errorTextFileUpload}  />;
         case 2:
         return <NominationStep5 supportingDocs={supportingDocs} supportdoc={this.state.supportdoc} division={division} candidateCount={candidateCount} NominationPayments={this.state} />;
         default:

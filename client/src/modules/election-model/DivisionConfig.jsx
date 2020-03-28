@@ -100,7 +100,7 @@ class DivisionConfig extends React.Component {
     render() {
         const classes = styles();
         const handleChange = name => event => {
-            this.setState({ ...this.state, [name]: event.target.value });
+            this.setState({ ...this.state, [name]: event.target.value.replace(/[^a-zA-Z0-9 ]/g, '') });
             if(name==='divisionCode'){
                 this.setState({ errorTextDivisionCode: '' });
             }
@@ -110,7 +110,7 @@ class DivisionConfig extends React.Component {
             if(name==='noOfCandidates'){
                 this.setState({ errorTextNoOfCandidates: '' });
             }
-            this.props.electionChanged({ ...this.props.electionModule, [name]: event.target.value });
+            this.props.electionChanged({ ...this.props.electionModule, [name]: event.target.value.replace(/[^a-zA-Z0-9 ]/g, '') });
         };
         
         return (

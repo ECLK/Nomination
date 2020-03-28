@@ -146,6 +146,7 @@ class NominationPayments extends React.Component {
             depositeDate:'',  
             errorTextDepositor:'',
             errorTextDepositedDate:'',
+            errorTextFileUpload:'',
             candidateCount:'',
             election:'',
             nomination:'',
@@ -157,7 +158,9 @@ class NominationPayments extends React.Component {
             errorTextNominationPaymentValidation:'',
             partyType:'',
             currentSdocId:'',
-            filename:''
+            filename:'',
+            allowedTypes:['image/jpeg','image/png','application/pdf'],
+            allowedSize:2
         }
       }
 
@@ -180,9 +183,16 @@ class NominationPayments extends React.Component {
         if(name==='note'){
             this.setState({errorTextNote:''});
            }
-         this.setState({
-                 [name]:event.target.value,
-         });   
+        if(name==='depositor'){
+          this.setState({
+            [name]:event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''),
+         });  
+        }else{
+          this.setState({
+            [name]:event.target.value,
+        });  
+        }
+          
        };
 
        handleChangeAutocomplete = (name) => event => {
@@ -298,7 +308,7 @@ class NominationPayments extends React.Component {
                if(party_type === 'RPP'){
                  party_type='candidate payment rpp';
                 this.setState({partyType:'candidate payment rpp'});
-               }else if (party_type === 'IG') {
+               }else if (party_type === 'IND') {
                 party_type='candidate payment ig';
                 this.setState({partyType:'candidate payment ig'});
                }
@@ -389,10 +399,12 @@ class NominationPayments extends React.Component {
        
            // Fetch files
            const { files } = evt.target;
+           
            this.uploadFiles(files);
          };
 
     uploadFiles = files => {
+      this.setState({errorTextFileUpload:''});
       let error = false;
       const errorMessages = [];
   
@@ -428,7 +440,8 @@ class NominationPayments extends React.Component {
       if (error) {
         data.error = errorMessages;
         data.files = null;
-        this.reset();
+        this.setState({errorTextFileUpload:errorMessages});
+        // this.reset();
       } else {
         const formData = new FormData();
         this.setState({status: "uploading", progress: 0});
@@ -451,12 +464,12 @@ class NominationPayments extends React.Component {
   
          
         
-          const obj = {'filename':response.data.filename, 'originalname':response.data.originalname};
+          const obj = {'filename':response.data.filename, 'originalname':response.data.originalname2};
           
           this.setState(
             {
               status: "uploaded",
-              currentSdocId: response.data.originalname,
+              currentSdocId: response.data.originalname2,
               filename:response.data.filename
             }
           );
@@ -481,7 +494,6 @@ class NominationPayments extends React.Component {
         //payment start should be before now time 
         if (moment(paymentStart).isAfter(TodayFormatedWithTime)) {
           errorTextPayment = true;
-          debugger;
         }
       //now time should be before payment end
       if (moment(TodayFormatedWithTime).isAfter(paymentEnd)) {
@@ -607,10 +619,17 @@ class NominationPayments extends React.Component {
                         <AttachFile  onClick={this.handleUploadView(this.state.filename)} color="red"/>
                         </div>
                     </Typography>
-                        : 'No file attached'
+                       : this.state.errorTextFileUpload  ? <Typography style={{color:"red",fontSize:12}} variant="subtitle1" >{this.state.errorTextFileUpload}</Typography> : 'No file attached'
                     } 
                     </Grid>
+                    <Grid container item lg={8}>
+                    <Typography style={{backgroundColor:"yellow",fontSize:12}} variant="subtitle1" >Files must be less than 2 MB.</Typography>
+                    <Typography style={{backgroundColor:"yellow",fontSize:12}} variant="subtitle1" >Allowed file types: jpg, jpeg, png or pdf.</Typography>
                     </Grid>
+                    
+                    </Grid>
+                    
+                    
                                      
                 </Grid>
                 <Grid style={{marginLeft:12}} container spacing={1} xs={12}>

@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import "react-datepicker/dist/react-datepicker.css";
 import Button from '@material-ui/core/Button';
-import { saveParty} from '../../modules/party/state/PartyAction';
+import { saveParty,asyncValidateParty} from '../../modules/party/state/PartyAction';
 import { getUploadPath} from '../../modules/nomination/state/NominationAction';
 import { connect } from 'react-redux';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -22,6 +22,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from "axios";
+import SummeryView from '../SummeryView';
 
 const styles = theme => ({
     container: {
@@ -54,6 +55,10 @@ const styles = theme => ({
         marginBottom: 20,
         marginTop: 50
     },
+    logocontainer: {
+        height: '100%',
+        marginTop:-55
+      },
 });
 
 class PartyRegistration extends React.Component {
@@ -90,6 +95,10 @@ class PartyRegistration extends React.Component {
             faxList:[],
             fax:'',
             status:'',
+            exist:false,
+            errorTextFileUpload:'',
+            allowedTypes:['image/jpeg','image/png'],
+            allowedSize:2
         }
     }
 
@@ -122,9 +131,16 @@ class PartyRegistration extends React.Component {
         if (name === 'secretaryName') {
             this.setState({ errorTextSecretaryName: '' });
         }
-        this.setState({
-            [name]: event.target.value,
-        });
+        if(name === 'address'){
+            this.setState({
+                [name]: event.target.value.replace(/[^a-zA-Z0-9,/ ]/g, ''),
+            });
+        }else{
+            this.setState({
+                [name]: event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''),
+            });
+        }
+        
     };
 
     handleSubmit = (e) => {
@@ -178,6 +194,10 @@ class PartyRegistration extends React.Component {
             goNext = false;
         }
 
+        if (this.state.exist === true) {
+            this.setState({ errorTextPartyName: 'emptyField2' });
+        }
+
         if (goNext) {
             saveParty(this.state);
             onCloseModal();
@@ -206,6 +226,7 @@ class PartyRegistration extends React.Component {
       };
 
       uploadFiles = files => {
+        this.setState({errorTextFileUpload:''});
         let error = false;
         const errorMessages = [];
 
@@ -241,12 +262,13 @@ class PartyRegistration extends React.Component {
         if (error) {
           data.error = errorMessages;
           data.files = null;
-          this.reset();
+          this.setState({errorTextFileUpload:errorMessages});
+        //   this.reset();
         } else {
           const formData = new FormData();
           this.setState({status: "uploading", progress: 0});
           formData.append("file", data.files[0]);
-          axios.post(`${API_BASE_URL}/file-upload`, formData, {
+          axios.post(`${API_BASE_URL}/image-upload`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             },
@@ -263,12 +285,12 @@ class PartyRegistration extends React.Component {
           }).then((response) => {
 
 
-            const obj = {'filename':response.data.filename, 'originalname':response.data.originalname};
+            const obj = {'filename':response.data.filename, 'originalname':response.data.originalname2};
 
             this.setState(
               {
                 status: "uploaded",
-                currentSdocId: response.data.originalname,
+                currentSdocId: response.data.originalname2,
                 filename:response.data.filename,
                   file: URL.createObjectURL(files[0])
               }
@@ -317,6 +339,20 @@ class PartyRegistration extends React.Component {
                 this.setState({...this.state, faxList});
             }
 
+            asyncValidation = name => event => {
+                if (event.target.value) {
+                    asyncValidateParty(event.target.value).then((data) => {
+                        if (data.exist === true) {
+                            this.setState({ exist: data.exist });
+                        } else {
+                            this.setState({ exist: data.exist });
+                        }
+                    })
+                } else {
+                    this.setState({ exist: false });
+                }
+            }
+
     render() {
         const { classes, onCloseModal} = this.props;
         const { errorTextPartyType,errorTextSecretaryName,errorTextAbbreviation,errorTextApprovedSymbol,errorTextAddress,errorTextTitle,errorTextPartyName,errorTextPhone,errorTextFax } = this.state;
@@ -341,9 +377,13 @@ class PartyRegistration extends React.Component {
                             style={{width:'100%'}}
                             className={classes.textField}
                             value={this.state.partyName}
-                            onChange={this.handleChange("partyName")}
+                            // onChange={this.handleChange("partyName")}
+                            onChange={(evt) => {
+                                this.handleChange("partyName")(evt)
+                                this.asyncValidation('partyName')(evt)
+                            }}
                             margin="normal"
-                            helperText={errorTextPartyName === "emptyField" ? 'This field is required!' : ''}
+                            helperText={errorTextPartyName === "emptyField" ? 'This field is required!' : errorTextPartyName === "emptyField2" ? 'This party name already been used!' : ' '}
                         />
                     </Grid>
                 </Grid>
@@ -395,19 +435,7 @@ class PartyRegistration extends React.Component {
                     </Grid>
                 </Grid>
                 <Grid style={{ marginLeft: 12,marginBottom:20 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>
-                    <Grid container item lg={4}>
-                        <TextField
-                            error={errorTextSecretaryName}
-                            label="Name of the Secretary"
-                            style={{width:'100%'}}
-                            className={classes.textField}
-                            value={this.state.secretaryName}
-                            onChange={this.handleChange("secretaryName")}
-                            margin="normal"
-                            helperText={errorTextSecretaryName === "emptyField" ? 'This field is required!' : ''}
-                        />
-                    </Grid>
-                    <Grid container item lg={2}>
+                <Grid container item lg={2}>
                     <FormControl style={{width:'80%'}} error={(errorTextPartyType) ? true : false} >
                         <Select
                             value={this.state.title}
@@ -428,6 +456,18 @@ class PartyRegistration extends React.Component {
                             </Select>
                         <FormHelperText style={{marginLeft:18}}>{(errorTextTitle==='emptyField') ? 'This field is required!' : ''}</FormHelperText>
                         </FormControl>
+                    </Grid>
+                    <Grid container item lg={4}>
+                        <TextField
+                            error={errorTextSecretaryName}
+                            label="Name of the Secretary"
+                            style={{width:'100%'}}
+                            className={classes.textField}
+                            value={this.state.secretaryName}
+                            onChange={this.handleChange("secretaryName")}
+                            margin="normal"
+                            helperText={errorTextSecretaryName === "emptyField" ? 'This field is required!' : ''}
+                        />
                     </Grid>
                     <Grid container item lg={4}>
                     <TextField
@@ -540,12 +580,32 @@ class PartyRegistration extends React.Component {
                     <span ><FileUpload  value={this.state.paySlip} doneElement={doneElement} onSelectFiles={this.onSelectFiles} /></span>
                     </span>
                     </Grid>
-                    <Grid style={{marginTop:30,marginLeft:-10}}container item lg={4}>
-                        <img src={this.state.file}/>
+                    <Grid style={{marginTop:30,marginLeft:-10}} container item lg={4}>
+                        <div className={classes.logocontainer} >
+                        <img style={{maxWidth: 60,margin:25}} src={this.state.file}/>
+                        </div>
                     </Grid>
                     </Grid>
 
                 </Grid>
+                {
+                    <Grid style={{marginLeft:10,marginTop:20}} container item lg={6}><Grid item lg={6}>
+                    <SummeryView
+                    variant={'info'}
+                    className={classes.margin}
+                    message={"Files must be less than 2 MB.\nAllowed file types: jpg jpeg png."}
+                    style={{marginBottom:'10px'}}
+                />{
+                this.state.errorTextFileUpload  ? 
+                
+                    <SummeryView
+                    variant={'warning'}
+                    className={classes.margin}
+                    message={this.state.errorTextFileUpload}
+                    style={{marginBottom:'10px'}}
+                    /> : ''}
+                    </Grid> </Grid>
+                }
 
                 <Grid style={{ marginLeft: 12 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>
                 <Grid container spacing={12}>

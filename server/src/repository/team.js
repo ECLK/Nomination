@@ -24,7 +24,8 @@ const ALL_TEAM_SELECT_QUERY = `SELECT
                                 ID AS team_id,
                                 PARTY_NAME AS team_name,
                                 ABBREVIATION AS team_abbrevation,
-                                PARTY_TYPE AS team_party_type
+                                PARTY_TYPE AS team_party_type,
+                                APPROVED_SYMBOL AS team_symbol
                                 FROM TEAM WHERE STATUS <> "DELETED"`;
 const ALL_TEAM_SELECT_QUERY_BY_TEAM_TYPE = `SELECT 
                                 ID AS team_id,
@@ -144,6 +145,19 @@ const updateTeamStatus = (partyId) => {
 			});
 };
 
+const TEAM_SELECT_QUERY_FROM_NOMINATION = `SELECT * FROM NOMINATION WHERE TEAM_ID=:team_id`;
+
+const teamValidation = (team_id) => {
+    const params = { team_id: team_id };
+    return DbConnection()
+        .query(TEAM_SELECT_QUERY_FROM_NOMINATION,
+            {
+                replacements: params,
+                type: DbConnection().QueryTypes.SELECT,
+            }).catch((error) => {
+                throw new DBError(error);
+            });
+};
 
 
 
@@ -153,5 +167,6 @@ export default {
   fetchAllTeamsByTeamType,
   insertTeam,
   updateTeam,
-  updateTeamStatus
+  updateTeamStatus,
+  teamValidation
 }

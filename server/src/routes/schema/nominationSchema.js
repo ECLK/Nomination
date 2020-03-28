@@ -1,21 +1,33 @@
 import Joi from 'joi';
 
 export const SAVE_PAYMENT_SCHEMA = Joi.object().keys({
-  depositor: Joi.string().alphanum().max(100).required(),
-  amount: Joi.number().positive().precision(2).required(),
-  depositDate: Joi.number().integer(),
-  filePath: Joi.string().alphanum().min(3).max(100).required(),
-  status: Joi.string().valid('PENDING','APPROVED','REJECTED'),
+  depositor: Joi.string().max(100).required(),
+  amount: Joi.number().positive().precision(4).required(),
+  depositDate: Joi.number().integer().required(),
+  serialNo: Joi.number().integer().required(),
+  filePath: Joi.string().max(100).required(),
+  status: Joi.string().max(100).required(),
+  createdBy: Joi.string().max(100).required(),
+  updatedAt: Joi.number().integer().required(),
+  createdAt: Joi.number().integer().required(),
   nominationId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
+  fileName: Joi.string().max(100).allow('',null), 
+  originalname: Joi.string().max(100).allow('',null), 
 });
 
 export const UPDATE_PAYMENT_SCHEMA = Joi.object().keys({
-  depositor: Joi.string().alphanum().max(100).required(),
+  depositor: Joi.string().max(100).required(),
   amount: Joi.number().positive().precision(4).required(),
-  depositDate: Joi.number().integer(),
-  filePath: Joi.string().alphanum().min(3).max(100).required(),
+  depositDate: Joi.number().integer().required(),
+  serialNo: Joi.number().integer().required(),
+  filePath: Joi.string().max(100).required(),
+  status: Joi.string().max(100).required(),
+  updatedAt: Joi.number().integer().required(),
+  note: Joi.string().max(300).required().allow('',null), 
+  paymentSdocId: Joi.string().max(100).required(),
   nominationId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
-
+  fileName: Joi.string().max(100).allow('',null), 
+  originalname: Joi.string().max(100).allow('',null), 
 });
 
  const SAVE_SUPPORT_DOC_SCHEMA = Joi.object().keys({
@@ -35,17 +47,11 @@ const UPDATE_SUPPORT_DOC_SCHEMA = Joi.object().keys({
 export let services2 = Joi.array().items(UPDATE_SUPPORT_DOC_SCHEMA)
 
 export const SAVE_CANDIDATE_SCHEMA = Joi.object().keys({
-  fullName: Joi.string().max(300).regex(/^[\w\s]+$/).required(),
-  preferredName: Joi.string().max(100).regex(/^[\w\s]+$/).required(),
-  nic: Joi.string().max(15).required(),
-  dateOfBirth: Joi.number().integer().positive(),
-  gender: Joi.string().max(6).valid('MALE','FEMALE').required(),
-  address: Joi.string().max(300),
-  occupation: Joi.string().max(50),
-  electoralDivisionName: Joi.string().max(50).required(),
-  electoralDivisionCode: Joi.string().max(10).required(),
-  counsilName: Joi.string().max(20).required(),
-  nominationId: Joi.string().min(36).max(36).regex(/^[\w\s-]+$/),
+  candidateData: Joi.array().items(Joi.object({ 
+    candidateConfigId: Joi.number().integer().required(),
+    value: Joi.string().max(300).required(true)
+  })).allow(null),
+  nominationId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
 });
 
 export const SAVE_CANDIDATE_SUPPORT_DOCS_SCHEMA = Joi.object().keys({

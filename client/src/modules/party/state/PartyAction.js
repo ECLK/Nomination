@@ -79,6 +79,7 @@ export function saveParty(partyDetails) {
        dispatch(setData(newPartyData));
        dispatch(openSnackbar({ message:`New party has been registered successfully!`}));
     }).catch(err => {
+      dispatch(openSnackbar({ message: err.response.data.message }));
           console.log(err)
     });
   };
@@ -125,6 +126,7 @@ export function updateParty(teamId,partyDetails) {
        dispatch(setUpdateData(newPartyData));
        dispatch(openSnackbar({ message:`The party has been updated successfully!`}));
     }).catch(err => {
+      dispatch(openSnackbar({ message: err.response.data.message }));
           console.log(err)
     });
   };
@@ -173,7 +175,7 @@ export function deleteParty(teamId) {
          dispatch(
           setDeleteParty(getDeletedParty)
            );
-           dispatch(openSnackbar({ message: "Candidate was deleted successfully!"}));
+           dispatch(openSnackbar({ message: "Party was deleted successfully!"}));
       }).catch(err => {
         const getDeletedParty = [];
         dispatch(
@@ -204,10 +206,35 @@ export function getPartyLogo(sid) {
       }
     )
     .then(response => {
-      const partyLogo = window.URL.createObjectURL(new Blob([response.data]));
-      dispatch(partyLogoLoaded(partyLogo));
+      //**blob to dataURL**
+      const blob = new Blob([response.data]);
+      blobToDataURL(blob, (dataUrl) => {
+        dispatch(partyLogoLoaded(dataUrl));
+      });
+      // const partyLogo = window.URL.createObjectURL(new Blob([response.data]));
+      // dispatch(partyLogoLoaded(partyLogo));
     }).catch(err => {
           console.log(err)
     });
   };
+}
+
+//**blob to dataURL**
+function blobToDataURL(blob, callback) {
+  var a = new FileReader();
+  a.onload = function(e) {callback(e.target.result);}
+  a.readAsDataURL(blob);
+}
+
+export const asyncValidateParty = function asyncValidateParty(partyName) {
+  let promises = [];
+  if(partyName){
+      promises.push(axios.get(`${API_BASE_URL}/teams/validations/${partyName}`));
+      return axios.all(promises)
+          .then(args =>{
+              return {
+                  exist: args[0].data,
+              }
+          });
+  }
 }

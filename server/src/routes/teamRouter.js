@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import { GET, POST, PUT, DELETE } from 'HttpMethods';
-import {TeamService,UploadService} from 'Service';
+import {TeamService,UploadService,ValidationService} from 'Service';
 import {createRoutes} from '../middleware/Router';
+import {SAVE_TEAM_SCHEMA,UPDATE_TEAM_SCHEMA} from './schema/teamSchema';
 import {HTTP_CODE_201, HTTP_CODE_200} from '../routes/constants/HttpCodes';
 
 
@@ -44,7 +45,8 @@ export const initTeamRouter = (app) => {
     },
     {
 			method: POST,
-			path: '/teams',
+      path: '/teams',
+      schema: SAVE_TEAM_SCHEMA,
 			handler: (req, res, next) => {
 				return TeamService.createTeam(req)
 					.then((result) => res.status(HTTP_CODE_201).send(result))
@@ -54,6 +56,7 @@ export const initTeamRouter = (app) => {
     {
       method: PUT,
       path: '/teams/:teamId',
+      schema: UPDATE_TEAM_SCHEMA,
       handler: (req, res, next) => {
         return TeamService.updateTeamById(req)
         .then((result) => res.status(HTTP_CODE_201).send(result))
@@ -79,7 +82,17 @@ export const initTeamRouter = (app) => {
 				return UploadService.getDownloadImage(downloadSid,res,next)
 				.catch(error => next(error));
 			},
-			},
+      },
+      {
+        method: GET,
+        path: '/teams/validations/:partyName',
+        schema: {},
+        handler: (req, res, next) => {
+          return ValidationService.validatePartyByPartyName(req)
+            .then((result) => res.status(HTTP_CODE_201).send(result))
+            .catch(error => next(error));
+        }
+      },
   ]);
 };
 

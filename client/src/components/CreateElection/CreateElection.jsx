@@ -64,7 +64,7 @@ class FilledTextFields extends React.Component {
             this.setState({errorTextTemplate:''});
         }
         this.setState({
-            [name]: event.target.value,
+            [name]: event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''),
         });
     };
 

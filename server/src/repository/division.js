@@ -18,14 +18,13 @@ const DIVISIONS_BY_ELECTION_ID_SELECT_QUERY = `SELECT
 	dc.CODE as division_code,
 	dc.NO_OF_CANDIDATES as division_no_of_candidates,
 	dc.MODULE_ID as division_module_id,
-	dcd.ELECTION_ID as division_election_id,
-	dcd.DIVISION_CONFIG_ID as division_config_id,
-	dcd.SELECT_FLAG as division_status
+	e.ID as division_election_id,
+	dc.ID as division_config_id
 FROM
 	DIVISION_CONFIG dc
-	LEFT JOIN DIVISION_CONFIG_DATA dcd ON dcd.DIVISION_CONFIG_ID = dc.ID
+	LEFT JOIN ELECTION e ON dc.MODULE_ID = e.MODULE_ID
 WHERE
-	dcd.ELECTION_ID = :id AND dcd.SELECT_FLAG = TRUE`;
+	e.ID = :id`;
 
 const fetchDivisionsByElectionId = (electionId) => {
 	const params = { id: electionId };
@@ -38,6 +37,28 @@ const fetchDivisionsByElectionId = (electionId) => {
 		});
 };
 
+const DIVISION_DATA_BY_DIVISION_ID_SELECT_QUERY = `SELECT 
+DC.ID AS DIVISION_ID,
+DC.NAME AS DIVISION_NAME,
+N.TEAM_ID AS PARTY_id,
+IF(CD.CANDIDATE_CONFIG_ID="2",CD.ID,NULL) AS CANDIDATE_id,
+IF(CD.CANDIDATE_CONFIG_ID="2",CD.VALUE,NULL) AS CANDIDATE_name
+FROM DIVISION_CONFIG DC 
+LEFT JOIN NOMINATION N ON DC.ID = N.DIVISION_CONFIG_ID
+LEFT JOIN CANDIDATE_DATA CD ON N.ID = CD.NOMINATION_ID
+ WHERE DC.ID = :id
+ AND CD.CANDIDATE_CONFIG_ID = "2"`;
+
+const fetchDivisionDataByDivisionId = (divisionId) => {
+	const params = { id: divisionId };
+	return DbConnection()
+		.query(DIVISION_DATA_BY_DIVISION_ID_SELECT_QUERY, {
+			replacements: params,
+			type: DbConnection().QueryTypes.SELECT,
+		}).catch((error) => {
+			throw new DBError(error);
+		});
+};
 
 
 const DIVISION_INSERT_QUERY = `INSERT INTO DIVISION_CONFIG 
@@ -190,6 +211,7 @@ export default {
 	fetchDivisionsByElectionId,
 	fetchDivisionsWithNomination,
 	insertDivisionsByModuleId,
+	fetchDivisionDataByDivisionId
 }
 
 

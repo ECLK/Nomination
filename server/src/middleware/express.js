@@ -34,8 +34,8 @@ let exportsProxy = createProxyMiddleware('/ec-election/exports', {
 });
 app.use(exportsProxy);
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 
 // Decode JWT Token (commented this for production buid until connect api manager )
 app.use((req, res, next)=>{

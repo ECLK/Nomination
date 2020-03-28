@@ -71,9 +71,16 @@ class CallElection extends React.Component {
         if (name === 'electionModule') {
             this.setState({ errorTextModule: '' });
         }
-        this.setState({
-            [name]: event.target.value,
-        });
+        if(name==='electionName'){
+            this.setState({
+                [name]: event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''),
+            });
+        }else{
+            this.setState({
+                [name]: event.target.value,
+            });
+        }
+        
     };
 
     asyncValidation = name => event => {

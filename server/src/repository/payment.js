@@ -25,7 +25,7 @@ const PAYMENT_SELECT_QUERY_BY_NOMINATION_ID = `SELECT
 												FROM PAYMENT P LEFT JOIN  NOMINATION N ON P.NOMINATION_ID =N.ID
 												LEFT JOIN ELECTION E ON E.ID=N.ELECTION_ID
 												LEFT JOIN PAYMENT_SUPPORT_DOC PSD ON P.ID = PSD.PAYMENT_ID
-												WHERE P.NOMINATION_ID= :id`;
+												WHERE P.NOMINATION_ID= :id AND PSD.STATUS<>"DELETE"`;
 
 const fetchPaymentsByNominationId = (nominationId) => {
 	const params = { id: nominationId };

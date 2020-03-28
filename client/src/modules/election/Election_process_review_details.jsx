@@ -242,7 +242,7 @@ class Dashboard extends React.Component {
 
     handleChange = name => event => {
         this.setState({
-            [name]: event.target.value,
+            [name]: event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''),
             errorTextModule: ''
         });
     };
@@ -262,7 +262,6 @@ class Dashboard extends React.Component {
     };
     render() {
         const { classes, allElectionModules, ElectionReviewData,cols,electionEligibilities } = this.props;
-        debugger;
         var Authjority = ' ';
         var CalculationType = ' ';
         var WeightageVote = ' ';
@@ -507,7 +506,7 @@ class Dashboard extends React.Component {
                                 <br />
                                 <hr />
                                 <br />
-                                <Typography className={classes.text_a} component="p"><b>Electoral Units</b> </Typography>
+                                <Typography className={classes.text_a} component="p"><b>.</b> </Typography>
                                 <br />
                                 <br />
                                 <AllowNomination />

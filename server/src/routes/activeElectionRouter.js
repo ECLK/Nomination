@@ -3,7 +3,12 @@ import { GET, POST, PUT, DELETE } from 'HttpMethods';
 import {ActiveElectionService} from 'Service';
 import {createRoutes} from '../middleware/Router';
 import ActiveElectionManager from '../manager/activeElection/activeElectionManager';
-import {ACTIVE_ELECTION_EDIT_SCHEMA, GET_ACTIVE_ELECTION_BY_ID_SCHEMA} from './schema/activeElectionSchema';
+import {ACTIVE_ELECTION_EDIT_SCHEMA, 
+        GET_ACTIVE_ELECTION_BY_ID_SCHEMA,
+        ACTIVE_ELECTION_DATA_EDIT_SCHEMA,
+        ACTIVE_ELECTION_DATA_EDIT_SCHEMA_FOR_PUT,
+        ACTIVE_ELECTION_APPROVAL_SCHEMA
+      } from './schema/activeElectionSchema';
 import { HTTP_CODE_404, HTTP_CODE_201, HTTP_CODE_200 } from '../routes/constants/HttpCodes';
 
 
@@ -70,6 +75,7 @@ export const initActiveElectionRouter = (app) => {
     {
       method: POST,
       path: '/activeElectionsData',
+      schema: ACTIVE_ELECTION_DATA_EDIT_SCHEMA,
       handler: (req, res, next) => {
         return ActiveElectionService.saveActiveElectionData(req)
         .then((result) => res.status(200).send(result))
@@ -79,6 +85,7 @@ export const initActiveElectionRouter = (app) => {
     {
       method: PUT,
       path: '/activeElectionsData/:electionId',
+      schema: ACTIVE_ELECTION_DATA_EDIT_SCHEMA_FOR_PUT,
       handler: (req, res, next) => {
         return ActiveElectionService.saveActiveElectionData(req)
         .then((result) => res.status(200).send(result))
@@ -96,7 +103,8 @@ export const initActiveElectionRouter = (app) => {
     },
     {
 			method: POST,
-			path: '/activeElections/:electionId/approve-active-election',
+      path: '/activeElections/:electionId/approve-active-election',
+      schema: ACTIVE_ELECTION_APPROVAL_SCHEMA,
 			handler: (req, res, next) => {
 				return ActiveElectionService.saveApproveElectionByElectionId(req)
 					.then((result) => res.status(HTTP_CODE_201).send(result))

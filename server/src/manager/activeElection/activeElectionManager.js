@@ -65,6 +65,7 @@ const mapToElectionModel = (activeElections) => {
     timeLineData: mappedElections[0].timeLine[0],
 
     rowData: mappedElections[0].division,
+    rowDataIg: mappedElections[0].division,
   });
 };
 

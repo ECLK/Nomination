@@ -22,6 +22,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from "axios";
+import SummeryView from '../SummeryView';
 
 
 const styles = theme => ({
@@ -95,6 +96,9 @@ class PartyRegistration extends React.Component {
             faxList:[],
             fax:'',
             status:'',
+            errorTextFileUpload:'',
+            allowedTypes:['image/jpeg','image/png'],
+            allowedSize:2
         }
     }
 
@@ -105,7 +109,6 @@ class PartyRegistration extends React.Component {
 
 
     handleChange = (name) => event => {
-        debugger;
         if (name === 'phone') {
             this.setState({ errorTextPhone: '' });
         }
@@ -133,9 +136,16 @@ class PartyRegistration extends React.Component {
         if (name === 'secretaryName') {
             this.setState({ errorTextSecretaryName: '' });
         }
-        this.setState({
-            [name]: event.target.value,
-        });
+
+        if(name === 'address'){
+            this.setState({
+                [name]: event.target.value.replace(/[^a-zA-Z0-9,/ ]/g, ''),
+            });
+        }else{
+            this.setState({
+                [name]: event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''),
+            });
+        }
     };
 
     handleSubmit = (e) => {
@@ -178,7 +188,6 @@ class PartyRegistration extends React.Component {
             this.setState({ errorTextSecretaryName: 'emptyField' });
             goNext = false;
         }
-        debugger;
 
         if (this.state.phoneList.length === 0 || this.state.phoneList.length === null) {
             this.setState({ errorTextPhone: 'emptyField' });
@@ -189,7 +198,6 @@ class PartyRegistration extends React.Component {
             this.setState({ errorTextFax: 'emptyField' });
             goNext = false;
         }
-debugger;
         if (goNext) {
             updateParty(this.state.partyId,this.state);
             onCloseModal();
@@ -218,6 +226,7 @@ debugger;
       };
 
       uploadFiles = files => {
+        this.setState({errorTextFileUpload:''});
         let error = false;
         const errorMessages = [];
 
@@ -253,12 +262,13 @@ debugger;
         if (error) {
           data.error = errorMessages;
           data.files = null;
-          this.reset();
+          this.setState({errorTextFileUpload:errorMessages});
+        //   this.reset();
         } else {
           const formData = new FormData();
           this.setState({status: "uploading", progress: 0});
           formData.append("file", data.files[0]);
-          axios.post(`${API_BASE_URL}/file-upload`, formData, {
+          axios.post(`${API_BASE_URL}/image-upload`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             },
@@ -276,12 +286,12 @@ debugger;
 
 
 
-            const obj = {'filename':response.data.filename, 'originalname':response.data.originalname};
+            const obj = {'filename':response.data.filename, 'originalname':response.data.originalname2};
 
             this.setState(
               {
                 status: "uploaded",
-                currentSdocId: response.data.originalname,
+                currentSdocId: response.data.originalname2,
                 filename:response.data.filename,
                   file: URL.createObjectURL(files[0])
               }
@@ -305,7 +315,6 @@ debugger;
           }else{
             var faxList = [];
           }
-          debugger;
           getPartyLogo(PartyDetails.fileName);
           this.setState({partyName:PartyDetails.partyName});
           this.setState({partyType:PartyDetails.partyType});
@@ -612,6 +621,24 @@ debugger;
                     </Grid>
 
                 </Grid>
+                    {
+                    <Grid style={{marginLeft:10,marginTop:20}} container item lg={6}><Grid item lg={6}>
+                    <SummeryView
+                    variant={'info'}
+                    className={classes.margin}
+                    message={"Files must be less than 2 MB.\nAllowed file types: jpg jpeg png."}
+                    style={{marginBottom:'10px'}}
+                />{
+                this.state.errorTextFileUpload  ? 
+                
+                    <SummeryView
+                    variant={'warning'}
+                    className={classes.margin}
+                    message={this.state.errorTextFileUpload}
+                    style={{marginBottom:'10px'}}
+                    /> : ''}
+                    </Grid> </Grid>
+                }
 
                 <Grid style={{ marginLeft: 12 }} container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>
                 <Grid container spacing={12}>

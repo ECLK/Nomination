@@ -142,6 +142,7 @@ class NominationPayments extends React.Component {
             nomination: '',
             party:'',
             errorTextNominationPaymentValidation: '',
+            errorTextFileUpload:'',
             errorTextElection:'',
             errorTextParty:'',
             errorTextNomination:'',
@@ -156,7 +157,9 @@ class NominationPayments extends React.Component {
             allowedTypes,
             allowedSize,
             multiple,
-            currentSdocId:''
+            currentSdocId:'',
+            allowedTypes:['image/jpeg','image/png','application/pdf'],
+            allowedSize:2
         }
     }
 
@@ -174,9 +177,15 @@ class NominationPayments extends React.Component {
         if (name === 'depositeDate') {
             this.setState({ errorTextDepositedDate: '' });
         }
-        this.setState({
-            [name]: event.target.value,
-        });
+        if(name==='depositor'){
+            this.setState({
+              [name]:event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''),
+           });  
+          }else{
+            this.setState({
+              [name]:event.target.value,
+          });  
+          }
     };
 
     handleChangeAutocomplete = (name) => event => {
@@ -317,6 +326,7 @@ class NominationPayments extends React.Component {
       };
 
       uploadFiles = files => {
+        this.setState({errorTextFileUpload:''});
         let error = false;
         const errorMessages = [];
     
@@ -352,7 +362,8 @@ class NominationPayments extends React.Component {
         if (error) {
           data.error = errorMessages;
           data.files = null;
-          this.reset();
+          this.setState({errorTextFileUpload:errorMessages});
+        //   this.reset();
         } else {
           const formData = new FormData();
           this.setState({status: "uploading", progress: 0});
@@ -375,12 +386,12 @@ class NominationPayments extends React.Component {
     
            
           
-            const obj = {'filename':response.data.filename, 'originalname':response.data.originalname};
+            const obj = {'filename':response.data.filename, 'originalname':response.data.originalname2};
             
             this.setState(
               {
                 status: "uploaded",
-                currentSdocId: response.data.originalname,
+                currentSdocId: response.data.originalname2,
                 filename:response.data.filename
               }
             );
@@ -584,8 +595,12 @@ class NominationPayments extends React.Component {
                         <AttachFile   color="red"/>
                         </div>
                     </Typography>
-                        : 'No file attached'
+                     :  this.state.errorTextFileUpload  ? <Typography style={{color:"red",fontSize:12}} variant="subtitle1" >{this.state.errorTextFileUpload}</Typography>  : 'No file attached'
                     } 
+                    </Grid>
+                    <Grid container item lg={8}>
+                    <Typography style={{backgroundColor:"yellow",fontSize:12}} variant="subtitle1" >Files must be less than 2 MB.</Typography>
+                    <Typography style={{backgroundColor:"yellow",fontSize:12}} variant="subtitle1" >Allowed file types: jpg, jpeg, png or pdf.</Typography>
                     </Grid>
                     </Grid>
                     

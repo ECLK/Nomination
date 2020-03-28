@@ -30,6 +30,9 @@ RUN mkdir -p $USER_HOME/Nomination
 RUN mkdir -p $USER_HOME/Nomination/api-docs
 RUN mkdir -p $USER_HOME/Nomination/node_modules
 RUN mkdir -p $USER_HOME/Nomination/build
+RUN mkdir -p $USER_HOME/Nomination/build/uploads
+RUN mkdir -p $USER_HOME/Nomination/build/partySymbols
+
 
 WORKDIR $USER_HOME/Nomination
 
@@ -40,6 +43,10 @@ COPY --from=build /home/builder/Nomination/api-docs/ /home/lsf/Nomination/api-do
 COPY --from=build /home/builder/Nomination/node_modules/ /home/lsf/Nomination/node_modules/
 COPY --from=build /home/builder/Nomination/build/ /home/lsf/Nomination/build/
 COPY --from=build /home/builder/Nomination/src/config/development.json /home/lsf/Nomination/prod.json 
+RUN chown lsf:lsf /home/lsf/Nomination/build/uploads
+RUN chown lsf:lsf /home/lsf/Nomination/build/partySymbols
+RUN rm /etc/localtime
+RUN ln -s /usr/share/zoneinfo/Asia/Colombo /etc/localtime
 
 ENV APP_ID 'nomination-api'
 

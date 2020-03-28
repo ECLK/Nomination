@@ -139,7 +139,7 @@ export function getTeamsByTeamType(res) {
     partyType = "RPP";
   }
   if(res==="candidate payment ig"){
-    partyType = "IG";
+    partyType = "IND";
   }
   return function (dispatch) {
 
@@ -276,6 +276,7 @@ export function postNominationPayments(candidatePayments,serialNo,division,party
          dispatch(setData(newPayment));
          dispatch(openSnackbar({ message:`Payment has been submitted for ${candidatePayments.division} by ${candidatePayments.partyName}`}));
       }).catch(err => {
+        dispatch(openSnackbar({ message: err.response.data.message }));
             console.log(err)
       });
     };
@@ -414,7 +415,7 @@ export const setNominationStatus = (nominationSuppertDocs) => {
          dispatch(setUpdatedPaymentData(updateNominationPayments));
          dispatch(openSnackbar({ message:`Payment has been updated for ${nominationName} by ${partyName}`}));
       }).catch(err => {
-        dispatch(openSnackbar({ message: err.response.data.message.message }));
+        dispatch(openSnackbar({ message: err.response.data.message }));
             console.log(err)
       });
     };

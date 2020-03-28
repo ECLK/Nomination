@@ -11,7 +11,7 @@ const Division = Record({
     moduleId: String(),
     electionId: String(),
     configId: String(),
-    status: Number(),
+    // status: Number(),
 });
 
 
@@ -33,8 +33,26 @@ const AllowedDivision = Record({
     
 });
 
+const Candidates = Record({
+    id: String(),
+    name: String(),
+    // no: String(),
+});
+
+const Parties = Record({
+    id: String(),
+    candidates: List(Candidates)
+});
+
+const DivisionData = Record({
+    id: String(),
+    name: String(),
+    parties: List(Parties)
+});
+
 
 export {
     Division,
     AllowedDivision,
+    DivisionData
 }
