@@ -19,6 +19,9 @@ export const ELECTION_TEMPLATE_DATA_EDIT_SCHEMA_FOR_PUT = Joi.object().keys({
   divisionCommonName: Joi.string().max(100).required(true),
   approval_status: Joi.string().max(100).required(true),
   createdBy: Joi.string().max(100).min(3).required(true),
+  divisionName: Joi.string().max(50).allow('',null),
+  divisionCode: Joi.string().max(50).allow('',null),
+  noOfCandidates: Joi.number().integer().allow('',null),
   candidateFormConfiguration: Joi.array().items(Joi.object({ 
                     candidateConfigId: Joi.string().max(50).required(true),
                   })).allow(null),
@@ -30,6 +33,7 @@ export const ELECTION_TEMPLATE_DATA_EDIT_SCHEMA_FOR_PUT = Joi.object().keys({
   electionConfig: Joi.array().items(Joi.object({ 
                     electionModuleConfigId: Joi.string().max(50).required(true),
                     value: Joi.string().max(100).required(true),
+                    id: Joi.string().max(100).allow('',null),
                   })).allow(null),
   eligibilityCheckList: Joi.array().items(Joi.object({ 
                     eligibilityConfigId: Joi.string().max(50).required(true),
