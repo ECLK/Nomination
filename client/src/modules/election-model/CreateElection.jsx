@@ -458,12 +458,12 @@ class CreateElection extends React.Component {
                                             >
                                                 Back
                                             </Button>
-                                            <Button
+                                            {/* <Button
                                                 onClick={this.handleCancel}
                                                 className={classes.button}
                                             >
                                                 Cancel
-                                            </Button>
+                                            </Button> */}
                                             {/* {((this.props.electionId) && this.props.check !== 'approve' && this.props.check !== 'reject') ? */}
 
                                             {(this.state.moduleId && activeStep === 2 && this.props.location.state.check !== 'approve' && this.props.location.state.check !== 'reject') ?
