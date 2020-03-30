@@ -24,6 +24,7 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import { openSnackbar } from '../../modules/election/state/ElectionAction';
 import { createElection, updateElection, submitElection, editElection, getFieldOptions, getElectionTemplateData, deleteElectionModule } from './state/ElectionAction';
 import { connect } from 'react-redux';
 
@@ -165,6 +166,7 @@ class CreateElection extends React.Component {
             case 1:
                 return <DivisionConfig
                     electionModule={this.props.new_election_module}
+                    check={this.props.location.state.check}
                     electionChanged={this.handleElectionChange}
                     errorTextDivisionCommonName={this.state.errorTextDivisionCommonName}
                     errorTextDivisionConfig={this.state.errorTextDivisionConfig}
@@ -172,7 +174,9 @@ class CreateElection extends React.Component {
             case 2:
                 return <ElectionConfig
                     electionModule={this.props.new_election_module}
+                    check={this.props.location.state.check}
                     electionChanged={this.handleElectionChange}
+                    openSnackbar={this.props.openSnackbar}
                     authorities={authorities}
                     errorTextItems={errorTextItems}
                 />;
@@ -182,6 +186,7 @@ class CreateElection extends React.Component {
     }
 
     handleElectionChange(electionModule) {
+        if(this.props.location.state.check !== "approve"){
         const { formStatus } = this.state;
         for (let i = 0; i < electionModule.electionConfig.length; i++) {
             switch (electionModule.electionConfig[i].electionModuleConfigId) {
@@ -222,6 +227,9 @@ class CreateElection extends React.Component {
         this.setState({ errorTextDivisionCommonName: '' });
         this.setState({ errorTextDivisionConfig: '' });
         updateElection(electionModule);
+    }else{
+        this.props.openSnackbar({ message: 'This Election Template Already been Approved!' });
+    }
     }
 
     handleDelete = (electionModule, event) => {
@@ -558,7 +566,8 @@ const mapActionsToProps = {
     submitElection,
     editElection,
     getElectionTemplateData,
-    deleteElectionModule
+    deleteElectionModule,
+    openSnackbar
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(CreateElection));
