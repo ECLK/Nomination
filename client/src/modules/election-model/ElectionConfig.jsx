@@ -54,6 +54,7 @@ class ElectionConfig extends React.Component {
     }
 
     showAmountRpp(event){
+        if(this.props.check !== 'approve'){
         const newElectionModule = {...this.props.electionModule};
         if(event && event.target ){
             const target = event.target;
@@ -68,8 +69,10 @@ class ElectionConfig extends React.Component {
             (name==='fe2c2d7e-66de-406a-b887-1143023f8e72' && value==='Yes') ? this.setState({ showAmountRpp: true }) : this.setState({ showAmountRpp: false })
         }
     }
+    }
 
     showAmountIg(event){
+        if(this.props.check !== 'approve'){
         const newElectionModule = {...this.props.electionModule};
         if(event && event.target ){
             const target = event.target;
@@ -83,6 +86,7 @@ class ElectionConfig extends React.Component {
             }
             (name==='fe2c2d7e-66de-406a-b887-1143023f8e54' && value==='Yes') ? this.setState({ showAmountIg: true }) : this.setState({ showAmountIg: false })
         }
+    }
     }
     handleChangeAmountRpp = name => event => {
         const newElectionModule = {...this.props.electionModule};
@@ -116,10 +120,10 @@ class ElectionConfig extends React.Component {
             newElectionModule.electionConfig.push(electionConf);
         }
         this.props.electionChanged(newElectionModule); 
-
       };
 
     handleChange(id,event) {
+        if(this.props.check !== 'approve'){
         if(event && event.target ){
             const newElectionModule = {...this.props.electionModule};
             const target = event.target;
@@ -145,6 +149,9 @@ class ElectionConfig extends React.Component {
             this.props.electionChanged(newElectionModule); 
             this.setState({electionConfig , electionModuleConfigId:"", value:""});
         }
+    }else{
+        this.props.openSnackbar({ message: 'This Election Template Already been Approved!' });
+    }
     }
 
     handleNominationSubmission(value,name, event) {
@@ -316,6 +323,7 @@ class ElectionConfig extends React.Component {
                             <RadioGroup
                                 aria-label="Gender"
                                 name="15990459-2ea4-413f-b1f7-29a138fd7a97"
+                                ref= {this.props.calType}
                                 className={classes.group}
                                 onChange={this.handleChange.bind(this,"calType")}
                                 value={calType}
@@ -333,6 +341,7 @@ class ElectionConfig extends React.Component {
                             <FormLabel error={(errorTextItems.errorTextNominationSubmision==='emptyField') ? true : false} component="legend">Nomination Submission By</FormLabel>
                             <RadioGroup
                                 aria-label="Nomination Submission"
+                                ref= {this.props.nominationSubmission}
                                 className={classes.group}
                                 row
                             >
@@ -366,6 +375,7 @@ class ElectionConfig extends React.Component {
                             <RadioGroup
                                 aria-label="Gender"
                                 name="fe2c2d7e-66de-406a-b887-1143023f8e72"
+                                ref= {this.props.securityDepositeRpp}
                                 className={classes.group}
                                 value={SecurityDepositRpp}
                                 onChange={this.handleChange.bind(this,"securityDepositeRpp")}
@@ -396,6 +406,7 @@ class ElectionConfig extends React.Component {
                             error={errorTextItems.errorTextSecurityDepositeAmountRpp}
                             id="formatted-numberformat-input"
                             label="Security Deposit Amount"
+                            disabled={this.props.check !== 'approve' ? false : true }
                             className={classes.textField}
                             prefix={'Rs '}
                             value={depositAmountRpp}
@@ -418,6 +429,7 @@ class ElectionConfig extends React.Component {
                                 name="fe2c2d7e-66de-406a-b887-1143023f8e54"
                                 className={classes.group}
                                 value={SecurityDepositIg}
+                                ref= {this.props.securityDepositeIg}
                                 onChange={this.handleChange.bind(this,"securityDepositeIg")}
                                 onClick={this.showAmountIg.bind(this)}
                                 row
@@ -446,6 +458,7 @@ class ElectionConfig extends React.Component {
                             error={errorTextItems.errorTextSecurityDepositeAmountIg}
                             id="formatted-numberformat-input"
                             label="Security Deposit Amount"
+                            disabled={this.props.check !== 'approve' ? false : true }
                             className={classes.textField}
                             prefix={'Rs '}
                             value={depositAmountIg}

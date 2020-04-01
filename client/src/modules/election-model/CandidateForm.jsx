@@ -26,7 +26,6 @@ import OtherIcon from '@material-ui/icons/DragIndicator';
 import Grid from '@material-ui/core/Grid';
 
 
-
 const styles = theme => ({
     root: {
         display: 'flex',
@@ -302,7 +301,7 @@ class CandidateForm extends React.Component {
                         {columnOne.map((element) => {
                             return (<FormControlLabel
                                 control={
-                                    <Checkbox
+                                    <Checkbox  inputRef = {this.props.candidateFormConfig}
                                         checked={(electionModule.candidateFormConfiguration) ? electionModule.candidateFormConfiguration.filter(item => {
                                             return item.candidateConfigId === element.key;
                                         }).length > 0 : ''}
@@ -341,7 +340,7 @@ class CandidateForm extends React.Component {
                     </Button>
                     </Grid>
                     </Grid>
-                {(this.props.errorTextCandidateConfig) ? <Typography style={{ color: 'red' }} variant="subtitle1" gutterBottom>Select at least one field!</Typography> : ''}
+                {(this.props.errorTextCandidateConfig) ? <Typography  style={{ color: 'red' }} variant="subtitle1" gutterBottom>Select at least one field!</Typography> : ''}
 
                 <br /><br />
                 <Typography variant="h6">

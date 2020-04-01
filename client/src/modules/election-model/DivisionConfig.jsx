@@ -120,39 +120,43 @@ class DivisionConfig extends React.Component {
                     <Grid item xs={12}>
                         <FormControl  error={(this.props.errorTextDivisionCommonName) ? true : false} className={classes.formControl}>
                             <InputLabel className={classes.textField} htmlFor="common-name">Unit Common Name</InputLabel>
-                           <Input className={classes.textField} aria-describedby="component-error-text" id="common-name" value={this.props.electionModule['divisionCommonName']} onChange={handleChange('divisionCommonName')} />
+                           <Input inputRef = {this.props.divisionCommonName} className={classes.textField} aria-describedby="component-error-text" id="common-name" value={this.props.electionModule['divisionCommonName']} onChange={handleChange('divisionCommonName')} />
                            <FormHelperText>{(this.props.errorTextDivisionCommonName) ? 'This field is required!' : '(e.g. Province)'}</FormHelperText>
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
 
                     </Grid>
-                    <Grid item xs={2}>
+                    { this.props.check !== 'approve' ?
+                        <Grid item xs={2}>
                         <FormControl error={(this.state.errorTextDivisionName==='emptyField') ? true : false} className={classes.formControl}>
                             <InputLabel htmlFor="common-name">Unit Name </InputLabel>
                             <Input id="common-name" value={this.state.divisionName} onChange={handleChange('divisionName')} />
                             <FormHelperText>{(this.state.errorTextDivisionName==='emptyField') ? 'This field is required!' : ''}</FormHelperText>
                         </FormControl>
-                    </Grid>
+                    </Grid>: ''}
+                    { this.props.check !== 'approve' ?
                     <Grid item xs={2}>
                         <FormControl error={(this.state.errorTextDivisionCode==='emptyField') ? true : false} className={classes.formControl}>
                             <InputLabel htmlFor="common-name">Unit Code</InputLabel>
                             <Input id="common-name" value={this.state.divisionCode} onChange={handleChange('divisionCode')} />
                             <FormHelperText>{(this.state.errorTextDivisionCode==='emptyField') ? 'This field is required!' : ''}</FormHelperText>
                         </FormControl>
-                    </Grid>
+                    </Grid>: ''}
+                    { this.props.check !== 'approve' ?
                     <Grid item xs={2}>
                         <FormControl error={(this.state.errorTextNoOfCandidates==='emptyField') ? true : (this.state.errorTextNoOfCandidates==='emptyField2') ? true : false} className={classes.formControl}>
                             <InputLabel htmlFor="common-name">No of Candidates</InputLabel>
                             <Input type="number" id="common-name" value={this.state.noOfCandidates} onChange={handleChange('noOfCandidates')} />
                             <FormHelperText>{(this.state.errorTextNoOfCandidates==='emptyField') ? 'This field is required!' : (this.state.errorTextNoOfCandidates==='emptyField2') ? 'Negative values not allowed!' : ''}</FormHelperText>
                         </FormControl>
-                    </Grid>
+                    </Grid>: ''}
+                    { this.props.check !== 'approve' ?
                     <Grid item xs={6}>
                         <IconButton variant="outlined" className={classes.button} aria-label="Delete" onClick={this.addDivision}>
                             <AddIcon />
                         </IconButton>
-                    </Grid>
+                    </Grid> : ''}
                     {
                         this.props.electionModule.divisionConfig.map((element, index) => {
                             return (<React.Fragment>
@@ -165,11 +169,11 @@ class DivisionConfig extends React.Component {
                                 <Grid item xs={2}>
                                     <Typography variant="body1" >{element.noOfCandidates}</Typography>
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={6}>{this.props.check !== 'approve' ? 
                                     <IconButton variant="outlined" className={classes.button} aria-label="Delete" onClick={this.removeDivision(index)}>
                                         <DeleteIcon />
                                     </IconButton>
-                                </Grid>
+                                 : ''}</Grid>
                             </React.Fragment>);
                         })
                     }

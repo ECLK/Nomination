@@ -191,6 +191,12 @@ class ResponsiveDrawer extends React.Component {
         </ListItem>
       }
     });
+    var scopeExist = 0;
+    scopes.map((scope) => {
+      if(scope == "call_election_approve_edit" || scope == "nomination_approval_edit" || scope == "payment_edit"){
+        scopeExist++;
+      }
+    })
 
     const drawer = (
       <div>
@@ -228,7 +234,7 @@ class ResponsiveDrawer extends React.Component {
             </Typography>
             <div style={{ flex: 1 }}></div>
 
-            {totalNotificationCount>0 ?
+            {scopeExist>0 ? totalNotificationCount>0 ?
                 <PopupState variant="popover" popupId="notification-list">
                   {popupState => (
                       <React.Fragment>
@@ -271,7 +277,7 @@ class ResponsiveDrawer extends React.Component {
                         </Menu>
                       </React.Fragment>
                   )}
-                </PopupState>
+                </PopupState> : ''
             }
 
             <Button color="inherit">

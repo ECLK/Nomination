@@ -161,6 +161,9 @@ class CustomizedTable extends React.Component {
         //     ["234", "Clemant", "clem@gmail.com", "UNP", "Business Analyst"],
         //     ["3", "Umayanga", "umayanga@gmail.com", "JVP", "Business Analyst"]]
         const options = {
+            viewColumns:false,
+            filter: false,
+            download: false,
             filterType: "dropdown",
             responsive: "scroll",
             selectableRows: false

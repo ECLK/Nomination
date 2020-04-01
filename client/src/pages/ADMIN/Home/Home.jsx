@@ -176,9 +176,9 @@ class Dashboard extends React.Component {
                                 {/* {
                                     allElectionModules.map(row => */}
                                         <Grid item xs={3}>
-                                            <Button onClick={this.getElectionReviewData(this.state.election.id)}>
+                                            {/* <Button onClick={this.getElectionReviewData(this.state.election.id)}> */}
                                                 <Card style={{ width: 350 ,marginLeft:30}} md={3} xs={6} sm={3}>
-                                                    <Link style={{ textDecoration: 'none' }} to={{ pathname: "election-process-review-detail", state: { id: this.state.election.id,check:'test' } }} >
+                                                    {/* <Link style={{ textDecoration: 'none' }} to={{ pathname: "election-process-review-detail", state: { id: this.state.election.id,check:'test' } }} > */}
                                                         <CardContent >
                                                             {/* <Grid className={classes.container} container spacing={24}> */}
                                                                
@@ -224,9 +224,9 @@ class Dashboard extends React.Component {
 
                                                             {/* </Grid> */}
                                                         </CardContent>
-                                                    </Link>
+                                                    {/* </Link> */}
                                                 </Card >
-                                            </Button>
+                                            {/* </Button> */}
                                         </Grid>
                                     {/* )} */}
                             </Grid> : ''}
