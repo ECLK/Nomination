@@ -323,6 +323,7 @@ class ElectionConfig extends React.Component {
                             <RadioGroup
                                 aria-label="Gender"
                                 name="15990459-2ea4-413f-b1f7-29a138fd7a97"
+                                ref= {this.props.calType}
                                 className={classes.group}
                                 onChange={this.handleChange.bind(this,"calType")}
                                 value={calType}
@@ -340,6 +341,7 @@ class ElectionConfig extends React.Component {
                             <FormLabel error={(errorTextItems.errorTextNominationSubmision==='emptyField') ? true : false} component="legend">Nomination Submission By</FormLabel>
                             <RadioGroup
                                 aria-label="Nomination Submission"
+                                ref= {this.props.nominationSubmission}
                                 className={classes.group}
                                 row
                             >
@@ -373,6 +375,7 @@ class ElectionConfig extends React.Component {
                             <RadioGroup
                                 aria-label="Gender"
                                 name="fe2c2d7e-66de-406a-b887-1143023f8e72"
+                                ref= {this.props.securityDepositeRpp}
                                 className={classes.group}
                                 value={SecurityDepositRpp}
                                 onChange={this.handleChange.bind(this,"securityDepositeRpp")}
@@ -426,6 +429,7 @@ class ElectionConfig extends React.Component {
                                 name="fe2c2d7e-66de-406a-b887-1143023f8e54"
                                 className={classes.group}
                                 value={SecurityDepositIg}
+                                ref= {this.props.securityDepositeIg}
                                 onChange={this.handleChange.bind(this,"securityDepositeIg")}
                                 onClick={this.showAmountIg.bind(this)}
                                 row
