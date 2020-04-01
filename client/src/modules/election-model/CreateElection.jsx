@@ -117,6 +117,7 @@ const authorities = [{
     "name": "Officer Incharge of Calling Election",
 }];
 class CreateElection extends React.Component {
+
     state = {
         activeStep: 0,
         skipped: new Set(),
@@ -147,6 +148,12 @@ class CreateElection extends React.Component {
     constructor() {
         super();
         this.handleElectionChange = this.handleElectionChange.bind(this);
+        this.candidateFormConfig = React.createRef();
+        this.nominationSubmission = React.createRef();
+        this.divisionCommonName = React.createRef();
+        this.securityDepositeIg = React.createRef();
+        this.securityDepositeRpp = React.createRef();
+        this.calType = React.createRef();
     }
 
     getStepContent(step) {
@@ -162,6 +169,7 @@ class CreateElection extends React.Component {
                     objectionSupportingDocs={this.state.objectionSupportingDocs}
                     paymentSupportingDocs={this.state.paymentSupportingDocs}
                     errorTextCandidateConfig={this.state.errorTextCandidateConfig}
+                    candidateFormConfig={this.candidateFormConfig}
                 />;
             case 1:
                 return <DivisionConfig
@@ -170,6 +178,7 @@ class CreateElection extends React.Component {
                     electionChanged={this.handleElectionChange}
                     errorTextDivisionCommonName={this.state.errorTextDivisionCommonName}
                     errorTextDivisionConfig={this.state.errorTextDivisionConfig}
+                    divisionCommonName={this.divisionCommonName}
                 />;
             case 2:
                 return <ElectionConfig
@@ -179,6 +188,10 @@ class CreateElection extends React.Component {
                     openSnackbar={this.props.openSnackbar}
                     authorities={authorities}
                     errorTextItems={errorTextItems}
+                    nominationSubmission={this.nominationSubmission}
+                    securityDepositeIg={this.securityDepositeIg}
+                    securityDepositeRpp={this.securityDepositeRpp}
+                    calType={this.calType}
                 />;
             default:
                 return 'Unknown step';
@@ -262,13 +275,17 @@ class CreateElection extends React.Component {
     handleNext = () => {
         const { activeStep } = this.state;
         let { skipped } = this.state;
-
         var goNext = true;
+        if (activeStep === 0) {
+            this.candidateFormConfig.current.focus();
+        }
+        
         if (this.props.new_election_module.candidateFormConfiguration.length === 0) {
             this.setState({ errorTextCandidateConfig: 'emptyField' });
             goNext = false;
         }
         if (activeStep === 1) {
+            this.divisionCommonName.current.focus();
             if (this.props.new_election_module.divisionCommonName === undefined || this.props.new_election_module.divisionCommonName === '') {
                 this.setState({ errorTextDivisionCommonName: 'emptyField' });
                 goNext = false;
@@ -293,6 +310,11 @@ class CreateElection extends React.Component {
                     errorTextEligibility: 'emptyField',
                 }
 
+                this.nominationSubmission.current.focus();
+                this.securityDepositeIg.current.focus();
+                this.securityDepositeRpp.current.focus();
+                this.calType.current.focus();
+                
                 for (let i = 0; i < this.props.new_election_module.electionConfig.length; i++) {
                     switch (this.props.new_election_module.electionConfig[i].electionModuleConfigId) {
                         case 'fe2c2d7e-66de-406a-b887-1143023f8e72'://Security Deposit RPP

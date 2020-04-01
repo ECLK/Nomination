@@ -120,7 +120,7 @@ class DivisionConfig extends React.Component {
                     <Grid item xs={12}>
                         <FormControl  error={(this.props.errorTextDivisionCommonName) ? true : false} className={classes.formControl}>
                             <InputLabel className={classes.textField} htmlFor="common-name">Unit Common Name</InputLabel>
-                           <Input className={classes.textField} aria-describedby="component-error-text" id="common-name" value={this.props.electionModule['divisionCommonName']} onChange={handleChange('divisionCommonName')} />
+                           <Input inputRef = {this.props.divisionCommonName} className={classes.textField} aria-describedby="component-error-text" id="common-name" value={this.props.electionModule['divisionCommonName']} onChange={handleChange('divisionCommonName')} />
                            <FormHelperText>{(this.props.errorTextDivisionCommonName) ? 'This field is required!' : '(e.g. Province)'}</FormHelperText>
                         </FormControl>
                     </Grid>
