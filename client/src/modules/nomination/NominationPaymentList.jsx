@@ -191,11 +191,12 @@ class CustomizedTable extends React.Component {
         //     ["234", "Clemant", "clem@gmail.com", "UNP", "Business Analyst"],
         //     ["3", "Umayanga", "umayanga@gmail.com", "JVP", "Business Analyst"]]
         const options = {
-            filter: true,
             filterType: "dropdown",
             responsive: "scroll",
             selectableRows: false,
-            viewColumns:true
+            viewColumns:false,
+            filter: false,
+            download: false,
             // customToolbar: () => {
             //     return (
             //         <CustomToolbar customProps={customProps} modalType="Add"  />
