@@ -288,6 +288,7 @@ class CheckboxTableGrid extends React.Component {
         // set option list
         const options = {
             filter: false,
+            sort:false,
             download: false,
             filterType: "dropdown",
             responsive: "scroll",
