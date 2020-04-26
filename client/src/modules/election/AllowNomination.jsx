@@ -37,6 +37,10 @@ class AllowNomination extends React.Component {
         e.preventDefault()
     }
     
+    componentWillReceiveProps() {
+        const { onComponentLoaded } = this.props;
+        onComponentLoaded();
+    }
 
     render() {
         const { classes,electionData,errorTextElectorates,rowHeadersForRpp,rowHeadersForIg } = this.props;

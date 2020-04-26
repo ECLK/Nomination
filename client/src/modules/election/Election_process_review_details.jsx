@@ -39,6 +39,7 @@ import AllowNomination from './AllowNominationView';
 import moment from 'moment';
 import { withRouter } from "react-router-dom";
 import { Redirect } from 'react-router-dom'
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 const drawerWidth = 240;
@@ -191,7 +192,8 @@ class Dashboard extends React.Component {
         electionId: '',
         status: '',
         reviewNote: '',
-        errorTextModule: ''
+        errorTextModule: '',
+        loaderInProgress: true
     };
 
     componentDidMount() {
@@ -215,6 +217,10 @@ class Dashboard extends React.Component {
     handleDrawerClose = () => {
         this.setState({ open: false });
     };
+
+    componentWillReceiveProps() {
+        this.setState({ loaderInProgress: false });
+    }
 
     changeElectionStatus = () => {
         const { onChangeApproval, openSnackbar, ElectionReviewData } = this.props;
@@ -401,6 +407,9 @@ class Dashboard extends React.Component {
                 <div style={{ width: '100%' }}>
                     <Typography variant="h5" component="h2">{ElectionReviewData.name}</Typography>
                     <br />
+                    <div>
+                    { this.state.loaderInProgress && <LinearProgress/>}
+                    </div>
                     <div className={classes.container}>
                         <Card className={classes.card}>
                             <CardContent>
