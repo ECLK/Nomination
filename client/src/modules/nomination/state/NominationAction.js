@@ -32,6 +32,7 @@ import { openSnackbar } from '../../election/state/ElectionAction';
 import moment from "react-moment";
 import {saveAs} from 'file-saver';
 import { de } from "date-fns/locale";
+import store from '../../../state/store';
 
 const nominationLoaded = (getNominations) => {
   return {
@@ -725,6 +726,8 @@ export const createAndDownloadNominationPaySlipPdf = function createAndDownloadN
 
   templateData['file'] = {"template": "nomination_payslip.js"}
   templateData['file']['paymentData'] = paymentData;
+
+  store.dispatch(openSnackbar({ message:`Download will begin shortly`}));
 
   firstAPI.post(`/generate`, templateData)
     .then((res) => firstAPI.get(res.data.path, { responseType: 'blob' }))

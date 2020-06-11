@@ -26,6 +26,7 @@ import { setCallElectionData, postCallElectionData, openSnackbar, getFieldOption
 import { getTeams } from '../nomination/state/NominationAction';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
   root: {
@@ -132,7 +133,8 @@ class ActiveElectionForm extends React.Component {
       errorTextApprovalStart: '',
       errorTextApprovalEnd: '',
       goNext: false,
-      errorTextElectorates: ''
+      errorTextElectorates: '',
+      stepInProgress: false
     };
   }
   componentWillMount(){
@@ -277,9 +279,12 @@ class ActiveElectionForm extends React.Component {
     }
 
     if (goNext) {
-      this.setState(state => ({
-        activeStep: state.activeStep + 1,
-      }));
+      this.setState({ stepInProgress: true });
+      setTimeout(() => {
+        this.setState(state => ({
+          activeStep: state.activeStep + 1,
+        }));
+      }, 500);
     }
 
     if (activeStep === 1) {
@@ -378,6 +383,12 @@ class ActiveElectionForm extends React.Component {
     this.setState({ open: false });
   };
 
+  onComponentLoaded = () => {
+    if (this.state.stepInProgress) {
+      this.setState({ stepInProgress: false });
+    }
+  }
+
   getStepContent(step, values) {
     const { CallElectionData,rowHeaders } = this.props;
     var rowHeadersForRpp = rowHeaders.filter(x => x.team_party_type === "RPP");
@@ -396,6 +407,7 @@ class ActiveElectionForm extends React.Component {
       case 1:
         return <AllowNomination
           handleChange={this.handleChange}
+          onComponentLoaded={this.onComponentLoaded}
           values={values}
           rowHeadersForRpp={rowHeadersForRpp}
           rowHeadersForIg={rowHeadersForIg}
@@ -452,6 +464,7 @@ class ActiveElectionForm extends React.Component {
                             {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                           </Button>
                         </div>
+                        { this.state.stepInProgress && <CircularProgress size={68} />}
                       </div>
                     </StepContent>
                   </Step>
