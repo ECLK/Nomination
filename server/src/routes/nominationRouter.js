@@ -45,7 +45,7 @@ export const initNominationRouter = (app) => {
 		{
 			method: POST,
 			path: '/nominations/candidates',
-			schema: SAVE_CANDIDATE_SCHEMA,
+			// schema: SAVE_CANDIDATE_SCHEMA,
 			handler: (req, res, next) => {
 				return CandidateService.saveCandidateByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_201).send(result))
@@ -94,7 +94,7 @@ export const initNominationRouter = (app) => {
 		{
 			method: POST,
 			path: '/nominations/:candidateId/candidates',
-			schema: SAVE_CANDIDATE_SCHEMA,
+			// schema: SAVE_CANDIDATE_SCHEMA,
 			handler: (req, res, next) => {
 				return CandidateService.saveCandidateByNominationId(req)
 					.then((result) => res.status(HTTP_CODE_200).send(result))
@@ -307,6 +307,15 @@ export const initNominationRouter = (app) => {
 			path: '/nominations/:nominationId/support-docs/download',
 			handler: (req, res, next) => {
 				return SupportDocService.getSupportDocsByNominationIdNumber(req)
+					.then((result) => res.zip(result))
+					.catch(error => next(error));
+			},
+		},
+		{
+			method: GET,
+			path: '/nominations/candidate-template/download',
+			handler: (req, res, next) => {
+				return SupportDocService.getCandidateTemplate(req)
 					.then((result) => res.zip(result))
 					.catch(error => next(error));
 			},

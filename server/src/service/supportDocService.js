@@ -295,6 +295,16 @@ const getSupportDocsByNominationIdNumber = async (req) => {
 
 };
 
+//Get csv candidate upload template
+const getCandidateTemplate = async (req) => {
+  try {
+      const docs = [];
+        return docs.push({path: './src/templates/'+'candidate_upload_template', name: 'candidate_upload_template'});  
+  }catch (e){
+      throw new ServerError("server error");
+  }
+};
+
 export default {
   getsupportDocsByNominationId,
   saveSupportDocsByNominationId,
@@ -309,5 +319,6 @@ export default {
     getSupportDocsByCandidateIdAndDocId,
     getSupportDocByNominationIdAndDocId,
     getSupportDocsByCandidateIdNumber,
-    getSupportDocsByNominationIdNumber
+    getSupportDocsByNominationIdNumber,
+    getCandidateTemplate
 }

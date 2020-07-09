@@ -276,10 +276,9 @@ const saveCandidateByNominationId = async (req) => {
   return executeTransaction(async (transaction) => {
 		let candidateId = req.params.candidateId;
 	if(candidateId !== undefined){
-		await CandidateRepo.saveCandidate(candidateId,req.body.nominationId,req.body.candidateData, transaction);
+		await CandidateRepo.saveCandidate(candidateId,req.body.nominationId,req.body.candidateData,req.body.from, transaction);
 	}else{
-		candidateId = uuidv4();
-		await CandidateRepo.saveCandidate(candidateId,req.body.nominationId,req.body.candidateData, transaction);
+		await CandidateRepo.saveCandidate(candidateId,req.body.nominationId,req.body.candidateData,req.body.from, transaction);
 	}
 	await CandidateRepo.updateNominationStatus( req.body.nominationId,transaction );
 
