@@ -93,6 +93,7 @@ const getElectionIdForDemo = async () => {
             throw new ApiError("No Election found");
         }
     } catch (error) {
+        console.log(error);
         throw new ServerError("Server error", HTTP_CODE_404);
     }
 }

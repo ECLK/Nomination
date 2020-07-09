@@ -98,7 +98,7 @@ class TextFields extends React.Component {
         // this.refs.btn.setAttribute("disabled", "disabled");
         const { index, customProps,getNominationCandidates,candidateMessage } = this.props;
         let {jsonSchemaProperties} = this.state;
-        let candidateKeyValues = { "nominationId" : customProps,
+        let candidateKeyValues = { "nominationId" : customProps,"from" : "form",
                                    "candidateData":[] };
         for (var configItem in data) {
             if(jsonSchemaProperties[configItem]){

@@ -1,6 +1,7 @@
 import { DBError } from 'Errors';
 import { DbConnection } from './dataSource';
 import { formatQueryToBulkInsert, formatDataToBulkInsert} from './sqlHelper';
+const uuidv4 = require('uuid/v4');
 
 
 const CANDIDATE_BY_NOMINATION_SELECT_QUERY = `SELECT CD.ID AS CANDIDATE_ID,
@@ -179,33 +180,85 @@ const updateNominationStatus = (nominationId,transaction) => {
  * save candidate data
  * @returns {Promise.<T>}
  */
-const saveCandidate = async (candidateId,nominationId,data, transaction) => {
+const saveCandidate = async (candidateId,nominationId,data,from, transaction) => {
 	const params = {candidateId:candidateId};
-	data = data.map((record) => {
-	  record.nominationId = nominationId;
-	  record.id = candidateId
-	  return record;
-  });
-	await  DbConnection()
-	.query(CANDIDATE_DELETE_QUERY,
-	  {
-		replacements: params,
-		type: DbConnection().QueryTypes.DELETE,
-		transaction
-	  }).catch((error) => {
-		throw new DBError(error);
-	  });
+
+	if(candidateId == undefined){
+		console.log("from",from);
+		if(from == "form"){
+			var uuid2 = uuidv4();
+			data = data.map((record) => {
+				record.nominationId = nominationId;
+				record.id = uuid2;
+				return record;
+			});
+		}else{
+			data = data.map((record) => {
+				var uuid = uuidv4();
+				record.map((val) => {
+					val.id = uuid
+					val.nominationId = nominationId;
+				})
+				return record;
+			});
+		}
+	}else{
+		data = data.map((record) => {
+			record.nominationId = nominationId;
+			record.id = candidateId
+			return record;
+		});
+	}
+	if(candidateId !== undefined){
+		await  DbConnection()
+		.query(CANDIDATE_DELETE_QUERY,
+		  {
+			replacements: params,
+			type: DbConnection().QueryTypes.DELETE,
+			transaction
+		  }).catch((error) => {
+			throw new DBError(error);
+		  });
+	}
+	
 	if( data instanceof Array && data.length > 0){
 		try {
-	return DbConnection()
-	.query(formatQueryToBulkInsert(CANDIDATE_DATA_INSERT_BASE_QUERY, data),
-	  {
-		replacements: formatDataToBulkInsert(data, CANDIDATE_DATA_COLUMN_ORDER),
-		type: DbConnection().QueryTypes.INSERT,
-		transaction,
-	  }).catch((error) => {
-		 throw new DBError(error);
-	   });
+			if(candidateId){
+					return DbConnection()
+					.query(formatQueryToBulkInsert(CANDIDATE_DATA_INSERT_BASE_QUERY, data),
+					  {
+						replacements: formatDataToBulkInsert(data, CANDIDATE_DATA_COLUMN_ORDER),
+						type: DbConnection().QueryTypes.INSERT,
+						transaction,
+					  }).catch((error) => {
+						 throw new DBError(error);
+					   });
+			}else{
+				if(from == "form"){
+					return DbConnection()
+					.query(formatQueryToBulkInsert(CANDIDATE_DATA_INSERT_BASE_QUERY, data),
+					  {
+						replacements: formatDataToBulkInsert(data, CANDIDATE_DATA_COLUMN_ORDER),
+						type: DbConnection().QueryTypes.INSERT,
+						transaction,
+					  }).catch((error) => {
+						 throw new DBError(error);
+					   });
+				}else{
+					for(let i=0;i<data.length;i++){
+						 DbConnection()
+						.query(formatQueryToBulkInsert(CANDIDATE_DATA_INSERT_BASE_QUERY, data[i]),
+						  {
+							replacements: formatDataToBulkInsert(data[i], CANDIDATE_DATA_COLUMN_ORDER),
+							type: DbConnection().QueryTypes.INSERT,
+							transaction,
+						  }).catch((error) => {
+							 throw new DBError(error);
+						   });
+					}
+				}	
+			}
+		
 		}catch (e){
 			console.log(e);
 		}
