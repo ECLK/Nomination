@@ -27,7 +27,7 @@ const resultMaps = [
   {
     mapId: 'divisionConfigMap',
     idProperty: 'divisionCode',
-    properties: ['divisionName','noOfCandidates']
+    properties: ['divisionName','parentDivisionName','noOfCandidates']
   },
   {
     mapId: 'supportingDocConfigMap',

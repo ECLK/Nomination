@@ -87,7 +87,6 @@ class CustomToolbar extends React.Component {
   render() {
     const { classes, customProps ,index,modalType } = this.props;
     const { open } = this.state;
-    debugger;
     return (
       <React.Fragment>
         <Tooltip title={"Edit"}>

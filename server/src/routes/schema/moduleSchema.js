@@ -20,6 +20,7 @@ export const ELECTION_TEMPLATE_DATA_EDIT_SCHEMA_FOR_PUT = Joi.object().keys({
   approval_status: Joi.string().max(100).required(true),
   createdBy: Joi.string().max(100).min(3).required(true),
   divisionName: Joi.string().max(50).allow('',null),
+  parentDivisionName: Joi.string().max(50).allow('',null),
   divisionCode: Joi.string().max(50).allow('',null),
   noOfCandidates: Joi.number().integer().allow('',null),
   candidateFormConfiguration: Joi.array().items(Joi.object({ 
@@ -28,6 +29,7 @@ export const ELECTION_TEMPLATE_DATA_EDIT_SCHEMA_FOR_PUT = Joi.object().keys({
   divisionConfig: Joi.array().items(Joi.object({ 
                     divisionCode: Joi.string().max(50).required(true),
                     divisionName: Joi.string().max(50).required(true),
+                    parentDivisionName: Joi.string().max(50).required(true),
                     noOfCandidates: Joi.number().integer().required(),
                   })).allow(null),
   electionConfig: Joi.array().items(Joi.object({ 
@@ -50,6 +52,7 @@ export const ELECTION_TEMPLATE_DATA_EDIT_SCHEMA = Joi.object().keys({
   reviewNote: Joi.string().max(100).allow('',null),
   column_name: Joi.string().max(100).allow('',null),
   divisionName: Joi.string().max(100).allow('',null),
+  parentDivisionName: Joi.string().max(100).allow('',null),
   divisionCode: Joi.string().max(100).allow('',null),
   noOfCandidates: Joi.string().max(100).allow('',null),
   lastModified: Joi.number().integer().allow('',null),
@@ -64,6 +67,7 @@ export const ELECTION_TEMPLATE_DATA_EDIT_SCHEMA = Joi.object().keys({
   divisionConfig: Joi.array().items(Joi.object({ 
                     divisionCode: Joi.string().max(50).required(true),
                     divisionName: Joi.string().max(50).required(true),
+                    parentDivisionName: Joi.string().max(50).required(true),
                     noOfCandidates: Joi.number().integer().required(),
                   })).allow(null),
   electionConfig: Joi.array().items(Joi.object({ 

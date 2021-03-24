@@ -252,7 +252,6 @@ class Dashboard extends React.Component {
       };
     render() {
         const { classes,ElectionTemplateReviewData } = this.props;
-        debugger;
         var Authjority = ' ';
         var CalculationType = ' ';
         var WeightageVote = ' ';

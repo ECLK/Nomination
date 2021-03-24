@@ -74,7 +74,6 @@ class ResponsiveDrawer extends React.Component {
   };
 
   render() {
-    debugger;
     const { classes, theme } = this.props;
     if (this.state.goToLogin) return <Redirect to="/login" />;
     var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)scope\s*\=\s*([^;]*).*$)|^.*$/, "$1");

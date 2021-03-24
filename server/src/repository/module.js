@@ -22,6 +22,7 @@ const MODULE_SELECT_QUERY = `SELECT
                             emcd.ELECTION_MODULE_CONFIG_ID AS MODULE_electionModuleConfigId,
                             emcd.VALUE AS MODULE_value,
                             dc.NAME AS MODULE_divisionName,
+                            dc.PARENT_NAME AS MODULE_parentDivisionName,
                             dc.CODE AS MODULE_divisionCode,
                             dc.NO_OF_CANDIDATES AS MODULE_noOfCandidates,
                             sdcd.SUPPORT_DOC_CONFIG_ID AS MODULE_supportDocConfigId,
@@ -49,8 +50,8 @@ const CANDIDATE_CONFIG_COLUMN_ORDER = ['id', 'candidateConfigId','moduleId'];
 const SUPPORT_DOC_INSERT_BASE_QUERY = `INSERT INTO SUPPORT_DOC_CONFIG_DATA (ID,SUPPORT_DOC_CONFIG_ID,MODULE_ID) VALUES `
 const SUPPORT_DOC_COLUMN_ORDER = ['id', 'supportDocConfigId','moduleId'];
 
-const DIVISION_INSERT_BASE_QUERY = `INSERT INTO DIVISION_CONFIG (ID,NAME,CODE,NO_OF_CANDIDATES,MODULE_ID) VALUES `
-const DIVISION_COLUMN_ORDER = ['id', 'divisionName','divisionCode','noOfCandidates','moduleId'];
+const DIVISION_INSERT_BASE_QUERY = `INSERT INTO DIVISION_CONFIG (ID,NAME,PARENT_NAME,CODE,NO_OF_CANDIDATES,MODULE_ID) VALUES `
+const DIVISION_COLUMN_ORDER = ['id', 'divisionName','parentDivisionName' ,'divisionCode','noOfCandidates','moduleId'];
 
 const ELECTION_MODULE_UPDATE_QUERY = `UPDATE ELECTION_MODULE 
                                 SET 

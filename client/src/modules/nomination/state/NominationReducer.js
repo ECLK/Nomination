@@ -143,7 +143,6 @@ export default function reducer(state = initialState, action) {
       };
     case RECEIVE_NOMINATION_STATUS:
       const nominationList = state.nominationList;
-      debugger;
       const index2 = findDivisionIndex(nominationList, action.payload.divisionId);
       const nomination = nominationList[index2].nomination;
       // const index3 = findNominationIndex(nomination, action.payload.nominationId);

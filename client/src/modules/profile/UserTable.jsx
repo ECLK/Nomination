@@ -116,7 +116,6 @@ class CustomizedTable extends React.Component {
                 options: {
                     filter: true,
                     customBodyRender: (value, tableMeta, updateValue) => {
-                        debugger;
                         return (
                             <Grid container className={classes.grid} direction="row" justify="flex-start" alignItems="stretch" spacing={12}>
                                 <Grid item lg={6}>

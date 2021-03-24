@@ -41,6 +41,7 @@ class DivisionConfig extends React.Component {
         divisions: [],
         errorTextDivisionCode:'',
         errorTextDivisionName:'',
+        errorTextParentDivisionName:'',
         errorTextNoOfCandidates:''
     };
 
@@ -62,6 +63,9 @@ class DivisionConfig extends React.Component {
         if(this.state.divisionName===undefined || this.state.divisionName===''){
             this.setState({errorTextDivisionName:'emptyField'});
         }
+        // if(this.state.parentDivisionName===undefined || this.state.parentDivisionName===''){
+        //     this.setState({errorTextParentDivisionName:'emptyField'});
+        // }
         if(this.state.noOfCandidates===undefined || this.state.noOfCandidates===''){
             this.setState({errorTextNoOfCandidates:'emptyField'});
         }
@@ -71,6 +75,7 @@ class DivisionConfig extends React.Component {
         const division = {
             divisionCode: this.state.divisionCode,
             divisionName: this.state.divisionName,
+            parentDivisionName: this.state.parentDivisionName,
             noOfCandidates: this.state.noOfCandidates
         }
         
@@ -80,7 +85,7 @@ class DivisionConfig extends React.Component {
                     newElectionModule.divisionConfig.push(division);
                     divisions.push(division);
                     this.props.electionChanged(newElectionModule); 
-                    this.setState({  divisions , divisionName:"", divisionCode:"", noOfCandidates:""});
+                    this.setState({  divisions , divisionName:"", parentDivisionName:"", divisionCode:"", noOfCandidates:""});
                 }
             }
             
@@ -136,6 +141,14 @@ class DivisionConfig extends React.Component {
                         </FormControl>
                     </Grid>: ''}
                     { this.props.check !== 'approve' ?
+                        <Grid item xs={2}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="common-name">Parent Unit Name </InputLabel>
+                            <Input id="common-name" value={this.state.parentDivisionName} onChange={handleChange('parentDivisionName')} />
+                            {/* <FormHelperText>{(this.state.errorTextDivisionName==='emptyField') ? 'This field is required!' : ''}</FormHelperText> */}
+                        </FormControl>
+                    </Grid>: ''}
+                    { this.props.check !== 'approve' ?
                     <Grid item xs={2}>
                         <FormControl error={(this.state.errorTextDivisionCode==='emptyField') ? true : false} className={classes.formControl}>
                             <InputLabel htmlFor="common-name">Unit Code</InputLabel>
@@ -152,7 +165,7 @@ class DivisionConfig extends React.Component {
                         </FormControl>
                     </Grid>: ''}
                     { this.props.check !== 'approve' ?
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
                         <IconButton variant="outlined" className={classes.button} aria-label="Delete" onClick={this.addDivision}>
                             <AddIcon />
                         </IconButton>
@@ -164,12 +177,15 @@ class DivisionConfig extends React.Component {
                                     <Typography variant="body1" >{element.divisionName}</Typography>
                                 </Grid>
                                 <Grid item xs={2}>
+                                    <Typography variant="body1" >{element.parentDivisionName}</Typography>
+                                </Grid>
+                                <Grid item xs={2}>
                                     <Typography variant="body1" >{element.divisionCode}</Typography>
                                 </Grid>
                                 <Grid item xs={2}>
                                     <Typography variant="body1" >{element.noOfCandidates}</Typography>
                                 </Grid>
-                                <Grid item xs={6}>{this.props.check !== 'approve' ? 
+                                <Grid item xs={4}>{this.props.check !== 'approve' ? 
                                     <IconButton variant="outlined" className={classes.button} aria-label="Delete" onClick={this.removeDivision(index)}>
                                         <DeleteIcon />
                                     </IconButton>

@@ -177,7 +177,6 @@ class IntegrationReactSelect extends React.Component {
 
     render() {
         const { classes, theme, suggestions,value,approveElections,errorTextElection } = this.props;
-        debugger;
         var election=[];
         // for (var i = 0; i < userList.length; i++) {
             for (var j = 0; j < approveElections.length; j++) {

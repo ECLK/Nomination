@@ -15,6 +15,7 @@ const supportingDocuments = Record({
 
 const divisionConfig = Record({
 	divisionName: String(),
+    parentDivisionName: String(),
     divisionCode: String(),
     noOfCandidates: Number(),
 });

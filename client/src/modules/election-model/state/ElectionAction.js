@@ -163,16 +163,19 @@ export const submitElection = function saveElection(election) {
         "divisionConfig":[
             {
                 divisionName: 'Sample',
+                parentDivisionName: 'Sample',
                 divisionCode: 'code',
                 noOfCandidates: '1',
             },
             {
                 divisionName: 'Sample3',
+                parentDivisionName: 'Sample',
                 divisionCode: 'code',
                 noOfCandidates: '2',
             },
             {
                 divisionName: 'Sample5',
+                parentDivisionName: 'Sample',
                 divisionCode: 'code',
                 noOfCandidates: '3',
             }

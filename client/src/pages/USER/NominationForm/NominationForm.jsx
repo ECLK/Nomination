@@ -105,7 +105,6 @@ class Dashboard extends React.Component {
     };
 
     render() {
-        debugger;
         const { classes } = this.props;
 
         return (

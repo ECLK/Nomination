@@ -86,7 +86,6 @@ class CustomizedTable extends React.Component {
       const { classes,CandidateList,NominationPayments,division,candidateCount,supportdoc,supportingDocs} = this.props;
       const paymentStatus='';
       const rows = this.state.nominations;
-      debugger;
       const CandidateRow = (props) => {
         const { classes, candidate } = props;
         return (

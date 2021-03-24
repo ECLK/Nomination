@@ -120,7 +120,6 @@ class Home extends React.Component {
 
     render() {
         const { classes, electionModules, AllElections, PendingElections, RejectedElections } = this.props;
-        debugger;
         const { expanded, expandedPanelIndexApp, expandedPanelIndexPen, expandedPanelIndexRej } = this.state;
         const callElectionApproveElements = AllElections.map((election, i) => (
             (election.status==='APPROVE') ? 

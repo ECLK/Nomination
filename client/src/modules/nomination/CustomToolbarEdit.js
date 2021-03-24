@@ -95,7 +95,6 @@ class CustomToolbar extends React.Component {
   render() {
   
     const { classes, customProps ,index,modalType } = this.props;
-    debugger;
     const { open } = this.state;
     return (
       <React.Fragment>
