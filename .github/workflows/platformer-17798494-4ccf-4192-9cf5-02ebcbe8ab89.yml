@@ -2,7 +2,7 @@ name: Platformer Generated ui-master-push Build
 on:
   push:
     branches:
-      - master
+      - newNomination
 jobs:
   build:
     runs-on:
