@@ -30,12 +30,14 @@ class DynamicForm extends React.Component {
   }
 
   createDefaultFromDataMap(prevProperties, prevState) {
+    debugger;
     const properties  = this.props.jsonSchema.properties;
     const state = this.state;
     let needReRender = false;
     for (const [propName, value] of Object.entries(properties || {})) {
       // if (!prevState || value['default'] !== prevProperties[propName]['default']) { 
         // TODO: re-enable default values
+        debugger;
         const prevFormData = state.formData[propName];
         const prevProgress = JSON.stringify(state.progress[propName]);
         state.formData[propName] = (this.props.defaultFormData && this.props.defaultFormData[propName]) 
@@ -117,6 +119,7 @@ class DynamicForm extends React.Component {
   }
 
   onSubmit(event) {
+    debugger;
     let { jsonSchema } = this.props;
     let { formData } = this.state;
     let state = this.state;
@@ -139,6 +142,7 @@ class DynamicForm extends React.Component {
     let { classes, jsonSchema,index } = this.props;
     let { formData, progress, submitting } = this.state;
     let items = [];
+    debugger;
     for (const [propName, propSpec] of Object.entries(jsonSchema.properties || {})) {
       const propValue = formData[propName];
       const {edited, valid} = progress[propName];

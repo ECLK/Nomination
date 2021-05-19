@@ -44,6 +44,7 @@ const MODULE_APPROVE_QUERY = `INSERT INTO ELECTION_MODULE_APPROVAL (ID, STATUS, 
 const MODULE_INSERT_BASE_QUERY = `INSERT INTO ELECTION_MODULE VALUES `;
 const ColumnnamesFromCandidate_configTabel = `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'candidate_config'`;
 const MODULE_COLUMN_ORDER = ['ID', 'NAME'];
+//we save candidate config name as candidate config id, due to changes of removing election template module from Nomination
 const CANDIDATE_CONFIG_INSERT_BASE_QUERY = `INSERT INTO CANDIDATE_CONFIG_DATA (ID,CANDIDATE_CONFIG_ID,MODULE_ID) VALUES `
 const CANDIDATE_CONFIG_COLUMN_ORDER = ['id', 'candidateConfigId','moduleId'];
 

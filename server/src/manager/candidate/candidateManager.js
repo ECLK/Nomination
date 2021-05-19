@@ -16,6 +16,7 @@ const resultMaps = [
 
 
 const mapToCandidateModel = (candidates) => {
+  console.log('candidates',candidates);
   var groupedCandidates = _.groupBy(candidates, 'CANDIDATE_ID');
   var expected = _.map(groupedCandidates, function (candidateProperties) {
     var orderedProps = [];
@@ -57,6 +58,48 @@ const mapToCandidateModel = (candidates) => {
 
 };
 
+const mapToPartyCandidateModel = (candidates,party_list,division_list) => {
+  console.log('candidates',candidates);
+  var groupedCandidates = _.groupBy(candidates, 'CANDIDATE_ID');
+  var expected = _.map(groupedCandidates, function (candidateProperties) {
+    var orderedProps = [];
+    var id = "";
+    _.each(candidateProperties, function (property) {
+      orderedProps.push(property);
+      id = property.CANDIDATE_ID;
+    });
+    orderedProps = _.sortBy(orderedProps, 'CANDIDATE_CONFIG_ID');
+
+    var candidateInfoMap = {CANDIDATE_ID:id};
+    _.each(orderedProps, function (property) {
+      if(property.CANDIDATE_KEY_NAME === 'DATE_OF_BIRTH'){
+        candidateInfoMap[property.CANDIDATE_KEY_NAME] = moment(new Date(parseInt(property.CANDIDATE_VALUE))).format('YYYY-MM-DD');
+      }else{
+        candidateInfoMap[property.CANDIDATE_KEY_NAME] = property.CANDIDATE_VALUE;
+      }
+    });
+    
+    return candidateInfoMap;
+  });
+
+  const expectedWithParty = party_list.map(item => {
+    //check and change the team_id variable name after finishing the party list endpoint
+    const item2 = expected.find(o => o.team_id === item.team_id);
+    return { ...item, ...item2};
+  });
+
+  const expectedWithPartyDivision = division_list.map(item => {
+    //check and change the vivision_id variable name after finishing the division list endpoint
+    const item2 = expectedWithParty.find(o => o.division_id === item.division_id);
+    return { ...item, ...item2};
+  });
+
+
+  console.log('expected',expected);
+  return expectedWithPartyDivision;
+};
+
 export default {
   mapToCandidateModel,
+  mapToPartyCandidateModel
 };

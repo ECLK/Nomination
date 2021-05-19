@@ -23,12 +23,13 @@ class TextFields extends React.Component {
     componentDidMount() {
         const { moduleId } = this.props;
         const { index,getNominationCandidates,customProps,openSnackbar } = this.props;
-
+debugger;
         if(index) {
 
             axios.get(`nominations/${customProps}/candidates/${index}`)
                 .then(res => {
                     console.log(res);
+                    debugger;
                     const formData = res.data[0];
                     //TODO: do this to all 'date' type fields
                     
@@ -42,13 +43,14 @@ class TextFields extends React.Component {
 
         axios.get("modules/"+ moduleId +"/candidate-form-config", {}).then(
         (response) => {
+            debugger;
             var properties = {
               // TODO: remove following three
-              "counsilName": { "type": "hidden", "title": "counsilName", "default": "council", "id": 999 },
-              "electoralDivisionCode": { "type": "hidden", "title": "electoralDivisionCode", "default": "K01", "id": 998 },
-              "electoralDivisionName": { "type": "hidden", "title": "electoralDivisionName", "default": "kalutara", "id": 997 },
+            //   "counsilName": { "type": "hidden", "title": "counsilName", "default": "council", "id": 999 },
+            //   "electoralDivisionCode": { "type": "hidden", "title": "electoralDivisionCode", "default": "K01", "id": 998 },
+            //   "electoralDivisionName": { "type": "hidden", "title": "electoralDivisionName", "default": "kalutara", "id": 997 },
 
-              "nominationId": { "type": "hidden", "title": "nominationId", "default": this.props.customProps, "id": 996},
+            //   "nominationId": { "type": "hidden", "title": "nominationId", "default": this.props.customProps, "id": 996},
             };
 
             const sortedData = _.orderBy(response.data, ['candidate_config_id'], "asc");

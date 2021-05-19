@@ -44,6 +44,7 @@ class ScrollableTabsButtonAuto extends React.Component {
     render() {
         const { classes , customProps ,onCloseModal,index } = this.props;
         const { value } = this.state;
+        debugger;
         if(index){
             return (
                 <div className={classes.root}>

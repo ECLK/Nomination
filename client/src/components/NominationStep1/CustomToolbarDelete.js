@@ -93,6 +93,7 @@ class CustomToolbar extends React.Component {
   };
   handleRemove = () => {
     const {index,deleteNominationCandidate,getNominationCandidates,customProps} = this.props;
+    debugger;
     deleteNominationCandidate(index);  
     this.onCloseModal();           
     // getNominationCandidates(customProps);

@@ -6,6 +6,9 @@ import { CandidateManager } from 'Managers'
 import { NominationService, SupportDocService, ModuleService } from 'Service';
 import { HTTP_CODE_404, HTTP_CODE_204 } from '../routes/constants/HttpCodes';
 import { executeTransaction } from '../repository/TransactionExecutor';
+const https = require('https');
+const _EXTERNAL_URL_PARTY = 'https://test-proj-heroku.herokuapp.com/api/plans';
+const _EXTERNAL_URL_DIVISION = 'https://test-proj-heroku.herokuapp.com/api/plans';
 
 const uuidv4 = require('uuid/v4');
 
@@ -32,6 +35,70 @@ const getCandidateListByNominationId = async (req) => {
 	}
 };
 
+const callExternalApiForPartyDataSet = (callback) => {
+    https.get(_EXTERNAL_URL_PARTY, (resp) => {
+    let data = '';
+    
+    // A chunk of data has been recieved.
+    resp.on('data', (chunk) => {
+        data += chunk;
+    });
+    
+    // The whole response has been received. Print out the result.
+    resp.on('end', () => {
+        return callback(data);
+       // console.log(JSON.stringify(data));
+    });
+    
+    }).on("error", (err) => {
+       
+    console.log("Error: " + err.message);
+    });
+}
+
+const callExternalApiForDivisionDataSet = (callback) => {
+    https.get(_EXTERNAL_URL_DIVISION, (resp) => {
+    let data = '';
+    
+    // A chunk of data has been recieved.
+    resp.on('data', (chunk) => {
+        data += chunk;
+    });
+    
+    // The whole response has been received. Print out the result.
+    resp.on('end', () => {
+        return callback(data);
+       // console.log(JSON.stringify(data));
+    });
+    
+    }).on("error", (err) => {
+       
+    console.log("Error: " + err.message);
+    });
+}
+
+//Get candidate/division/party details for the active election
+const getCandidateListByElectionId = async (req) => {
+	try {
+		const election_id = req.params.electionId;
+		const party_list = callExternalApiForPartyDataSet();
+		const division_list = callExternalApiForDivisionDataSet();
+
+
+		const candidates = await CandidateRepo.getCandidateListByElection(election_id);
+
+		if (!_.isEmpty(candidates)) {
+			return CandidateManager.mapToCandidateModel(candidates,party_list,division_list)
+		} else {
+			throw new ApiError("Candidates not found", HTTP_CODE_404);
+		}
+		
+	} catch (e) {
+		console.log(e);
+		throw new ServerError("server error");
+	}
+};
+
 //Get candidate for a particular nomination by candidateId and nominationId
 const getCandidateByNominationId = async (req) => {
 	try {
@@ -40,7 +107,7 @@ const getCandidateByNominationId = async (req) => {
 		const params = { 'nominationId': nominationId, "candidateId": candidateId }
 		const candidates = await CandidateRepo.fetchCandidateByNomination(params);
 		if (!_.isEmpty(candidates)) {
-			return CandidateManager.mapToCandidateModel(candidates)
+			return CandidateManager.mapToPartyCandidateModel(candidates)
 		} else {
 			throw new ApiError("Candidates not found", HTTP_CODE_404);
 		}
@@ -301,5 +368,6 @@ export default {
 	saveCandidateConfig,
 	saveCandidateSupportDocConfigData,
 	deleteCandidateByCandidateId,
-	saveCandidateByNominationId_old
+	saveCandidateByNominationId_old,
+	getCandidateListByElectionId
 }

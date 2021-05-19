@@ -12,7 +12,7 @@ import {
     RECEIVE_APPROVED_ELECTION_TEMPLATES,
     RECIVE_PENDING_ELECTION_MODULE
 } from "./ElectionTypes";
-import { API_BASE_URL } from "../../../config.js";
+import { API_BASE_URL,CONFIG_MANAGEMENT_SERVICE_URL } from "../../../config.js";
 import axios from "axios";
 import { openSnackbar } from '../../election/state/ElectionAction';
 
@@ -140,6 +140,7 @@ export const saveElection = function saveElection(election) {
 }
 
 export const submitElection = function saveElection(election) {
+    debugger;
     let allElectionModuleData = {
         "name": election.name,
         "id": "1268362183761283718236",
@@ -624,3 +625,113 @@ export const onChangeApprovalData = (templateApprovals) => {
       });
     };
   }
+
+  export const asyncValidateElectionTemplate = function asyncValidateElectionTemplate(templateName) {
+    let promises = [];
+    if(templateName){
+        promises.push(axios.get(`${API_BASE_URL}/modules/validations/${templateName}`));
+        return axios.all(promises)
+            .then(args =>{
+                return {
+                    exist: args[0].data,
+                }
+            });
+    }
+}
+
+//--------------- Start of importing election template ---------------------------
+
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+  }
+  
+  const CONFIG_API = axios.create({
+    baseURL: CONFIG_MANAGEMENT_SERVICE_URL,
+    headers: {
+      'Authorization': "Bearer " +getCookie('somekey')
+    }
+  })
+  
+  export const submitElectionNew = function submitElectionNew(election) {
+    let allElectionModuleData = {
+        "name": election.name,
+        "id": "1268362183761283718236",
+        "divisionCommonName":'Provintial',
+        "createdBy":sessionStorage.getItem('user'),
+        "createdAt":'',
+        "updatedAt":'',
+        "candidateFormConfiguration": [
+        ],
+        "supportingDocuments": [
+            {
+                supportDocConfigId: '15990459-2ea4-413f-b1f7-29a138fd7a97',
+            },
+            {
+                supportDocConfigId: 'fe2c2d7e-66de-406a-b887-1143023f8e72',
+            },
+            {
+                supportDocConfigId: 'ff4c6768-bdbe-4a16-b680-5fecb6b1f747',
+            }
+        ],
+        "divisionConfig":[
+            {
+                divisionName: 'Sample',
+                parentDivisionName: 'Sample',
+                divisionCode: 'code',
+                noOfCandidates: '1',
+            },
+            {
+                divisionName: 'Sample3',
+                parentDivisionName: 'Sample',
+                divisionCode: 'code',
+                noOfCandidates: '2',
+            },
+            {
+                divisionName: 'Sample5',
+                parentDivisionName: 'Sample',
+                divisionCode: 'code',
+                noOfCandidates: '3',
+            }
+        ],
+    "electionConfig": [
+        {
+            electionModuleConfigId: '15990459-2ea4-413f-b1f7-29a138fd7a97',
+            value:'allowed',
+        }
+    ],
+    }
+  
+    // store.dispatch(openSnackbar({ message:`Download will begin shortly`}));
+    return function (dispatch) {
+    CONFIG_API.get(`/electionTemplate`, election)//tobe updated
+      .then((res) => axios.post(`${API_BASE_URL}/election-modules`, { ...allElectionModuleData , ...res.data}))
+      .then(response => {
+        if(response.data){
+            election.submited = true;
+            var electionNew= {createdAt: response.data.createdAt,
+                createdBy: response.data.createdBy,
+                id: response.data.id,
+                lastModified: response.data.updatedAt,
+                moduleId: "",
+                name: response.data.name,
+                status: "PENDING"}
+            dispatch({
+                type: UPDATE_ELECTION_MODULE,
+                payload: election
+            });
+            dispatch({
+                type: RECIVE_PENDING_ELECTION_MODULE,
+                payload: electionNew
+            });
+            
+            dispatch(openSnackbar({ message: election.name + ' has been imported successfully!' }));
+        }
+    }).catch(err => {
+        dispatch(openSnackbar({ message: err.response.data.message }));
+        console.log(err)
+    });
+    };
+  }
+  //--------------- End of importing election template ---------------------------

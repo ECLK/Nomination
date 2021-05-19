@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import AdminMenu from '../../../components/AdminMenu/AdminMenu';
 import CreateElection from '../../../components/CreateElection/CreateElection';
+import ImportElectionTemplate from '../../../modules/election-model/ImportElectionTemplate';
 import CallElection from '../../../modules/election/CallElection';
 import ElectionModule from '../../../components/ElectionModule/ElectionModule';
 import ElectionModuleList from '../../../components/ElectionModuleList';
@@ -21,8 +22,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import {getAllElectionTemplates} from '../../../modules/election-model/state/ElectionAction';
+import { getElectionModules } from '../../../modules/election/state/ElectionAction';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom'
+import TextField from '@material-ui/core/TextField';
+
 import moment from 'moment';
 
 
@@ -103,9 +107,10 @@ class Home extends React.Component {
     };
     
     componentWillMount() {
-        const {getAllElectionTemplates} = this.props;
+        const {getAllElectionTemplates, getElectionModules} = this.props;
 
         getAllElectionTemplates();
+        getElectionModules();
       }
 
 
@@ -270,7 +275,8 @@ class Home extends React.Component {
                     <Grid container className={classes.root} spacing={32}>
 
                         <Grid item xs={5} >
-                            <CreateElection check={(this.props.location.state) ? this.props.location.state.check : ''} ></CreateElection>
+                            <ImportElectionTemplate ></ImportElectionTemplate>
+                            {/* <CreateElection check={(this.props.location.state) ? this.props.location.state.check : ''} ></CreateElection> */}
                         </Grid>
                         <Grid item xs={5} >
                             {/* <CallElection electionModules={electionModules}></CallElection> */}
@@ -333,13 +339,16 @@ Home.propTypes = {
 };
 
 
-const mapStateToProps = ({ElectionModel}) => {
+const mapStateToProps = ({ElectionModel,Election}) => {
     const AllElectionTemplates = ElectionModel.AllElectionTemplates;
-    return {AllElectionTemplates};
+    const { getElectionModules } = Election;
+    const electionModules = Election.allElectionModules;
+    return {AllElectionTemplates,getElectionModules,electionModules};
   };
   
   const mapActionsToProps = {
-    getAllElectionTemplates
+    getAllElectionTemplates,
+    getElectionModules
   };
   
   export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Home));

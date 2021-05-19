@@ -3,18 +3,33 @@ import { DbConnection } from './dataSource';
 import { formatQueryToBulkInsert, formatDataToBulkInsert} from './sqlHelper';
 const uuidv4 = require('uuid/v4');
 
-
+//we save candidate config name as candidate config id, due to changes of removing election template module from Nomination
 const CANDIDATE_BY_NOMINATION_SELECT_QUERY = `SELECT CD.ID AS CANDIDATE_ID,
 												CD.CANDIDATE_CONFIG_ID AS CANDIDATE_CONFIG_ID,
 												CD.VALUE AS CANDIDATE_VALUE,
-												CC.KEY_NAME AS CANDIDATE_KEY_NAME
+												CD.CANDIDATE_CONFIG_ID AS CANDIDATE_KEY_NAME
 												FROM CANDIDATE_DATA CD
-												RIGHT JOIN CANDIDATE_CONFIG CC ON CD.CANDIDATE_CONFIG_ID=CC.ID
+												WHERE CD.NOMINATION_ID = :nomination_id ORDER BY CD.ID` ;
+
+const CANDIDATE_BY_ELECTION_SELECT_QUERY = `SELECT CD.ID AS CANDIDATE_ID,
+											CD.CANDIDATE_CONFIG_ID AS CANDIDATE_CONFIG_ID,
+											CD.VALUE AS CANDIDATE_VALUE,
+											CD.CANDIDATE_CONFIG_ID AS CANDIDATE_KEY_NAME,
+											N.TEAM_ID 
+											FROM CANDIDATE_DATA CD LEFT JOIN NOMINATION N ON CD.NOMINATION_ID = N.ID
+											WHERE N.ELECTION_ID = :election_id ORDER BY CD.ID` ;
+
+const CANDIDATE_LIST_BY_ELECTION_SELECT_QUERY = `SELECT CD.ID AS CANDIDATE_ID,
+												CD.CANDIDATE_CONFIG_ID AS CANDIDATE_CONFIG_ID,
+												CD.VALUE AS CANDIDATE_VALUE,
+												CD.CANDIDATE_CONFIG_ID AS CANDIDATE_KEY_NAME
+												FROM CANDIDATE_DATA CD
 												WHERE CD.NOMINATION_ID = :nomination_id ORDER BY CD.ID` ;
 
 const CANDIDATE_BY_CANDIDATE_ID_SELECT_QUERY = `SELECT CD.ID AS CANDIDATE_ID,
 												CD.CANDIDATE_CONFIG_ID AS CANDIDATE_CONFIG_ID,
 												CD.VALUE AS CANDIDATE_VALUE,
+												CD.CANDIDATE_CONFIG_ID AS CANDIDATE_KEY_NAME,
 												CC.KEY_NAME AS CANDIDATE_KEY_NAME
 												FROM CANDIDATE_DATA CD
 												RIGHT JOIN CANDIDATE_CONFIG CC ON CD.CANDIDATE_CONFIG_ID=CC.ID
@@ -32,6 +47,7 @@ const NOMINATION_STATUS_UPDATE_QUERY = `UPDATE NOMINATION
 
 const CANDIDATE_DELETE_QUERY = `DELETE FROM CANDIDATE_DATA WHERE ID = :candidateId`;
 const CANDIDATE_DATA_INSERT_BASE_QUERY = `INSERT INTO CANDIDATE_DATA (ID,CANDIDATE_CONFIG_ID,VALUE,NOMINATION_ID) VALUES `
+//we save candidate config name as candidate config id, due to changes of removing election template module from Nomination
 const CANDIDATE_DATA_COLUMN_ORDER = ['id', 'candidateConfigId','value','nominationId'];
 															  
 
@@ -39,6 +55,18 @@ const getCandidateListByNomination = (nomination_id) => {
 	const params = { nomination_id: nomination_id };
 	return DbConnection()
 		.query(CANDIDATE_BY_NOMINATION_SELECT_QUERY,
+			{
+				replacements: params,
+				type: DbConnection().QueryTypes.SELECT,
+			}).catch((error) => {
+				throw new DBError(error);
+			});
+}
+
+const getCandidateListByElection = (election_id) => {
+	const params = { election_id: election_id };
+	return DbConnection()
+		.query(CANDIDATE_BY_ELECTION_SELECT_QUERY,
 			{
 				replacements: params,
 				type: DbConnection().QueryTypes.SELECT,
@@ -276,5 +304,6 @@ export default {
 	insertCandidateConfigByModuleId,
 	deleteCandidate,
 	updateNominationStatus,
-	saveCandidate
+	saveCandidate,
+	getCandidateListByElection
 }

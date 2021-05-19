@@ -149,7 +149,7 @@ class ResponsiveDrawer extends React.Component {
         case "election_template_edit":
           return <div><ListItem button key="Create_election" component={Link} to='/admin/create-election-home' selected={this.props.location.pathname === "/admin/create-election-home"}>
             <ListItemIcon><NominationIcon /></ListItemIcon>
-            <ListItemText primary="Create Election Template" />
+            <ListItemText primary="Import Election Template" />
           </ListItem></div>
         case "nomination_approval_edit":
           return <div><ListItem button key="Nomination" component={Link} to='/admin/nomination-review' selected={this.props.location.pathname === "/admin/nomination-review"}>
@@ -173,12 +173,12 @@ class ResponsiveDrawer extends React.Component {
         //     <ListItemIcon><MoneyIcon /></ListItemIcon>
         //     <ListItemText primary="Payment Approval" />
         //   </ListItem>
-        case "election_template_approval":
-          return <div><ListItem button key="template_review" component={Link} to='/admin/template-review'
-              selected={this.props.location.pathname === "/admin/template-review"}>
-          <ListItemIcon><MoneyIcon/></ListItemIcon>
-          <ListItemText primary="Election Template Approval"/>
-          </ListItem><Divider /></div>
+        // case "election_template_approval":
+        //   return <div><ListItem button key="template_review" component={Link} to='/admin/template-review'
+        //       selected={this.props.location.pathname === "/admin/template-review"}>
+        //   <ListItemIcon><MoneyIcon/></ListItemIcon>
+        //   <ListItemText primary="Election Template Approval"/>
+        //   </ListItem><Divider /></div>
         case "payment_edit":
           return <ListItem button key="Payment" component={Link} to='/admin/nomination-payment-list' selected={this.props.location.pathname === "/admin/nomination-payment-list"}>
           <ListItemIcon><MoneyIcon /></ListItemIcon>

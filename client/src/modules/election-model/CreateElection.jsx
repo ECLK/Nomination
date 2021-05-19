@@ -489,16 +489,19 @@ class CreateElection extends React.Component {
                                             {/* {((this.props.electionId) && this.props.check !== 'approve' && this.props.check !== 'reject') ? */}
 
                                             {(this.state.moduleId && activeStep === 2 && this.props.location.state.check !== 'approve' && this.props.location.state.check !== 'reject') ?
-                                                <Button
-                                                    variant="contained"
-                                                    color="default"
-                                                    // onClick={this.handleDelete}
-                                                    onClick={this.onOpenModal}
-                                                    className={classes.button}
-                                                >
-                                                    Delete
-                                                <DeleteIcon className={classes.rightIcon} />
-                                                </Button> : ''
+                                                // Remove delete option since we handle create election template from election configuration module.
+                                                // <Button
+                                                //     variant="contained"
+                                                //     color="default"
+                                                //     // onClick={this.handleDelete}
+                                                //     onClick={this.onOpenModal}
+                                                //     className={classes.button}
+                                                // >
+                                                //     Delete
+                                                // <DeleteIcon className={classes.rightIcon} />
+                                                // </Button> 
+                                                ''
+                                                : ''
 
                                             }
                                             {(this.state.moduleId && this.props.location.state.check !== 'approve' && this.props.location.state.check !== 'reject') ?

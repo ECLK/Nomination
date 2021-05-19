@@ -103,7 +103,8 @@ export function getElectionModules() {
 
         const response = axios
             .get(
-                `${API_BASE_URL}/modules/APPROVE/all`,
+                //Change the module status to PENDING since we removing the template approval module 
+                `${API_BASE_URL}/modules/PENDING/all`,
             )
             .then(response => {
                 const getElectionModules = response.data;
@@ -635,7 +636,7 @@ export const setGetCallElectionData = (val) => {
 export function getCallElectionData(electionId,electionName,moduleId) {
     //TODO: config ids should get from the front end and the array should be dynamic
     let newDate = new Date();
-
+debugger;
     let allElectionData = {
         "name":'asd',
         "module_id":'xd',

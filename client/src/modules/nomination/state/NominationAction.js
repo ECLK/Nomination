@@ -165,6 +165,7 @@ const nominationCandidateLoaded = (getNominationCandidates) => {
 };
 
 export function getNominationCandidates(customProps) {
+  debugger;
   return function (dispatch) {
 
     const response = axios
@@ -431,6 +432,7 @@ export const setDeleteData = (getNominationCandidateDeleted) => {
 }
 
 export function deleteNominationCandidate(customProps) {
+  debugger;
     return function (dispatch) {
 
       const response = axios

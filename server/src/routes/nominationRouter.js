@@ -320,6 +320,17 @@ export const initNominationRouter = (app) => {
 					.catch(error => next(error));
 			},
 		},
+		{
+			method: GET,
+			path: '/nominations/party-candidates',
+			schema: {},
+			handler: (req, res, next) => {
+				return CandidateService.getCandidateListByElectionId(req)
+					.then((result) => res.status(HTTP_CODE_200).send(result))
+					.catch(error => next(error));
+
+			},
+		},
 		// {
 		//   method: POST,
 		//   path: '/upload',

@@ -140,11 +140,11 @@ class CustomizedTable extends React.Component {
             (response) => {
                 var properties = {
                   // TODO: remove following three
-                  "counsilName": { "type": "hidden", "title": "counsilName", "default": "council", "id": 999 },
-                  "electoralDivisionCode": { "type": "hidden", "title": "electoralDivisionCode", "default": "K01", "id": 998 },
-                  "electoralDivisionName": { "type": "hidden", "title": "electoralDivisionName", "default": "kalutara", "id": 997 },
+                //   "counsilName": { "type": "hidden", "title": "counsilName", "default": "council", "id": 999 },
+                //   "electoralDivisionCode": { "type": "hidden", "title": "electoralDivisionCode", "default": "K01", "id": 998 },
+                //   "electoralDivisionName": { "type": "hidden", "title": "electoralDivisionName", "default": "kalutara", "id": 997 },
     
-                  "nominationId": { "type": "hidden", "title": "nominationId", "default": this.props.customProps, "id": 996},
+                //   "nominationId": { "type": "hidden", "title": "nominationId", "default": this.props.customProps, "id": 996},
                 };
     
                 const sortedData = _.orderBy(response.data, ['candidate_config_id'], "asc");
@@ -190,14 +190,14 @@ class CustomizedTable extends React.Component {
         const { classes, CandidateList } = this.props;
         const rows = CandidateList;
         console.log("CandidateList", CandidateList);
-
+debugger;
         const columns = [
-            {
-                name: "ID",
-                options: {
-                    display: false
-                }
-            },
+            // {
+            //     name: "ID",
+            //     options: {
+            //         display: true
+            //     }
+            // },
             {
                 name: "NIC",
                 options: {
@@ -240,6 +240,12 @@ class CustomizedTable extends React.Component {
                     display: true
                 }
             },
+            {
+                name: "ID",
+                options: {
+                    display: false
+                }
+            },
             // {
             //     name: "Electoral Division",
             //     options: {
@@ -257,13 +263,14 @@ class CustomizedTable extends React.Component {
                 options: {
                     filter: true,
                     customBodyRender: (value, tableMeta, updateValue) => {
+                        debugger;
                         return (
                             <Grid container className={classes.grid} direction="row" justify="flex-start" alignItems="stretch" spacing={12}>
                                 <Grid item lg={6}>
                                     <CustomToolbarEdit
                                         className={classes.grid}
                                         value={value}
-                                        index={tableMeta.rowData[0]}
+                                        index={tableMeta.rowData[tableMeta.rowData.length - 2]}
                                         change={event => updateValue(event)}
                                         customProps={customProps}
                                         modalType="Update"
@@ -273,7 +280,7 @@ class CustomizedTable extends React.Component {
                                     <CustomToolbarDelete
                                         className={classes.grid}
                                         value={value}
-                                        index={tableMeta.rowData[0]}
+                                        index={tableMeta.rowData[tableMeta.rowData.length - 2]}
                                         change={event => updateValue(event)}
                                         customProps={customProps}
                                         modalType="Delete"
