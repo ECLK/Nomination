@@ -202,7 +202,7 @@ class CreateElection extends React.Component {
         if(this.props.location.state.check !== "approve"){
         const { formStatus } = this.state;
         for (let i = 0; i < electionModule.electionConfig.length; i++) {
-            switch (electionModule.electionConfig[i].electionModuleConfigId) {
+            switch (electionModule.electionConfig[i].electionModuleConfigID) {
                 case 'fe2c2d7e-66de-406a-b887-1143023f8e72'://Security Deposit RPP
                     formStatus.errorTextSecurityDepositeRpp = '';
                     break;
@@ -316,10 +316,10 @@ class CreateElection extends React.Component {
                 this.calType.current.focus();
                 
                 for (let i = 0; i < this.props.new_election_module.electionConfig.length; i++) {
-                    switch (this.props.new_election_module.electionConfig[i].electionModuleConfigId) {
+                    switch (this.props.new_election_module.electionConfig[i].electionModuleConfigID) {
                         case 'fe2c2d7e-66de-406a-b887-1143023f8e72'://Security Deposit RPP
                             for (let i = 0; i < this.props.new_election_module.electionConfig.length; i++) {
-                                if (this.props.new_election_module.electionConfig[i].electionModuleConfigId === 'fe2c2d7e-66de-406a-b887-1143023f8e72' && this.props.new_election_module.electionConfig[i].value === 'No') {
+                                if (this.props.new_election_module.electionConfig[i].electionModuleConfigID === 'fe2c2d7e-66de-406a-b887-1143023f8e72' && this.props.new_election_module.electionConfig[i].value === 'No') {
                                     formStatus.errorTextSecurityDepositeAmountRpp = '';
                                 }
                             }
@@ -327,7 +327,7 @@ class CreateElection extends React.Component {
                             break;
                         case '123213'://Security Deposit Amount RPP
                         for (let i = 0; i < this.props.new_election_module.electionConfig.length; i++) {
-                            if (this.props.new_election_module.electionConfig[i].electionModuleConfigId === '123213' && this.props.new_election_module.electionConfig[i].value < 0 ) {
+                            if (this.props.new_election_module.electionConfig[i].electionModuleConfigID === '123213' && this.props.new_election_module.electionConfig[i].value < 0 ) {
                                 formStatus.errorTextSecurityDepositeAmountRpp = 'emptyField2';
                                 break;
                             }else{
@@ -337,7 +337,7 @@ class CreateElection extends React.Component {
                             break;
                         case 'fe2c2d7e-66de-406a-b887-1143023f8e54'://Security Deposit IG
                             for (let i = 0; i < this.props.new_election_module.electionConfig.length; i++) {
-                                if (this.props.new_election_module.electionConfig[i].electionModuleConfigId === 'fe2c2d7e-66de-406a-b887-1143023f8e54' && this.props.new_election_module.electionConfig[i].value === 'No') {
+                                if (this.props.new_election_module.electionConfig[i].electionModuleConfigID === 'fe2c2d7e-66de-406a-b887-1143023f8e54' && this.props.new_election_module.electionConfig[i].value === 'No') {
                                     formStatus.errorTextSecurityDepositeAmountIg = '';
                                 }
                             }
@@ -345,7 +345,7 @@ class CreateElection extends React.Component {
                             break;
                         case '1232132'://Security Deposit Amount IG
                         for (let i = 0; i < this.props.new_election_module.electionConfig.length; i++) {
-                            if (this.props.new_election_module.electionConfig[i].electionModuleConfigId === '1232132' && this.props.new_election_module.electionConfig[i].value < 0 ) {
+                            if (this.props.new_election_module.electionConfig[i].electionModuleConfigID === '1232132' && this.props.new_election_module.electionConfig[i].value < 0 ) {
                                 formStatus.errorTextSecurityDepositeAmountIg = 'emptyField2';
                                 break;
                             }else{

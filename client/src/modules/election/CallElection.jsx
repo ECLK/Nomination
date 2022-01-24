@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent';//--
 import Button from '@material-ui/core/Button';//--
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';//--
-import { setCallElectionData, handleChangeElectionData, asyncValidateElection } from './state/ElectionAction';
+import { setCallElectionData, handleChangeElectionData, asyncValidateElection,getElectionModules } from './state/ElectionAction';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom'
 
@@ -97,8 +97,13 @@ class CallElection extends React.Component {
         }
     }
 
+    componentWillMount(){
+        getElectionModules();
+    }
+
     render() {
         const { classes, electionModules } = this.props;
+        debugger;
         if (this.state.goToConfig) return <Redirect
             to={{
                 pathname: '/admin/active-election',
@@ -178,12 +183,14 @@ CallElection.propTypes = {
 const mapStateToProps = ({ Election }) => {
     const { setCallElectionData } = Election;
     const CallElectionData = Election.CallElectionData;
-    return { setCallElectionData, CallElectionData };
+    const electionModules = Election.allElectionModulesForCallElection;
+    return { setCallElectionData, CallElectionData,electionModules };
 };
 
 const mapActionsToProps = {
     setCallElectionData,
-    handleChangeElectionData
+    handleChangeElectionData,
+    getElectionModules
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(CallElection));

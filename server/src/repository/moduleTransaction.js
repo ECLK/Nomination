@@ -10,9 +10,9 @@ import { executeTransaction } from './TransactionExecutor';
  * Rename the following method accordingly. following both 'Create objection' and 'update nomination status'
  * execute as a single transaction
  * @param moduleId
- * @param electionModuleConfigId
- * @param supportDocConfigId
- * @param candidateConfigId
+ * @param electionModuleConfigID
+ * @param supportDocConfigID
+ * @param candidateConfigID
  * @returns {Promise.<*>}
  */
 const saveModuleDataToDB = async (

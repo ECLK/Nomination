@@ -60,7 +60,7 @@ class ElectionConfig extends React.Component {
             const name = target.name;
             if(value==='No'){
                 newElectionModule.electionConfig.map((item,index) => (
-                    (item.electionModuleConfigId==='123213') ?
+                    (item.electionModuleConfigID==='123213') ?
                     newElectionModule.electionConfig.splice(index, 1) : ''
                 ));
             }
@@ -77,7 +77,7 @@ class ElectionConfig extends React.Component {
             const name = target.name;
             if(value==='No'){
                 newElectionModule.electionConfig.map((item,index) => (
-                    (item.electionModuleConfigId==='123213') ?
+                    (item.electionModuleConfigID==='123213') ?
                     newElectionModule.electionConfig.splice(index, 1) : ''
                 ));
             }
@@ -89,12 +89,12 @@ class ElectionConfig extends React.Component {
         const newElectionModule = {...this.props.electionModule};
         // this.setState({ [name]: event.target.value });
         const electionConf = {
-            electionModuleConfigId: name,
+            electionModuleConfigID: name,
             value: event.target.value,
             id:'securityDepositeAmount'
         }
         newElectionModule.electionConfig.map((item,index) => (
-            (item.electionModuleConfigId===electionConf.electionModuleConfigId) ?
+            (item.electionModuleConfigID===electionConf.electionModuleConfigID) ?
             newElectionModule.electionConfig.splice(index, 1) : ''
         ));
         if(electionConf.value!==''){
@@ -111,19 +111,19 @@ class ElectionConfig extends React.Component {
             const value = target.type === 'checkbox' ? target.checked : target.value;
             const name = target.name;
             const electionConf = {
-                electionModuleConfigId: name,
+                electionModuleConfigID: name,
                 value: value,
                 id:id
             }
             const electionConfig = this.state.electionConfig;
 
             newElectionModule.electionConfig.map((item,index) => (
-                (item.electionModuleConfigId===electionConf.electionModuleConfigId) ?
+                (item.electionModuleConfigID===electionConf.electionModuleConfigID) ?
                 newElectionModule.electionConfig.splice(index, 1) : ''
             ));
 
             newElectionModule.electionConfig.map((item,index) => (
-                (item.electionModuleConfigId===electionConf.electionModuleConfigId) ?
+                (item.electionModuleConfigID===electionConf.electionModuleConfigID) ?
                 electionConfig.splice(index, 1) : ''
             ));
 
@@ -131,7 +131,7 @@ class ElectionConfig extends React.Component {
             newElectionModule.electionConfig.push(electionConf);
             electionConfig.push(electionConf);
             this.props.electionChanged(newElectionModule); 
-            this.setState({electionConfig , electionModuleConfigId:"", value:""});
+            this.setState({electionConfig , electionModuleConfigID:"", value:""});
             // this.props.electionChanged({ ...this.props.electionModule, [name]: value });
         }
     }
@@ -139,7 +139,7 @@ class ElectionConfig extends React.Component {
     handleNominationSubmission(value,name, event) {
         const newElectionModule = {...this.props.electionModule};
         const electionConf = {
-            electionModuleConfigId: name,
+            electionModuleConfigID: name,
             value: value,
             id:'nominationSubmision'
         }
@@ -160,13 +160,13 @@ class ElectionConfig extends React.Component {
     handleEligibility(row, event) {
         const newElectionModule = {...this.props.electionModule};
         const eligibilityConf = {
-            eligibilityConfigId: row.value,
+            eligibilityConfigID: row.value,
         }
         if(event.target.checked){
             newElectionModule.eligibilityCheckList.push(eligibilityConf);
         }else{
             this.props.electionModule.eligibilityCheckList.map((item,index) => (
-                (item.eligibilityConfigId===eligibilityConf.eligibilityConfigId) ?
+                (item.eligibilityConfigID===eligibilityConf.eligibilityConfigID) ?
                 newElectionModule.eligibilityCheckList.splice(index, 1) : ''
             ));    
         }
@@ -208,25 +208,25 @@ class ElectionConfig extends React.Component {
         let showIg='';
 
         this.props.electionModule.electionConfig.map(item => {
-            if(item.electionModuleConfigId==='15990459-2ea4-413f-b1f7-29a138fd7a97'){
+            if(item.electionModuleConfigID==='15990459-2ea4-413f-b1f7-29a138fd7a97'){
                 calType=item.value
             }
-            if(item.electionModuleConfigId==='fe2c2d7e-66de-406a-b887-1143023f8e72'){
+            if(item.electionModuleConfigID==='fe2c2d7e-66de-406a-b887-1143023f8e72'){
                 SecurityDepositRpp=item.value
             }
-            if(item.electionModuleConfigId==='fe2c2d7e-66de-406a-b887-1143023f8e54'){
+            if(item.electionModuleConfigID==='fe2c2d7e-66de-406a-b887-1143023f8e54'){
                 SecurityDepositIg=item.value
             }
-            if(item.electionModuleConfigId==='123213'){
+            if(item.electionModuleConfigID==='123213'){
                 depositAmountRpp=item.value;
             }
-            if(item.electionModuleConfigId==='1232132'){
+            if(item.electionModuleConfigID==='1232132'){
                 depositAmountIg=item.value;
             }
-            if(item.electionModuleConfigId==='253454355'){
+            if(item.electionModuleConfigID==='253454355'){
                 Objections=item.value
             }
-            if(item.electionModuleConfigId==='142343242343'){
+            if(item.electionModuleConfigID==='142343242343'){
                 CreateAlliance=item.value
             }
             
@@ -455,7 +455,7 @@ class ElectionConfig extends React.Component {
                                             <Checkbox
                                                 // checked={electionModule.eligibilityCheckList[row.value]}
                                                 checked={(electionModule.eligibilityCheckList) ? electionModule.eligibilityCheckList.filter(item => {
-                                                    return item.eligibilityConfigId === row.value;
+                                                    return item.eligibilityConfigID === row.value;
                                                 }).length > 0 : ''} 
                                                 // onChange={(event)=>{this.handleEligibility(row, event);}}
                                                 value={row.value} 

@@ -21,7 +21,7 @@ const resultMaps = [
   },
   {
     mapId: 'electionConfigMap',
-    idProperty: 'electionModuleConfigId',
+    idProperty: 'electionModuleConfigID',
     properties: ['value']
   },
   {
@@ -31,17 +31,17 @@ const resultMaps = [
   },
   {
     mapId: 'supportingDocConfigMap',
-    idProperty: 'supportDocConfigId',
+    idProperty: 'supportDocConfigID',
     properties: []
   },
   {
     mapId: 'candidateConfigMap',
-    idProperty: 'candidateConfigId',
+    idProperty: 'candidateConfigID',
     properties: []
   },
   {
     mapId: 'eligibilityCheckList',
-    idProperty: 'eligibilityConfigId',
+    idProperty: 'eligibilityConfigID',
     properties: []
   },
   {

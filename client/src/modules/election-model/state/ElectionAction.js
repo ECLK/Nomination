@@ -12,7 +12,7 @@ import {
     RECEIVE_APPROVED_ELECTION_TEMPLATES,
     RECIVE_PENDING_ELECTION_MODULE
 } from "./ElectionTypes";
-import { API_BASE_URL,CONFIG_MANAGEMENT_SERVICE_URL } from "../../../config.js";
+import { API_BASE_URL,CONFIG_API_URL } from "../../../config.js";
 import axios from "axios";
 import { openSnackbar } from '../../election/state/ElectionAction';
 
@@ -51,13 +51,13 @@ export function postCallElectionData(electionData) {
         ],
         "supportingDocuments": [
             {
-                supportDocConfigId: '15990459-2ea4-413f-b1f7-29a138fd7a97',
+                supportDocConfigID: '15990459-2ea4-413f-b1f7-29a138fd7a97',
             },
             {
-                supportDocConfigId: 'fe2c2d7e-66de-406a-b887-1143023f8e72',
+                supportDocConfigID: 'fe2c2d7e-66de-406a-b887-1143023f8e72',
             },
             {
-                supportDocConfigId: 'ff4c6768-bdbe-4a16-b680-5fecb6b1f747',
+                supportDocConfigID: 'ff4c6768-bdbe-4a16-b680-5fecb6b1f747',
             }
         ],
         "divisionConfig":[
@@ -79,15 +79,15 @@ export function postCallElectionData(electionData) {
         ],
     "electionConfig": [
         {
-            electionModuleConfigId: '15990459-2ea4-413f-b1f7-29a138fd7a97',
+            electionModuleConfigID: '15990459-2ea4-413f-b1f7-29a138fd7a97',
             value:'allowed',
         },
         {
-            supportDocConfigId: 'fe2c2d7e-66de-406a-b887-1143023f8e72',
+            supportDocConfigID: 'fe2c2d7e-66de-406a-b887-1143023f8e72',
             value:'allowed',
         },
         {
-            supportDocConfigId: 'ff4c6768-bdbe-4a16-b680-5fecb6b1f747',
+            supportDocConfigID: 'ff4c6768-bdbe-4a16-b680-5fecb6b1f747',
             value:'allowed',
         }
 
@@ -152,13 +152,13 @@ export const submitElection = function saveElection(election) {
         ],
         "supportingDocuments": [
             {
-                supportDocConfigId: '15990459-2ea4-413f-b1f7-29a138fd7a97',
+                supportDocConfigID: '15990459-2ea4-413f-b1f7-29a138fd7a97',
             },
             {
-                supportDocConfigId: 'fe2c2d7e-66de-406a-b887-1143023f8e72',
+                supportDocConfigID: 'fe2c2d7e-66de-406a-b887-1143023f8e72',
             },
             {
-                supportDocConfigId: 'ff4c6768-bdbe-4a16-b680-5fecb6b1f747',
+                supportDocConfigID: 'ff4c6768-bdbe-4a16-b680-5fecb6b1f747',
             }
         ],
         "divisionConfig":[
@@ -183,7 +183,7 @@ export const submitElection = function saveElection(election) {
         ],
     "electionConfig": [
         {
-            electionModuleConfigId: '15990459-2ea4-413f-b1f7-29a138fd7a97',
+            electionModuleConfigID: '15990459-2ea4-413f-b1f7-29a138fd7a97',
             value:'allowed',
         }
     ],
@@ -457,13 +457,13 @@ export function getElectionTemplateData(moduleId) {
         ],
         "supportingDocuments": [
             {
-                supportDocConfigId: '15990459-2ea4-413f-b1f7-29a138fd7a97',
+                supportDocConfigID: '15990459-2ea4-413f-b1f7-29a138fd7a97',
             },
             {
-                supportDocConfigId: 'fe2c2d7e-66de-406a-b887-1143023f8e72',
+                supportDocConfigID: 'fe2c2d7e-66de-406a-b887-1143023f8e72',
             },
             {
-                supportDocConfigId: 'ff4c6768-bdbe-4a16-b680-5fecb6b1f747',
+                supportDocConfigID: 'ff4c6768-bdbe-4a16-b680-5fecb6b1f747',
             }
         ],
         "divisionConfig":[
@@ -485,15 +485,15 @@ export function getElectionTemplateData(moduleId) {
         ],
     "electionConfig": [
         {
-            electionModuleConfigId: '15990459-2ea4-413f-b1f7-29a138fd7a97',
+            electionModuleConfigID: '15990459-2ea4-413f-b1f7-29a138fd7a97',
             value:'allowed',
         },
         {
-            supportDocConfigId: 'fe2c2d7e-66de-406a-b887-1143023f8e72',
+            supportDocConfigID: 'fe2c2d7e-66de-406a-b887-1143023f8e72',
             value:'allowed',
         },
         {
-            supportDocConfigId: 'ff4c6768-bdbe-4a16-b680-5fecb6b1f747',
+            supportDocConfigID: 'ff4c6768-bdbe-4a16-b680-5fecb6b1f747',
             value:'allowed',
         }
 
@@ -506,6 +506,7 @@ export function getElectionTemplateData(moduleId) {
                 { ...allElectionModuleData }
             )
             .then(response => {
+                debugger;
                 dispatch(setGetTemplateData(response.data));
             }).catch(err => {
                 console.log(err)
@@ -648,13 +649,14 @@ function getCookie(name) {
   }
   
   const CONFIG_API = axios.create({
-    baseURL: CONFIG_MANAGEMENT_SERVICE_URL,
+    baseURL: CONFIG_API_URL,
     headers: {
       'Authorization': "Bearer " +getCookie('somekey')
     }
   })
   
   export const submitElectionNew = function submitElectionNew(election) {
+      debugger;
     let allElectionModuleData = {
         "name": election.name,
         "id": "1268362183761283718236",
@@ -666,13 +668,13 @@ function getCookie(name) {
         ],
         "supportingDocuments": [
             {
-                supportDocConfigId: '15990459-2ea4-413f-b1f7-29a138fd7a97',
+                supportDocConfigName: '15990459-2ea4-413f-b1f7-29a138fd7a97',
             },
             {
-                supportDocConfigId: 'fe2c2d7e-66de-406a-b887-1143023f8e72',
+                supportDocConfigName: 'fe2c2d7e-66de-406a-b887-1143023f8e72',
             },
             {
-                supportDocConfigId: 'ff4c6768-bdbe-4a16-b680-5fecb6b1f747',
+                supportDocConfigName: 'ff4c6768-bdbe-4a16-b680-5fecb6b1f747',
             }
         ],
         "divisionConfig":[
@@ -697,7 +699,7 @@ function getCookie(name) {
         ],
     "electionConfig": [
         {
-            electionModuleConfigId: '15990459-2ea4-413f-b1f7-29a138fd7a97',
+            electionModuleConfigName: '15990459-2ea4-413f-b1f7-29a138fd7a97',
             value:'allowed',
         }
     ],
@@ -705,11 +707,12 @@ function getCookie(name) {
   
     // store.dispatch(openSnackbar({ message:`Download will begin shortly`}));
     return function (dispatch) {
-    CONFIG_API.get(`/electionTemplate`, election)//tobe updated
+    CONFIG_API.get(`/electionTemplate/${election}`)//tobe updated
       .then((res) => axios.post(`${API_BASE_URL}/election-modules`, { ...allElectionModuleData , ...res.data}))
       .then(response => {
+          debugger;
         if(response.data){
-            election.submited = true;
+            // election.submited = true;
             var electionNew= {createdAt: response.data.createdAt,
                 createdBy: response.data.createdBy,
                 id: response.data.id,
@@ -726,11 +729,12 @@ function getCookie(name) {
                 payload: electionNew
             });
             
-            dispatch(openSnackbar({ message: election.name + ' has been imported successfully!' }));
+            dispatch(openSnackbar({ message: electionNew.name + ' election has been imported successfully!' }));
         }
     }).catch(err => {
+        debugger;
         dispatch(openSnackbar({ message: err.response.data.message }));
-        console.log(err)
+        // console.log(err)
     });
     };
   }

@@ -172,7 +172,7 @@ const fetchDivisionsWithNomination = (electionId, teamId,divisionId) => {
 			replacements: params,
 			type: DbConnection().QueryTypes.SELECT,
 		}).catch((error) => {
-			console.log(error);
+			console.log(error,'sd');
 			throw new DBError(error);
 		});
 	}else{
@@ -181,7 +181,7 @@ const fetchDivisionsWithNomination = (electionId, teamId,divisionId) => {
 			replacements: params,
 			type: DbConnection().QueryTypes.SELECT,
 		}).catch((error) => {
-			console.log(error);
+			console.log(error,'se');
 			throw new DBError(error);
 		});
 	}

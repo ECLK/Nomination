@@ -105,8 +105,8 @@ export const initModuleRouter = (app) => {
 		{
 			method: POST,
 			path: '/election-modules',
-			schema: ELECTION_TEMPLATE_DATA_EDIT_SCHEMA,
 			handler: (req, res, next) => {
+				console.log(req,"ssssssaaaaaa");
 			  return ModuleService.saveElectionModule(req)
 			  .then((result) => res.status(200).send(result))
 						  .catch(error => next(error));

@@ -22,7 +22,8 @@ import {
 SET_ELECTORATES_DIVISIONS,
     ELECTION_ELECTORATES_REVIEW_DATA,
     ELECTION_ELIGIBILITY_REVIEW_DATA,
-    GET_PENDING_ELECTIONS_DATA
+    GET_PENDING_ELECTIONS_DATA,
+    GET_ELECTION_MODULE_CALL_ELECTION
 } from "./ElectionTypes";
 import { REQUEST_STATE } from "../../../lib/request_redux_state";
 import update from 'immutability-helper';
@@ -42,6 +43,7 @@ const initialState = {
     elections: [],
     electionData: [],
     allElectionModules: [],
+    allElectionModulesForCallElection: [],
     CallElectionData: {
         "name":'',
         "module_id":'',
@@ -105,6 +107,11 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 allElectionModules: action.payload
             };
+        case GET_ELECTION_MODULE_CALL_ELECTION:
+                return {
+                    ...state,
+                    allElectionModulesForCallElection: action.payload
+                };
         case SET_CALL_ELECTION_DATA://set election data to the state
             return {
                 ...state,

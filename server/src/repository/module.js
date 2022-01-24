@@ -19,15 +19,15 @@ const MODULE_SELECT_QUERY = `SELECT
                             em.NAME AS MODULE_NAME,
                             em.DIVISION_COMMON_NAME AS MODULE_DIVISION_COMMON_NAME,
                             em.CREATED_BY AS MODULE_CREATED_BY,
-                            emcd.ELECTION_MODULE_CONFIG_ID AS MODULE_electionModuleConfigId,
+                            emcd.ELECTION_MODULE_CONFIG_ID AS MODULE_electionModuleConfigID,
                             emcd.VALUE AS MODULE_value,
                             dc.NAME AS MODULE_divisionName,
                             dc.PARENT_NAME AS MODULE_parentDivisionName,
                             dc.CODE AS MODULE_divisionCode,
                             dc.NO_OF_CANDIDATES AS MODULE_noOfCandidates,
-                            sdcd.SUPPORT_DOC_CONFIG_ID AS MODULE_supportDocConfigId,
-                            ccd.CANDIDATE_CONFIG_ID AS MODULE_candidateConfigId,
-                            ecd.ELIGIBILITY_CONFIG_ID AS MODULE_eligibilityConfigId,
+                            sdcd.SUPPORT_DOC_CONFIG_ID AS MODULE_supportDocConfigID,
+                            ccd.CANDIDATE_CONFIG_ID AS MODULE_candidateConfigID,
+                            ecd.ELIGIBILITY_CONFIG_ID AS MODULE_eligibilityConfigID,
                             ema.STATUS AS MODULE_approval_status,
                             ema.REVIEW_NOTE AS MODULE_reviewNote
                             FROM ELECTION_MODULE em LEFT JOIN ELECTION_MODULE_CONFIG_DATA emcd ON em.ID=emcd.MODULE_ID
@@ -46,10 +46,10 @@ const ColumnnamesFromCandidate_configTabel = `SELECT COLUMN_NAME FROM INFORMATIO
 const MODULE_COLUMN_ORDER = ['ID', 'NAME'];
 //we save candidate config name as candidate config id, due to changes of removing election template module from Nomination
 const CANDIDATE_CONFIG_INSERT_BASE_QUERY = `INSERT INTO CANDIDATE_CONFIG_DATA (ID,CANDIDATE_CONFIG_ID,MODULE_ID) VALUES `
-const CANDIDATE_CONFIG_COLUMN_ORDER = ['id', 'candidateConfigId','moduleId'];
+const CANDIDATE_CONFIG_COLUMN_ORDER = ['id', 'candidateConfigID','moduleId'];
 
 const SUPPORT_DOC_INSERT_BASE_QUERY = `INSERT INTO SUPPORT_DOC_CONFIG_DATA (ID,SUPPORT_DOC_CONFIG_ID,MODULE_ID) VALUES `
-const SUPPORT_DOC_COLUMN_ORDER = ['id', 'supportDocConfigId','moduleId'];
+const SUPPORT_DOC_COLUMN_ORDER = ['id', 'supportDocConfigID','moduleId'];
 
 const DIVISION_INSERT_BASE_QUERY = `INSERT INTO DIVISION_CONFIG (ID,NAME,PARENT_NAME,CODE,NO_OF_CANDIDATES,MODULE_ID) VALUES `
 const DIVISION_COLUMN_ORDER = ['id', 'divisionName','parentDivisionName' ,'divisionCode','noOfCandidates','moduleId'];
@@ -64,10 +64,10 @@ const ELECTION_MODULE_UPDATE_QUERY = `UPDATE ELECTION_MODULE
                                 ID = :id`;
 
 const ELECTION_CONFIG_INSERT_BASE_QUERY = `INSERT INTO ELECTION_MODULE_CONFIG_DATA (ID,VALUE,ELECTION_MODULE_CONFIG_ID,MODULE_ID) VALUES `
-const ELECTION_CONFIG_COLUMN_ORDER = ['id', 'value','electionModuleConfigId','moduleId'];
+const ELECTION_CONFIG_COLUMN_ORDER = ['id', 'value','electionModuleConfigID','moduleId'];
 
 const ELIGIBILITY_CONFIG_INSERT_BASE_QUERY = `INSERT INTO ELIGIBILITY_CONFIG_DATA (ID,ELIGIBILITY_CONFIG_ID,MODULE_ID) VALUES `
-const ELIGIBILITY_CONFIG_COLUMN_ORDER = ['id', 'eligibilityConfigId','moduleId'];
+const ELIGIBILITY_CONFIG_COLUMN_ORDER = ['id', 'eligibilityConfigID','moduleId'];
 
 
 const CANDIDATE_CONFIG_DELETE_QUERY = `DELETE FROM CANDIDATE_CONFIG_DATA WHERE MODULE_ID = :moduleId`;
@@ -228,6 +228,7 @@ const saveCandidateConf = async (moduleId, data, transaction) => {
  * @returns {Promise.<T>}
  */
 const saveSupportDocs = async (moduleId,data, transaction) => {
+  console.log("dataddd");
   const params = {moduleId:moduleId};
   data = data.map((record) => {
     record.moduleId = moduleId;
@@ -251,6 +252,7 @@ const saveSupportDocs = async (moduleId,data, transaction) => {
       type: DbConnection().QueryTypes.INSERT,
       transaction,
     }).catch((error) => {
+      console.log("dddd",error);
        throw new DBError(error);
      });
     }
@@ -319,6 +321,7 @@ const saveElectionConfig = async (moduleId,data, transaction) => {
       type: DbConnection().QueryTypes.INSERT,
       transaction,
     }).catch((error) => {
+      console.log("ddd",error);
        throw new DBError(error);
      });
     }

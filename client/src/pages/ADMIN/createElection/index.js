@@ -22,7 +22,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import {getAllElectionTemplates} from '../../../modules/election-model/state/ElectionAction';
-import { getElectionModules } from '../../../modules/election/state/ElectionAction';
+import { getElectionModules,getElectionModulesForCallElection } from '../../../modules/election/state/ElectionAction';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom'
 import TextField from '@material-ui/core/TextField';
@@ -111,6 +111,7 @@ class Home extends React.Component {
 
         getAllElectionTemplates();
         getElectionModules();
+        getElectionModulesForCallElection();
       }
 
 
@@ -342,13 +343,15 @@ Home.propTypes = {
 const mapStateToProps = ({ElectionModel,Election}) => {
     const AllElectionTemplates = ElectionModel.AllElectionTemplates;
     const { getElectionModules } = Election;
+    const { getElectionModulesForCallElection } = Election;
     const electionModules = Election.allElectionModules;
-    return {AllElectionTemplates,getElectionModules,electionModules};
+    return {AllElectionTemplates,getElectionModules,electionModules,getElectionModulesForCallElection};
   };
   
   const mapActionsToProps = {
     getAllElectionTemplates,
-    getElectionModules
+    getElectionModules,
+    getElectionModulesForCallElection
   };
   
   export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Home));

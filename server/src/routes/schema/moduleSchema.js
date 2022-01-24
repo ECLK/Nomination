@@ -21,39 +21,39 @@ export const ELECTION_TEMPLATE_DATA_EDIT_SCHEMA_FOR_PUT = Joi.object().keys({
   createdBy: Joi.string().max(100).min(3).required(true),
   divisionName: Joi.string().max(50).allow('',null),
   parentDivisionName: Joi.string().max(50).allow('',null),
-  divisionCode: Joi.string().max(50).allow('',null),
+  divisionCode: Joi.number().max(50).allow('',null),
   noOfCandidates: Joi.number().integer().allow('',null),
   candidateFormConfiguration: Joi.array().items(Joi.object({ 
-                    candidateConfigId: Joi.string().max(50).required(true),
+                    candidateConfigID: Joi.string().max(50).required(true),
                   })).allow(null),
   divisionConfig: Joi.array().items(Joi.object({ 
-                    divisionCode: Joi.string().max(50).required(true),
+                    divisionCode: Joi.number().max(50).required(true),
                     divisionName: Joi.string().max(50).required(true),
                     parentDivisionName: Joi.string().max(50).required(true),
                     noOfCandidates: Joi.number().integer().required(),
                   })).allow(null),
   electionConfig: Joi.array().items(Joi.object({ 
-                    electionModuleConfigId: Joi.string().max(50).required(true),
+                    electionModuleConfigID: Joi.string().max(50).required(true),
                     value: Joi.string().max(100).required(true),
                     id: Joi.string().max(100).allow('',null),
                   })).allow(null),
   eligibilityCheckList: Joi.array().items(Joi.object({ 
-                    eligibilityConfigId: Joi.string().max(50).required(true),
+                    eligibilityConfigID: Joi.string().max(50).required(true),
                   })).allow(null),
   supportingDocuments: Joi.array().items(Joi.object({ 
-                    supportDocConfigId: Joi.string().max(50).required(true),
+                    supportDocConfigID: Joi.string().max(50).required(true),
                   })).allow(null),
 });
 
 export const ELECTION_TEMPLATE_DATA_EDIT_SCHEMA = Joi.object().keys({
   name: Joi.string().max(100).required(true),
-  id: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
-  status: Joi.string().max(100).allow('',null),
-  reviewNote: Joi.string().max(100).allow('',null),
+  // id: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),
+  // status: Joi.string().max(100).allow('',null),
+  // reviewNote: Joi.string().max(100).allow('',null),
   column_name: Joi.string().max(100).allow('',null),
   divisionName: Joi.string().max(100).allow('',null),
   parentDivisionName: Joi.string().max(100).allow('',null),
-  divisionCode: Joi.string().max(100).allow('',null),
+  divisionCode: Joi.number().max(100).allow('',null),
   noOfCandidates: Joi.string().max(100).allow('',null),
   lastModified: Joi.number().integer().allow('',null),
   divisionCommonName: Joi.string().max(100).required(true),
@@ -62,24 +62,24 @@ export const ELECTION_TEMPLATE_DATA_EDIT_SCHEMA = Joi.object().keys({
   createdAt: Joi.number().integer().allow('',null),
   updatedAt: Joi.number().integer().allow('',null),
   candidateFormConfiguration: Joi.array().items(Joi.object({ 
-                    candidateConfigId: Joi.string().max(50).required(true),
+                    candidateConfigID: Joi.string().max(50).required(true),
                   })).allow(null),
   divisionConfig: Joi.array().items(Joi.object({ 
-                    divisionCode: Joi.string().max(50).required(true),
+                    divisionCode: Joi.number().max(50).required(true),
                     divisionName: Joi.string().max(50).required(true),
                     parentDivisionName: Joi.string().max(50).required(true),
                     noOfCandidates: Joi.number().integer().required(),
                   })).allow(null),
   electionConfig: Joi.array().items(Joi.object({ 
-                    electionModuleConfigId: Joi.string().max(50).required(true),
+                    electionModuleConfigID: Joi.string().max(50).required(true),
                     value: Joi.string().max(100).required(true),
                     id: Joi.string().max(100).required(true),
                   })).allow(null),
   eligibilityCheckList: Joi.array().items(Joi.object({ 
-                    eligibilityConfigId: Joi.string().max(50).required(true),
+                    eligibilityConfigID: Joi.string().max(50).required(true),
                   })).allow(null),
   supportingDocuments: Joi.array().items(Joi.object({ 
-                    supportDocConfigId: Joi.string().max(50).required(true),
+                    supportDocConfigID: Joi.string().max(50).required(true),
                   })).allow(null),
   ElectionTemplateReviewData: Joi.array().allow(null),         
 });

@@ -20,10 +20,12 @@ import {
     SET_ELECTORATES_DIVISIONS,
     ELECTION_ELECTORATES_REVIEW_DATA,
     ELECTION_ELIGIBILITY_REVIEW_DATA,
-    GET_PENDING_ELECTIONS_DATA
+    GET_PENDING_ELECTIONS_DATA,
+    GET_ELECTION_MODULE_CALL_ELECTION
 } from "./ElectionTypes";
-import { API_BASE_URL } from "../../../config.js";
+import { API_BASE_URL, CONFIG_API_URL } from "../../../config.js";
 import axios from "axios";
+import store from '../../../state/store';
 
 function electionsLoadSuccess(elections) {
     return {
@@ -90,15 +92,92 @@ export function postElection(elections) {
     };
 }
 
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+  }
+  
+  const ConfigAPI = axios.create({
+    baseURL: CONFIG_API_URL,
+    headers: {
+      'Authorization': "Bearer " +getCookie('somekey')
+    }
+  })
 
 const electionModuleLoaded = (getElectionModules) => {
+    debugger;
     return {
         type: GET_ELECTION_MODULE,
         payload: getElectionModules,
     };
 };
 
+const electionModuleLoadedForCallElection = (getElectionModules) => {
+    debugger;
+    return {
+        type: GET_ELECTION_MODULE_CALL_ELECTION,
+        payload: getElectionModules,
+    };
+};
+
+// export const getElectionModules = function getElectionModules() {
+//     debugger;
+//     let userData = {
+//         'un': getCookie('user'),
+//         'pw': getCookie('somekey')
+//     };
+  
+//     store.dispatch(openSnackbar({ message:`Download will begin shortly`}));
+  
+//     ConfigAPI.post(`/election/templatelist`, userData)
+//       .then((res) => ConfigAPI.get(res.data.access_token, { responseType: 'json' }))
+//       .then((res) => {
+//           debugger;
+//         // const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+//         // saveAs(pdfBlob, 'nomination_payslip.pdf');
+//       })
+//   }
+
+//   export const getElectionModules = function getElectionModules() {
+//     return function (dispatch) {
+  
+//     store.dispatch(openSnackbar({ message:`Download will begin shortly`}));
+  
+//     ConfigAPI.get(`/election/templatelist`)
+//     //   .then((res) => firstAPI.get(res.data.path))
+//       .then((res) => {
+//           debugger;
+//           dispatch(electionModuleLoaded(res.data));
+//         // const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+//         // saveAs(pdfBlob, 'nomination_payslip.pdf');
+//       }).catch(err => {
+//         console.log(err)
+//     });
+//   }
+// }
+
 export function getElectionModules() {
+    return function (dispatch) {
+
+        const response = ConfigAPI.get(`/election/templatelist`)
+            .then(response => {
+                const ElectionModules = response.data;
+                dispatch(
+                    electionModuleLoaded(ElectionModules)
+                );
+            }).catch(err => {
+                const ElectionModules = [];
+                dispatch(
+                    electionModuleLoaded(ElectionModules)
+                );
+                console.log(err)
+            });
+    };
+}
+
+
+export function getElectionModulesForCallElection() {
     return function (dispatch) {
 
         const response = axios
@@ -109,12 +188,12 @@ export function getElectionModules() {
             .then(response => {
                 const getElectionModules = response.data;
                 dispatch(
-                    electionModuleLoaded(getElectionModules)
+                    electionModuleLoadedForCallElection(getElectionModules)
                 );
             }).catch(err => {
                 const getElectionModules = [];
                 dispatch(
-                    electionModuleLoaded(getElectionModules)
+                    electionModuleLoadedForCallElection(getElectionModules)
                 );
                 console.log(err)
             });
@@ -443,6 +522,7 @@ export const electionReviewDataLoaded = (val) => {
     }
 }
 export function getElectionReviewData(id) {
+    debugger;
     return function (dispatch) {
 
         const response = axios
@@ -560,6 +640,7 @@ export const onChangeApprovalData = (electionApprovals) => {
          (electionApprovals.status === 'REJECT') ?
          dispatch(openSnackbar({ message: electionName + ' has not been approved ' })) : dispatch(openSnackbar({ message: electionName + ' has been approved ' }));
       }).catch(err => {
+          debugger;
             dispatch(openSnackbar({ message: err.response.data.message }));
       });
     };

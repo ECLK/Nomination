@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent';//--
 import Button from '@material-ui/core/Button';//--
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';//--
-import {  asyncValidateElectionTemplate, submitElection } from './state/ElectionAction';
+import {  asyncValidateElectionTemplate, submitElectionNew } from './state/ElectionAction';
 import {getElectionModules} from '../election/state/ElectionAction';
 
 import { connect } from 'react-redux';
@@ -18,6 +18,7 @@ const styles = theme => ({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
+        width: 400,
     },
     dense: {
         marginTop: 16,
@@ -44,16 +45,23 @@ class CallElection extends React.Component {
     }
 
     async handleSubmit(e) {
+        debugger;
 
         if (this.state.exist === true) {
+            debugger;
+
             this.setState({ errorTextModule: 'emptyField2' });
-            this.props.submitElection(this.state.exist);
-        } else if (this.state.electionModule === '' || this.state.electionModule === '-- Select Template --') {
+            this.props.submitElectionNew(this.state.exist);
+        } else if (this.state.ElectionModule === '' || this.state.ElectionModule === '-- Select Template --') {
+            debugger;
+
             this.setState({ errorTextModule: 'emptyField' });
         } else {
+            debugger;
             // this.setState({ goToConfig: true });
-            this.props.submitElection(this.state.exist);
+            this.props.submitElectionNew(this.state.ElectionModule);
         }
+        debugger;
 
         // const { handleChangeElectionData } = this.props;
         const newElectionModule = { ...this.props.CallElectionData };
@@ -76,6 +84,7 @@ class CallElection extends React.Component {
                 [name]: event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''),
             });
         }else{
+            debugger;
             this.setState({
                 [name]: event.target.value,
             });
@@ -143,8 +152,8 @@ class CallElection extends React.Component {
                                 -- Select Template --
                                 </option>
                             {electionModules.map(option => (
-                                <option key={option.id} value={option.name}>
-                                    {option.name}
+                                <option key={option.TEMPLATE_ID} value={option.TEMPLATE_ID}>
+                                    {option.TEMPLATE_NAME}
                                 </option>
                             ))}
                         </TextField>
@@ -191,7 +200,7 @@ const mapStateToProps = ({ Election }) => {
 
 const mapActionsToProps = {
     getElectionModules,
-    submitElection
+    submitElectionNew
     // setCallElectionData,
     // handleChangeElectionData
 };

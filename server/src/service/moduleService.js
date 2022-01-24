@@ -26,6 +26,7 @@ const getModuleByModuleId = async (req) => {
 	try {
 		const uid = req.params.moduleId;
 	const modules = await ModuleRepo.fetchModuleById(uid);
+	console.log("moduledd",modules);
 	if (!_.isEmpty(modules)) {
 		return ModuleManager.mapToModuleModel(modules);
 	} else {
@@ -83,6 +84,7 @@ const validateModuleId = async (moduleId) => {
 }
 
 const saveElectionModule = async (req) => {
+	console.log("ssssssss",req.body);
 	try {
   return executeTransaction(async (transaction) => {
 		let moduleId = req.params.moduleId;
@@ -90,6 +92,7 @@ const saveElectionModule = async (req) => {
 		let param ={}
 		let params ={}
 	if(moduleId !== undefined){
+		console.log("yes id",req.body.name);
 		const name = req.body.name;
 		const divisionCommonName = req.body.divisionCommonName;
 		const createdBy = req.body.createdBy;
@@ -99,6 +102,7 @@ const saveElectionModule = async (req) => {
 		const approvalParams = {'updatedAt':updatedAt, 'status':'PENDING','moduleId':moduleId,'reviewNote':''};
 		 await ModuleRepo.updateTemplateStatus( approvalParams );
 	}else{
+		console.log("no id",req.body.name);
 		moduleId = uuidv4();
 		const name = req.body.name;
 		const divisionCommonName = req.body.divisionCommonName;
@@ -124,7 +128,7 @@ const saveElectionModule = async (req) => {
     return param;
 	});
 }catch (e){
-	console.log(e);
+	console.log(e,"rrrrr");
 	throw new ServerError("server error");
 }
 };
