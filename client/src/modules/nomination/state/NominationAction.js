@@ -26,7 +26,7 @@ import {
   PARTY_LIST_BY_TEAM_TYPE_LOADED,
     PENDING_NOMINATIONS_LOADED
 } from "./NominationTypes";
-import {API_BASE_URL,PDF_GENARATION_SERVICE_URL} from "../../../config.js";
+import {API_BASE_URL,PDF_GENARATION_SERVICE_URL,CONFIG_API_URL} from "../../../config.js";
 import axios from "axios";
 import { openSnackbar } from '../../election/state/ElectionAction';
 import moment from "react-moment";
@@ -102,6 +102,13 @@ export function getApproveElections() {
   };
 }
 
+const ConfigAPI = axios.create({
+  baseURL: CONFIG_API_URL,
+  headers: {
+    'Authorization': "Bearer " +getCookie('somekey')
+  }
+})
+
 //get party list for nomination review
 const partyListLoaded = (partyList) => {
   return {
@@ -113,18 +120,38 @@ const partyListLoaded = (partyList) => {
 export function getTeams() {
   return function (dispatch) {
 
-    const response = axios
-    .get(
-      `${API_BASE_URL}/teams`,
-    )
-    .then(response => {
-      const partyList = response.data;
-       dispatch(partyListLoaded(partyList));
-    }).catch(err => {
-          console.log(err)
-    });
+      const response = ConfigAPI.get(`/party/nomination`)
+          .then(response => {
+              const partyList = response.data;
+              dispatch(
+                partyListLoaded(partyList)
+              );
+          }).catch(err => {
+              const partyList = [];
+              dispatch(
+                partyListLoaded(partyList)
+              );
+              console.log(err)
+          });
   };
 }
+
+// commented becouse we getting the new data from config mgt 
+// export function getTeams() {
+//   return function (dispatch) {
+
+//     const response = axios
+//     .get(
+//       `${API_BASE_URL}/teams`,
+//     )
+//     .then(response => {
+//       const partyList = response.data;
+//        dispatch(partyListLoaded(partyList));
+//     }).catch(err => {
+//           console.log(err)
+//     });
+//   };
+// }
 
 //get party list by party type
 const partyListByTypeLoaded = (partyList) => {
@@ -134,28 +161,57 @@ const partyListByTypeLoaded = (partyList) => {
   };
 };
 
+//getting data from election config module
 export function getTeamsByTeamType(res) {
   var partyType = '';
   if(res==="candidate payment rpp"){
     partyType = "RPP";
   }
   if(res==="candidate payment ig"){
-    partyType = "IND";
+    partyType = "IG";
   }
   return function (dispatch) {
 
-    const response = axios
-    .get(
-      `${API_BASE_URL}/teams/${partyType}/withType`,
-    )
-    .then(response => {
-      const partyList = response.data;
-       dispatch(partyListByTypeLoaded(partyList));
-    }).catch(err => {
-          console.log(err)
-    });
+      const response = ConfigAPI.get(`party/teams/withType/${partyType}`)
+          .then(response => {
+            debugger;
+              const partyList = response.data;
+              dispatch(
+                partyListByTypeLoaded(partyList)
+              );
+          }).catch(err => {
+            debugger;
+              const partyList = [];
+              dispatch(
+                partyListByTypeLoaded(partyList)
+              );
+              console.log(err)
+          });
   };
 }
+
+// export function getTeamsByTeamType(res) {
+//   var partyType = '';
+//   if(res==="candidate payment rpp"){
+//     partyType = "RPP";
+//   }
+//   if(res==="candidate payment ig"){
+//     partyType = "IND";
+//   }
+//   return function (dispatch) {
+
+//     const response = axios
+//     .get(
+//       `${API_BASE_URL}/teams/${partyType}/withType`,
+//     )
+//     .then(response => {
+//       const partyList = response.data;
+//        dispatch(partyListByTypeLoaded(partyList));
+//     }).catch(err => {
+//           console.log(err)
+//     });
+//   };
+// }
 
 const nominationCandidateLoaded = (getNominationCandidates) => {
   return {
@@ -534,6 +590,7 @@ const nominationListforPaymentLoaded = (getNominationList) => {
 };
 
 export function getNominationListForPayment(electionId,teamId) {
+  debugger;
   return function (dispatch) {
 
     const response = axios

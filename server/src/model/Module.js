@@ -1,16 +1,16 @@
 import {Record, List,Maybe } from 'typed-immutable';
 
 const electionConfig = Record({
-	electionModuleConfigId: String(),
+	electionModuleConfigID: String(),
 	value: String(),
 });
 
 const candidateFormConfiguration = Record({
-	candidateConfigId: String(),
+	candidateConfigID: String(),
 });
 
 const supportingDocuments = Record({
-	supportDocConfigId: String(),
+	supportDocConfigID: String(),
 });
 
 const divisionConfig = Record({
@@ -21,11 +21,11 @@ const divisionConfig = Record({
 });
 
 const eligibilityCheckList = Record({
-	eligibilityConfigId: String(),
+	eligibilityConfigID: String(),
 });
 
  const Module = Record({
-    id: String(),
+    // id: String(),
     name: String(),
     divisionCommonName: String(),
     createdBy: String(),

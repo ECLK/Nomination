@@ -48,7 +48,7 @@ export let services2 = Joi.array().items(UPDATE_SUPPORT_DOC_SCHEMA)
 
 export const SAVE_CANDIDATE_SCHEMA = Joi.object().keys({
   candidateData: Joi.array().items(Joi.object({ 
-    candidateConfigId: Joi.number().integer().required(),
+    candidateConfigID: Joi.number().integer().required(),
     value: Joi.string().max(300).required(true)
   })).allow(null),
   nominationId: Joi.string().max(36).regex(/^[A-Za-z0-9-]+$/),

@@ -18,7 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import DateRangeIcon from '@material-ui/icons/DateRange';
-import { getElectionModules,getAllElections , getElectionReviewData } from '../../../modules/election/state/ElectionAction';
+import { getElectionModules,getAllElections , getElectionReviewData,getElectionModulesForCallElection } from '../../../modules/election/state/ElectionAction';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import moment from 'moment';
@@ -101,8 +101,9 @@ class Home extends React.Component {
 
     };
     componentDidMount() {
-        const { getElectionModules, getAllElections  } = this.props;
+        const { getElectionModules,getElectionModulesForCallElection, getAllElections  } = this.props;
         getElectionModules();
+        getElectionModulesForCallElection();
         getAllElections();
     }
 
@@ -313,17 +314,19 @@ Home.propTypes = {
 
 
 const mapStateToProps = ({ Election }) => {
-    const { getElectionModules, getElectionReviewData } = Election;
+    const { getElectionModules, getElectionReviewData, getElectionModulesForCallElection } = Election;
     const electionModules = Election.allElectionModules;
+    const electionModulesForCallElection = Election.allElectionModulesForCallElection;
     const AllElections = Election.AllElections;
 
-    return { getElectionModules, electionModules, getAllElections, AllElections, getElectionReviewData };
+    return { getElectionModules, electionModules, getAllElections, AllElections, getElectionReviewData,getElectionModulesForCallElection,electionModulesForCallElection };
 };
 
 const mapActionsToProps = {
     getElectionModules,
     getElectionReviewData,
-    getAllElections
+    getAllElections,
+    getElectionModulesForCallElection
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Home));

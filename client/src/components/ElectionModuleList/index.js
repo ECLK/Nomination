@@ -59,8 +59,8 @@ class ScrollableTabsButtonAuto extends React.Component {
                         </Tabs>
                     </AppBar>
                     {value === 0 && <TabContainer>{ElectionModulePendingElements}</TabContainer>}
-                    {/* {value === 1 && <TabContainer>{ElectionModuleApproveElements}</TabContainer>}
-                    {value === 2 && <TabContainer>{ElectionModuleRejectedElements}</TabContainer>} */}
+                    {value === 1 && <TabContainer>{ElectionModuleApproveElements}</TabContainer>}
+                    {value === 2 && <TabContainer>{ElectionModuleRejectedElements}</TabContainer>}
 
     
                 </div>

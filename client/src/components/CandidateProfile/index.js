@@ -105,7 +105,7 @@ debugger;
         for (var configItem in data) {
             if(jsonSchemaProperties[configItem]){
                 candidateKeyValues.candidateData.push(
-                    {"candidateConfigId" : jsonSchemaProperties[configItem].id,
+                    {"candidateConfigID" : jsonSchemaProperties[configItem].id,
                     "value" : data[configItem]});
             }
         }
@@ -149,6 +149,7 @@ debugger;
 
     render() {
         let {ajaxState, jsonSchemaProperties, formData} = this.state;
+        debugger;
         const jsonSchema = {
             "title": "Create Nomination",
             "description": "Add a new nomiantion",

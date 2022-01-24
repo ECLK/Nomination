@@ -484,6 +484,7 @@ class NominationPayments extends React.Component {
                             <MenuItem value="" disabled>
                                 Slect party type
                             </MenuItem>
+                            <MenuItem value={'candidate payment rpp'}>Registered Political Party ( RPP )</MenuItem>
                             <MenuItem value={'candidate payment ig'}>Indipendent Group ( IG )</MenuItem>
                         </Select>
                         }

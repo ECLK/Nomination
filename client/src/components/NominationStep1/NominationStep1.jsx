@@ -86,7 +86,7 @@ class CustomizedTable extends React.Component {
             for (var configItem in data2) {
                 if(jsonSchemaProperties[configItem]){
                     candidateKeyValues.candidateData.push(
-                        {"candidateConfigId" : jsonSchemaProperties[configItem].id,
+                        {"candidateConfigID" : jsonSchemaProperties[configItem].id,
                         "value" : data2[configItem]});
                 }
             }
@@ -96,7 +96,7 @@ class CustomizedTable extends React.Component {
         ids = ['1', '2', '3', '4', '5'],
         result4 = data3
         .reduce((r, o) => {
-            let index = r.indices[o.candidateConfigId]++;
+            let index = r.indices[o.candidateConfigID]++;
             r.data3[index] = r.data3[index] || [];
             r.data3[index].push(o);
             return r;

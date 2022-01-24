@@ -91,6 +91,7 @@ const fetchElectionByIdWithTimelineData = (electionId) => {
 			replacements: params,
 			type: DbConnection().QueryTypes.SELECT,
 		}).catch( (error) => {
+			console.log("dddd",error);
 			throw new DBError(error);
 		});
 };

@@ -48,7 +48,7 @@ const NOMINATION_STATUS_UPDATE_QUERY = `UPDATE NOMINATION
 const CANDIDATE_DELETE_QUERY = `DELETE FROM CANDIDATE_DATA WHERE ID = :candidateId`;
 const CANDIDATE_DATA_INSERT_BASE_QUERY = `INSERT INTO CANDIDATE_DATA (ID,CANDIDATE_CONFIG_ID,VALUE,NOMINATION_ID) VALUES `
 //we save candidate config name as candidate config id, due to changes of removing election template module from Nomination
-const CANDIDATE_DATA_COLUMN_ORDER = ['id', 'candidateConfigId','value','nominationId'];
+const CANDIDATE_DATA_COLUMN_ORDER = ['id', 'candidateConfigID','value','nominationId'];
 															  
 
 const getCandidateListByNomination = (nomination_id) => {
@@ -82,6 +82,7 @@ const fetchCandidateByNomination = (params) => {
 				replacements: params,
 				type: DbConnection().QueryTypes.SELECT,
 			}).catch((error) => {
+				console.log(error,"ggg");
 				throw new DBError(error);
 			});
 }
