@@ -6,6 +6,7 @@ var CONFIG_API_URL = 'http://220.247.204.21:3001';
 var AUTH_BASE_URL = 'http://localhost:3001/';
 // var CONFIG_MANAGEMENT_SERVICE_URL = 'http://localhost:3001/';
 
+
 if (process.env.NODE_ENV === 'production'){
     API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
     PDF_GENARATION_SERVICE_URL = process.env.REACT_APP_PDF_GENARATION_SERVICE_URL;
