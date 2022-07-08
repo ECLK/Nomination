@@ -11,7 +11,7 @@ ENV REACT_APP_API_BASE_URL=https://apim-gw.ecstag.opensource.lk/nominations/0.9
 ENV REACT_APP_PDF_GENARATION_SERVICE_URL=https://apim-gw.ecstag.opensource.lk/nominations/0.9
 ENV REACT_APP_AUTH_BASE_URL=https://nominations.ecstag.opensource.lk
 ENV REACT_APP_NOMINATION_URL=https://nominations.ecstag.opensource.lk
-ENV REACT_APP_CONFIG_API_URL=http://220.247.204.21:3001
+ENV REACT_APP_CONFIG_API_URL=https://lsfconfig.elections.gov.lk
 
 RUN npm run build
 RUN rm /etc/localtime
