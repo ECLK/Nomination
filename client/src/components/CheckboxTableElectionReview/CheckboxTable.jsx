@@ -118,8 +118,7 @@ class CheckboxTableGrid extends React.Component {
             let row = [];
             for (let j = 0; j < cols.length; j++) {
                 rowData.map((value) => {
-                    debugger;
-                    if (cols[j].id === value.division_id && rows[i].id === value.team_id) {
+                    if (cols[j].id == value.division_id && rows[i].id == value.team_id) {
                         if (prevCol === cols[j].id) {
                             colCount++;
                             prevCol = cols[j].id;
@@ -281,7 +280,7 @@ class CheckboxTableGrid extends React.Component {
                     }
                 } else {
                     if(i!==0 && j!==1){
-                        colData.push(<Checkbox color="primary" checked={true} onChange={this.handleChange(i, j - 1, data)}></Checkbox>);
+                        colData.push(<Checkbox color="primary" checked={this.state.checkboxGrid[i][j - 1]} onChange={this.handleChange(i, j - 1, data)}></Checkbox>);
                     }
                 }
             }

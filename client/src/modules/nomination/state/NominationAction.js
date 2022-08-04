@@ -360,6 +360,7 @@ export const setNominationStatus = (nominationSuppertDocs) => {
       candidateSupportDocs:nominationSuppertDocs.supportdoc,
       divisionId:divisionId
     }
+    debugger;
     return function (dispatch) {
 
       const response = axios
