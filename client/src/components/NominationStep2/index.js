@@ -211,6 +211,7 @@ class NominationPayments extends React.Component {
         }
 
         if (this.state.election && name === 'party') {
+            debugger;
             this.props.getNominationListForPayment(this.state.election, event.value);
         } else if (this.state.party && name === 'election') {
             this.props.getNominationListForPayment(event.value, this.state.party)

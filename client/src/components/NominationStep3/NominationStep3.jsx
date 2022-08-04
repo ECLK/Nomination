@@ -148,7 +148,7 @@ class TextFields extends React.Component {
       }
     render() {
         const {classes,onSelectFiles,doneElement,supportdoc,closeElement,supportingDocs,handleUploadView,errorTextFileUpload} = this.props;
-        
+        debugger;
 
         const supportingDocItems = supportingDocs.map(docs => (
           <div>

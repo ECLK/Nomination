@@ -100,7 +100,7 @@ class AllowNomination extends React.Component {
                 <div className={classes.content}>
                         <CardContent>
                             <form ref="form" onSubmit={this.handleSubmit}>
-                                <CheckboxTable title="" data={nomination_setup}  rows={rowHeadersForRpp}></CheckboxTable>
+                                <CheckboxTable title="" data={nomination_setup}  rows={data}></CheckboxTable>
                                 <CheckboxTableIg title="" data={nomination_setup}  rows={rowHeadersForIg}></CheckboxTableIg>
                             </form>
                         </CardContent>

@@ -67,6 +67,7 @@ class CheckboxTableGrid extends React.Component {
 
     componentWillMount() {
         const { rows, cols, CallElectionData } = this.props;
+        debugger;
         let rowHeaders = [''];
         this.props.rows.map((value) => {
             rowHeaders.push(value.name);
@@ -92,6 +93,7 @@ class CheckboxTableGrid extends React.Component {
             rawCount++;
             for (let j = 0; j < cols.length; j++) {
                 for (let h = 0; h < CallElectionData.rowData.length; h++) {
+                    // debugger;
                     if (cols[j].id === CallElectionData.rowData[h].division_id && rows[i].id === CallElectionData.rowData[h].team_id) {
 
                         let allow_party = {
@@ -107,32 +109,40 @@ class CheckboxTableGrid extends React.Component {
         }
         this.setState({ rowData: this.state.rowData });
 
-        this.setState({ rowHeaders, columnHeaders, checkboxGrid });
+        this.setState({ rowHeaders, columnHeaders });
         var rawCount = 0;
         var prevCol = cols[0].id;
         var colCount = 0;
         var selectedIndex = '';
-        for (let i = 0; i < rows.length; i++) {
+        for (let m = 0; m < rows.length; m++) {
+            debugger;
+            // console.log("DDD",m);
             let row = [];
-            for (let j = 0; j < cols.length; j++) {
+            for (let n = 0; n < cols.length; n++) {
+                debugger;
+                // console.log("ggg",m,"rrr",n);
                 CallElectionData.rowData.map((value) => {
-                    if (cols[j].id === value.division_id && rows[i].id === value.team_id) {
-                        if (prevCol === cols[j].id) {
+                    // debugger;
+                    // console.log("cols["+n+"].id = "+ cols[n].id+" value.division_id = "+value.division_id+" rows["+m+"].id "+rows[m].id+" value.team_id "+value.team_id);
+                    if (cols[n].id == value.division_id && rows[m].id == value.team_id) {
+                        console.log("cols["+n+"].id = "+ cols[n].id+" value.division_id = "+value.division_id+" rows["+m+"].id "+rows[m].id+" value.team_id "+value.team_id);
+                        if (prevCol === cols[n].id) {
                             colCount++;
-                            prevCol = cols[j].id;
-                            selectedIndex = j;
+                            prevCol = cols[n].id;
+                            selectedIndex = n;
                         } else {
-                            if (j !== cols.length - 1) {
-                                prevCol = cols[j + 1].id;
+                            if (n !== cols.length - 1) {
+                                prevCol = cols[n + 1].id;
                             }
                         }
                         rawCount++;
-                        checkboxGrid[i + 1][j + 1] = true;
+                        checkboxGrid[m + 1][n + 1] = true;
                     }
                 });
             }
         }
-        this.findIndex(checkboxGrid);
+        // this.findIndex(checkboxGrid);
+        this.setState({checkboxGrid});
 
     }
 
@@ -296,6 +306,7 @@ class CheckboxTableGrid extends React.Component {
             pagination: false,
             viewColumns:false
         };
+        debugger;
 
         return (
             <MuiThemeProvider theme={this.getMuiTheme()}>

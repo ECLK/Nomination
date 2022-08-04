@@ -393,6 +393,7 @@ class ActiveElectionForm extends React.Component {
     const { CallElectionData,rowHeaders } = this.props;
     var rowHeadersForRpp = rowHeaders.filter(x => x.team_party_type === "RPP");
     var rowHeadersForIg = rowHeaders.filter(x => x.team_party_type === "IND");
+    debugger;
     const { errorTextNominationStart, errorTextNominationEnd, errorTextObjectionStart, errorTextObjectionEnd, errorTextPaymentStart, errorTextPaymentEnd, errorTextApprovalStart, errorTextApprovalEnd } = this.state;
     const errorTextItems = { errorTextNominationStart, errorTextNominationEnd, errorTextObjectionStart, errorTextObjectionEnd, errorTextPaymentStart, errorTextPaymentEnd, errorTextApprovalStart, errorTextApprovalEnd }
 

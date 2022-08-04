@@ -53,6 +53,7 @@ class AllowNomination extends React.Component {
 
     render() {
         const { classes,electionData,errorTextElectorates ,rowData,rowHeaders} = this.props;
+        debugger;
         // const data = rowHeaders.map((record) => {
         //     record.id = record.team_id;
         //     record.name = record.team_name;
