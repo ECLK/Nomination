@@ -1,5 +1,12 @@
 # System for Nominating Candidates for Elections
-> This system is responsible for creating an election, managing parties / independent groups and nominating elections.
+> This system is responsible for creating an election, managing parties / independent groups and nominating elections.compared to traditional solutions, This system will allow the election commission to save significant amounts of funds by reducing maintenance costs, using limited manpower and the time and resources required to complete a task, and reducing the need for travel and other expenses. etc. 
+
+> By taking advantage of these factors, this system can help the election commission to keep costs down while increasing efficiency and productivity. Reducing hardware and support costs, improving collaboration and scalability, or reducing manual processes will provide a cost-effective alternative to traditional solutions.
+
+> This system is developed in a way that is easy to maintain and upgrade. The software is structured in a modular fashion, with a clear separation of responsibilities between different components. this makes it easier to maintain,  as changes to one component will not impact other components. Also, this will manage proper version control using Git. the code is reviewed by multiple developers to ensure maintainability, scalability, and security.Also a dedicated team is always available to provide support, maintenance and troubleshoot issues.
+
+> The development process was based on Scrum methodology that emphasizes collaboration, adaptive planning, and the delivery of working software through short sprints. the development process was divided into short sprints, typically lasting 1-4 weeks, during which the development team worked to deliver a functional subset of the product.
+> The Model-View-Controller (MVC) design pattern is been used to structure the system to separate the data (Model), the user interface (View), and the control flow of the application (Controller). This provides a clear separation of concerns, making it easier to maintain and extend the application.
 
 ## Table of contents
 * [General info](#general-info)
@@ -70,6 +77,28 @@ A system built using both API-based and web-based architecture using Node.js and
     The React front-end would then render the data and present it to the user in a visually appealing and interactive way. Users would be able to perform actions, such as creating new data, updating existing data, or deleting data, which would be sent back to the API to be processed and stored.
 
 In this way, the system would leverage the strengths of both Node.js and React.js to provide a fast and scalable API-based architecture for handling data and functionality, and a dynamic and user-friendly web-based interface for presenting and interacting with the data.
+
+React.js and Node.js are both popular JavaScript-based technologies that are widely used for developing web applications.
+
+Here are some of the unique features and capabilities that set React.js and Node.js apart from other solutions:
+
+React.js:
+
+    Virtual DOM: React.js uses a virtual DOM, which is a lightweight in-memory representation of the actual DOM, to update the UI efficiently. This allows React to update only the components that have changed, improving the performance of the application.
+
+    Reusable components: React.js allows developers to create reusable UI components, making it easier to build complex user interfaces.
+
+    Declarative programming: React.js uses declarative programming, meaning that the developer specifies what the user interface should look like, and React takes care of rendering it to the screen. This makes it easier to understand and maintain the code.
+
+Node.js:
+
+    Event-driven architecture: Node.js uses an event-driven architecture, allowing it to handle many connections simultaneously, making it a good choice for real-time applications.
+
+    NPM: Node.js has a large and growing repository of packages, known as NPM (Node Package Manager), which makes it easier for developers to find and use third-party libraries and modules.
+
+    Asynchronous programming: Node.js uses asynchronous programming, meaning that it can handle multiple requests at the same time without blocking the main thread. This makes it more efficient and scalable than other technologies that use synchronous programming.
+
+Overall, React.js and Node.js provide a powerful combination of features and capabilities that make them popular choices for developing web applications. Whether building complex user interfaces, real-time applications, or scalable backends, React and Node offer a wide range of capabilities that set them apart from other solutions.
 
 Project is created with:
 * Node.js version: 12.10.0
@@ -284,5 +313,11 @@ Overall, WSO2 API Manager and WSO2 Identity Server provide a comprehensive solut
 
 ## Credits ✨
 
+> A professional team of software engineers who are working in reputed software companies volunteered to put this system together except for the Lanka Software Foundation members.Hence we used a hybrid approach that combines elements of both the distributed and co-located collaboration models. Team members worked in different physical locations, but the team also worked together in person on occasions like weekly hackathons. This allows us to access a wider pool of talent and expertise and also Improved communication and collaboration due to regular in-person interaction.
+>  The team worked collaboratively to develop and identify, analyze, and solve problems. This led to a more innovative solution.
+> By fostering a culture of collaboration, diverse perspectives, open communication, and data-driven decision-making, The team was able to encourage innovation and creativity in the system.
+
 This project exists thanks to all the people who [contribute](CONTRIBUTING.md).<br>
 * Our valued <a href="https://github.com/ECLK/Nomination/graphs/contributors">contributors</a>
+
+
