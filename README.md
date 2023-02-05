@@ -9,6 +9,7 @@
 * [Project Structure](#initial-project-structure)
 * [Database schema](#database-schema)
 * [High level architecture](#high-level-architecture)
+* [Security](#security)
 
 ## General info
 > The nomination system is used to nominate candidates for an election. This system helps a party or independent group to prepare the nomination form and validate that the data is correct.
@@ -58,11 +59,25 @@ API GW - The API Gateway is the entrypoint for all external accesses to the serv
 * Eligibility Criteria: https://docs.google.com/document/d/1C6GorLj7UdRYOJOc8ERexpSWXRWTsrq-tLg6Uzrx4Mw/edit?usp=sharing
 
 ## Technologies
+A system built using both API-based and web-based architecture using Node.js and React.js would typically work as follows:
+
+    The API-based part of the system would be built using Node.js, which is a server-side JavaScript runtime environment that is well-suited for building scalable and high-performance APIs. The API would expose a set of endpoints for accessing the data and functionality of the system.
+
+    The web-based part of the system would be built using React.js, which is a JavaScript library for building user interfaces. React would be used to build the front-end of the system, which would interact with the API to retrieve data and perform actions.
+
+    The React front-end would make HTTP requests to the Node.js API to fetch data and perform operations, such as retrieving information from a database or updating data in real-time. The API would respond to these requests by processing the data and returning the results to the React front-end.
+
+    The React front-end would then render the data and present it to the user in a visually appealing and interactive way. Users would be able to perform actions, such as creating new data, updating existing data, or deleting data, which would be sent back to the API to be processed and stored.
+
+In this way, the system would leverage the strengths of both Node.js and React.js to provide a fast and scalable API-based architecture for handling data and functionality, and a dynamic and user-friendly web-based interface for presenting and interacting with the data.
+
 Project is created with:
 * Node.js version: 12.10.0
 * Mysql version: 5.7
 * WSO2 Identity Server
 * WSO2 API Manager 2.0.0
+
+The system is also integrated with other services in the election commission. Such as voter registration system to get the necessary data.
 
 ## initial project structure
 ```
@@ -254,6 +269,18 @@ node index.js
 ## High level architecture
 
 ![Image of High level architecture](https://github.com/ECLK/Nomination/blob/master/server/images/high-level-architecture-nomination.jpg)
+
+## Security
+
+To ensure that the system is protected with the best security messures we have used the WSO2 API Manager and WSO2 Identity Server. these both products developed by WSO2, designed to provide security and authentication for web-based applications and APIs.
+
+WSO2 API Manager is a comprehensive solution for managing APIs, allowing organizations to create, publish, and manage APIs. It provides security features such as rate limiting, access control, and OAuth2-based authentication to ensure that APIs are only accessed by authorized users.
+
+WSO2 Identity Server, on the other hand, is an identity and access management solution that provides centralized authentication and authorization for web-based applications and APIs. It supports various authentication methods, including OAuth2, SAML, and OpenID Connect, to ensure that users are able to authenticate to the application or API using their preferred method.
+
+When used together, WSO2 API Manager and WSO2 Identity Server can provide a secure and scalable solution for protecting APIs and applications. The API Manager can be configured to use the Identity Server for authentication and authorization, allowing organizations to control access to APIs using a centralized identity management solution.
+
+Overall, WSO2 API Manager and WSO2 Identity Server provide a comprehensive solution for securing APIs and applications, allowing organizations to ensure that sensitive data is protected and that only authorized users have access to it.
 
 ## Credits ✨
 
