@@ -43,7 +43,7 @@
     "react-redux": "^6.0.0",
     "react-responsive-modal": "^3.5.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "^5.0.1",
     "react-select": "^3.0.4",
     "react-timestamp": "^4.4.0",
     "redux": "^4.0.1",
@@ -74,7 +74,7 @@
     "@storybook/addon-actions": "^4.1.11",
     "@storybook/addon-links": "^4.1.6",
     "@storybook/addons": "^4.1.6",
-    "@storybook/react": "^4.1.6",
+    "@storybook/react": "^7.0.7",
     "babel-loader": "^8.0.5"
   }
 }
